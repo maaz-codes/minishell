@@ -6,11 +6,11 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 18:08:09 by rcreer            #+#    #+#             */
-/*   Updated: 2024/06/25 18:08:51 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/10/21 19:21:04 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../src/minishell.h"
 
 size_t	ft_strlen(const char *s)
 {

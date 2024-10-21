@@ -6,11 +6,11 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 18:11:02 by rcreer            #+#    #+#             */
-/*   Updated: 2024/10/02 17:36:52 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/10/21 19:20:57 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../src/minishell.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

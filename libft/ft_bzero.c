@@ -6,11 +6,11 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:57:50 by rcreer            #+#    #+#             */
-/*   Updated: 2024/10/14 19:59:34 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/10/21 19:21:24 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../src/minishell.h"
 
 void	ft_bzero(void *s, size_t n)
 {

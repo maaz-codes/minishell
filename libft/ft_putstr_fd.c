@@ -6,11 +6,11 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:49:36 by rcreer            #+#    #+#             */
-/*   Updated: 2024/10/15 15:48:24 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/10/21 19:21:19 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "../src/minishell.h"
 
 void	putstr_fd(char *s, int fd)
 {
