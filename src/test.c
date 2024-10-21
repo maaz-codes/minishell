@@ -22,6 +22,7 @@ int main(int ac, char **av)
             if(!ft_strncmp(input,"exit",5))
                 exit(EXIT_SUCCESS);
             // tokens = tokenization(input);
+            free(input);
         }
     }
     return 0;
