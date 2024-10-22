@@ -6,11 +6,11 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 18:06:53 by rcreer            #+#    #+#             */
-/*   Updated: 2024/10/22 16:40:38 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/10/22 18:02:13 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {

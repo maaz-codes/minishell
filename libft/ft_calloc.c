@@ -6,11 +6,11 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:57:53 by rcreer            #+#    #+#             */
-/*   Updated: 2024/10/21 19:21:22 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/10/22 18:01:56 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/minishell.h"
+#include "../minishell.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {

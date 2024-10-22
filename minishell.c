@@ -10,6 +10,16 @@ char **tokenization(char *input)
     res = ft_split(input,' ');
     return(res);
 }
+
+void free_double(char **s)
+{
+    int i;
+
+    i = 0;
+    while(s[i])
+        free(s[i++]);
+    free(s);
+}
 int main(int ac, char **av)
 {   
     while(1)
@@ -24,10 +34,11 @@ int main(int ac, char **av)
             av = tokenization(input);
             while(av[i])
             {
-                printf("%s\n",av[i++]);
+                printf("string %d: %s\n",i,av[i]);
+                i++;
             }
             free(input);
-            free(av);
+            free_double(av);
             i = 0;
         }
     }
