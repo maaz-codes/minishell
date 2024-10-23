@@ -6,9 +6,31 @@
 char **tokenization(char *input)
 {
     char **res;
+    int i = 0;
 
-    res = ft_split(input,' ');
+
+    res = ft_split(input,'"');
     return(res);
+}
+
+int checker(char *s)
+{
+    int i = 0;
+    int in_double = -1;
+    
+    while(s[i] == ' ')
+        i++;
+    while(s[i])
+    {   
+        if(s[i] == '"')
+            in_double *= -1;
+        printf("%c",s[i]);
+        i++;
+    }
+    if(in_double < 0)
+        return 1;
+    else
+        return 0;
 }
 
 void free_double(char **s)
@@ -31,12 +53,18 @@ int main(int ac, char **av)
         {   
             if(!ft_strncmp(input,"exit",5))
                 exit(EXIT_SUCCESS);
-            av = tokenization(input);
-            while(av[i])
+            if(!checker(input))
             {
-                printf("string %d: %s\n",i,av[i]);
-                i++;
+                printf("\nNOT VALID\n");
+                exit(EXIT_FAILURE);
             }
+            printf("\nVALID\n");
+            av = tokenization(input);
+            // while(av[i])
+            // {
+            //     printf("string %d: %s\n",i,av[i]);
+            //     i++;
+            // }
             free(input);
             free_double(av);
             i = 0;
