@@ -4,7 +4,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
-SRCS = minishell.c libft/ft_split.c libft/ft_strncmp.c libft/ft_strlcpy.c 
+SRCS = minishell.c tokenization.c libft/ft_split.c libft/ft_strncmp.c libft/ft_strlcpy.c \
+		libft/ft_strlen.c
 
 OBJS = $(SRCS:.c=.o)
 LDFLAGS = -lreadline
