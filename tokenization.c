@@ -12,10 +12,7 @@ int malloc_everything(char **res, char *s,int tokens)
         len = 0;
         symbol = symbol_checker(*s);
         if(*s == symbol && *(s + 1) == symbol)
-        {
-            res[position] = NULL;
-            s += 2;
-        }
+            (res[position] = NULL,s += 2);
         else if((*s == symbol) && *(s + 1) != symbol)
         {   
             s += 1;
@@ -28,10 +25,7 @@ int malloc_everything(char **res, char *s,int tokens)
             }
         }
         while(*s != ' ' && !(*s == '"' || *s == '\'') && *s)
-        {
-            s++;
-            len++;
-        }
+            (s++,len++);
         if(len && position < tokens)
         {
             if(!malloc_safe(res,position,len + 1))
@@ -99,9 +93,7 @@ char **tokenization_char(char *input)
         return (NULL);
     res[tokens] = NULL;
     if(!malloc_everything(res,input,tokens))
-    {
-        printf("error malloc everything");
         return (NULL);
-    }
     return(res);
 }
+
