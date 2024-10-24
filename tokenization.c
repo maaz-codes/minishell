@@ -1,32 +1,5 @@
 #include "minishell.h"
 
-char symbol_checker(char s)
-{   
-    char symbol;
-
-    symbol = '\0';
-    if(s == '"')
-        symbol = '"';
-    if(s == '\'')
-        symbol = '\'';
-    return symbol;
-}
-int malloc_safe(char **res, int position, size_t len)
-{
-    int i;
-
-    i = 0;
-    res[position] = malloc(len);
-    if(!res[position])
-    {
-        while(i < position)
-            free(res[i++]);
-        free(res);
-        return (0);
-    }
-    return(1);
-}
-
 int malloc_everything(char **res, char *s,int tokens)
 {
     int len;
@@ -37,14 +10,12 @@ int malloc_everything(char **res, char *s,int tokens)
     while(*s)
     {   
         len = 0;
-        while(*s != ' ' && !(*s == '"' || *s == '\'') && *s)
-        {
-            s++;
-            len++;
-        }
         symbol = symbol_checker(*s);
         if(*s == symbol && *(s + 1) == symbol)
+        {
             res[position] = NULL;
+            s += 2;
+        }
         else if((*s == symbol) && *(s + 1) != symbol)
         {   
             s += 1;
@@ -55,6 +26,11 @@ int malloc_everything(char **res, char *s,int tokens)
                 len++;
                 s++;
             }
+        }
+        while(*s != ' ' && !(*s == '"' || *s == '\'') && *s)
+        {
+            s++;
+            len++;
         }
         if(len && position < tokens)
         {
