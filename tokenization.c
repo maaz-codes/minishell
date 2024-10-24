@@ -44,41 +44,38 @@ int malloc_everything(char **res, char *s,int tokens)
     return 1;
 }
 
-
-int checker_tokens(char *s)
+int inside_check(int inside, int tokens)
 {
-    int i;
-    char symbol;
-    int tokens;
-    int inside;
-
-    i = 0;
-    tokens = 0;
-    while(s[i])
+    if(!inside)
+    {
+        inside = 1;
+        tokens++;
+    }
+    return tokens;
+}
+int checker_tokens(char *s, char symbol, int tokens, int inside)
+{
+    while(*s)
     {   
         inside = 0;
-        while(s[i] != ' ' && !(s[i] == '"' || s[i] == '\'') && s[i])
+        while(*s != ' ' && !(*s == '"' || *s == '\'') && *s)
         {   
-            if(!inside)
-            {
-                inside = 1;
-                tokens++;
-            }
-            i++;
+            tokens += inside_check(inside,tokens);
+            s++;
         }
-        if(s[i] == '"' || s[i] == '\'')
+        if(*s == '"' || *s == '\'')
         {   
-            symbol = symbol_checker(s[i]);
-            i += 1;
+            symbol = symbol_checker(*s);
+            s += 1;
             tokens += 1;
-            while(s[i] != symbol)
+            while(*s != symbol)
             {   
-                if(s[i] == '\0')
+                if(*s == '\0')
                     return 0;
-                i++;
+                s++;
             }
         }
-        i++;
+        s++;
     }
     return tokens;
 }
@@ -86,11 +83,17 @@ int checker_tokens(char *s)
 char **tokenization_char(char *input)
 {
     char **res;
+    char symbol;
+    int t_holder;
+    int inside;
     int tokens;
 
+    inside = 0;
+    symbol = '\0';
+    t_holder = 0;
     if(!input)
         return (NULL);
-    tokens = checker_tokens(input);
+    tokens = checker_tokens(input,symbol,t_holder,inside);
     res = (char **)malloc(sizeof(char *) * (tokens + 1));
     if(!res)
         return (NULL);
