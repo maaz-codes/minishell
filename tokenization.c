@@ -1,12 +1,24 @@
 #include "minishell.h"
 
-int malloc_everything(char **res, char *s,int tokens)
+int filler(char **res,char *s,int position,int len)
+{
+    if(!malloc_safe(res,position,len + 1))
+        return 0;
+    ft_strlcpy(res[position],s - len,len + 1);
+    return 1;
+}
+int null_check(char **res, char *s)
+{
+    if(*(s + 1)  == '\0')
+        (printf("exit now: error\n"),free_double(res),exit(EXIT_FAILURE));
+    return 1;
+}
+
+int malloc_everything(char **res, char *s,int tokens,int position)
 {
     int len;
     char symbol;
-    int position;
-
-    position = 0;
+    
     while(*s)
     {   
         len = 0;
@@ -18,21 +30,14 @@ int malloc_everything(char **res, char *s,int tokens)
             s += 1;
             while(*s != symbol && *s)
             {   
-                if(*s == '\0')
-                    return 0;
-                len++;
+                len += null_check(res,s);
                 s++;
             }
         }
         while(*s != ' ' && !(*s == '"' || *s == '\'') && *s)
             (s++,len++);
         if(len && position < tokens)
-        {
-            if(!malloc_safe(res,position,len + 1))
-                return 0;
-            ft_strlcpy(res[position],s - len,len + 1);
-            position++;
-        }
+            position += filler(res,s,position,len);
         s++;
     }
     return 1;
@@ -81,10 +86,12 @@ char **tokenization_char(char *input)
     int t_holder;
     int inside;
     int tokens;
+    int position;
 
     inside = 0;
     symbol = '\0';
     t_holder = 0;
+    position = 0;
     if(!input)
         return (NULL);
     tokens = checker_tokens(input,symbol,t_holder,inside);
@@ -92,8 +99,8 @@ char **tokenization_char(char *input)
     if(!res)
         return (NULL);
     res[tokens] = NULL;
-    if(!malloc_everything(res,input,tokens))
-        return (NULL);
+    if(!malloc_everything(res,input,tokens,position))
+        (printf("exit now: error\n"),free_double(res),exit(EXIT_FAILURE));
     return(res);
 }
 

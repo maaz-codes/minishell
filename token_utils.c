@@ -26,3 +26,4 @@ int malloc_safe(char **res, int position, size_t len)
     }
     return(1);
 }
+
