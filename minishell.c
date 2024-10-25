@@ -25,11 +25,21 @@ int main(int ac, char **av)
             if(!ft_strncmp(input,"exit",5))
                 exit(EXIT_SUCCESS);
             res = tokenization_char(input);
-            while(res[i])
-            {
-                printf("string %d: %s\n",i,res[i]);
-                i++;
+            if(!ft_strncmp(res[0],"echo",5))
+            {   
+                i += 1;
+                while(res[i])
+                {
+                    printf("%s ",res[i]);
+                    i++;
+                }
+                printf("\n");
             }
+            // while(res[i])
+            // {
+            //     printf("string %d: %s\n",i,res[i]);
+            //     i++;
+            // }
             free(input);
             free_double(res);
             i = 0;
