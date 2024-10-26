@@ -12,8 +12,9 @@ char	*ft_strdup(const char *s1);
 
 void    free_double(char **s);
 char    symbol_checker(char s);
+int     inside_check(int inside, int tokens);
 int     null_check(char **res, char *s);
 int     malloc_safe(char **res, int position, size_t len);
 int     checker_tokens(char *s, char symbol, int tokens, int inside);
 char    **tokenization_char(char *input);
-int     malloc_everything(char **res,char *s,int tokens, int position);
+void     malloc_everything(char **res,char *s,int tokens, int position);

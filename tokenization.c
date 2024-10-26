@@ -7,14 +7,15 @@ int filler(char **res,char *s,int position,int len)
     ft_strlcpy(res[position],s - len,len + 1);
     return 1;
 }
+
 int null_check(char **res, char *s)
-{
-    if(*(s + 1)  == '\0')
-        (printf("exit now: error\n"),free_double(res),exit(EXIT_FAILURE));
+{   
+    if(*s == '\0')
+        (printf("exit now: null\n"),free_double(res),exit(EXIT_FAILURE));
     return 1;
 }
 
-int malloc_everything(char **res, char *s,int tokens,int position)
+void malloc_everything(char **res, char *s,int tokens,int position)
 {
     int len;
     char symbol;
@@ -40,7 +41,6 @@ int malloc_everything(char **res, char *s,int tokens,int position)
             position += filler(res,s,position,len);
         s++;
     }
-    return 1;
 }
 
 int inside_check(int inside, int tokens)
@@ -52,6 +52,7 @@ int inside_check(int inside, int tokens)
     }
     return tokens;
 }
+
 int checker_tokens(char *s, char symbol, int tokens, int inside)
 {
     while(*s)
@@ -99,8 +100,7 @@ char **tokenization_char(char *input)
     if(!res)
         return (NULL);
     res[tokens] = NULL;
-    if(!malloc_everything(res,input,tokens,position))
-        (printf("exit now: error\n"),free_double(res),exit(EXIT_FAILURE));
+    malloc_everything(res,input,tokens,position);
     return(res);
 }
 
