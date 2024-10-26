@@ -34,6 +34,7 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 len += null_check(res,s);
                 s++;
             }
+            null_check(res,s);
         }
         while(*s != ' ' && !(*s == '"' || *s == '\'') && *s)
             (s++,len++);
