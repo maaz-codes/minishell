@@ -19,13 +19,18 @@ void malloc_everything(char **res, char *s,int tokens,int position)
 {
     int len;
     char symbol;
+    int hold;
     
     while(*s)
     {   
+        hold = 0;
         len = 0;
         symbol = symbol_checker(*s);
         if(*s == symbol && *(s + 1) == symbol)
+        {
             (res[position] = NULL,s += 2);
+            hold = 1;
+        }
         else if((*s == symbol) && *(s + 1) != symbol)
         {   
             s += 1;
@@ -34,10 +39,26 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 len += null_check(res,s);
                 s++;
             }
-            null_check(res,s);
+            // null_check(res,s);
+            hold = 1;
         }
-        while(*s != ' ' && !(*s == '"' || *s == '\'') && *s)
-            (s++,len++);
+        if(hold == 0)
+        {
+            while(*s != ' ' && *s)
+            {
+                len++;
+                symbol = symbol_checker(*s);
+                if(*s == '"' || *s == '\'')
+                {   
+                    while(*s != symbol)
+                    {
+                        s++;
+                        len++;
+                    }
+                }
+                s++;
+            }
+        }
         if(len && position < tokens)
             position += filler(res,s,position,len);
         s++;

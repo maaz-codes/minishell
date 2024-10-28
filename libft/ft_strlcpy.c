@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 18:06:53 by rcreer            #+#    #+#             */
-/*   Updated: 2024/10/22 18:02:13 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/10/28 17:13:03 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 	i = 0;
 	while (*src && (i + 1) < dstsize)
-	{
+	{	
+		if(*src == '"')
+		{
+			// printf("bruh");
+			src++;
+			i++;
+		}
 		*dst++ = *src++;
 		i++;
 	}
@@ -28,3 +34,15 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		i++;
 	return (i);
 }
+
+// int main()
+// {
+// 	char *s = "hello\"there\"man";
+// 	char *res = malloc(1024);
+// 	ft_strlcpy(res,s,16);
+// 	while(*res)
+// 	{
+// 		printf("%c",*res++);
+// 	}
+	
+// }

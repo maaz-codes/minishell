@@ -8,6 +8,8 @@ void free_double(char **s)
     int i;
 
     i = 0;
+    if(!s)
+        return ;
     while(s[i])
         free(s[i++]);
     free(s);
@@ -48,8 +50,8 @@ int main(int ac, char **av, char **envp)
                 exit(EXIT_SUCCESS);
             }
             res = tokenization_char(input);
-            // print_double(res);
-            in_buit_cmd(res,input);
+            print_double(res);
+            // in_buit_cmd(res,input);
             free(input);
             free_double(res);
         }
