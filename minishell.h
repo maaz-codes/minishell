@@ -14,6 +14,7 @@ char	**ft_split(char *s, char c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
+size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol);
 
 void    free_double(char **s);
 char    symbol_checker(char s);

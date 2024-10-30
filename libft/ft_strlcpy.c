@@ -19,9 +19,31 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	i = 0;
 	while (*src && (i + 1) < dstsize)
 	{	
-		if(*src == '"')
+		// if(*src == '"' || *src == '\'')
+		// {
+		// 	// printf("bruh");
+		// 	src++;
+		// 	i++;
+		// }
+		*dst++ = *src++;
+		i++;
+	}
+	if (i < dstsize)
+		*dst = '\0';
+	while (*src++)
+		i++;
+	return (i);
+}
+
+size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol)
+{
+	size_t	i;
+
+	i = 0;
+	while (*src && (i + 1) < dstsize)
+	{	
+		if(*src == symbol)
 		{
-			// printf("bruh");
 			src++;
 			i++;
 		}

@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-int filler(char **res,char *s,int position,int len)
+int filler(char **res,char *s,int position,int len,char symbol)
 {
     if(!malloc_safe(res,position,len + 1))
         return 0;
-    ft_strlcpy(res[position],s - len,len + 1);
+    ft_strlcpy_modif(res[position],s - len,len + 1,symbol);
     return 1;
 }
 
@@ -19,48 +19,35 @@ void malloc_everything(char **res, char *s,int tokens,int position)
 {
     int len;
     char symbol;
-    int hold;
     
     while(*s)
     {   
-        hold = 0;
         len = 0;
-        symbol = symbol_checker(*s);
         if(*s == symbol && *(s + 1) == symbol)
-        {
             (res[position] = NULL,s += 2);
-            hold = 1;
-        }
-        else if((*s == symbol) && *(s + 1) != symbol)
+        while(*s != ' ' && *s)
         {   
-            s += 1;
-            while(*s != symbol && *s)
+            if(*s == '\'' || *s == '"')
             {   
-                len += null_check(res,s);
-                s++;
-            }
-            // null_check(res,s);
-            hold = 1;
-        }
-        if(hold == 0)
-        {
-            while(*s != ' ' && *s)
-            {
-                len++;
                 symbol = symbol_checker(*s);
-                if(*s == '"' || *s == '\'')
+                printf("symbol is: %c\n",symbol);
+                s += 1;
+                while(*s)
                 {   
-                    while(*s != symbol)
-                    {
-                        s++;
-                        len++;
-                    }
+                    len++;
+                    printf("%c",*s);
+                    if(*(s + 1) == symbol)
+                        break;
+                    s++;
                 }
-                s++;
+                printf("\n");
+                printf("len: %d\n",len);
             }
+            len++;
+            s++;
         }
         if(len && position < tokens)
-            position += filler(res,s,position,len);
+            position += filler(res,s,position,len,symbol);
         s++;
     }
 }
@@ -76,29 +63,46 @@ int inside_check(int inside, int tokens)
 }
 
 int checker_tokens(char *s, char symbol, int tokens, int inside)
-{
+{   
+    int closed;
+
     while(*s)
     {   
         inside = 0;
-        while(*s != ' ' && !(*s == '"' || *s == '\'') && *s)
+        symbol = symbol_checker(*s);
+        if(*s == symbol && *(s + 1) == symbol)
+            s += 2;
+        while(*s != ' ' && *s)
         {   
-            tokens += inside_check(inside,tokens);
-            s++;
-        }
-        if(*s == '"' || *s == '\'')
-        {   
-            symbol = symbol_checker(*s);
-            s += 1;
-            tokens += 1;
-            while(*s != symbol)
+            printf("%c",*s);
+            if(*s == '"' || *s == '\'')
             {   
-                if(*s == '\0')
-                    return 0;
-                s++;
+                closed = -1;
+                symbol = symbol_checker(*s);
+                s += 1;
+                while(*s)
+                {   
+                    printf("%c",*s);
+                    if(*s == symbol)
+                    {
+                        closed *= -1;
+                        break;
+                    }
+                    s++;
+                }
+                if(closed == -1)
+                    return -1;
             }
+            if(!inside)
+            {
+                inside = 1;
+                tokens++;
+            }
+            s++;
         }
         s++;
     }
+    printf("\ntokens total: %d\n",tokens);
     return tokens;
 }
 
@@ -118,6 +122,8 @@ char **tokenization_char(char *input)
     if(!input)
         return (NULL);
     tokens = checker_tokens(input,symbol,t_holder,inside);
+    if(tokens == -1)
+        printf("\nbruh not valid\n");
     res = (char **)malloc(sizeof(char *) * (tokens + 1));
     if(!res)
         return (NULL);
