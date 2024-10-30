@@ -15,6 +15,8 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol);
+char	*ft_strjoin(char const *s1, char const *s2);
+
 
 void    free_double(char **s);
 char    symbol_checker(char s);
@@ -26,4 +28,5 @@ char    **tokenization_char(char *input);
 void     malloc_everything(char **res,char *s,int tokens, int position);
 
 void    echo_cmd(char **str,char *input);
-int     space_checker(char *s,int inside, char symbol);
+// int     space_checker(char *s,int inside, char symbol);
+int     filler_last(char **res,char *s,int position,int len);

@@ -38,7 +38,8 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol)
 {
 	size_t	i;
-
+	if(symbol == '\0')
+		(void)symbol;
 	i = 0;
 	while (*src && (i + 1) < dstsize)
 	{	
