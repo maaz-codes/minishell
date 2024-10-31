@@ -154,7 +154,10 @@ char **tokenization_char(char *input)
         return (NULL);
     tokens = checker_tokens(input,symbol,t_holder,inside);
     if(tokens == -1)
+    {
         printf("\nbruh not valid\n");
+        exit(EXIT_FAILURE);
+    }
     res = (char **)malloc(sizeof(char *) * (tokens + 1));
     if(!res)
         return (NULL);
