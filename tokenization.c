@@ -16,13 +16,6 @@ int filler_last(char **res,char *s,int position,int len)
     return 1;
 }
 
-int null_check(char **res, char *s)
-{   
-    if(*s == '\0')
-        (printf("exit now: null\n"),free_double(res),exit(EXIT_FAILURE));
-    return 1;
-}
-
 void malloc_everything(char **res, char *s,int tokens,int position)
 {
     int len;
@@ -38,13 +31,21 @@ void malloc_everything(char **res, char *s,int tokens,int position)
     while(s[i])
     {
         joined_str = ft_strdup("");
+        len = 0;
         while(s[i] == ' ' && s[i])
             i++;
         if(s[i] == '"' || s[i] == '\'')
         {   
             symbol = symbol_checker(s[i]);
+            if(s[i + 1] == symbol && s[i + 2] == '\0')
+            {
+                return  ;
+            }
             if(s[i + 1] == symbol)
+            {
+                printf("pass here double '\"\"'\n");
                 (i += 2);
+            }
         }
         while(s[i] != ' ' && s[i])
         {   
@@ -61,12 +62,13 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                         closed *= -1;
                         break;
                     }
+                    printf("%c",s[i]);
                     len++;
                     i++;
                 }
                 if(closed == -1)
                     return ;
-                printf("pos: %d\n",i);
+                printf("\npos: %d\n",i);
                 printf("len: %d\n",len);
                 filler(res,s + i,position,len,symbol);
                 temp = ft_strjoin(joined_str,res[position]);
@@ -78,10 +80,11 @@ void malloc_everything(char **res, char *s,int tokens,int position)
             {
                 while(s[i] != ' ' && s[i] != '\'' && s[i] != '"' && s[i])
                 {   
+                    printf("%c",s[i]);
                     i++;
                     len++;
                 }
-                printf("len without quote: %d\n",len);
+                printf("\nlen without quote: %d\n",len);
                 filler(res,s + i,position,len,'\0');
                 temp = ft_strjoin(joined_str,res[position]);
                 (free(joined_str),free(res[position]));
@@ -95,16 +98,6 @@ void malloc_everything(char **res, char *s,int tokens,int position)
         }
     } 
     
-}
-
-int inside_check(int inside, int tokens)
-{
-    if(!inside)
-    {
-        inside = 1;
-        tokens++;
-    }
-    return tokens;
 }
 
 int checker_tokens(char *s, char symbol, int tokens, int inside)

@@ -21,12 +21,10 @@ char	*ft_strjoin(char const *s1, char const *s2);
 void    free_double(char **s);
 char    symbol_checker(char s);
 int     inside_check(int inside, int tokens);
-int     null_check(char **res, char *s);
 int     malloc_safe(char **res, int position, size_t len);
 int     checker_tokens(char *s, char symbol, int tokens, int inside);
 char    **tokenization_char(char *input);
 void     malloc_everything(char **res,char *s,int tokens, int position);
 
 void    echo_cmd(char **str,char *input);
-// int     space_checker(char *s,int inside, char symbol);
 int     filler_last(char **res,char *s,int position,int len);

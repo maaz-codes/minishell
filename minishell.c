@@ -40,7 +40,6 @@ int main(int ac, char **av, char **envp)
     {
         char *input;
         char **res;
-        int i = 0;
         input = readline("minishell> ");
 
         char symbol = '\0';
