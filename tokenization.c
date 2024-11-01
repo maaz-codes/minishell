@@ -37,10 +37,6 @@ void malloc_everything(char **res, char *s,int tokens,int position)
         if(s[i] == '"' || s[i] == '\'')
         {   
             symbol = symbol_checker(s[i]);
-            if(s[i + 1] == symbol && s[i + 2] == '\0')
-            {
-                return  ;
-            }
             if(s[i + 1] == symbol)
             {
                 printf("pass here double '\"\"'\n");
@@ -50,6 +46,13 @@ void malloc_everything(char **res, char *s,int tokens,int position)
         while(s[i] != ' ' && s[i])
         {   
             len = 0;
+            if(s[i] == '"' || s[i] == '\'')
+            {   
+                printf("pass new if\n");
+                symbol = symbol_checker(s[i]);
+                if(s[i + 1] == symbol)
+                    break;
+            }
             if(s[i] == '"' || s[i] == '\'')
             {   
                 closed = -1;
@@ -78,9 +81,9 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 if(s[i] == symbol && s[i + 1] == symbol)
                     i += 2;
             }
-            else
+            else if(s[i])
             {   
-                printf("go here\n");
+                printf("go here no quote\n");
                 while(s[i] != ' ' && s[i])
                 {   
                     if(s[i] == '\'' || s[i] == '"')
@@ -101,11 +104,14 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                     i += 2;
             }
         }
+        printf("the len: %d\n",len);
         if(len && position < tokens)
         {
             position += filler_last(res,joined_str,position,ft_strlen(joined_str));
             free(joined_str);
         }
+        else 
+            free(joined_str);
     } 
     
 }
@@ -129,6 +135,12 @@ int checker_tokens(char *s, char symbol, int tokens, int inside)
         while(s[i] != ' ' && s[i])
         {   
             printf("%c",s[i]);
+            if(s[i] == '"' || s[i] == '\'')
+            {   
+                symbol = symbol_checker(s[i]);
+                if(s[i + 1] == symbol)
+                    break;
+            }
             if(s[i] == '"' || s[i] == '\'')
             {   
                 closed = -1;
