@@ -74,12 +74,20 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 temp = ft_strjoin(joined_str,res[position]);
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
-                i++;
+                i += 1;
+                if(s[i] == symbol && s[i + 1] == symbol)
+                    i += 2;
             }
             else
-            {
-                while(s[i] != ' ' && s[i] != '\'' && s[i] != '"' && s[i])
+            {   
+                printf("go here\n");
+                while(s[i] != ' ' && s[i])
                 {   
+                    if(s[i] == '\'' || s[i] == '"')
+                    {
+                        symbol = symbol_checker(s[i]);
+                        break;
+                    }
                     printf("%c",s[i]);
                     i++;
                     len++;
@@ -89,6 +97,8 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 temp = ft_strjoin(joined_str,res[position]);
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
+                if(s[i] == symbol && s[i + 1] == symbol)
+                    i += 2;
             }
         }
         if(len && position < tokens)
@@ -179,4 +189,3 @@ char **tokenization_char(char *input)
     malloc_everything(res,input,tokens,position);
     return(res);
 }
-
