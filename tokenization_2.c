@@ -1,4 +1,4 @@
-// #include "minishell.h"
+#include "minishell.h"
 
 int filler(char **res,char *s,int position,int len,char symbol)
 {
@@ -96,30 +96,32 @@ int inside_check(int inside, int tokens)
 int checker_tokens(char *s, char symbol, int tokens, int inside)
 {   
     int closed;
-
-    while(*s)
+    int i = 0;
+    while(s[i])
     {   
         inside = 0;
-        symbol = symbol_checker(*s);
-        if(*s == symbol && *(s + 1) == symbol)
-            s += 2;
-        while(*s != ' ' && *s)
+        symbol = symbol_checker(s[i]);
+        if(s[i] == symbol && s[i + 1] == symbol)
+            i += 2;
+        while(s[i] == ' ' && s[i])
+            i++;
+        while(s[i] != ' ' && s[i])
         {   
-            printf("%c",*s);
-            if(*s == '"' || *s == '\'')
+            printf("%c",s[i]);
+            if(s[i] == '"' || s[i] == '\'')
             {   
                 closed = -1;
-                symbol = symbol_checker(*s);
-                s += 1;
-                while(*s)
+                symbol = symbol_checker(s[i]);
+                i += 1;
+                while(s[i])
                 {   
-                    printf("%c",*s);
-                    if(*s == symbol)
+                    printf("%c",s[i]);
+                    if(s[i] == symbol)
                     {
                         closed *= -1;
                         break;
                     }
-                    s++;
+                    i++;
                 }
                 if(closed == -1)
                     return -1;
@@ -129,11 +131,12 @@ int checker_tokens(char *s, char symbol, int tokens, int inside)
                 inside = 1;
                 tokens++;
             }
-            s++;
+            i++;
         }
-        s++;
     }
-    printf("\ntokens total: %d\n",tokens);
+    printf("\ntotal len: %d\n",i);
+    printf("ft_strlen: %ld\n",ft_strlen(s));
+    printf("tokens total: %d\n",tokens);
     return tokens;
 }
 

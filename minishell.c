@@ -42,6 +42,10 @@ int main(int ac, char **av, char **envp)
         char **res;
         int i = 0;
         input = readline("minishell> ");
+
+        char symbol = '\0';
+        int token = 0;
+        int inside = 0; 
         if(input) 
         {   
             if(!ft_strncmp(input,"exit",5) || !ft_strncmp(input,"\"exit\"",7))
@@ -49,11 +53,12 @@ int main(int ac, char **av, char **envp)
                 printf("Exiting now.....");
                 exit(EXIT_SUCCESS);
             }
-            res = tokenization_char(input);
-            print_double(res);
+            // res = tokenization_char(input);
+            // print_double(res);
+            checker_tokens(input,symbol,token,inside);
             // in_buit_cmd(res,input);
             free(input);
-            free_double(res);
+            // free_double(res);
         }
     }
     return 0;
