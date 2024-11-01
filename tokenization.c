@@ -1,4 +1,4 @@
-// #include "minishell.h"
+#include "minishell.h"
 
 int filler(char **res,char *s,int position,int len,char symbol)
 {
@@ -27,60 +27,74 @@ void malloc_everything(char **res, char *s,int tokens,int position)
 {
     int len;
     char symbol;
+    int closed;
+
     char *temp;
     char *joined_str;
-    char *holder; 
+    char *holder;
 
-    while(*s)
-    {   
+    int i = 0;
+
+    while(s[i])
+    {
         joined_str = ft_strdup("");
-        len = 0;
-        while(*s == ' ' && *s)
-            s++;
-        if(*s == symbol && *(s + 1) == symbol)
-            (res[position++] = NULL,s += 2);
-        while(*s != ' ' && *s)
+        while(s[i] == ' ' && s[i])
+            i++;
+        if(s[i] == '"' || s[i] == '\'')
+        {   
+            symbol = symbol_checker(s[i]);
+            if(s[i + 1] == symbol)
+                (i += 2);
+        }
+        while(s[i] != ' ' && s[i])
         {   
             len = 0;
-            symbol = symbol_checker(*s);
-            if(*s == '\'' || *s == '"')
+            if(s[i] == '"' || s[i] == '\'')
             {   
-                s += 1;
-                while(*s)
+                closed = -1;
+                symbol = symbol_checker(s[i]);
+                i += 1;
+                while(s[i])
                 {   
-                    if(*s == symbol)
+                    if(s[i] == symbol)
                     {
-                        s++;
+                        closed *= -1;
                         break;
                     }
                     len++;
-                    s++;
+                    i++;
                 }
-                printf("\n");
-                filler(res,s - 1,position,len,symbol);
+                if(closed == -1)
+                    return ;
+                printf("pos: %d\n",i);
+                printf("len: %d\n",len);
+                filler(res,s + i,position,len,symbol);
                 temp = ft_strjoin(joined_str,res[position]);
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
+                i++;
             }
             else
             {
-                while(*s != ' ' && *s != '\'' && *s != '"')
+                while(s[i] != ' ' && s[i] != '\'' && s[i] != '"' && s[i])
                 {   
-                    s++;
+                    i++;
                     len++;
                 }
-                filler(res,s,position,len,symbol);
+                printf("len without quote: %d\n",len);
+                filler(res,s + i,position,len,'\0');
                 temp = ft_strjoin(joined_str,res[position]);
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
             }
         }
-        if(position < tokens)
+        if(len && position < tokens)
         {
             position += filler_last(res,joined_str,position,ft_strlen(joined_str));
             free(joined_str);
         }
-    }
+    } 
+    
 }
 
 int inside_check(int inside, int tokens)
@@ -96,30 +110,36 @@ int inside_check(int inside, int tokens)
 int checker_tokens(char *s, char symbol, int tokens, int inside)
 {   
     int closed;
-
-    while(*s)
+    int i = 0;
+    while(s[i])
     {   
         inside = 0;
-        symbol = symbol_checker(*s);
-        if(*s == symbol && *(s + 1) == symbol)
-            s += 2;
-        while(*s != ' ' && *s)
+        symbol = symbol_checker(s[i]);
+        while(s[i] == ' ' && s[i])
+            i++;
+        if(s[i] == '"' || s[i] == '\'')
         {   
-            printf("%c",*s);
-            if(*s == '"' || *s == '\'')
+            symbol = symbol_checker(s[i]);
+            if(s[i + 1] == symbol)
+                i += 2;
+        }
+        while(s[i] != ' ' && s[i])
+        {   
+            printf("%c",s[i]);
+            if(s[i] == '"' || s[i] == '\'')
             {   
                 closed = -1;
-                symbol = symbol_checker(*s);
-                s += 1;
-                while(*s)
+                symbol = symbol_checker(s[i]);
+                i += 1;
+                while(s[i])
                 {   
-                    printf("%c",*s);
-                    if(*s == symbol)
+                    printf("%c",s[i]);
+                    if(s[i] == symbol)
                     {
                         closed *= -1;
                         break;
                     }
-                    s++;
+                    i++;
                 }
                 if(closed == -1)
                     return -1;
@@ -129,11 +149,12 @@ int checker_tokens(char *s, char symbol, int tokens, int inside)
                 inside = 1;
                 tokens++;
             }
-            s++;
+            i++;
         }
-        s++;
     }
-    printf("\ntokens total: %d\n",tokens);
+    printf("\ntotal len: %d\n",i);
+    printf("ft_strlen: %ld\n",ft_strlen(s));
+    printf("tokens total: %d\n",tokens);
     return tokens;
 }
 

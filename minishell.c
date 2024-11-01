@@ -53,12 +53,11 @@ int main(int ac, char **av, char **envp)
                 printf("Exiting now.....");
                 exit(EXIT_SUCCESS);
             }
-            // res = tokenization_char(input);
-            // print_double(res);
-            checker_tokens(input,symbol,token,inside);
+            res = tokenization_char(input);
+            print_double(res);
             // in_buit_cmd(res,input);
             free(input);
-            // free_double(res);
+            free_double(res);
         }
     }
     return 0;
