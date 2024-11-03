@@ -78,6 +78,11 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
                 i += 1;
+                if(s[i] == symbol && s[i + 1] == symbol)
+                {
+                    i += 2;
+                    break;
+                }
             }
             else if(s[i])
             {   
