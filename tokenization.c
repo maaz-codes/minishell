@@ -78,8 +78,6 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
                 i += 1;
-                if(s[i] == symbol && s[i + 1] == symbol)
-                    i += 2;
             }
             else if(s[i])
             {   
@@ -100,18 +98,20 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 temp = ft_strjoin(joined_str,res[position]);
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
-                if(s[i] == symbol && s[i + 1] == symbol)
-                    i += 2;
             }
         }
         printf("the len: %d\n",len);
         if(len && position < tokens)
-        {
+        {   
+            printf("malloc'd: %s\n",joined_str);
             position += filler_last(res,joined_str,position,ft_strlen(joined_str));
             free(joined_str);
         }
         else 
+        {
+            printf("no string: %s freeing.. \n",joined_str);
             free(joined_str);
+        }
     } 
     
 }
@@ -134,7 +134,7 @@ int checker_tokens(char *s, char symbol, int tokens, int inside)
         }
         while(s[i] != ' ' && s[i])
         {   
-            printf("%c",s[i]);
+            // printf("%c",s[i]);
             if(s[i] == '"' || s[i] == '\'')
             {   
                 symbol = symbol_checker(s[i]);
@@ -167,8 +167,8 @@ int checker_tokens(char *s, char symbol, int tokens, int inside)
             i++;
         }
     }
-    printf("\ntotal len: %d\n",i);
-    printf("ft_strlen: %ld\n",ft_strlen(s));
+    // printf("\ntotal len: %d\n",i);
+    // printf("ft_strlen: %ld\n",ft_strlen(s));
     printf("tokens total: %d\n",tokens);
     return tokens;
 }
