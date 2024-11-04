@@ -78,11 +78,8 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
                 i += 1;
-                if(s[i] == symbol && s[i + 1] == symbol)
-                {
-                    i += 2;
+                if(s[i] == '\'' ||s[i] == '"' )
                     break;
-                }
             }
             else if(s[i])
             {   
@@ -103,6 +100,8 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 temp = ft_strjoin(joined_str,res[position]);
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
+                if(s[i] == '\'' ||s[i] == '"')
+                    break;
             }
         }
         printf("the len: %d\n",len);
