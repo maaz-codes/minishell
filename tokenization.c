@@ -78,8 +78,10 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
                 i += 1;
-                if(s[i] == '\'' ||s[i] == '"' )
-                    break;
+                while((s[i] == '\'' || s[i] == '"') && (s[i + 1] == '\'' || s[i + 1] == '"'))
+                    i += 2;
+                
+                
             }
             else if(s[i])
             {   
@@ -100,8 +102,9 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 temp = ft_strjoin(joined_str,res[position]);
                 (free(joined_str),free(res[position]));
                 joined_str = temp;
-                if(s[i] == '\'' ||s[i] == '"')
-                    break;
+                while((s[i] == '\'' || s[i] == '"') && (s[i + 1] == '\'' || s[i + 1] == '"'))
+                    i += 2;
+                
             }
         }
         printf("the len: %d\n",len);
