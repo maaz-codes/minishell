@@ -18,7 +18,7 @@ void free_double(char **s)
 void in_buit_cmd(char **str,char *input)
 {
     if(!ft_strncmp(str[0],"echo",5))
-        echo_cmd(str,input);
+        echo_cmd(str);
     else
         (printf("minishell: %s : command not found\n",str[0]),exit(EXIT_FAILURE));
 }
@@ -53,8 +53,8 @@ int main(int ac, char **av, char **envp)
                 exit(EXIT_SUCCESS);
             }
             res = tokenization_char(input);
-            print_double(res);
-            // in_buit_cmd(res,input);
+            // print_double(res);
+            in_buit_cmd(res,input);
             free(input);
             free_double(res);
         }
