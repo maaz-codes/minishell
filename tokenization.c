@@ -80,8 +80,11 @@ void malloc_everything(char **res, char *s,int tokens,int position)
                 i += 1;
                 while((s[i] == '\'' || s[i] == '"') && (s[i + 1] == '\'' || s[i + 1] == '"'))
                     i += 2;
+<<<<<<< HEAD
                 
                 
+=======
+>>>>>>> 66a0eec539532215f5d46c0c7fa605d5536d64b5
             }
             else if(s[i])
             {   
