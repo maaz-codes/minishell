@@ -27,3 +27,4 @@ void     malloc_everything(char **res,char *s,int tokens, int position);
 
 void    echo_cmd(char **str);
 int     filler_last(char **res,char *s,int position,int len);
+void    pwd_cmd(void);

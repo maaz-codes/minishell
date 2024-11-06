@@ -19,6 +19,8 @@ void in_buit_cmd(char **str,char *input)
 {
     if(!ft_strncmp(str[0],"echo",5))
         echo_cmd(str);
+    else if(!ft_strncmp(str[0],"pwd",4))
+        pwd_cmd();
     else
         (printf("minishell: %s : command not found\n",str[0]),exit(EXIT_FAILURE));
 }
