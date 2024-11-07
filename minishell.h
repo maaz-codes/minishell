@@ -4,10 +4,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-typedef struct space_check
+typedef struct paths
 {
-    int *spaces;
-} t_check;
+    char *pwd;
+    char *old_pwd;
+    struct paths *next;
+} t_path;
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char *s, char c);
@@ -28,3 +30,4 @@ void     malloc_everything(char **res,char *s,int tokens, int position);
 void    echo_cmd(char **str);
 int     filler_last(char **res,char *s,int position,int len);
 void    pwd_cmd(void);
+void    cd_cmd(char **str, t_path **paths);

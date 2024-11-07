@@ -15,14 +15,21 @@ void free_double(char **s)
     free(s);
 }
 
-void in_buit_cmd(char **str,char *input)
+void in_buit_cmd(char **str,char *input, t_path **paths)
 {
     if(!ft_strncmp(str[0],"echo",5))
         echo_cmd(str);
     else if(!ft_strncmp(str[0],"pwd",4))
         pwd_cmd();
+    else if(!ft_strncmp(str[0],"cd",3))
+        cd_cmd(str,paths);
+    if(!ft_strncmp(input,"exit",5) || !ft_strncmp(input,"\"exit\"",7))
+    {   
+        printf("Exiting now.....");
+        exit(EXIT_SUCCESS);
+    }
     else
-        (printf("minishell: %s : command not found\n",str[0]),exit(EXIT_FAILURE));
+        (printf("minishell: %s : command not found\n",str[0]));
 }
 
 void print_double(char **str)
@@ -42,6 +49,7 @@ int main(int ac, char **av, char **envp)
     {
         char *input;
         char **res;
+        t_path *paths;
         input = readline("minishell> ");
 
         char symbol = '\0';
@@ -49,14 +57,9 @@ int main(int ac, char **av, char **envp)
         int inside = 0; 
         if(input) 
         {   
-            if(!ft_strncmp(input,"exit",5) || !ft_strncmp(input,"\"exit\"",7))
-            {   
-                printf("Exiting now.....");
-                exit(EXIT_SUCCESS);
-            }
+            add_history(input);
             res = tokenization_char(input);
-            // print_double(res);
-            in_buit_cmd(res,input);
+            in_buit_cmd(res,input,&paths);
             free(input);
             free_double(res);
         }

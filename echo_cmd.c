@@ -7,6 +7,7 @@ void echo_cmd(char **str)
 
     checker = 0;
     i = 1;
+
     if(!ft_strncmp(str[i],"-n",3))
     {
         i++;
@@ -19,7 +20,6 @@ void echo_cmd(char **str)
             printf(" ");
         i++;
     }
-    
     if(!checker)
         printf("\n");
 }
