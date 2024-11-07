@@ -55,7 +55,6 @@ int main(int ac, char **av, char **envp)
         char **res;
         t_path *paths;
 
-        paths = malloc(sizeof(t_path));
         input = readline("minishell> ");
 
         if(input) 
