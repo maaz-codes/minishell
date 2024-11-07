@@ -24,7 +24,6 @@ void echo_cmd(char **str)
             printf(" ");
         i++;
     }
-    
     if(!checker)
         printf("\n");
 }
