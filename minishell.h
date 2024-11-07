@@ -4,11 +4,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-typedef struct space_check
-{
-    int *spaces;
-} t_check;
+typedef struct pwd{
 
+    char *pwd;
+    char *old_pwd;
+    struct pwd *next;
+}   t_path;
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char *s, char c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
@@ -16,6 +17,8 @@ size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol);
 char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_bzero(void *s, size_t n);
 
 
 void    free_double(char **s);
@@ -28,3 +31,4 @@ void     malloc_everything(char **res,char *s,int tokens, int position);
 void    echo_cmd(char **str);
 int     filler_last(char **res,char *s,int position,int len);
 void    pwd_cmd(void);
+void    cd_cmd(char **str, t_path **paths);
