@@ -4,15 +4,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
-
 // error_codes
 # define WRONG_FORMAT 1001
 
 // general
 # define TRUE 	1
 # define FALSE 	0
-
 
 // Node_types
 # define NODE_COMMAND 		4201
@@ -44,5 +41,19 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s1);
 
-// tokens_utils
+// tree_utils.c
+void add_node(t_tree **tree, t_tree *node);
+void print_data(t_tree *tree);
+void print_tree(t_tree *tree);
+
+// tokens.c
+t_tree *init_op_node(char op);
+t_tree *init_exp_node(char *str, int start, int end);
+
+// qoutes.c
+int	inside_qoutes(int *qoutes, char c, char *str, int *i);
+int count_qoutes(char *str);
+char *remove_qoutes(char *str);
+
+// tokens_utils.c
 char	symbol_checker(char s);

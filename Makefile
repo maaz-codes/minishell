@@ -6,6 +6,10 @@ RM = rm -f
 
 SRCS = 	minishell.c \
 		token_utils.c \
+		qoutes.c \
+		tokens.c \
+		token_utils.c \
+		tree_utils.c \
 		helpers/ft_strchr.c helpers/ft_strdup.c helpers/ft_strlen.c helpers/ft_strtrim.c helpers/ft_substr.c helpers/ft_strncmp.c\
 		
 

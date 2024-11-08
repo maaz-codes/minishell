@@ -9,20 +9,6 @@ void	print_error(int code)
 		printf("Error: Wrong format\n");
 }
 
-int	inside_qoutes(int *qoutes, char c, char *str, int *i)
-{
-	(*i) += 1;
-	*qoutes = !(*qoutes);
-	while (*qoutes && str[*i])
-	{
-		if (str[*i] == c)
-			*qoutes = !(*qoutes);
-		(*i) += 1;
-	}
-	if (*qoutes == 0)
-		return (1);
-	return (0);
-}
 int special_chars(char c)
 {
 	if (c == '|' || c == '<' || c == '>' || c == ';' || c == '$')
@@ -90,69 +76,6 @@ int special_chars(char c)
 // 	return (spl_flag);
 // }
 
-t_tree *init_op_node(char op)
-{
-	t_tree *node;
-
-	node = malloc(sizeof(t_tree));
-	node->type = NODE_OPERATOR;
-	node->t_data.operator = op;
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
-}
-
-t_tree *init_exp_node(char *str, int start, int end)
-{
-	t_tree *node;
-
-	node = malloc(sizeof(t_tree));
-	node->type = NODE_EXPRESSION;
-	node->t_data.expression = ft_substr(str, start, end - start);
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
-}
-
-void add_node(t_tree **tree, t_tree *node)
-{
-	if (*tree == NULL)
-	{
-		*tree = node;
-		return ;
-	}
-	if ((*tree)->left == NULL)
-		(*tree)->left = node;
-	else if ((*tree)->right == NULL)
-		(*tree)->right = node;
-}
-
-void print_data(t_tree *tree)
-{
-	if (tree->type == NODE_EXPRESSION)
-		printf("data: %s type: %d\n", tree->t_data.expression, tree->type);
-	else if (tree->type == NODE_OPERATOR)
-		printf("data: %c type: %d\n", tree->t_data.operator, tree->type);
-}
-
-void print_tree(t_tree *tree)
-{
-	if (tree == NULL)
-		return ;
-	if (tree->left != NULL)
-	{
-		printf("left:");
-		print_tree(tree->left);
-		if (tree->right != NULL)
-		{
-			printf("right:");
-			print_tree(tree->right);
-		}
-		else
-			print_data(tree);
-	}
-	print_data(tree);
-}
 
 t_tree *tokenizer(char *str, t_tree **node)
 {
