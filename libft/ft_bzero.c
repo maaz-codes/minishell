@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 19:57:50 by rcreer            #+#    #+#             */
-/*   Updated: 2024/10/22 18:01:50 by rcreer           ###   ########.fr       */
+/*   Created: 2024/06/25 18:48:08 by maakhan           #+#    #+#             */
+/*   Updated: 2024/07/01 15:50:34 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
 void	ft_bzero(void *s, size_t n)
 {
-	size_t	i;
+	unsigned char	*ptr;
 
-	i = 0;
-	while (i < n)
+	ptr = s;
+	while (n--)
 	{
-		*(unsigned char *)(s + i) = '\0';
-		i++;
+		*ptr++ = 0;
 	}
 }

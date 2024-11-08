@@ -3,100 +3,94 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.ae>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 17:50:58 by rcreer            #+#    #+#             */
-/*   Updated: 2024/10/22 18:02:04 by rcreer           ###   ########.fr       */
+/*   Created: 2024/06/25 18:47:36 by maakhan           #+#    #+#             */
+/*   Updated: 2024/07/02 16:11:03 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int	safe_malloc(char **token_v, int position, size_t length)
+static char	**malloc_free(char **array, int position)
 {
 	int	i;
 
 	i = 0;
-	token_v[position] = malloc(length);
-	if (token_v[position] == NULL)
+	while (i < position)
 	{
-		while (i < position)
-		{
-			free(token_v[i]);
-			i++;
-		}
-		free(token_v);
-		return (1);
+		free(array[i]);
+		i++;
 	}
-	return (0);
+	free(array);
+	return (NULL);
 }
 
-int	fill(char **token_v, char const *s, char del)
+static int	ft_word_count(const char *s, char sep)
 {
-	size_t	len;
+	int	i;
+	int	word;
+
+	i = 0;
+	word = 0;
+	while (s[i])
+	{
+		if (s[i] != sep && (s[i + 1] == sep || s[i + 1] == '\0'))
+			word++;
+		i++;
+	}
+	return (word);
+}
+
+static char	*ft_get_word(const char *s, int start, int end)
+{
+	char	*word;
 	int		i;
 
 	i = 0;
-	while (*s)
-	{
-		len = 0;
-		while (*s == del && *s)
-			++s;
-		while (*s != del && *s)
-		{
-			++len;
-			++s;
-		}
-		if (len)
-		{
-			if (safe_malloc(token_v, i, len + 1))
-				return (1);
-			ft_strlcpy(token_v[i], s - len, len + 1);
-			token_v[i][len] = '\0';
-		}
-		++i;
-	}
-	return (0);
+	word = (char *)malloc(sizeof(char) * ((end - start + 1) + 1));
+	if (!word)
+		return (NULL);
+	while (start <= end)
+		word[i++] = s[start++];
+	word[i] = '\0';
+	return (word);
 }
 
-size_t	count_tokens(char const *s, char del)
+char	**get_array(const char *s, char c, size_t i, int j)
 {
-	size_t	tokens;
-	int		inside;
+	char	**ptr;
+	int		k;
 
-	tokens = 0;
-	while (*s)
+	ptr = (char **)malloc(sizeof(char *) * (ft_word_count(s, c) + 1));
+	if (!ptr)
+		return (NULL);
+	k = 0;
+	while (i <= ft_strlen(s))
 	{
-		inside = 0;
-		while (*s == del && *s)
-			++s;
-		while (*s != del && *s)
+		j = i;
+		while (s[i] && s[i] != c)
 		{
-			if (!inside)
+			if (s[++i] == c || s[i] == '\0')
 			{
-				++tokens;
-				inside = 1;
+				ptr[k++] = ft_get_word(s, j, i - 1);
+				if (!(ptr[k - 1]))
+					return (malloc_free(ptr, k - 1));
 			}
-			++s;
 		}
+		if (s[i++] == '\0')
+			break ;
 	}
-	return (tokens);
+	ptr[k] = NULL;
+	return (ptr);
 }
 
-char	**ft_split(char *s, char c)
+char	**ft_split(const char *s, char c)
 {
-	char	**token_v;
-	int		token;
+	char	**ptr;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	token = 0;
-	token = count_tokens(s, c);
-	token_v = (char **)malloc(sizeof(char *) * (token + 1));
-	if (token_v == NULL)
-		return (NULL);
-	token_v[token] = NULL;
-	if (fill(token_v, s, c))
-		return (NULL);
-	return (token_v);
+	ptr = get_array(s, c, 0, 0);
+	return (ptr);
 }

@@ -1,30 +1,48 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <readline/readline.h>
 #include <readline/history.h>
+#include <readline/readline.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-typedef struct space_check
-{
-    int *spaces;
-} t_check;
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-char	**ft_split(char *s, char c);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t	ft_strlen(const char *s);
+
+// error_codes
+# define WRONG_FORMAT 1001
+
+// general
+# define TRUE 	1
+# define FALSE 	0
+
+
+// Node_types
+# define NODE_COMMAND 		4201
+# define NODE_OPERATOR 		4202
+# define NODE_ARGUMENT 		4203
+# define NODE_REDIRECTION 	4204
+# define NODE_EXPRESSION 	4205
+
+typedef struct s_tree {
+    int type;
+    union 
+    {
+        char *expression;
+        char *command;      
+        char *argument;    
+        char operator;    
+        char *redirection;
+        char *env_expansion;  
+    } t_data;
+    struct s_tree *left;  
+    struct s_tree *right;
+} t_tree;
+
+// helpers
+size_t	ft_strlen(const char *str);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strtrim(char const *s1, char const *set);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s1);
-size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol);
-char	*ft_strjoin(char const *s1, char const *s2);
 
-
-void    free_double(char **s);
-char    symbol_checker(char s);
-int     inside_check(int inside, int tokens);
-int     malloc_safe(char **res, int position, size_t len);
-int     checker_tokens(char *s, char symbol, int tokens, int inside);
-char    **tokenization_char(char *input);
-void     malloc_everything(char **res,char *s,int tokens, int position);
-
-void    echo_cmd(char **str,char *input);
-int     filler_last(char **res,char *s,int position,int len);
+// tokens_utils
+char	symbol_checker(char s);

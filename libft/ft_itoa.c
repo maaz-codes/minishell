@@ -1,41 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 19:16:58 by maakhan           #+#    #+#             */
-/*   Updated: 2024/07/03 15:10:08 by maakhan          ###   ########.fr       */
+/*   Created: 2024/06/25 19:13:32 by maakhan           #+#    #+#             */
+/*   Updated: 2024/06/28 19:30:16 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+static char	*memory_alloc(char *num, int i)
 {
 	char	*ptr;
-	int		total_len;
-	int		i;
 	int		j;
 
-	if (!s1 || !s2)
-		return (NULL);
-	total_len = ft_strlen(s1) + ft_strlen(s2);
-	ptr = (char *)malloc(sizeof(char) * (total_len + 1));
+	j = 0;
+	ptr = (char *)malloc(sizeof(char) * (i + 1));
 	if (!ptr)
 		return (NULL);
+	i--;
+	while (i >= 0)
+		ptr[j++] = num[i--];
+	ptr[j] = '\0';
+	return (ptr);
+}
+
+char	*ft_itoa(int n)
+{
+	char	*ptr;
+	long	temp;
+	char	num[11];
+	int		i;
+
+	temp = n;
 	i = 0;
-	while (s1[i] != '\0')
+	if (n < 0)
+		temp = temp * -1;
+	if (n == 0)
+		num[i++] = '0';
+	while (temp != 0)
 	{
-		ptr[i] = s1[i];
-		i++;
+		num[i++] = (temp % 10) + '0';
+		temp = temp / 10;
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		ptr[i++] = s2[j++];
-	}
-	ptr[i] = '\0';
+	if (n < 0)
+		num[i++] = '-';
+	ptr = memory_alloc(num, i);
+	if (!ptr)
+		return (NULL);
 	return (ptr);
 }
