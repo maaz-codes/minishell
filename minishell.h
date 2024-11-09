@@ -34,4 +34,4 @@ void     malloc_everything(char **res,char *s,int tokens, int position);
 void    echo_cmd(char **str);
 int     filler_last(char **res,char *s,int position,int len);
 void    pwd_cmd(void);
-void    cd_cmd(char **str, t_path **paths);
+void    cd_cmd(char **str, t_path **paths, char **env);
