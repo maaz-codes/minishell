@@ -8,6 +8,7 @@ t_path	*ft_lstnew(char *content)
 	if (node_new == NULL)
 		return (NULL);
 	node_new->pwd = content;
+	node_new->pwd_old = content;
 	node_new->next = NULL;
 	return (node_new);
 }

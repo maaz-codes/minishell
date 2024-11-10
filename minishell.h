@@ -8,6 +8,7 @@
 typedef struct pwd{
 
     char *pwd;
+    char *pwd_old;
     struct pwd *next;
 }   t_path;
 

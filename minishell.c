@@ -15,9 +15,17 @@ void free_double(char **s)
     free(s);
 }
 
-void exit_cmd(void)
+void exit_cmd(t_path **paths)
 {
-    printf("Exiting now.....");
+    printf("Exiting now.....\n");
+    while((*paths))
+    {
+        printf("new pwd: %s\n",(*paths)->pwd);
+        printf("old pwd: %s\n",(*paths)->pwd_old);
+        (*paths) = (*paths)->next;
+    }
+    if((*paths))
+        ft_lstclear(paths);
     exit(EXIT_SUCCESS);
 }
 
@@ -30,7 +38,7 @@ void in_buit_cmd(char **str,t_path **paths, char **env)
     else if(!ft_strncmp(str[0],"cd",3))
         cd_cmd(str,paths,env);
     else if (!ft_strncmp(str[0],"exit",5))
-        exit_cmd();
+        exit_cmd(paths);
     else
         (printf("minishell: %s : command not found\n",str[0]));
 }
