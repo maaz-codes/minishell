@@ -7,7 +7,7 @@ void	ft_lstdelone(t_path *lst)
 	if (lst)
 	{
 		free(lst->pwd);
-        free(lst->old_pwd);
+        // free(lst->old_pwd);
 		free(lst);
 	}
 }

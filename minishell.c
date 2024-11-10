@@ -47,13 +47,27 @@ void print_double(char **str)
     }
 }
 
+char *get_cwd(void)
+{
+    char cwd[1024];
+    char *res;
+    if(getcwd(cwd,sizeof(cwd)) == NULL)
+        printf("error");
+    res = new_path(cwd,0);
+    return(res);
+}
+
 int main(int ac, char **av, char **env)
 {   
+    t_path *paths;
+    char *cwd;
+    
+    cwd = get_cwd();
+    paths = ft_lstnew(cwd);
     while(1)
     {
         char *input;
         char **res;
-        t_path *paths;
 
         input = readline("minishell> ");
 

@@ -1,34 +1,33 @@
 #include "../minishell.h"
 
-// t_path	*ft_lstlast(t_path *lst)
-// {
-// 	if (!lst)
-// 		return (NULL);
-// 	while (lst->next != NULL)
-// 	{
-// 		lst = lst->next;
-// 	}
-// 	return (lst);
-// }
+t_path	*ft_lstlast(t_path *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
 
-// void ft_append(t_path **paths, char *cwd)
-// {
-//     t_path *new_node;
-//     t_path *last_node;
+void ft_append(t_path **paths, char *cwd)
+{
+    t_path *new_node;
+    t_path *last_node;
 
-//     new_node = malloc(sizeof(t_path));
-//     last_node = ft_lstlast(*paths);
-//     if(!new_node)
-//         return ;
-//     if(last_node == NULL)
-//         *paths = new_node;
-//     else
-//         last_node->next = new_node;
-//     *paths = new_node;
-//     new_node->pwd = cwd;
-//     new_node->old_pwd = cwd;
-//     new_node->next = NULL; 
-// }
+    new_node = malloc(sizeof(t_path));
+    last_node = ft_lstlast(*paths);
+    if(!new_node)
+        return ;
+    if(last_node == NULL)
+        *paths = new_node;
+    else
+        last_node->next = new_node;
+    new_node->pwd = cwd;
+    // new_node->old_pwd = cwd;
+    new_node->next = NULL; 
+}
 
 
 char *new_path(char *cwd, int id)
@@ -73,9 +72,20 @@ char *get_home(char **env)
     return (NULL);
 }
 
+void	ft_lstadd_back(t_path **lst, t_path *new)
+{
+	if (!lst || !new)
+		return ;
+	if (*lst)
+		ft_lstlast(*lst)->next = new;
+	else
+		*lst = new;
+}
+
 void cd_cmd(char **str, t_path **paths, char **env)
 {  
     char cwd[1024];
+    t_path *temp;
     char *res;
     int len;
 
@@ -86,11 +96,21 @@ void cd_cmd(char **str, t_path **paths, char **env)
         res = get_home(env);
     else if(str[1] != NULL && (!ft_strncmp(str[1],"..",3)))
         res = new_path(cwd,1);
+    else if(str[1] != NULL && (!ft_strncmp(str[1],"-",2)))
+    {   
+        ft_lstadd_back(paths,ft_lstnew(ft_strdup("testing")));
+    }
     else if(str[1] != NULL)
         res = new_path(str[1],0);
 
-    if(chdir(res) == -1)
-        printf("error dir\n");
-    free(res);
+    while((*paths))
+    {
+        printf("linked list path: %s\n",(*paths)->pwd);
+        (*paths) = (*paths)->next;
+    }
+    // if(chdir(res) == -1)
+    //     printf("error dir\n");
+    if(res)
+        free(res);
 }
 

@@ -4,8 +4,9 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
-SRCS = minishell.c tokenization.c builtins/echo_cmd.c builtins/pwd_cmd.c builtins/cd_cmd.c token_utils.c libft/ft_split.c libft/ft_strncmp.c libft/ft_strlcpy.c \
-		libft/ft_strlen.c libft/ft_strdup.c libft/ft_strjoin.c libft/ft_calloc.c libft/ft_bzero.c libft/ft_lstclear.c
+SRCS = minishell.c tokenization.c builtins/echo_cmd.c builtins/pwd_cmd.c builtins/cd_cmd.c token_utils.c libft/ft_split.c \
+		libft/ft_strncmp.c libft/ft_strlcpy.c libft/ft_lstnew.c libft/ft_strlen.c libft/ft_strdup.c libft/ft_strjoin.c \
+		libft/ft_calloc.c libft/ft_bzero.c libft/ft_lstclear.c \
 
 OBJS = $(SRCS:.c=.o)
 LDFLAGS = -lreadline

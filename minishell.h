@@ -8,7 +8,6 @@
 typedef struct pwd{
 
     char *pwd;
-    char *old_pwd;
     struct pwd *next;
 }   t_path;
 
@@ -22,6 +21,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_bzero(void *s, size_t n);
 void	ft_lstclear(t_path **lst);
+t_path	*ft_lstnew(char *content);
 
 
 void    free_double(char **s);
@@ -35,3 +35,4 @@ void    echo_cmd(char **str);
 int     filler_last(char **res,char *s,int position,int len);
 void    pwd_cmd(void);
 void    cd_cmd(char **str, t_path **paths, char **env);
+char    *new_path(char *cwd, int id);
