@@ -29,19 +29,21 @@ typedef enum S_TYPES
     NODE_EXPRESSION
 } t_types;
 
+typedef union s_data
+{
+    char *expression;
+    char *command;      
+    char *argument;    
+    char operator;    
+    char *redirection;
+    char *env_expansion;  
+} t_data;
+
 typedef struct s_tree {
     t_types type;
     char pos;
     int level;
-    union 
-    {
-        char *expression;
-        char *command;      
-        char *argument;    
-        char operator;    
-        char *redirection;
-        char *env_expansion;  
-    } data;
+    t_data data;
     struct s_tree *left;  
     struct s_tree *right;
 } t_tree;
@@ -82,8 +84,13 @@ char	symbol_checker(char s);
 void	print_error(int code);
 void	print_exit(int code);
 
+// splits.c
+int split_cmd(char *str, int *i, t_tree **node);
+int split_operator(char *str, t_tree **node, int i, int j);
+char **split_args(char *str);
+
 // main.c
 int operator_ahead(char *str, int i);
-int cmd_split(char *str, int *i, t_tree **node);
-int operator_split(char *str, t_tree **node, int i, int j);
 int qoutes_checker(char *str);
+int skip_spaces(char *str, int *i);
+int special_chars(char c);

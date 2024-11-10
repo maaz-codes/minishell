@@ -24,6 +24,7 @@ t_tree *tokenizer(char *str, t_tree **node)
 	qoutes = 0;
 	i = 0;
 	j = i;
+	// printf("exp: -%s-\n", str);
 	strip_spaces(&str);
 	while (i <= ft_strlen(str))
 	{
@@ -31,10 +32,10 @@ t_tree *tokenizer(char *str, t_tree **node)
 			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
 		if (str[i] == '"' || str[i] == '\'')
 			continue ;
-		if (operator_split(str, node, i, j))
+		if (split_operator(str, node, i, j))
 			break ;
 		else
-			if (cmd_split(str, &i, node) && !operator_ahead(str, i))
+			if (split_cmd(str, &i, node) && !operator_ahead(str, i))
 				break ;
 		i++;
 	}
