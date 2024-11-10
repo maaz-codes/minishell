@@ -3,12 +3,6 @@
 #include <readline/readline.h>
 #include <stdio.h>
 
-void	print_error(int code)
-{
-	if (code == WRONG_FORMAT)
-		printf("Error: Wrong format\n");
-}
-
 int special_chars(char c)
 {
 	if (c == '|' || c == '<' || c == '>' || c == ';' || c == '$')
@@ -76,86 +70,60 @@ int special_chars(char c)
 // 	return (spl_flag);
 // }
 
-
-t_tree *tokenizer(char *str, t_tree **node)
+int operator_split(char *str, t_tree **node, int i, int j)
 {
-	int	i;
-	int j;
-	int	qoutes;
-
-	qoutes = 0;
-	i = 0;
-	j = i;
-	printf("exp: %s\n", str);
-	while (i <= ft_strlen(str))
+	if (str[i] == '|' || str[i] == '<' || str[i] == '>')
 	{
-		if (str[i] == '"' || str[i] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
-		if (str[i] == '"' || str[i] == '\'')
-			continue ;
-		if (str[i] == '|' || str[i] == '<' || str[i] == '>' || str[i] == ' ') // opertors
-		{
-			if (str[i] == ' ')
-				printf("cmd: %c\n", str[i - 1]);
-			// add_node(node, init_op_node(str[i]));
-			*node = init_op_node(str[i]);
-			add_node(node, init_exp_node(str, j, i));
-			add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
-			// printf("left:%s \n", (*node)->left->t_data.expression);
-			// j = i + 1;
-			// i++;
-			break ;
-		}
-		i++;
-	}
-	// printf("left: %s \n", (*node)->left->t_data.expression);
-	// printf("right: %s \n", (*node)->right->t_data.expression);
-	// print_tree(*node);
-	if ((*node)->left != NULL)
-	{
-		// printf("left\n");
-		tokenizer((*node)->left->t_data.expression, &(*node)->left);
-	}
-	if ((*node)->right != NULL)
-	{
-		// printf("right\n");
-		tokenizer((*node)->right->t_data.expression, &(*node)->right);
-	}
-	return (*node);
-}
-
-int qoutes_checker(char *str)
-{
-	int	i;
-	int	qoutes;
-
-	qoutes = 0;
-	i = 0;
-	while (i <= ft_strlen(str))
-	{
-		if (str[i] == '"' || str[i] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
-		if (str[i] == '"' || str[i] == '\'')
-			continue ;
-		i++;
-	}
-	if (qoutes == 0)
+		*node = init_op_node(str[i]);
+		add_node(node, init_exp_node(str, j, i)); // j is always zero maybe remove it.
+		add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
+		if ((*node)->left != NULL)
+			tokenizer((*node)->left->data.expression, &(*node)->left);
+		if ((*node)->right != NULL)
+			tokenizer((*node)->right->data.expression, &(*node)->right);
 		return (1);
+	}
 	return (0);
 }
 
-char	**tokenization(char *str)
+int cmd_split(char *str, int *i, t_tree **node)
 {
-	t_tree *tree;
+	int qoutes;
 
-	// if (qoutes_checker(str))
-	// 	print_error(WRONG_FORMAT);
-	tree = NULL;
-	tokenizer(str, &tree);
-	if (tree == NULL)
-		print_error(WRONG_FORMAT);
-	print_tree(tree);
-	return (NULL);
+	qoutes = 0;
+	// qoutes_logic
+		// while (str[*i] == ' ' && str[*i + 1] == ' ')
+		// {
+		// 	*i += 1;
+		// 	return (0);
+		// }
+		// if (str[*i] == '"' || str[*i] == '\'')
+		// {
+		// 	inside_qoutes(&qoutes, symbol_checker(str[*i]), str, i);
+		// }
+	// else
+	// {
+		if (str[*i] == ' ' || str[*i] == '\0')
+		{
+			// replacing the pointer, not over-writing it // free it later
+			*node = init_cmd_node(str, *i);
+			if (str[*i] != '\0')
+				add_node(node, init_args_node(str, *i + 1, ft_strlen(str)));
+			return (1);
+		}
+	// }
+	return (0);
+}
+
+int operator_ahead(char *str, int i)
+{
+	while (str[i])
+	{
+		if (str[i] == '|' || str[i] == '<' || str[i] == '>')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	main(int ac, char **av, char **envp)
