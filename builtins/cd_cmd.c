@@ -21,7 +21,7 @@ char *new_path(char *cwd, int id)
         len -= 1;
         while(cwd[len] != '/' && cwd[len])
             len--;
-        if(cwd[len] == '/' && len == 0);
+        if(cwd[len] == '/' && len == 0)
             len += 1;
     }
     new_path = ft_calloc(len + 1,sizeof(char *));
@@ -53,6 +53,7 @@ char *get_home(char **env)
             free_double(holder);
             if(chdir(res) == -1)
                 (free(res),printf("error home\n"));
+            printf("new path: %s\n",res);
             return(res);
         }
         i++;
@@ -97,7 +98,7 @@ char *switch_cd(t_path **paths)
     res = ft_strdup(temp->pwd);
     if(chdir(res) == -1)
     {
-        printf("error switch\n");
+        (free(res),printf("error switch: %s\n",res));
         return NULL;
     }
     printf("new path: %s\n",res);
@@ -118,13 +119,13 @@ void cd_cmd(char **str, t_path **paths, char **env)
         res = get_home(env);
     else if(str[1] != NULL && (!ft_strncmp(str[1],"..",3)))
         res = new_path(cwd,1); 
-    else if(str[1] != NULL)
-        res = new_path(str[1],0);
     else if(str[1] != NULL && (!ft_strncmp(str[1],"-",2)))
     {
         res = switch_cd(paths);
         check = 1;
     }
+    else if(str[1] != NULL)
+        res = new_path(str[1],0);
     if(check == 0 && res)
         ft_append(paths,res); 
     if(res)
