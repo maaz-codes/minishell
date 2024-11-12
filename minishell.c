@@ -18,19 +18,14 @@ void free_double(char **s)
 void exit_cmd(t_path **paths)
 {
     printf("Exiting now.....\n");
-    while((*paths))
-    {
-        printf("new pwd: %s\n",(*paths)->pwd);
-        printf("old pwd: %s\n",(*paths)->pwd_old);
-        (*paths) = (*paths)->next;
-    }
-    if((*paths))
-        ft_lstclear(paths);
+    ft_lstclear(paths);
     exit(EXIT_SUCCESS);
 }
 
 void in_buit_cmd(char **str,t_path **paths, char **env)
-{
+{   
+    if(!str[0])
+        return ;
     if(!ft_strncmp(str[0],"echo",5))
         echo_cmd(str);
     else if(!ft_strncmp(str[0],"pwd",4))
@@ -43,18 +38,6 @@ void in_buit_cmd(char **str,t_path **paths, char **env)
         (printf("minishell: %s : command not found\n",str[0]));
 }
 
-void print_double(char **str)
-{
-    int i;
-
-    i = 0;
-    while(str[i])
-    {   
-        printf("string %d: %s\n",i,str[i]);
-        i++;
-    }
-}
-
 char *get_cwd(void)
 {
     char cwd[1024];
@@ -65,13 +48,28 @@ char *get_cwd(void)
     return(res);
 }
 
+t_path	*int_cd(void)
+{
+	t_path	*node_new;
+    char    *str1;
+    char    *str2;
+
+    str1 = get_cwd();
+    str2 = get_cwd();
+	node_new = (t_path *)malloc(sizeof(t_path));
+	if (node_new == NULL)
+		return (NULL);
+	node_new->pwd = str1;
+	node_new->pwd_old = str2;
+	node_new->next = NULL;
+	return (node_new);
+}
+
 int main(int ac, char **av, char **env)
 {   
     t_path *paths;
-    char *cwd;
-    
-    cwd = get_cwd();
-    paths = ft_lstnew(cwd);
+
+    paths = int_cd();
     while(1)
     {
         char *input;
@@ -86,6 +84,7 @@ int main(int ac, char **av, char **env)
             add_history(input);
             free(input);
             free_double(res);
+            
         }
     }
     return 0;

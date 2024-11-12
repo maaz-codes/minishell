@@ -74,12 +74,14 @@ void	ft_lstadd_back(t_path **lst, t_path *new)
 void ft_append(t_path **paths, char *res)
 {   
     t_path *temp;
+    char *old_path;
 
+    old_path = ft_strdup(ft_lstlast(*paths)->pwd);
     temp = malloc(sizeof(t_path));
     if(!temp)
         return ;
     temp->pwd = ft_strdup(res);
-    temp->pwd_old = ft_lstlast(*paths)->pwd;
+    temp->pwd_old = old_path;
     temp->next = NULL;
     ft_lstadd_back(paths,temp);
 }
@@ -116,6 +118,8 @@ void cd_cmd(char **str, t_path **paths, char **env)
     if(getcwd(cwd,sizeof(cwd)) == NULL)
         printf("error");
     if(!ft_strncmp(str[0],"cd",3) && str[1] == NULL)
+        res = get_home(env);
+    else if(!ft_strncmp(str[0],"cd",3) && (!ft_strncmp(str[1],"~",2)))
         res = get_home(env);
     else if(str[1] != NULL && (!ft_strncmp(str[1],"..",3)))
         res = new_path(cwd,1); 
