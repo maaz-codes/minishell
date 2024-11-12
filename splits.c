@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int count_args(char *str)
+int count_args(char *str)
 {
     int count;
     int qoutes;
@@ -8,8 +8,8 @@ static int count_args(char *str)
 
     count = 0;
     qoutes = 0;
-    i = -1;
-    while (++i <= ft_strlen(str))
+    i = 0;
+    while (i <= ft_strlen(str))
 	{
 		if (str[i] == '"' || str[i] == '\'')
 			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
@@ -20,18 +20,39 @@ static int count_args(char *str)
 			if (str[i] == ' ' || str[i] == '\0')
 				count++;
 			if (skip_spaces(str, &i))
+			{
 				i--;
+				if (str[i + 1] == '\0')
+					break ;
+			}
         }
+		i++;
 	}
     return (count);
 }
 
-int split_operator(char *str, t_tree **node, int i, int j)
+int split_spl_operator(char *str, t_tree **node, int i, int j)
 {
-	if (str[i] == '|' || str[i] == '<' || str[i] == '>')
+	if (str[i] == '<' || str[i] == '>')
 	{
 		*node = init_op_node(str[i]);
-		add_node(node, init_exp_node(str, j, i)); // j is always zero maybe remove it.
+		add_node(node, init_exp_node(str, j, i));
+		add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
+		if ((*node)->left != NULL)
+			tokenizer((*node)->left->data.expression, &(*node)->left);
+		if ((*node)->right != NULL)
+			tokenizer((*node)->right->data.expression, &(*node)->right);
+		return (1);
+	}
+	return (0);
+}
+
+int split_operator(char *str, t_tree **node, int i, int j)
+{
+	if (str[i] == '|')
+	{
+		*node = init_op_node(str[i]);
+		add_node(node, init_exp_node(str, j, i));
 		add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
 		if ((*node)->left != NULL)
 			tokenizer((*node)->left->data.expression, &(*node)->left);
@@ -48,15 +69,10 @@ int split_cmd(char *str, int *i, t_tree **node)
 
 	qoutes = 0;
 	// qoutes_logic
-		// while (str[*i] == ' ' && str[*i + 1] == ' ')
-		// {
-		// 	*i += 1;
-		// 	return (0);
-		// }
-		// if (str[*i] == '"' || str[*i] == '\'')
-		// {
-		// 	inside_qoutes(&qoutes, symbol_checker(str[*i]), str, i);
-		// }
+	// if (str[*i] == '"' || str[*i] == '\'')
+	// 	inside_qoutes(&qoutes, symbol_checker(str[*i]), str, i);
+	// if (str[*i] == '"' || str[*i] == '\'')
+	// 	continue ;
 	// else
 	// {
 		if (str[*i] == ' ' || str[*i] == '\0')
@@ -99,7 +115,11 @@ char **split_args(char *str)
 				args[k] = ft_substr(str, j, i - j);
 				k++;
 				if (skip_spaces(str, &i))
+				{
+					if (str[i + 1] == '\0')
+						break ;
 					i--;
+				}
 				j = i + 1;
 			}
         }

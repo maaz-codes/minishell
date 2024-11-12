@@ -67,7 +67,7 @@ t_tree *init_args_node(char *str, int start, int end)
     node->type = NODE_ARGUMENT;
 	striped_str = ft_substr(str, start, end);
 	strip_spaces(&striped_str);
-	node->data.argument = striped_str;
+	node->data.argument = split_args(striped_str);
 	if (!node->data.argument)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;

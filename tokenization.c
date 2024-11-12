@@ -32,11 +32,14 @@ t_tree *tokenizer(char *str, t_tree **node)
 			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
 		if (str[i] == '"' || str[i] == '\'')
 			continue ;
-		if (split_operator(str, node, i, j))
+		if (split_spl_operator(str, node, i, j))
 			break ;
-		else
-			if (split_cmd(str, &i, node) && !operator_ahead(str, i))
+		else if (split_operator(str, node, i, j) && !spl_operator_ahead(str, i))
+			break ;
+		else if (split_cmd(str, &i, node) && !operator_ahead(str, i))
 				break ;
+		// else if (split_args(str))
+			
 		i++;
 	}
 	return (*node);

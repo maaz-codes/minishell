@@ -33,7 +33,7 @@ typedef union s_data
 {
     char *expression;
     char *command;      
-    char *argument;    
+    char **argument;    
     char operator;    
     char *redirection;
     char *env_expansion;  
@@ -79,18 +79,21 @@ char *remove_qoutes(char *str);
 
 // tokens_utils.c
 char	symbol_checker(char s);
+int     redirection_ahead(char *str, int i);
+int     spl_operator_ahead(char *str, int i);
+int     operator_ahead(char *str, int i);
+int     skip_spaces(char *str, int *i);
 
 // error.c
 void	print_error(int code);
 void	print_exit(int code);
 
 // splits.c
+int count_args(char *str);
 int split_cmd(char *str, int *i, t_tree **node);
 int split_operator(char *str, t_tree **node, int i, int j);
 char **split_args(char *str);
 
 // main.c
-int operator_ahead(char *str, int i);
 int qoutes_checker(char *str);
-int skip_spaces(char *str, int *i);
-int special_chars(char c);
+// int special_chars(char c);

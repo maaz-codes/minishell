@@ -18,7 +18,15 @@ int	main(int ac, char **av, char **envp)
 				exit(EXIT_SUCCESS);
 			}
 			args = tokenization(input);
-			// free(input); // coz we're freeing it inside tokenizer;
+			// char **args = split_args(input);
+			// int i = 0;
+			// while (i < count_args(input))
+			// {
+			// 	printf("%s|", args[i]);
+			// 	i++;
+			// }
+			// printf("\n");
+			free(input); // no need, coz we're freeing it inside tokenizer;
 		}
 	}
 	return (0);

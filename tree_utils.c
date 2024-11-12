@@ -22,7 +22,16 @@ void print_data(t_tree *tree)
 	else if (tree->type == NODE_COMMAND)
 		printf("data: %s		type: CMD pos: %c lvl: %d\n", tree->data.command, tree->pos, tree->level);
 	else if (tree->type == NODE_ARGUMENT)
-		printf("data: %s		type: ARGS pos: %c lvl: %d\n", tree->data.argument, tree->pos, tree->level);
+	{
+		printf("data: ");
+		int i = 0;
+		while(i < count_array(tree->data.argument))
+		{
+			printf("%s, ", tree->data.argument[i]);
+			i++;
+		}
+		printf("		type: ARGS pos: %c lvl: %d\n", tree->data.argument, tree->pos, tree->level);
+	}
 }
 
 void print_tree(t_tree *tree)
