@@ -26,25 +26,25 @@ void add_node(t_tree **tree, t_tree *node)
 void print_data(t_tree *tree)
 {
 	int i = 0;
-	// while (i < tree->level)
-	// {
-	// 	printf("	");
-	// 	i++;
-	// }
+	while (i < tree->level)
+	{
+		printf("	");
+		i++;
+	}
 	if (tree->type == NODE_EXPRESSION)
 	{
-		// printf("%c: %s\n", tree->pos, tree->data.expression);
-		printf("data: %s		type: EXP pos: %c lvl: %d\n", tree->data.expression, tree->pos, tree->level);
+		printf("%c: %s\n", tree->pos, tree->data.expression);
+		// printf("data: %s		type: EXP pos: %c lvl: %d\n", tree->data.expression, tree->pos, tree->level);
 	}
 	else if (tree->type == NODE_OPERATOR)
 	{
-		// printf("%c: %c\n", tree->pos, tree->data.operator);
-		printf("data: %c			type: OPT pos: %c lvl: %d\n", tree->data.operator, tree->pos, tree->level);
+		printf("%c: %c\n", tree->pos, tree->data.operator);
+		// printf("data: %c			type: OPT pos: %c lvl: %d\n", tree->data.operator, tree->pos, tree->level);
 	}
 	else if (tree->type == NODE_COMMAND)
 	{
-		// printf("%c: %s\n", tree->pos, tree->data.command);
-		printf("data: %s		type: CMD pos: %c lvl: %d\n", tree->data.command, tree->pos, tree->level);
+		printf("%c: %s\n", tree->pos, tree->data.command);
+		// printf("data: %s		type: CMD pos: %c lvl: %d\n", tree->data.command, tree->pos, tree->level);
 	}
 	else if (tree->type == NODE_ARGUMENT)
 	{
@@ -55,8 +55,8 @@ void print_data(t_tree *tree)
 			printf("%s, ", tree->data.argument[i]);
 			i++;
 		}
-		// printf("\n");
-		printf("		type: ARGS pos: %c lvl: %d\n", tree->pos, tree->level);
+		printf("\n");
+		// printf("		type: ARGS pos: %c lvl: %d\n", tree->pos, tree->level);
 	}
 	printf("\n");
 }
