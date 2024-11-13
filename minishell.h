@@ -90,8 +90,10 @@ void	print_exit(int code);
 
 // splits.c
 int count_args(char *str);
-int split_cmd(char *str, int *i, t_tree **node);
+int split_spl_operator(char *str, t_tree **node, int i, int j);
 int split_operator(char *str, t_tree **node, int i, int j);
+int split_redirection(char *str, t_tree **node, int i, int j);
+int split_cmd(char *str, int *i, t_tree **node);
 char **split_args(char *str);
 
 // main.c

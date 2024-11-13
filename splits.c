@@ -31,13 +31,32 @@ int count_args(char *str)
     return (count);
 }
 
-int split_spl_operator(char *str, t_tree **node, int i, int j)
+int split_redirection(char *str, t_tree **node, int i, int j)
 {
 	if (str[i] == '<' || str[i] == '>')
 	{
 		*node = init_op_node(str[i]);
 		add_node(node, init_exp_node(str, j, i));
 		add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
+		// printf("from redir^: left: %s\n", (*node)->left->data.expression);
+		// printf("from redir^op: right: %s\n", (*node)->right->data.expression);
+		if ((*node)->left != NULL)
+			tokenizer((*node)->left->data.expression, &(*node)->left);
+		if ((*node)->right != NULL)
+			tokenizer((*node)->right->data.expression, &(*node)->right);
+		return (1);
+	}
+	return (0);
+}
+int split_spl_operator(char *str, t_tree **node, int i, int j)
+{
+	if (str[i] == '&' || str[i] == ';')
+	{
+		*node = init_op_node(str[i]);
+		add_node(node, init_exp_node(str, j, i));
+		add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
+		// printf("from spl_op: left: %s\n", (*node)->left->data.expression);
+		// printf("from spl_op: right: %s\n", (*node)->right->data.expression);
 		if ((*node)->left != NULL)
 			tokenizer((*node)->left->data.expression, &(*node)->left);
 		if ((*node)->right != NULL)
@@ -54,6 +73,8 @@ int split_operator(char *str, t_tree **node, int i, int j)
 		*node = init_op_node(str[i]);
 		add_node(node, init_exp_node(str, j, i));
 		add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
+		// printf("from op: left: %s\n", (*node)->left->data.expression);
+		// printf("from op: right: %s\n", (*node)->right->data.expression);
 		if ((*node)->left != NULL)
 			tokenizer((*node)->left->data.expression, &(*node)->left);
 		if ((*node)->right != NULL)
@@ -81,6 +102,7 @@ int split_cmd(char *str, int *i, t_tree **node)
 			*node = init_cmd_node(str, *i);
 			if (str[*i] != '\0')
 				add_node(node, init_args_node(str, *i + 1, ft_strlen(str)));
+			// printf("from cmd: left: %s\n", (*node)->left->data.expression);
 			return (1);
 		}
 	// }
