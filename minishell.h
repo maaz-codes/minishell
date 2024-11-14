@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <limits.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -23,6 +24,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_bzero(void *s, size_t n);
 void	ft_lstclear(t_path **lst);
 void	ft_lstdelone(t_path **lst);
+int     ft_atoi(char *s);
 
 
 void    free_double(char **s);

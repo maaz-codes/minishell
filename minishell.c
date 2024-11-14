@@ -15,11 +15,19 @@ void free_double(char **s)
     free(s);
 }
 
-void exit_cmd(t_path **paths)
+void exit_cmd(t_path **paths, char **str)
 {
     printf("Exiting now.....\n");
-    ft_lstclear(paths);
-    exit(EXIT_SUCCESS);
+    if(!ft_strncmp(str[0],"exit",5) && str[1] == NULL)
+        (ft_lstclear(paths),exit(EXIT_SUCCESS));
+    else if(!ft_strncmp(str[0],"exit",5) && str[1] != NULL)
+        exit(EXIT_SUCCESS);
+    else if(!ft_strncmp(str[0],"exit",5) && str[1] != NULL && str[2] != NULL)
+    {
+        printf("exit: too many arguments");
+        return ;
+    }
+    
 }
 
 void in_buit_cmd(char **str,t_path **paths, char **env)
@@ -33,7 +41,7 @@ void in_buit_cmd(char **str,t_path **paths, char **env)
     else if(!ft_strncmp(str[0],"cd",3))
         cd_cmd(str,paths,env);
     else if (!ft_strncmp(str[0],"exit",5))
-        exit_cmd(paths);
+        exit_cmd(paths,str);
     else
         (printf("minishell: %s : command not found\n",str[0]));
 }
@@ -80,11 +88,10 @@ int main(int ac, char **av, char **env)
         if(input) 
         {   
             res = tokenization_char(input);
-            in_buit_cmd(res,&paths,env);
             add_history(input);
             free(input);
+            in_buit_cmd(res,&paths,env);
             free_double(res);
-            
         }
     }
     return 0;
