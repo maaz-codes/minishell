@@ -75,12 +75,14 @@ void ft_append(t_path **paths, char *res)
 {   
     t_path *temp;
     char *old_path;
+    char *new_path;
 
     old_path = ft_strdup(ft_lstlast(*paths)->pwd);
+    new_path = ft_strdup(res);
     temp = malloc(sizeof(t_path));
     if(!temp)
         return ;
-    temp->pwd = ft_strdup(res);
+    temp->pwd = new_path;
     temp->pwd_old = old_path;
     temp->next = NULL;
     ft_lstadd_back(paths,temp);
@@ -110,7 +112,6 @@ char *switch_cd(t_path **paths)
 void cd_cmd(char **str, t_path **paths, char **env)
 {  
     char cwd[1024];
-    t_path *temp;
     char *res;
     int check;
 
