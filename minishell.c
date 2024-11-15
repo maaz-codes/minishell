@@ -22,11 +22,13 @@ void in_buit_cmd(char **str,t_path **paths, char **env)
     if(!ft_strncmp(str[0],"echo",5))
         echo_cmd(str);
     else if(!ft_strncmp(str[0],"pwd",4))
-        pwd_cmd();
+        pwd_cmd(str);
     else if(!ft_strncmp(str[0],"cd",3))
         cd_cmd(str,paths,env);
     else if (!ft_strncmp(str[0],"exit",5))
         exit_cmd(paths,str);
+    else if(!ft_strncmp(str[0],"env",4))
+        env_cmd(str, env);
     else
         (printf("minishell: %s : command not found\n",str[0]));
 }

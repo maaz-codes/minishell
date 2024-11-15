@@ -37,8 +37,9 @@ int     filler_last(char **res,char *s,int position,int len);
 
 
 void    echo_cmd(char **str);
-void    pwd_cmd(void);
+void    pwd_cmd(char **str);
 void    exit_cmd(t_path **paths, char **str);
+void    env_cmd(char **str, char **env);
 void    cd_cmd(char **str, t_path **paths, char **env);
 char    *new_path(char *cwd, int id);
 
