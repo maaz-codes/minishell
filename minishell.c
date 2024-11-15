@@ -16,18 +16,21 @@ void free_double(char **s)
 }
 
 void exit_cmd(t_path **paths, char **str)
-{
-    printf("Exiting now.....\n");
-    if(!ft_strncmp(str[0],"exit",5) && str[1] == NULL)
-        (ft_lstclear(paths),exit(EXIT_SUCCESS));
-    else if(!ft_strncmp(str[0],"exit",5) && str[1] != NULL)
-        exit(EXIT_SUCCESS);
-    else if(!ft_strncmp(str[0],"exit",5) && str[1] != NULL && str[2] != NULL)
+{   
+    int exit_num;
+
+    if(!ft_strncmp(str[0],"exit",5) && str[1] != NULL && str[2] != NULL)
     {
-        printf("exit: too many arguments");
+        printf("exit: too many arguments\n");
         return ;
     }
-    
+    else if(!ft_strncmp(str[0],"exit",5) && str[1] != NULL)
+    {
+        exit_num = ft_atoi(str[1]);
+        (ft_lstclear(paths),exit(exit_num));
+    }
+    else if(!ft_strncmp(str[0],"exit",5) && str[1] == NULL)
+        (ft_lstclear(paths),exit(EXIT_SUCCESS));
 }
 
 void in_buit_cmd(char **str,t_path **paths, char **env)
