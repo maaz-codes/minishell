@@ -13,7 +13,7 @@ SRCS = 	minishell.c \
 		error.c \
 		tokenization.c \
 		splits.c \
-		helpers/ft_strchr.c helpers/ft_strdup.c helpers/ft_strlen.c helpers/ft_strtrim.c helpers/ft_substr.c helpers/ft_strncmp.c\
+		helpers/ft_strchr.c helpers/ft_strdup.c helpers/ft_strlen.c helpers/ft_strtrim.c helpers/ft_substr.c helpers/ft_strncmp.c helpers/ft_strjoin.c\
 		
 
 OBJS = $(SRCS:.c=.o)

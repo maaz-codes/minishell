@@ -6,11 +6,11 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:16:58 by maakhan           #+#    #+#             */
-/*   Updated: 2024/07/03 15:10:08 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/15 16:19:14 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

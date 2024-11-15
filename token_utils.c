@@ -12,13 +12,6 @@ char symbol_checker(char s)
     return symbol;
 }
 
-// int special_chars(char c)
-// {
-// 	if (c == '|' || c == '<' || c == '>' || c == ';' || c == '$')
-// 		return (1);
-// 	return (0);
-// }
-
 int redirection_ahead(char *str, int i)
 {
 	while (str[i])
@@ -34,7 +27,7 @@ int spl_operator_ahead(char *str, int i)
 {
 	while (str[i])
 	{
-		if (str[i] == '&' || str[i] == ';')
+		if ((str[i] == '&' && str[i + 1] == '&') || (str[i] == '|' && str[i + 1] == '|'))
 			return (1);
 		i++;
 	}

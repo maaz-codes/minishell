@@ -41,6 +41,8 @@ int qoutes_checker(char *str)
 	i = 0;
 	while (i <= ft_strlen(str))
 	{
+        if (str[i] == ';' || str[i] == '\\')
+            return (0);
 		if (str[i] == '"' || str[i] == '\'')
 			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
 		if (str[i] == '"' || str[i] == '\'')
@@ -52,33 +54,34 @@ int qoutes_checker(char *str)
 	return (0);
 }
 
-// only accepts the cmd with or without qoutes
 char *remove_qoutes(char *str)
 {
-    // "echo"""hello
     int i;
-    int j; 
-    char *cmd;
-    char qoutes;
-    int inside;
+    int j;
+    int k;
+    int qoutes;
+    char *new_str;
 
-	qoutes = ' ';
-    inside = 0;
     i = 0;
     j = 0;
-    cmd = malloc(sizeof(char) * (ft_strlen(str) - count_qoutes(str)));
-    while (str[i])
+    k = 0;
+    qoutes = 0;
+    new_str = malloc(sizeof(char) * ft_strlen(str));
+    if (!new_str)
+        print_exit(ERR_MALLOC);
+    while (i < ft_strlen(str))
     {
-        while ((str[i] == '"' || str[i] == '\'') || !inside)
+        if (str[i] == '"' || str[i] == '\'')
         {
-            qoutes = symbol_checker(str[i]);
-            cmd[j++] = str[++i];
-            if (str[i] == qoutes)
-                inside = !inside;
+            j = i + 1;
+			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
+            while (j < i - 1)
+                new_str[k++] = str[j++]; 
         }
 		if (str[i] == '"' || str[i] == '\'')
 			continue ;
-        i++;
+        new_str[k++] = str[i++];
     }
-    return (NULL);
+    free(str);
+    return (new_str);
 }

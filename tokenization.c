@@ -17,7 +17,7 @@ void strip_spaces(char **str)
 
 static int splitter(char *str, t_tree **node, int i, int j)
 {
-	if (split_spl_operator(str, node, i, j))
+	if (split_log_operator(str, node, i, j))
 		return (1);
 	else if (!spl_operator_ahead(str, i) && split_operator(str, node, i, j))
 		return (1);

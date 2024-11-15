@@ -26,17 +26,19 @@ typedef enum S_TYPES
     NODE_OPERATOR,
     NODE_ARGUMENT,
     NODE_REDIRECTION,
-    NODE_EXPRESSION
+    NODE_EXPRESSION,
+    NODE_LOG_OPERATOR
 } t_types;
 
 typedef union s_data
 {
     char *expression;
+    char *log_operator;
+    char operator;   
+    char *redirection;
     char *command;      
     char **argument;    
-    char operator;    
-    char *redirection;
-    char *env_expansion;  
+    // char *env_expansion;
 } t_data;
 
 typedef struct s_tree {
@@ -55,6 +57,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 // tree_utils.c
 void add_node(t_tree **tree, t_tree *node);
@@ -67,10 +70,11 @@ char	**tokenization(char *str);
 t_tree *tokenizer(char *str, t_tree **node);
 
 // tokens.c
+t_tree *init_log_op_node(char spl_op);
 t_tree *init_op_node(char op);
 t_tree *init_exp_node(char *str, int start, int end);
 t_tree *init_cmd_node(char *str, int end);
-t_tree *init_args_node(char *str, int start, int end);
+t_tree *init_args_node(char *str, int start, int end, char *cmd);
 
 // qoutes.c
 int	inside_qoutes(int *qoutes, char c, char *str, int *i);
@@ -90,11 +94,11 @@ void	print_exit(int code);
 
 // splits.c
 int count_args(char *str);
-int split_spl_operator(char *str, t_tree **node, int i, int j);
+int split_log_operator(char *str, t_tree **node, int i, int j);
 int split_operator(char *str, t_tree **node, int i, int j);
 int split_redirection(char *str, t_tree **node, int i, int j);
 int split_cmd(char *str, int *i, t_tree **node);
-char **split_args(char *str);
+char **split_args(char *str, char *cmd);
 
 // main.c
 int qoutes_checker(char *str);

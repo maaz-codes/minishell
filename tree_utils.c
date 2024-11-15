@@ -36,6 +36,11 @@ void print_data(t_tree *tree)
 		printf("%c: %s\n", tree->pos, tree->data.expression);
 		// printf("data: %s		type: EXP pos: %c lvl: %d\n", tree->data.expression, tree->pos, tree->level);
 	}
+	else if (tree->type == NODE_LOG_OPERATOR)
+	{
+		printf("%c: %s\n", tree->pos, tree->data.log_operator);
+		// printf("data: %s		type: EXP pos: %c lvl: %d\n", tree->data.expression, tree->pos, tree->level);
+	}
 	else if (tree->type == NODE_OPERATOR)
 	{
 		printf("%c: %c\n", tree->pos, tree->data.operator);
