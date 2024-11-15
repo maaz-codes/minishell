@@ -33,10 +33,12 @@ int     malloc_safe(char **res, int position, size_t len);
 int     checker_tokens(char *s, char symbol, int tokens, int inside);
 char    **tokenization_char(char *input);
 void     malloc_everything(char **res,char *s,int tokens, int position);
+int     filler_last(char **res,char *s,int position,int len);
+
 
 void    echo_cmd(char **str);
-int     filler_last(char **res,char *s,int position,int len);
 void    pwd_cmd(void);
+void    exit_cmd(t_path **paths, char **str);
 void    cd_cmd(char **str, t_path **paths, char **env);
 char    *new_path(char *cwd, int id);
 
