@@ -66,6 +66,7 @@ char	**tokenization(char *str)
 			print_error(ERR_FORMAT);
 		tree->level = 0;
 		print_tree(tree);
+		// free_tree(tree);
 	}
 	return (NULL);
 }

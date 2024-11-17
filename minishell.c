@@ -18,7 +18,7 @@ int	main(int ac, char **av, char **envp)
 				exit(EXIT_SUCCESS);
 			}
 			args = tokenization(input);
-			free(input); // no need, coz we're freeing it inside tokenizer;
+			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}
 	}
 	return (0);

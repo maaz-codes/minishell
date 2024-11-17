@@ -35,11 +35,18 @@ int split_redirection(char *str, t_tree **node, int i, int j)
 {
 	if (str[i] == '<' || str[i] == '>')
 	{
-		*node = init_op_node(str[i]);
-		add_node(node, init_exp_node(str, j, i));
-		add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
-		// printf("from redir^: left: %s\n", (*node)->left->data.expression);
-		// printf("from redir^op: right: %s\n", (*node)->right->data.expression);
+		if (str[i + 1] == '<' || str[i + 1] == '>')
+		{
+			*node = init_redir_node(ft_substr(str, i, 2));
+			add_node(node, init_exp_node(str, j, i));
+			add_node(node, init_exp_node(str, i + 2, ft_strlen(str)));
+		}
+		else
+		{
+			*node = init_redir_node(ft_substr(str, i, 1));
+			add_node(node, init_exp_node(str, j, i));
+			add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
+		}
 		if ((*node)->left != NULL)
 			tokenizer((*node)->left->data.expression, &(*node)->left);
 		if ((*node)->right != NULL)
@@ -57,8 +64,6 @@ int split_log_operator(char *str, t_tree **node, int i, int j)
 			*node = init_log_op_node(str[i]);
 			add_node(node, init_exp_node(str, j, i));
 			add_node(node, init_exp_node(str, i + 2, ft_strlen(str)));
-			// printf("from spl_op: left: %s\n", (*node)->left->data.expression);
-			// printf("from spl_op: right: %s\n", (*node)->right->data.expression);
 			if ((*node)->left != NULL)
 				tokenizer((*node)->left->data.expression, &(*node)->left);
 			if ((*node)->right != NULL)
@@ -76,8 +81,6 @@ int split_operator(char *str, t_tree **node, int i, int j)
 		*node = init_op_node(str[i]);
 		add_node(node, init_exp_node(str, j, i));
 		add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
-		// printf("from op: left: %s\n", (*node)->left->data.expression);
-		// printf("from op: right: %s\n", (*node)->right->data.expression);
 		if ((*node)->left != NULL)
 			tokenizer((*node)->left->data.expression, &(*node)->left);
 		if ((*node)->right != NULL)

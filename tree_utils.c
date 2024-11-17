@@ -46,6 +46,11 @@ void print_data(t_tree *tree)
 		printf("%c: %c\n", tree->pos, tree->data.operator);
 		// printf("data: %c			type: OPT pos: %c lvl: %d\n", tree->data.operator, tree->pos, tree->level);
 	}
+	else if (tree->type == NODE_REDIRECTION)
+	{
+		printf("%c: %s\n", tree->pos, tree->data.redirection);
+		// printf("data: %s			type: REDIR pos: %c lvl: %d\n", tree->data.redirection, tree->pos, tree->level);
+	}
 	else if (tree->type == NODE_COMMAND)
 	{
 		printf("%c: %s\n", tree->pos, tree->data.command);

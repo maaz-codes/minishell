@@ -70,9 +70,10 @@ char	**tokenization(char *str);
 t_tree *tokenizer(char *str, t_tree **node);
 
 // tokens.c
+t_tree *init_exp_node(char *str, int start, int end);
 t_tree *init_log_op_node(char spl_op);
 t_tree *init_op_node(char op);
-t_tree *init_exp_node(char *str, int start, int end);
+t_tree *init_redir_node(char *redir);
 t_tree *init_cmd_node(char *str, int end);
 t_tree *init_args_node(char *str, int start, int end, char *cmd);
 
