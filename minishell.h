@@ -27,7 +27,8 @@ typedef enum S_TYPES
     NODE_ARGUMENT,
     NODE_REDIRECTION,
     NODE_EXPRESSION,
-    NODE_LOG_OPERATOR
+    NODE_LOG_OPERATOR,
+    NODE_FILE
 } t_types;
 
 typedef union s_data
@@ -36,6 +37,7 @@ typedef union s_data
     char *log_operator;
     char operator;   
     char *redirection;
+    char *file;
     char *command;      
     char **argument;    
     // char *env_expansion;
@@ -74,6 +76,7 @@ t_tree *init_exp_node(char *str, int start, int end);
 t_tree *init_log_op_node(char spl_op);
 t_tree *init_op_node(char op);
 t_tree *init_redir_node(char *redir);
+t_tree *init_file_node(char *str, int start, int end);
 t_tree *init_cmd_node(char *str, int end);
 t_tree *init_args_node(char *str, int start, int end, char *cmd);
 
@@ -98,6 +101,7 @@ int count_args(char *str);
 int split_log_operator(char *str, t_tree **node, int i, int j);
 int split_operator(char *str, t_tree **node, int i, int j);
 int split_redirection(char *str, t_tree **node, int i, int j);
+int split_file(char *str, int *i, t_tree **node);
 int split_cmd(char *str, int *i, t_tree **node);
 char **split_args(char *str, char *cmd);
 

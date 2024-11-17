@@ -39,13 +39,13 @@ int split_redirection(char *str, t_tree **node, int i, int j)
 		{
 			*node = init_redir_node(ft_substr(str, i, 2));
 			add_node(node, init_exp_node(str, j, i));
-			add_node(node, init_exp_node(str, i + 2, ft_strlen(str)));
+			add_node(node, init_file_node(str, i + 2, ft_strlen(str)));
 		}
 		else
 		{
 			*node = init_redir_node(ft_substr(str, i, 1));
 			add_node(node, init_exp_node(str, j, i));
-			add_node(node, init_exp_node(str, i + 1, ft_strlen(str)));
+			add_node(node, init_file_node(str, i + 1, ft_strlen(str)));
 		}
 		if ((*node)->left != NULL)
 			tokenizer((*node)->left->data.expression, &(*node)->left);
@@ -85,6 +85,23 @@ int split_operator(char *str, t_tree **node, int i, int j)
 			tokenizer((*node)->left->data.expression, &(*node)->left);
 		if ((*node)->right != NULL)
 			tokenizer((*node)->right->data.expression, &(*node)->right);
+		return (1);
+	}
+	return (0);
+}
+
+int split_file(char *str, int *i, t_tree **node)
+{
+	if (str[*i] == ' ' || str[*i] == '\0')
+	{
+		// replacing the pointer, not over-writing it // free it later
+		*node = init_file_node(str, 0, *i);
+		if (str[*i] != '\0')
+		{
+			add_node(node, init_exp_node(str, *i + 1, ft_strlen(str)));
+			if ((*node)->left != NULL)
+				tokenizer((*node)->left->data.expression, &(*node)->left);
+		}
 		return (1);
 	}
 	return (0);

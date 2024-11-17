@@ -23,6 +23,8 @@ static int splitter(char *str, t_tree **node, int i, int j)
 		return (1);
 	else if (!operator_ahead(str, i) && !spl_operator_ahead(str, i) && split_redirection(str, node, i, j) )
 		return (1);
+	else if (!redirection_ahead(str, i) && !operator_ahead(str, i) && !spl_operator_ahead(str, i) && (*node)->type == NODE_FILE && split_file(str, &i, node))
+		return (1);
 	else if (!redirection_ahead(str, i) && !operator_ahead(str, i) && !spl_operator_ahead(str, i) && split_cmd(str, &i, node))
 		return (1);
 	return (0);

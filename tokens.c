@@ -12,6 +12,8 @@ t_tree *init_log_op_node(char spl_op)
 		node->data.log_operator = ft_strdup("&&");
 	else if (spl_op == '|')
 		node->data.log_operator = ft_strdup("||");
+	if (node->data.log_operator == NULL)
+		print_exit(ERR_MALLOC);
 	return (node);
 }
 
@@ -47,6 +49,28 @@ t_tree *init_redir_node(char *redir)
 	return (node);
 }
 
+t_tree *init_file_node(char *str, int start, int end)
+{
+    t_tree *node;
+	char *striped_str;
+
+	node = malloc(sizeof(t_tree));
+	if (!node)
+		print_exit(ERR_MALLOC);
+	node->type = NODE_FILE;
+	striped_str = ft_substr(str, start, end - start);
+	if (!striped_str)
+		print_exit(ERR_MALLOC);
+	strip_spaces(&striped_str);
+	node->data.file = striped_str;
+	if (!node->data.file)
+		print_exit(ERR_MALLOC);
+	node->left = NULL;
+	node->right = NULL;
+	node->level = 1;
+	node->pos = 'm';
+	return (node);
+}
 
 t_tree *init_exp_node(char *str, int start, int end)
 {
@@ -58,6 +82,8 @@ t_tree *init_exp_node(char *str, int start, int end)
 		print_exit(ERR_MALLOC);
 	node->type = NODE_EXPRESSION;
 	striped_str = ft_substr(str, start, end - start);
+	if (!striped_str)
+		print_exit(ERR_MALLOC);
 	strip_spaces(&striped_str);
 	node->data.expression = striped_str;
 	if (!node->data.expression)
@@ -97,6 +123,8 @@ t_tree *init_args_node(char *str, int start, int end, char *cmd)
 		print_exit(ERR_MALLOC);
     node->type = NODE_ARGUMENT;
 	striped_str = ft_substr(str, start, end);
+	if (!striped_str)
+		print_exit(ERR_MALLOC);
 	strip_spaces(&striped_str);
 	node->data.argument = split_args(striped_str, cmd);
 	if (!node->data.argument)
