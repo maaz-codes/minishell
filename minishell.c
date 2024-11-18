@@ -3,12 +3,13 @@
 #include <readline/readline.h>
 #include <stdio.h>
 
-int	main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **env)
 {
+	char *input;
+	t_tree *tree;
+
 	while (1)
 	{
-		char *input;
-		char **args;
 		input = readline("minishell> ");
 		if (input)
 		{
@@ -17,7 +18,10 @@ int	main(int ac, char **av, char **envp)
 				printf("Exiting now.....");
 				exit(EXIT_SUCCESS);
 			}
-			args = tokenization(input);
+			tree = tokenization(input);
+			if (tree)
+				execution(tree, env);
+
 			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}
 	}

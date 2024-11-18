@@ -1,9 +1,12 @@
 #include "minishell.h"
 
-void	print_error(int code)
+int	print_error(int code)
 {
 	if (code == ERR_FORMAT)
 		printf("Error: Wrong format\n");
+	if (code == ERR_FORK)
+		printf("Error: Fork failed\n");
+	return (0);
 }
 
 void print_exit(int code)
