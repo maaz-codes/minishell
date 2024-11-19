@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/19 19:17:02 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/19 19:45:12 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ t_tree				*init_file_node(char *str, int start, int end);
 t_tree				*init_cmd_node(char *str, int end);
 t_tree				*init_args_node(char *str, int start, int end, char *cmd);
 char 				*exp_after_redir_node(char *str, int j, int i);
+char 				*extract_file_name(char *str, int start, int end);
 
 // qoutes.c
 int					inside_qoutes(int *qoutes, char c, char *str, int *i);

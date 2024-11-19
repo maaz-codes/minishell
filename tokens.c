@@ -183,3 +183,29 @@ char *exp_after_redir_node(char *str, int start, int  end)
 		print_exit(ERR_MALLOC);
 	return (exp);
 }
+
+char *extract_file_name(char *str, int start, int end)
+{
+	int qoutes;
+	int store_start;
+	char *file_name;
+
+	qoutes = 0;
+	store_start = start;
+	while (str[start] == ' ')
+		start++;
+	while (start < ft_strlen(str))
+	{
+		if (str[start] == '"' || str[start] == '\'')
+			inside_qoutes(&qoutes, symbol_checker(str[start]), str, &start);
+		if (str[start] == '"' || str[start] == '\'')
+			continue ;
+		if (str[start] == ' ')
+			break ;
+		start++;
+	}
+	file_name = ft_substr(str, store_start, start - store_start);
+	if (!file_name)
+		print_exit(ERR_MALLOC);
+	return (file_name);
+}
