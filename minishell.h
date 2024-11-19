@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <limits.h>
+#include <signal.h>
+#include <termios.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -12,6 +14,8 @@ typedef struct pwd{
     char *pwd_old;
     struct pwd *next;
 }   t_path;
+
+
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char *s, char c);
@@ -25,6 +29,7 @@ void	ft_bzero(void *s, size_t n);
 void	ft_lstclear(t_path **lst);
 void	ft_lstdelone(t_path **lst);
 int     ft_atoi(char *s);
+void    *ft_memset(void *b, int c, size_t len);
 
 
 void    free_double(char **s);
@@ -42,5 +47,7 @@ void    exit_cmd(t_path **paths, char **str);
 void    env_cmd(char **str, char **env);
 void    cd_cmd(char **str, t_path **paths, char **env);
 char    *new_path(char *cwd, int id);
+
+// void    rl_replace_line(const char *text, int clear_undo);
 
 
