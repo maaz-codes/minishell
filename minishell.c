@@ -60,60 +60,6 @@ t_path	*int_cd(void)
 	return (node_new);
 }
 
-
-void handle_sigint(int sig)
-{
-    if (sig == SIGINT)
-	{
-		write(STDERR_FILENO, "\n", 1);
-		rl_on_new_line();
-        rl_replace_line("",0);
-		rl_redisplay();
-	}
-}
-
-
-void signal_checker(int sig)
-{   
-    struct sigaction sa;
-    sigset_t set;
-
-    sigemptyset(&set);
-    sigaddset(&set, SIGQUIT);
-
-    
-    sa.sa_handler = &handle_sigint;
-    sa.sa_flags = set;
-    sigemptyset(&sa.sa_mask);
-    if(sigaction(sig, &sa, NULL) == -1)
-    {
-        perror("sigaction error\n");
-        return ;
-    }
-}
-
-void handle_sigquit(void)
-{
-    struct sigaction set;
-    ft_memset(&set,0,sizeof(set));
-    set.sa_handler = SIG_IGN;
-    sigaction(SIGQUIT,&set,NULL);
-}
-
-void sig_newline(int signal)
-{
-    (void)signal;
-    rl_on_new_line();
-}
-void set_signal_newline(void)
-{
-    struct sigaction set;
-
-    ft_memset(&set,0,sizeof(set));
-    set.sa_handler = &sig_newline;
-    sigaction(SIGQUIT, &set, NULL);
-
-}
 int main(int ac, char **av, char **env)
 {   
     t_path *paths;
@@ -126,9 +72,9 @@ int main(int ac, char **av, char **env)
         char **res;
 
 
-        handle_sigquit();
+        set_signals();
         input = readline("minishell> ");
-        set_signal_newline();
+        set_signals_after();
         if(input) 
         {   
             res = tokenization_char(input);

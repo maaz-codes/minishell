@@ -48,6 +48,7 @@ void    env_cmd(char **str, char **env);
 void    cd_cmd(char **str, t_path **paths, char **env);
 char    *new_path(char *cwd, int id);
 
-// void    rl_replace_line(const char *text, int clear_undo);
+void    set_signals(void);
+void    set_signals_after(void);
 
 
