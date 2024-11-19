@@ -113,6 +113,24 @@ t_tree *init_cmd_node(char *str, int end)
 	return (node);
 }
 
+// t_tree *init_node(char *str, int type)
+// {
+// 	t_tree *node;
+
+//     node = malloc(sizeof(t_tree));
+// 	if (!node)
+// 		print_exit(ERR_MALLOC);
+//     node->type = type;
+// 	node->data.command = remove_qoutes(str);
+// 	if (!node->data.command)
+// 		print_exit(ERR_MALLOC);
+// 	node->left = NULL;
+// 	node->right = NULL;
+// 	node->level = 1;
+// 	node->pos = 'm';
+// 	return (node);
+// }
+
 t_tree *init_args_node(char *str, int start, int end, char *cmd)
 {
 	t_tree *node;
@@ -134,4 +152,34 @@ t_tree *init_args_node(char *str, int start, int end, char *cmd)
 	node->level = 1;
 	node->pos = 'm';
 	return (node);
+}
+
+
+char *exp_after_redir_node(char *str, int start, int  end)
+{
+	char *exp;
+	int first_half;
+	int second_half;
+	int qoutes;
+
+	first_half = start;
+	second_half = end;
+	qoutes = 0;
+	end++;
+	while (str[end] == ' ')
+		end++;
+	while (end < ft_strlen(str))
+	{
+		if (str[end] == '"' || str[end] == '\'')
+			inside_qoutes(&qoutes, symbol_checker(str[end]), str, &end);
+		if (str[end] == '"' || str[end] == '\'')
+			continue ;
+		if (str[end] == ' ')
+			break ;
+		end++;
+	}
+	exp = ft_strjoin(ft_substr(str, first_half, second_half), ft_substr(str, end + 1, ft_strlen(str)));
+	if (!exp)
+		print_exit(ERR_MALLOC);
+	return (exp);
 }
