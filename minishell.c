@@ -60,19 +60,11 @@ t_path	*int_cd(void)
 	return (node_new);
 }
 
-void signal_handler(int sig)
-{
-    printf("exiting using signal: %d\n",sig);
-    exit(EXIT_SUCCESS);
-}
-
 int main(int ac, char **av, char **env)
 {   
     t_path *paths;
-    // struct termios old_termios;
 
     paths = int_cd();
-    // signal(SIGINT, signal_handler);
     while(1)
     {
         char *input;
@@ -81,6 +73,12 @@ int main(int ac, char **av, char **env)
         set_signals();
         input = readline("minishell> ");
         set_signals_after();
+        if(!input)
+        {
+            printf("pass here\n");
+            exit(0);
+        }
+        // printf("%s\n", input);
         if(input) 
         {   
             res = tokenization_char(input);
@@ -89,6 +87,7 @@ int main(int ac, char **av, char **env)
             in_buit_cmd(res,&paths,env);
             free_double(res);
         }
+        // reset_terminal(&old_termios);
     }
     return 0;
 }

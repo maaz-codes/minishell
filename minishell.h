@@ -51,4 +51,3 @@ char    *new_path(char *cwd, int id);
 void    set_signals(void);
 void    set_signals_after(void);
 
-

@@ -92,11 +92,16 @@ char *switch_cd(t_path **paths)
 {   
     t_path *temp;
     char *res;
+    char *pwd;
+    char *pwd_old; 
+
+    pwd = ft_strdup(ft_lstlast(*paths)->pwd);
+    pwd_old = ft_strdup(ft_lstlast(*paths)->pwd_old);
     temp = malloc(sizeof(t_path));
     if(!temp)
         return NULL;
-    temp->pwd = ft_lstlast(*paths)->pwd_old;
-    temp->pwd_old = ft_lstlast(*paths)->pwd;
+    temp->pwd = pwd_old;
+    temp->pwd_old = pwd;
     temp->next = NULL;
     ft_lstadd_back(paths,temp);
     res = ft_strdup(temp->pwd);
