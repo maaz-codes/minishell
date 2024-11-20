@@ -19,8 +19,8 @@ int	main(int ac, char **av, char **env)
 				exit(EXIT_SUCCESS);
 			}
 			tree = tokenization(input);
-			// if (tree)
-			// 	execution(tree, env);
+			if (tree)
+				execution(tree, env);
 
 			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}

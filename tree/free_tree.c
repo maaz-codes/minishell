@@ -6,11 +6,11 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:06:11 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/18 16:45:13 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:18:12 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void free_array(char **array)
 {

@@ -6,11 +6,11 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:27:26 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/18 16:07:45 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/20 17:17:57 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int check_log_op_node(t_tree *node)
 {

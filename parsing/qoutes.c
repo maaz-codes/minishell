@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int inside_qoutes(int *qoutes, char c, char *str, int *i)
 {

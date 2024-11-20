@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int count_array(char **array)
 {
@@ -44,7 +44,7 @@ void print_data(t_tree *tree)
 	else if (tree->type == NODE_OPERATOR)
 	{
 		printf("%c: %c\n", tree->pos, tree->data.operator);
-		// printf("data: %c			type: OPT pos: %c lvl: %d\n", tree->data.operator, tree->pos, tree->level);
+		// printf("data: %c			type: OPT{%d} pos: %c lvl: %d\n", tree->data.operator, tree->type, tree->pos, tree->level);
 	}
 	else if (tree->type == NODE_REDIRECTION)
 	{

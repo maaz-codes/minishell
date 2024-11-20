@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void strip_spaces(char **str)
 {

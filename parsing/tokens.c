@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 t_tree *init_log_op_node(char spl_op)
 {
