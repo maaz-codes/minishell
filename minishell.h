@@ -8,12 +8,20 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+typedef struct env{
+    
+    char *env;
+    struct env *next;
+}   t_env;
+
 typedef struct pwd{
 
     char *pwd;
     char *pwd_old;
     struct pwd *next;
+    t_env *env_struct;
 }   t_path;
+
 
 
 
@@ -44,7 +52,10 @@ int     filler_last(char **res,char *s,int position,int len);
 void    echo_cmd(char **str);
 void    pwd_cmd(char **str);
 void    exit_cmd(t_path **paths, char **str);
-void    env_cmd(char **str, char **env);
+
+void    env_cmd(char **str, t_path **paths);
+t_env   *int_env(char **env);
+
 void    cd_cmd(char **str, t_path **paths, char **env);
 char    *new_path(char *cwd, int id);
 
