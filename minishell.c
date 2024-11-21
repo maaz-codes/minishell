@@ -77,7 +77,7 @@ int main(int ac, char **av, char **env)
         set_signals_after();
         if(!input)
         {
-            printf("pass here\n");
+            printf("\nexiting now...\n");
             exit(0);
         }
         if(input) 

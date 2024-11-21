@@ -41,17 +41,27 @@ t_env *int_env(char **env)
 }
 void env_cmd(char **str, t_path **paths)
 {   
-    t_path *new_node;
-
-    new_node = *paths;
+    t_env *new_node;
+    new_node = (*paths)->env_struct;
+    int checker = 0;
     if(str[1] != NULL)
     {
         printf("env: too many arguments\n");
         return ;
     }
-    while(new_node->env_struct)
+    while(new_node)
     {
-        printf("%s\n",new_node->env_struct->env);
-        new_node->env_struct = new_node->env_struct->next;
+        printf("%s\n",new_node->env);
+        if(!ft_strncmp(new_node->env,"PWD=",4))
+        {   
+            checker = 1;
+        }
+        new_node = new_node->next;
     }
+    if(!checker)
+    {
+        printf("no pwd\n");
+    }
+    else
+        printf("pwd preset\n");
 }

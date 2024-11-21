@@ -1,14 +1,5 @@
 #include "../minishell.h"
 
-t_path	*ft_lstlast(t_path *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
 char *new_path(char *cwd, int id)
 {
     int len;
@@ -37,47 +28,62 @@ char *new_path(char *cwd, int id)
     return new_path;
 }
 
-char *get_home(char **env)
+char *get_home(t_path **paths)
 {
-    int i;
     char **holder;
     char *res;
 
-    i = 0;
-    while(env[i])
+    while((*paths)->env_struct)
     {
-        if(!ft_strncmp(env[i],"HOME=",5))
-        {
-            holder = ft_split(env[i],'=');
-            res = new_path(holder[1], 0);
+        if(!ft_strncmp((*paths)->env_struct->env,"HOME=",5))
+        {   
+            holder = ft_split((*paths)->env_struct->env, '=');
+            res = new_path(holder[1],0);
             free_double(holder);
             if(chdir(res) == -1)
                 (free(res),printf("error home\n"));
-            printf("new path: %s\n",res);
-            return(res);
+            return (res);
         }
-        i++;
+        (*paths)->env_struct = (*paths)->env_struct->next;
     }
+    printf("minishell: cd: HOME not set\n");
     return (NULL);
 }
 
-void	ft_lstadd_back(t_path **lst, t_path *new)
-{
-	if (!lst || !new)
-		return ;
-	if (*lst)
-		ft_lstlast(*lst)->next = new;
-	else
-		*lst = new;
-}
 
+void replace_env(t_path **paths, t_path *new)
+{   
+    t_env *tmp;
+    tmp = (*paths)->env_struct;
+    int checker = 0;
+    int i = 0;
+    printf("enter in replace\n");
+    while(tmp)
+    {   
+        if(!ft_strncmp(tmp->env,"PWD=",4))
+        {   
+            printf("enter here\n");
+            free(tmp->env);
+            tmp->env = ft_strdup(new->pwd);
+            checker = 1;
+            printf("new_pwd: %s\n",tmp->env);
+            // return ;
+        }
+        printf("i: %d %s\n",i,tmp->env);
+        i++;
+        tmp = tmp->next;
+    }
+    if(!checker)
+        printf("no PWD\n");
+    return ;
+}
 void ft_append(t_path **paths, char *res)
 {   
     t_path *temp;
     char *old_path;
     char *new_path;
 
-    old_path = ft_strdup(ft_lstlast(*paths)->pwd);
+    old_path = ft_strdup(ft_lstlast_path(*paths)->pwd);
     new_path = ft_strdup(res);
     temp = malloc(sizeof(t_path));
     if(!temp)
@@ -85,7 +91,8 @@ void ft_append(t_path **paths, char *res)
     temp->pwd = new_path;
     temp->pwd_old = old_path;
     temp->next = NULL;
-    ft_lstadd_back(paths,temp);
+    replace_env(paths,temp);
+    ft_lstadd_back_path(paths,temp);
 }
 
 char *switch_cd(t_path **paths)
@@ -95,15 +102,15 @@ char *switch_cd(t_path **paths)
     char *pwd;
     char *pwd_old; 
 
-    pwd = ft_strdup(ft_lstlast(*paths)->pwd);
-    pwd_old = ft_strdup(ft_lstlast(*paths)->pwd_old);
+    pwd = ft_strdup(ft_lstlast_path(*paths)->pwd);
+    pwd_old = ft_strdup(ft_lstlast_path(*paths)->pwd_old);
     temp = malloc(sizeof(t_path));
     if(!temp)
         return NULL;
     temp->pwd = pwd_old;
     temp->pwd_old = pwd;
     temp->next = NULL;
-    ft_lstadd_back(paths,temp);
+    ft_lstadd_back_path(paths,temp);
     res = ft_strdup(temp->pwd);
     if(chdir(res) == -1)
     {
@@ -124,9 +131,9 @@ void cd_cmd(char **str, t_path **paths, char **env)
     if(getcwd(cwd,sizeof(cwd)) == NULL)
         printf("error");
     if(!ft_strncmp(str[0],"cd",3) && str[1] == NULL)
-        res = get_home(env);
+        res = get_home(paths);
     else if(!ft_strncmp(str[0],"cd",3) && (!ft_strncmp(str[1],"~",2)))
-        res = get_home(env);
+        res = get_home(paths);
     else if(str[1] != NULL && (!ft_strncmp(str[1],"..",3)))
         res = new_path(cwd,1); 
     else if(str[1] != NULL && (!ft_strncmp(str[1],"-",2)))

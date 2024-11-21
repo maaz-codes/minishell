@@ -58,6 +58,8 @@ t_env   *int_env(char **env);
 
 void    cd_cmd(char **str, t_path **paths, char **env);
 char    *new_path(char *cwd, int id);
+t_path	*ft_lstlast_path(t_path *lst);
+void	ft_lstadd_back_path(t_path **lst, t_path *new);
 
 void    set_signals(void);
 void    set_signals_after(void);
