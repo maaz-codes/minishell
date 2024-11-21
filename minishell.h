@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/19 19:45:12 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/21 16:40:34 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
+
+// general
+#define TRUE 1
+#define FALSE 0
 
 // error_codes
 typedef enum s_err_codes
 {
 	ERR_FORMAT = 1001,
 	ERR_MALLOC,
-	ERR_FORK
+	ERR_FORK,
+	ERR_EXECVE,
+	ERR_FILE
 } t_err_codes;
 
+typedef enum s_redir 
+{
+	REDIR_IN = 2001,
+	REDIR_OUT,
+	REDIR_APPEND,
+	HERE_DOC
+} t_redir;
 
-// general
-#define TRUE 1
-#define FALSE 0
-
-// Node_types
-// # define NODE_COMMAND 		4201
-// # define NODE_OPERATOR 		4202
-// # define NODE_ARGUMENT 		4203
-// # define NODE_REDIRECTION 	4204
-// # define NODE_EXPRESSION 	4205
-
-typedef enum S_TYPES
+typedef enum s_node_types
 {
 	NODE_COMMAND = 4201,
 	NODE_OPERATOR,
@@ -46,7 +49,7 @@ typedef enum S_TYPES
 	NODE_EXPRESSION,
 	NODE_LOG_OPERATOR,
 	NODE_FILE
-}					t_types;
+}					t_node_types;
 
 typedef union s_data
 {
@@ -62,7 +65,7 @@ typedef union s_data
 
 typedef struct s_tree
 {
-	t_types			type;
+	t_node_types	type;
 	char			pos;
 	int				level;
 	t_data			data;
@@ -78,6 +81,7 @@ char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strdup(const char *s1);
 char				*ft_strjoin(char const *s1, char const *s2);
+char				**ft_split(const char *s, char c);
 
 // tree_utils.c
 void				add_node(t_tree **tree, t_tree *node);
@@ -136,8 +140,12 @@ int					split_file(char *str, int *i, t_tree **node);
 int					split_cmd(char *str, int *i, t_tree **node);
 char				**split_args(char *str, char *cmd);
 
-// execution.c
-void 				execution(t_tree *tree, char **env);
+// gallows.c
+void gallows(t_tree *tree, char **env);
+void	execute(char **cmd, char *env[]);
+
+// gallows_utils.c
+char	*ft_cmd_exits(char **env, char *temp_cmd);
 
 // main.c
 int					qoutes_checker(char *str);

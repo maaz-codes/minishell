@@ -60,7 +60,7 @@ void print_data(t_tree *tree)
 	{
 		printf("%c: ", tree->pos);
 		i = 0;
-		while(i < count_array(tree->data.argument))
+		while(tree->data.argument[i])
 		{
 			printf("%s, ", tree->data.argument[i]);
 			i++;

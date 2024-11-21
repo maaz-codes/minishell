@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.ae>            +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 18:47:36 by maakhan           #+#    #+#             */
-/*   Updated: 2024/07/02 16:11:03 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/21 14:01:27 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
 static char	**malloc_free(char **array, int position)
 {
@@ -57,7 +57,7 @@ static char	*ft_get_word(const char *s, int start, int end)
 	return (word);
 }
 
-char	**get_array(const char *s, char c, size_t i, int j)
+static char	**get_array(const char *s, char c, size_t i, int j)
 {
 	char	**ptr;
 	int		k;

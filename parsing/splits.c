@@ -114,7 +114,7 @@ int split_cmd(char *str, int *i, t_tree **node)
 	{
 		// replacing the pointer, not over-writing it // free it later
 		*node = init_cmd_node(str, *i);
-		if (str[*i] != '\0')
+		// if (str[*i] != '\0')
 			add_node(node, init_args_node(str, *i + 1, ft_strlen(str), (*node)->data.command));
 		return (1);
 	}
@@ -137,6 +137,11 @@ char **split_args(char *str, char *cmd)
 	if (!args)
 		print_exit(ERR_MALLOC);
 	args[k++] = remove_qoutes(ft_strdup(cmd));
+	if (!(*str))
+	{
+		args[k] = NULL;
+		return (args);
+	}
     while (i <= ft_strlen(str))
 	{
 		if (str[i] == '"' || str[i] == '\'')

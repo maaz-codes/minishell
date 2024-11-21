@@ -25,8 +25,6 @@ static int splitter(char *str, t_tree **node, int i, int j)
 		return (1);
 	else if (!redirection_ahead(str, i) && !operator_ahead(str, i) && !spl_operator_ahead(str, i) && split_cmd(str, &i, node))
 		return (1);
-	// else if (!redirection_ahead(str, i) && !operator_ahead(str, i) && !spl_operator_ahead(str, i) && (*node)->type == NODE_FILE && split_file(str, &i, node))
-	// 	return (1);
 	return (0);
 }
 
@@ -95,6 +93,9 @@ t_tree *tokenization(char *str)
 {
 	t_tree *tree;
 
+	strip_spaces(&str);
+	if (*str == '\0')
+		return (NULL);
 	if (!qoutes_checker(str))
 		print_error(ERR_FORMAT);
 	else
@@ -106,7 +107,7 @@ t_tree *tokenization(char *str)
 		else
 		{
 			tree->level = 0;
-			print_tree(tree);
+			// print_tree(tree);
 		}
 		// if (!syntax_error(tree))
 		// {

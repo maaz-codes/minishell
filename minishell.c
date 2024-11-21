@@ -15,12 +15,21 @@ int	main(int ac, char **av, char **env)
 		{
 			if (!ft_strncmp(input, "exit", 5) || !ft_strncmp(input, "\"exit\"", 7))
 			{
-				printf("Exiting now.....");
+				printf("Exiting now.....\n");
 				exit(EXIT_SUCCESS);
 			}
 			tree = tokenization(input);
 			if (tree)
-				execution(tree, env);
+			{
+				pid_t pid = fork();
+				if (pid == 0)
+				{
+					gallows(tree, env);
+					printf("After gallows...\n");
+					exit(0);
+				}
+				wait(NULL);
+			}
 
 			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:06:11 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/20 17:18:12 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/21 14:02:57 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void free_array(char **array)
 		free(array[i]);
 		i++;
 	}
+	free(array);
 }
 
 void free_node(t_tree *node)
