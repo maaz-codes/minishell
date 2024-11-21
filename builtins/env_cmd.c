@@ -44,7 +44,6 @@ t_env *int_env(char **env)
 void env_cmd(char **str, t_path **paths)
 {   
     t_env *new_node;
-
     new_node = (*paths)->env_struct;
     if(str[1] != NULL)
     {

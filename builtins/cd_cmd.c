@@ -85,6 +85,11 @@ char *switch_cd(t_path **paths)
     t_path *temp;
     char *res;
     
+    if(!check_old_pwd(paths))
+    {
+        printf("OLDPWD is not set\n");
+        return (NULL);
+    }
     temp = malloc(sizeof(t_path));
     if(!temp)
         return NULL;
@@ -93,11 +98,6 @@ char *switch_cd(t_path **paths)
     temp->next = NULL;
     (add_NEWPWD(paths,temp),add_OLDPWD(paths,temp));
     ft_lstadd_back_path(paths,temp);
-    if(!check_old_pwd(paths))
-    {
-        printf("OLDPWD is not set\n");
-        return (NULL);
-    }
     res = ft_strdup(temp->pwd);
     if(chdir(res) == -1)
     {
