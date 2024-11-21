@@ -17,5 +17,9 @@ void print_exit(int code)
 		printf("Error: Malloc Failed!\n");
 	else if (code == ERR_FILE)
 		printf("Error: File Failed!\n");
+	else if (code == ERR_FORK)
+		printf("Error: Fork() failed\n");
+	else if (code == ERR_PIPE)
+		printf("Error: Pipe() failed\n");
     exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/21 17:51:01 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/21 18:37:13 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,27 @@ int handle_here_doc(char *delimiter)
     return (0);
 }
 
-void handle_pipe(t_tree *tree, char **env)
+void handle_pipe(t_tree *tree, char **env, int read_from, int write_to)
 {
-    printf("duped STDin & STDout to reading & writing end of pipe\n");
-    gallows(tree->left, env);
-    gallows(tree->right, env);
+    // duping STDin & STDout to reading & writing end of pipe
+    pid_t pid;
+    int pipefd[2];
+
+    if (pipe(pipefd)== -1)
+        print_exit(ERR_PIPE);
+    pid = fork();
+    if (pid == -1)
+        print_exit(ERR_FORK);
+    else if (pid == 0) // left-side
+        gallows(tree->left, env, pipefd[0], pipefd[1]);
+    pid = fork();
+    if (pid == -1)
+        print_exit(ERR_FORK);
+    else if (pid == 0) // right-side
+        gallows(tree->right, env, read_from, write_to);
+    wait(NULL);
+    wait(NULL);
+    exit (0);
 }
 void handle_redir(t_tree *tree, char **env)
 {
@@ -87,7 +103,7 @@ void handle_redir(t_tree *tree, char **env)
         handle_append_redir(tree->right->data.file);
     else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
         handle_here_doc(tree->right->data.file);
-    gallows(tree->left, env);
+    gallows(tree->left, env, );
 }
 
 void handle_cmd(t_tree *tree, char **env)
@@ -95,11 +111,13 @@ void handle_cmd(t_tree *tree, char **env)
     execute(tree->left->data.argument, env);   
 }
 
-void gallows(t_tree *tree, char **env)
+void gallows(t_tree *tree, char **env, int read_from, int write_to)
 {
     // printf("--EXECUTION--\n");
+    dup2(read_from, 0);
+    dup2(write_to, 1);
     if (tree->type == NODE_OPERATOR) // { | }
-        handle_pipe(tree, env);
+        handle_pipe(tree, env, read_from, write_to);
     else if (tree->type == NODE_REDIRECTION) // { > < >> << }
         handle_redir(tree, env);
     else if (tree->type == NODE_COMMAND)

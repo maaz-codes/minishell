@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/21 16:40:34 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/21 18:31:18 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,9 @@ typedef enum s_err_codes
 	ERR_MALLOC,
 	ERR_FORK,
 	ERR_EXECVE,
-	ERR_FILE
+	ERR_FILE,
+	ERR_PIPE
 } t_err_codes;
-
-typedef enum s_redir 
-{
-	REDIR_IN = 2001,
-	REDIR_OUT,
-	REDIR_APPEND,
-	HERE_DOC
-} t_redir;
 
 typedef enum s_node_types
 {
@@ -141,8 +134,8 @@ int					split_cmd(char *str, int *i, t_tree **node);
 char				**split_args(char *str, char *cmd);
 
 // gallows.c
-void gallows(t_tree *tree, char **env);
-void	execute(char **cmd, char *env[]);
+void 				gallows(t_tree *tree, char **env, int read_from, int write_to);
+void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c
 char	*ft_cmd_exits(char **env, char *temp_cmd);

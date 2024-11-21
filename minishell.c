@@ -24,7 +24,7 @@ int	main(int ac, char **av, char **env)
 				pid_t pid = fork();
 				if (pid == 0)
 				{
-					gallows(tree, env);
+					gallows(tree, env, 0, 1);
 					printf("After gallows...\n");
 					exit(0);
 				}
