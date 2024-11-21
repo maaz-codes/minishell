@@ -22,6 +22,7 @@ static void appending_env(t_env **env, char *res)
     else
         *env = new_node;   
 }
+
 t_env *int_env(char **env)
 {
     t_env *node_new;
@@ -39,11 +40,12 @@ t_env *int_env(char **env)
         appending_env(&node_new,ft_strdup(env[i++]));
     return(node_new);
 }
+
 void env_cmd(char **str, t_path **paths)
 {   
     t_env *new_node;
+
     new_node = (*paths)->env_struct;
-    int checker = 0;
     if(str[1] != NULL)
     {
         printf("env: too many arguments\n");
@@ -52,16 +54,6 @@ void env_cmd(char **str, t_path **paths)
     while(new_node)
     {
         printf("%s\n",new_node->env);
-        if(!ft_strncmp(new_node->env,"PWD=",4))
-        {   
-            checker = 1;
-        }
         new_node = new_node->next;
     }
-    if(!checker)
-    {
-        printf("no pwd\n");
-    }
-    else
-        printf("pwd preset\n");
 }

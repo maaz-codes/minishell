@@ -50,33 +50,6 @@ char *get_home(t_path **paths)
     return (NULL);
 }
 
-
-void replace_env(t_path **paths, t_path *new)
-{   
-    t_env *tmp;
-    tmp = (*paths)->env_struct;
-    int checker = 0;
-    int i = 0;
-    printf("enter in replace\n");
-    while(tmp)
-    {   
-        if(!ft_strncmp(tmp->env,"PWD=",4))
-        {   
-            printf("enter here\n");
-            free(tmp->env);
-            tmp->env = ft_strdup(new->pwd);
-            checker = 1;
-            printf("new_pwd: %s\n",tmp->env);
-            // return ;
-        }
-        printf("i: %d %s\n",i,tmp->env);
-        i++;
-        tmp = tmp->next;
-    }
-    if(!checker)
-        printf("no PWD\n");
-    return ;
-}
 void ft_append(t_path **paths, char *res)
 {   
     t_path *temp;
@@ -91,26 +64,40 @@ void ft_append(t_path **paths, char *res)
     temp->pwd = new_path;
     temp->pwd_old = old_path;
     temp->next = NULL;
-    replace_env(paths,temp);
+    (add_NEWPWD(paths,temp),add_OLDPWD(paths,temp));
     ft_lstadd_back_path(paths,temp);
 }
+int check_old_pwd(t_path **paths)
+{
+    t_env *tmp;
 
+    tmp = (*paths)->env_struct;
+    while(tmp)
+    {
+        if(!ft_strncmp(tmp->env,"OLDPWD=",7))
+            return (1);
+        tmp = tmp->next;
+    }
+    return (0);
+}
 char *switch_cd(t_path **paths)
 {   
     t_path *temp;
     char *res;
-    char *pwd;
-    char *pwd_old; 
-
-    pwd = ft_strdup(ft_lstlast_path(*paths)->pwd);
-    pwd_old = ft_strdup(ft_lstlast_path(*paths)->pwd_old);
+    
     temp = malloc(sizeof(t_path));
     if(!temp)
         return NULL;
-    temp->pwd = pwd_old;
-    temp->pwd_old = pwd;
+    temp->pwd = ft_strdup(ft_lstlast_path(*paths)->pwd_old);
+    temp->pwd_old = ft_strdup(ft_lstlast_path(*paths)->pwd);
     temp->next = NULL;
+    (add_NEWPWD(paths,temp),add_OLDPWD(paths,temp));
     ft_lstadd_back_path(paths,temp);
+    if(!check_old_pwd(paths))
+    {
+        printf("OLDPWD is not set\n");
+        return (NULL);
+    }
     res = ft_strdup(temp->pwd);
     if(chdir(res) == -1)
     {

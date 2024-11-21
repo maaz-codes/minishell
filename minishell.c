@@ -29,6 +29,8 @@ void in_buit_cmd(char **str,t_path **paths, char **env)
         exit_cmd(paths,str);
     else if(!ft_strncmp(str[0],"env",4))
         env_cmd(str, paths);
+    else if(!ft_strncmp(str[0],"unset",4))
+        unset_cmd(str,paths);
     else
         (printf("minishell: %s : command not found\n",str[0]));
 }
@@ -66,7 +68,6 @@ int main(int ac, char **av, char **env)
 
     paths = int_cd();
     paths->env_struct = int_env(env);
-
     while(1)
     {
         char *input;
@@ -89,5 +90,4 @@ int main(int ac, char **av, char **env)
             free_double(res);
         }
     }
-    return 0;
 }

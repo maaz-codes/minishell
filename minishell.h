@@ -22,9 +22,6 @@ typedef struct pwd{
     t_env *env_struct;
 }   t_path;
 
-
-
-
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char *s, char c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
@@ -60,7 +57,12 @@ void    cd_cmd(char **str, t_path **paths, char **env);
 char    *new_path(char *cwd, int id);
 t_path	*ft_lstlast_path(t_path *lst);
 void	ft_lstadd_back_path(t_path **lst, t_path *new);
+void    add_NEWPWD(t_path **paths, t_path *new);
+void    add_OLDPWD(t_path **paths, t_path *new);
+
+void    unset_cmd(char **str, t_path **paths);
 
 void    set_signals(void);
 void    set_signals_after(void);
+
 
