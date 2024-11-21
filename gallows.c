@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/21 17:40:57 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/21 17:51:01 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int handle_append_redir(char *file_name)
 {
     int fd;
     
-    fd = open(file_name, O_CREAT | O_WRONLY, 0644);
+    fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
     if (fd == -1)
     {
         print_error(ERR_FILE);
@@ -92,19 +92,7 @@ void handle_redir(t_tree *tree, char **env)
 
 void handle_cmd(t_tree *tree, char **env)
 {
-    // pid_t pid;
-    // char *str[2];
-    
-    // str[0] = tree->data.command;
-    // str[1] = NULL;
-    // pid = fork();
-    // if (pid == -1)
-        // print_error(ERR_FORK);
-    // if (pid == 0)
-    // {
-        execute(tree->left->data.argument, env);
-    // }
-    // wait(NULL);
+    execute(tree->left->data.argument, env);   
 }
 
 void gallows(t_tree *tree, char **env)
