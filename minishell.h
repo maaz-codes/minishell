@@ -61,6 +61,7 @@ void    add_NEWPWD(t_path **paths, t_path *new);
 void    add_OLDPWD(t_path **paths, t_path *new);
 
 void    unset_cmd(char **str, t_path **paths);
+void    export_cmd(char **str, t_path **paths);
 
 void    set_signals(void);
 void    set_signals_after(void);

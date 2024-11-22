@@ -29,8 +29,10 @@ void in_buit_cmd(char **str,t_path **paths, char **env)
         exit_cmd(paths,str);
     else if(!ft_strncmp(str[0],"env",4))
         env_cmd(str, paths);
-    else if(!ft_strncmp(str[0],"unset",4))
+    else if(!ft_strncmp(str[0],"unset",6))
         unset_cmd(str,paths);
+    else if(!ft_strncmp(str[0],"export",7))
+        export_cmd(str,paths);
     else
         (printf("minishell: %s : command not found\n",str[0]));
 }

@@ -80,6 +80,29 @@ int check_old_pwd(t_path **paths)
     }
     return (0);
 }
+
+int valid_old_pwd(t_path **paths)
+{
+    t_env *tmp;
+    char **old_pwd;
+
+    tmp = (*paths)->env_struct;
+    while(tmp)
+    {
+        if(!ft_strncmp(tmp->env,"OLDPWD=",7))
+        {
+           old_pwd = ft_split(tmp->env,'=');
+           if(chdir(old_pwd[1]) == -1)
+           {    
+                printf("minishell: cd: %s: No such file or directory\n",old_pwd[1]);
+                free_double(old_pwd);
+                return (0);         
+           }
+        }
+        tmp = tmp->next;
+    }
+    return (1);
+}
 char *switch_cd(t_path **paths)
 {   
     t_path *temp;
@@ -90,6 +113,8 @@ char *switch_cd(t_path **paths)
         printf("OLDPWD is not set\n");
         return (NULL);
     }
+    if(!valid_old_pwd(paths))
+        return (NULL);
     temp = malloc(sizeof(t_path));
     if(!temp)
         return NULL;

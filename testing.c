@@ -6,10 +6,18 @@
 #include "minishell.h"
 
 int main(void)
-{
-    // signal(SIG_QUIT,SIG_IGN);
-    // while(1)
-    // {
-    //     printf("still runnning")
-    // }
+{   
+    
+    char *test;
+
+    test = malloc(1);
+    test = " ";
+
+    // printf("print test-%s-\n",test);
+    if(chdir(test) == -1)
+    {
+        printf("not valid\n");
+    }
+    else
+        printf("valid\n");
 }
