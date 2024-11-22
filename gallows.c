@@ -6,12 +6,11 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/22 10:18:48 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/22 12:19:05 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// #include "pipex/pipex.h"
 
 void	execute(char **cmd, char *env[])
 {
@@ -65,10 +64,11 @@ int handle_append_redir(char *file_name)
     dup2(fd, 1);
     return (fd);
 }
-int handle_here_doc(char *delimiter)
+int handle_here_doc(int read_from)
 {
-    printf("HERE_DOC-ing\n");
-    return (0);
+    dup2(read_from, 0);
+    close(read_from);
+    return (1);
 }
 
 void handle_pipe(t_tree *tree, char **env)
@@ -103,6 +103,7 @@ void handle_pipe(t_tree *tree, char **env)
     wait(NULL);
     exit (0);
 }
+
 void handle_redir(t_tree *tree, char **env)
 {
     if (ft_strncmp(tree->data.redirection, "<", 2) == 0)
@@ -112,7 +113,7 @@ void handle_redir(t_tree *tree, char **env)
     else if (ft_strncmp(tree->data.redirection, ">>", 2) == 0)
         handle_append_redir(tree->right->data.file);
     else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
-        handle_here_doc(tree->right->data.file);
+        handle_here_doc(tree->right->data.here_doc);
     gallows(tree->left, env);
 }
 

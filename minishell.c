@@ -3,12 +3,23 @@
 #include <readline/readline.h>
 #include <stdio.h>
 
+void find_docs(t_tree *tree)
+{
+	if (tree->left != NULL)
+	{
+		find_docs(tree->left);
+		if (tree->right != NULL)
+			find_docs(tree->right);
+	}
+	if (tree->type == NODE_REDIRECTION)
+		if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
+        	tree->right->data.here_doc = ft_here_doc(tree->right->data.expression);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char *input;
 	t_tree *tree;
-	int std_in;
-	int std_out;
 
 	while (1)
 	{
@@ -27,8 +38,7 @@ int	main(int ac, char **av, char **env)
 				pid_t pid = fork();
 				if (pid == 0)
 				{
-					std_in = dup(STDIN_FILENO);
-					std_out = dup(STDOUT_FILENO);
+					find_docs(tree);
 					gallows(tree, env);
 					printf("After gallows...\n");
 					exit(0);

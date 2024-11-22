@@ -24,6 +24,8 @@ SRCS = 	minishell.c \
 					parsing/token_utils.c \
 					parsing/tokenization.c \
 					parsing/tokens.c \
+						here_doc.c \
+							get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 						# pipex/process.c \
 						# pipex/errors.c \
 						# pipex/paths.c \

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/22 10:19:03 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/22 12:25:55 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef union s_data
 	char			*file;
 	char			*command;
 	char			**argument;
+	int				here_doc;
 	// char *env_expansion;
 }					t_data;
 
@@ -139,6 +140,9 @@ void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c
 char	*ft_cmd_exits(char **env, char *temp_cmd);
+
+// here_doc
+int	ft_here_doc(char *limiter);
 
 // main.c
 int					qoutes_checker(char *str);

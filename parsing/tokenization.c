@@ -37,7 +37,7 @@ t_tree *tokenizer(char *str, t_tree **node)
 	qoutes = 0;
 	i = 0;
 	j = i;
-	printf("exp: -%s-\n", str);
+	// printf("exp: -%s-\n", str);
 	strip_spaces(&str);
 	while (i <= ft_strlen(str))
 	{
@@ -107,7 +107,7 @@ t_tree *tokenization(char *str)
 		else
 		{
 			tree->level = 0;
-			print_tree(tree);
+			// print_tree(tree);
 		}
 		// if (!syntax_error(tree))
 		// {
