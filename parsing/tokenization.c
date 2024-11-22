@@ -15,13 +15,13 @@ void strip_spaces(char **str)
 	free(original);
 }
 
-static int splitter(char *str, t_tree **node, int i, int j)
+int splitter(char *str, t_tree **node, int i, int j)
 {
 	if (split_log_operator(str, node, i, j))
 		return (1);
 	else if (!spl_operator_ahead(str, i) && split_operator(str, node, i, j))
 		return (1);
-	else if (!operator_ahead(str, i) && !spl_operator_ahead(str, i) && split_redirection(str, node, i, j) )
+	else if (!operator_ahead(str, i) && !spl_operator_ahead(str, i) && split_redirection(str, node, i, j))
 		return (1);
 	else if (!redirection_ahead(str, i) && !operator_ahead(str, i) && !spl_operator_ahead(str, i) && split_cmd(str, &i, node))
 		return (1);
@@ -37,7 +37,7 @@ t_tree *tokenizer(char *str, t_tree **node)
 	qoutes = 0;
 	i = 0;
 	j = i;
-	// printf("exp: -%s-\n", str);
+	printf("exp: -%s-\n", str);
 	strip_spaces(&str);
 	while (i <= ft_strlen(str))
 	{
@@ -107,7 +107,7 @@ t_tree *tokenization(char *str)
 		else
 		{
 			tree->level = 0;
-			// print_tree(tree);
+			print_tree(tree);
 		}
 		// if (!syntax_error(tree))
 		// {

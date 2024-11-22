@@ -14,8 +14,15 @@ char symbol_checker(char s)
 
 int redirection_ahead(char *str, int i)
 {
+	int qoutes;
+
+	qoutes = 0;
 	while (str[i])
 	{
+		if (str[i] == '"' || str[i] == '\'')
+			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
+		if (str[i] == '"' || str[i] == '\'')
+			continue ;
 		if (str[i] == '<' || str[i] == '>')
 			return (1);
 		i++;
@@ -25,8 +32,15 @@ int redirection_ahead(char *str, int i)
 
 int spl_operator_ahead(char *str, int i)
 {
+	int qoutes;
+
+	qoutes = 0;
 	while (str[i])
 	{
+		if (str[i] == '"' || str[i] == '\'')
+			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
+		if (str[i] == '"' || str[i] == '\'')
+			continue ;
 		if ((str[i] == '&' && str[i + 1] == '&') || (str[i] == '|' && str[i + 1] == '|'))
 			return (1);
 		i++;
@@ -36,8 +50,15 @@ int spl_operator_ahead(char *str, int i)
 
 int operator_ahead(char *str, int i)
 {
+	int qoutes;
+
+	qoutes = 0;
 	while (str[i])
 	{
+		if (str[i] == '"' || str[i] == '\'')
+			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
+		if (str[i] == '"' || str[i] == '\'')
+			continue ;
 		if (str[i] == '|')
 			return (1);
 		i++;

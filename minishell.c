@@ -35,10 +35,8 @@ int	main(int ac, char **av, char **env)
 				}
 				wait(NULL);
 			}
-
 			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}
 	}
 	return (0);
 }
-// echo hi > cat | ls & test.c | echo hi > out
