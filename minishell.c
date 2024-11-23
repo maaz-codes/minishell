@@ -33,18 +33,18 @@ int	main(int ac, char **av, char **env)
 				exit(EXIT_SUCCESS);
 			}
 			tree = tokenization(input);
-			if (tree)
-			{
-				pid_t pid = fork();
-				if (pid == 0)
-				{
-					find_docs(tree);
-					gallows(tree, env);
-					printf("After gallows...\n");
-					exit(0);
-				}
-				wait(NULL);
-			}
+			// if (tree)
+			// {
+			// 	pid_t pid = fork();
+			// 	if (pid == 0)
+			// 	{
+			// 		find_docs(tree);
+			// 		gallows(tree, env);
+			// 		printf("After gallows...\n");
+			// 		exit(0);
+			// 	}
+			// 	wait(NULL);
+			// }
 			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}
 	}

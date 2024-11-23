@@ -155,7 +155,7 @@ t_tree *init_args_node(char *str, int start, int end, char *cmd)
 }
 
 
-char *exp_after_redir_node(char *str, int start, int  end)
+char *exp_after_redir_node(char *str, int start, int end, int append)
 {
 	char *exp;
 	int first_half;
@@ -163,9 +163,8 @@ char *exp_after_redir_node(char *str, int start, int  end)
 	int qoutes;
 
 	first_half = start;
-	second_half = end;
+	second_half = end - append;
 	qoutes = 0;
-	end++;
 	while (str[end] == ' ')
 		end++;
 	while (end < ft_strlen(str))
@@ -178,7 +177,7 @@ char *exp_after_redir_node(char *str, int start, int  end)
 			break ;
 		end++;
 	}
-	exp = ft_strjoin(ft_substr(str, first_half, second_half), ft_substr(str, end + 1, ft_strlen(str)));
+	exp = ft_strjoin(ft_substr(str, first_half, second_half - first_half), ft_substr(str, end, ft_strlen(str)));
 	if (!exp)
 		print_exit(ERR_MALLOC);
 	return (exp);

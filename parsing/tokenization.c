@@ -107,7 +107,7 @@ t_tree *tokenization(char *str)
 		else
 		{
 			tree->level = 0;
-			// print_tree(tree);
+			print_tree(tree);
 		}
 		// if (!syntax_error(tree))
 		// {

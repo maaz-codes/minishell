@@ -38,13 +38,15 @@ int split_redirection(char *str, t_tree **node, int i, int j)
 		if (str[i + 1] == '<' || str[i + 1] == '>')
 		{
 			*node = init_redir_node(ft_substr(str, i, 2));
-			add_node(node, init_exp_node(str, j, i));
-			add_node(node, init_exp_node(str, i + 2, ft_strlen(str)));
+			add_node(node, init_exp_node(exp_after_redir_node(str, j, i + 2, 2), 0, ft_strlen(str))); // in init_nodes - stop mallocing, instead pass the substr or strdup in init_nodes();
+			add_node(node, init_exp_node(extract_file_name(str, i + 2, ft_strlen(str)), 0, ft_strlen(str)));
+			// add_node(node, init_exp_node(str, j, i));
+			// add_node(node, init_exp_node(str, i + 2, ft_strlen(str)));
 		}
 		else
 		{
 			*node = init_redir_node(ft_substr(str, i, 1));
-			add_node(node, init_exp_node(exp_after_redir_node(str, j, i), 0, ft_strlen(str))); // in init_nodes - stop mallocing, instead pass the substr or strdup in init_nodes();
+			add_node(node, init_exp_node(exp_after_redir_node(str, j, i + 1, 1), 0, ft_strlen(str))); // in init_nodes - stop mallocing, instead pass the substr or strdup in init_nodes();
 			add_node(node, init_exp_node(extract_file_name(str, i + 1, ft_strlen(str)), 0, ft_strlen(str)));
 		}
 		if ((*node)->left != NULL)
