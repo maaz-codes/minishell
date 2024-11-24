@@ -66,6 +66,8 @@ void export_cmd(char **str, t_path **paths)
 
     i = 1;
     new_env = malloc(sizeof(t_env));
+    new_env->env = ft_strdup("");
+    new_env->next = NULL;
     if(!ft_strncmp("export",str[0],7) && str[1] == NULL)
         env_cmd(str, paths);
     else if(!ft_strncmp("export",str[0],7) && str[1] != NULL)
@@ -80,7 +82,6 @@ void export_cmd(char **str, t_path **paths)
             {
                 if(!ft_strncmp(tmp_char,tmp->env,ft_strlen(tmp_char)))
                 {   
-                    printf("enter here\n");
                     free(tmp->env);
                     tmp->env = ft_strjoin(tmp_char,sep[1]);
                     free_double(sep);
