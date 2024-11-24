@@ -24,3 +24,18 @@ void	ft_lstclear(t_path **lst)
 		*lst = node;
 	}
 }
+
+
+void	ft_lstclear_env(t_env **lst)
+{
+	t_env	*node;
+	
+	if (!lst || !*lst)
+		return ;
+	while (*lst)
+	{	
+		node = (*lst)->next;
+		free((*lst)->env);
+		*lst = node;
+	}
+}
