@@ -34,6 +34,7 @@ void	ft_bzero(void *s, size_t n);
 void	ft_lstdelone(t_path **lst);
 int     ft_atoi(char *s);
 void    *ft_memset(void *b, int c, size_t len);
+unsigned long long	ft_atol(char *s);
 
 void	ft_lstclear(t_path **lst);
 void	ft_lstclear_env(t_env **lst);

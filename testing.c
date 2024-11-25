@@ -5,15 +5,15 @@
 #include <string.h>
 #include "minishell.h"
 
-int main(void)
+int main(int ac, char **av, char **env)
 {   
     
     char *test;
 
     test = malloc(1);
-    test = " ";
+    test = 
 
-    // printf("print test-%s-\n",test);
+    printf("print test-%s-\n",test);
     if(chdir(test) == -1)
     {
         printf("not valid\n");

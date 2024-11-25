@@ -5,6 +5,8 @@ int valid_num(char *s)
     int i;
 
     i = 0;
+    if(s[i] == '+' || s[i] == '-')
+        i++;
     while(s[i])
     {
         if(s[i] >= '0' && s[i] <= '9')
@@ -17,8 +19,10 @@ int valid_num(char *s)
 
 void exit_cmd(t_path **paths, char **str)
 {   
-    int exit_num;
+    long exit_num;
+    int check;
 
+    check = 1;
     if(!ft_strncmp(str[0],"exit",5) && str[1] != NULL && str[2] != NULL)
     {
         (printf("exit\n"),printf("exit: too many arguments\n"));
@@ -32,7 +36,17 @@ void exit_cmd(t_path **paths, char **str)
             printf("minishell: exit: %s: numeric argument required\n",str[1]);
             exit(255);
         }
-        exit_num = ft_atoi(str[1]);
+        if(str[1][0] == '-')
+        {
+            exit_num = ft_atol(str[1] + 1);
+            check = 0;
+        }
+        else
+            exit_num = ft_atol(str[1]);
+        if(exit_num > LONG_MAX && check == 1)
+            printf("minishell: exit: %s: numeric argument required\n",str[1]);
+        else if(exit_num > LONG_MAX + 1 && check == 0)
+            printf("minishell: exit: %s: numeric argument required\n",str[1]);
         if(exit_num < 0 || exit_num >= 256)
             exit_num = exit_num % 256;
         (ft_lstclear(paths),printf("exit\n"),exit(exit_num));

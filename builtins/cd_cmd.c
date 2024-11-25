@@ -103,6 +103,8 @@ int valid_old_pwd(t_path **paths)
     }
     return (1);
 }
+
+//
 char *switch_cd(t_path **paths)
 {   
     t_path *temp;
