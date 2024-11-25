@@ -13,6 +13,8 @@ char **separator(char *str)
     check = 1;
     while(str[len] != '=' && str[len])
         len++;
+    if(!len)
+        return (NULL);
     if(ft_strlen(str) == len)
         check = 0;
     holder = malloc(sizeof(char *) * len + 1);
@@ -57,17 +59,12 @@ void ap_env(t_env **paths, char *res)
 void export_cmd(char **str, t_path **paths)
 {   
     t_env *tmp;
-    t_env *new_env;
     char **sep;
     char *tmp_char;
     int   i;
     int checker;
-    t_env *tmp_env_holder;
 
     i = 1;
-    new_env = malloc(sizeof(t_env));
-    new_env->env = ft_strdup("");
-    new_env->next = NULL;
     if(!ft_strncmp("export",str[0],7) && str[1] == NULL)
         env_cmd(str, paths);
     else if(!ft_strncmp("export",str[0],7) && str[1] != NULL)
@@ -75,6 +72,8 @@ void export_cmd(char **str, t_path **paths)
         while(str[i])
         {   
             sep = separator(str[i]);
+            if(!sep)
+                return ;
             tmp_char = ft_strjoin(sep[0],"=");
             tmp = (*paths)->env_struct;
             checker = 0;
@@ -84,18 +83,16 @@ void export_cmd(char **str, t_path **paths)
                 {   
                     free(tmp->env);
                     tmp->env = ft_strjoin(tmp_char,sep[1]);
-                    free_double(sep);
+                    (free_double(sep),free(tmp_char));
                     checker = 1;
                     break;
                 }
                 tmp = tmp->next;
             }
             if(!checker) 
-                (ap_env(&new_env,ft_strjoin(tmp_char,sep[1])),free_double(sep));
+                (ap_env(&(*paths)->env_struct,ft_strjoin(tmp_char,sep[1])),free_double(sep),free(tmp_char));
             i++;
         }
-        if(new_env)
-            lstlast_env((*paths)->env_struct)->next = new_env;
     }
     return ;
 }
