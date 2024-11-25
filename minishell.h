@@ -50,7 +50,10 @@ int     filler_last(char **res,char *s,int position,int len);
 
 void    echo_cmd(char **str);
 void    pwd_cmd(char **str);
+
 void    exit_cmd(t_path **paths, char **str);
+void    valid_num(char *s, t_path **paths);
+void    error_msg(char *str,t_path **paths);
 
 void    env_cmd(char **str, t_path **paths);
 t_env   *int_env(char **env);
