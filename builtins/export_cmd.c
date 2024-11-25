@@ -1,37 +1,5 @@
 #include "../minishell.h"
 
-char **separator(char *str)
-{
-    int len;
-    char **sep;
-    char *holder;
-    char **res;
-    int check;
-
-    sep = ft_split(str,'=');
-    len = 0;
-    check = 1;
-    while(str[len] != '=' && str[len])
-        len++;
-    if(!len)
-        return (NULL);
-    if(ft_strlen(str) == len)
-        check = 0;
-    holder = malloc(sizeof(char *) * len + 1);
-    res = (char **)malloc(sizeof(char *) * 3);
-    if(!holder || !res)
-        return (NULL);
-    if(!check)
-        ft_strlcpy(holder,str,ft_strlen(holder));
-    else
-        ft_strlcpy(holder,str + (len + 1),ft_strlen(holder) - (len - 1));
-    res[0] = ft_strdup(sep[0]);
-    res[1] = holder;
-    res[2] = NULL;
-    free_double(sep);
-    return(res);
-}
-
 void	ft_lstadd_back_env(t_env **lst, t_env *new)
 {
 	if (!lst || !new)

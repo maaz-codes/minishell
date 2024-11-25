@@ -69,6 +69,8 @@ void    unset_cmd(char **str, t_path **paths);
 
 void    export_cmd(char **str, t_path **paths);
 t_env	*lstlast_env(t_env *lst);
+char    **separator(char *str);
+void    final_split(char ***res, char *sep, char *holder);
 
 void    set_signals(void);
 void    set_signals_after(void);

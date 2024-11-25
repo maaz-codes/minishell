@@ -91,7 +91,7 @@ int valid_old_pwd(t_path **paths)
     {
         if(!ft_strncmp(tmp->env,"OLDPWD=",7))
         {
-           old_pwd = ft_split(tmp->env,'=');
+           old_pwd = separator(tmp->env);
            if(chdir(old_pwd[1]) == -1)
            {    
                 printf("minishell: cd: %s: No such file or directory\n",old_pwd[1]);
@@ -104,7 +104,6 @@ int valid_old_pwd(t_path **paths)
     return (1);
 }
 
-//
 char *switch_cd(t_path **paths)
 {   
     t_path *temp;
