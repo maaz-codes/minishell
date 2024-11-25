@@ -77,14 +77,16 @@ t_tree *init_exp_node(char *str, int start, int end)
 	t_tree *node;
 	char *striped_str;
 
-	node = malloc(sizeof(t_tree));
-	if (!node)
-		print_exit(ERR_MALLOC);
-	node->type = NODE_EXPRESSION;
 	striped_str = ft_substr(str, start, end - start);
 	if (!striped_str)
 		print_exit(ERR_MALLOC);
 	strip_spaces(&striped_str);
+	if (*striped_str == '\0')
+		return (NULL);
+	node = malloc(sizeof(t_tree));
+	if (!node)
+		print_exit(ERR_MALLOC);
+	node->type = NODE_EXPRESSION;
 	node->data.expression = striped_str;
 	if (!node->data.expression)
 		print_exit(ERR_MALLOC);
@@ -99,6 +101,7 @@ t_tree *init_cmd_node(char *str, int end)
 {
     t_tree *node;
 
+	// take in the previous node and free it and return this one;
     node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
@@ -144,6 +147,7 @@ t_tree *init_args_node(char *str, int start, int end, char *cmd)
 	if (!striped_str)
 		print_exit(ERR_MALLOC);
 	strip_spaces(&striped_str);
+	// printf("str = -%s-\n", striped_str);
 	node->data.argument = split_args(striped_str, cmd);
 	if (!node->data.argument)
 		print_exit(ERR_MALLOC);
@@ -177,7 +181,14 @@ char *exp_after_redir_node(char *str, int start, int end, int append)
 			break ;
 		end++;
 	}
-	exp = ft_strjoin(ft_substr(str, first_half, second_half - first_half), ft_substr(str, end, ft_strlen(str)));
+	char *cmd_name = ft_substr(str, first_half, second_half - first_half);
+	// printf("cmd_name: -%s-\n", cmd_name);
+	if (*cmd_name == '\0')
+		return (NULL);
+	char *cmd_flags = ft_substr(str, end, ft_strlen(str));
+	if (!cmd_flags || !cmd_name)
+		print_exit(ERR_MALLOC);
+	exp = ft_strjoin(cmd_name, cmd_flags);
 	if (!exp)
 		print_exit(ERR_MALLOC);
 	return (exp);
@@ -206,5 +217,7 @@ char *extract_file_name(char *str, int start, int end)
 	file_name = ft_substr(str, store_start, start - store_start);
 	if (!file_name)
 		print_exit(ERR_MALLOC);
+	if (*file_name == '\0')
+		return (NULL);
 	return (file_name);
 }

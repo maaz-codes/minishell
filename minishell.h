@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/23 08:19:13 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/25 17:42:54 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 // general
 #define TRUE 1
 #define FALSE 0
+#define LEFT 0
+#define RIGHT 1
 
 // error_codes
 typedef enum s_err_codes
@@ -78,7 +80,7 @@ char				*ft_strjoin(char const *s1, char const *s2);
 char				**ft_split(const char *s, char c);
 
 // tree_utils.c
-void				add_node(t_tree **tree, t_tree *node);
+void				add_node(t_tree **tree, t_tree *node, int side);
 void				print_data(t_tree *tree);
 void				print_tree(t_tree *tree);
 
@@ -86,12 +88,6 @@ void				print_tree(t_tree *tree);
 void				strip_spaces(char **str);
 t_tree				*tokenization(char *str);
 t_tree				*tokenizer(char *str, t_tree **node);
-
-// syntax.c
-int					check_log_op_node(t_tree *node);
-int					check_op_node(t_tree *node);
-int					check_redir_node(t_tree *node, t_tree *parent);
-// check_cmd_node(t_tree *node);
 
 // tokens.c
 t_tree				*init_exp_node(char *str, int start, int end);
@@ -131,7 +127,7 @@ int					split_log_operator(char *str, t_tree **node, int i, int j);
 int					split_operator(char *str, t_tree **node, int i, int j);
 int					split_redirection(char *str, t_tree **node, int i, int j);
 int					split_file(char *str, int *i, t_tree **node);
-int					split_cmd(char *str, int *i, t_tree **node);
+int					split_cmd(char *str, int i, t_tree **node);
 char				**split_args(char *str, char *cmd);
 
 // gallows.c
@@ -139,10 +135,16 @@ void 				gallows(t_tree *tree, char **env);
 void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c
-char	*ft_cmd_exits(char **env, char *temp_cmd);
+char				*ft_cmd_exits(char **env, char *temp_cmd);
 
 // here_doc
-int	ft_here_doc(char *limiter);
+int					ft_here_doc(char *limiter);
+
+// syntax.c
+int					check_log_op_node(t_tree *node);
+int					check_op_node(t_tree *node);
+int					check_redir_node(t_tree *node);
+int 				syntax_checker(t_tree *tree);
 
 // main.c
 int					qoutes_checker(char *str);
