@@ -42,5 +42,22 @@ t_exp *int_exp(char **env)
     return(node_new);
 }
 
+void exp_print(t_path **paths)
+{
+    t_exp *tmp;
+    char *check;
+
+    tmp = (*paths)->exp_struct;
+    while(tmp)
+    {
+        check = ft_strchr(tmp->exp,'=');
+        if(check)
+            printf("declare -x %.*s=\"%s\"\n",(int)(check - tmp->exp),tmp->exp,check + 1);
+        else
+            printf("declare -x %s\n",tmp->exp);
+        tmp = tmp->next;
+    }
+}
+
 
 
