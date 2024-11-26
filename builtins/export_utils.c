@@ -37,9 +37,11 @@ int valid_export(char *str, char **res, char **sep)
     {   
         if(!check)
             return (0);
-        if(!(str[i] >= 'a' && str[i] <= 'z') || !(str[i] >= 'A' && str[i] <= 'Z') || str[i] != '_')
+        if(str[i] == '@' || str[i] == '!' || str[i] == '#')
             check = error_exp(str, res, sep);
-        else if(!(str[i] >= '0' && str[i] <= '9'))
+        else if(str[i] == '$' || str[i] == '*' || str[i] == '-')
+            check = error_exp(str, res, sep);
+        else if(str[i] == '.')
             check = error_exp(str, res, sep);
         i++;
     }
