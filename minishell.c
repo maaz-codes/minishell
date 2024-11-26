@@ -47,14 +47,33 @@ char	*extract_env_var(char *str, int start, int *index)
 	return (env_var);
 }
 
-// char *assign_value(char **env_var)
-// {
-// 	// find the value and
-// 	// re-assign the value to same env_var and 
-// 	// free the previous one. 
-// }
+char *assign_value(char *env_var, t_env *env)
+{
+	// find the value and
+	// re-assign the value to same env_var and 
+	// free the previous one. 
+	// example: VAR="HELLO";
+	char *env_temp;
 
-char	*env_expansion(char *str)
+	while (env->env)
+	{
+		if (!ft_strncmp(env->env, env_var, ft_strlen(env_var)))
+		{
+			env_temp = ft_substr(env->env, ft_strlen(env_var), ft_strlen(env->env));
+			if (!env_temp)
+				print_exit(ERR_MALLOC);
+			free(env_var);
+			return (env_temp);
+		}
+		env = env->next;
+	}
+	env_temp = ft_strdup("");
+	if (!env_temp)
+		print_exit(ERR_MALLOC);
+	return (env_var);
+}
+
+char	*env_expansion(char *str, t_env *env)
 {
 	int		i;
 	char	*env_var;
@@ -70,7 +89,8 @@ char	*env_expansion(char *str)
 		if (str[i] == '$')
 		{
 			env_var = extract_env_var(str, i + 1, &i);
-			env_var = assign_value(&env_var);
+			env_var = assign_value(env_var, env);
+			// put it back in the string...
 		}
 		i++;
 	}
@@ -94,7 +114,7 @@ int	main(int ac, char **av, char **env)
 				printf("Exiting now.....\n");
 				exit(EXIT_SUCCESS);
 			}
-			// env_expansion(input);
+			env_expansion(input, env);
 			// free(input);
 			// printf("expanded exp: =%s=\n", env_expansion(input));
 			if (*input)
