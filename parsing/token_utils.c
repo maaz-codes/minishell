@@ -50,7 +50,7 @@ int operator_ahead(char *str, int i)
 	{
 		if (str[i] == '"' || str[i] == '\'')
 		{
-			inside_qoutes(str[i], str, i);
+			i = inside_qoutes(str[i], str, i);
 			continue ;
 		}
 		if (str[i] == '|')

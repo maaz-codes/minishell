@@ -1,21 +1,5 @@
 #include "../minishell.h"
 
-// int inside_qoutes(int *qoutes, char c, char *str, int *i)
-// {
-// 	(*i) += 1;
-// 	*qoutes = !(*qoutes);
-// 	while (*qoutes && str[*i])
-// 	{
-// 		if (str[*i] == c)
-// 			*qoutes = !(*qoutes);
-// 		(*i) += 1;
-// 	}
-// 	if (*qoutes == 0)
-// 		return (1);
-// 	return (0);
-// }
-
-// echo "hi"
 int inside_qoutes(char qoute, char *str, int i)
 {
     i++;
@@ -52,8 +36,6 @@ int qoutes_checker(char *str)
 	i = 0;
 	while (i <= ft_strlen(str))
 	{
-        if (str[i] == ';' || str[i] == '\\')
-            return (0);
 		if (str[i] == '"' || str[i] == '\'')
         {
             i = inside_qoutes(str[i], str, i);
@@ -61,11 +43,8 @@ int qoutes_checker(char *str)
                 return (0);
             continue;
         }
-        if (str[i])
+        if (!str[i])
             break ;
-		// inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
-		// if (str[i] == '"' || str[i] == '\'')
-		// 	continue ;
 		i++;
 	}
 	return (1);
