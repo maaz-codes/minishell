@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/23 08:53:32 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/26 09:26:12 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,22 @@
 
 static void	read_write(char *limiter, int write_to)
 {
-	char	*new_limiter;
+	char	*new_line;
 	char	*line;
 
-	new_limiter = ft_strjoin(limiter, "\n");
 	while (1)
 	{
-		write(1, "> ", 2);
-		line = get_next_line(0);
-		if (!ft_strncmp(line, new_limiter, ft_strlen(new_limiter)))
-			break ;
-		write(write_to, line, ft_strlen(line));
-		free(line);
+		line = readline("> ");
+		if (line)
+		{
+			if (!ft_strncmp(line, limiter, ft_strlen(limiter)))
+				break ;
+			new_line = ft_strjoin(line, "\n");
+			write(write_to, new_line, ft_strlen(new_line));
+			free(line);
+		}
 	}
-	free(new_limiter);
+	free(new_line);
 	free(line);
 	close(write_to);
 }

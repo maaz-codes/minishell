@@ -12,9 +12,10 @@ int count_args(char *str)
     while (i <= ft_strlen(str))
 	{
 		if (str[i] == '"' || str[i] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
-		if (str[i] == '"' || str[i] == '\'')
-			continue ;
+		{
+			i = inside_qoutes(str[i], str, i);
+			continue;
+		}
 		else
 		{
 			if (str[i] == ' ' || str[i] == '\0')
@@ -135,13 +136,11 @@ int split_cmd(char *str, int i, t_tree **node)
 
 char **split_args(char *str, char *cmd)
 {
-    int qoutes;
     int i;
 	int j;
 	int k;
     char **args;
 
-    qoutes = 0;
     i = 0;
 	j = 0;
 	k = 0;
@@ -157,9 +156,10 @@ char **split_args(char *str, char *cmd)
     while (i <= ft_strlen(str))
 	{
 		if (str[i] == '"' || str[i] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
-		if (str[i] == '"' || str[i] == '\'')
+		{
+			i = inside_qoutes(str[i], str, i);
 			continue ;
+		}
 		else
 		{
 			if (str[i] == ' ' || str[i] == '\0')

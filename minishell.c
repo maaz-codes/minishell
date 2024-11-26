@@ -16,6 +16,29 @@ void find_docs(t_tree *tree)
 	}
 }
 
+// echo '$USER =' $USER, Hello.
+// char *env_expansion(char *str)
+// {
+// 	int i;
+// 	char *env_var;
+
+// 	i = 0;
+// 	while (i <= ft_strlen(str))
+// 	{
+// 		if (str[i] == '\'')
+// 		{
+// 			inside_qoutes
+// 			continue;
+// 		}
+// 		if (str[i] == '$')
+// 		{
+// 			env_var = extract_env_var(str, i);
+// 		}
+// 		i++;
+// 	}
+	
+// }
+
 int	main(int ac, char **av, char **env)
 {
 	char *input;
@@ -32,18 +55,21 @@ int	main(int ac, char **av, char **env)
 				printf("Exiting now.....\n");
 				exit(EXIT_SUCCESS);
 			}
-			tree = tokenization(input);
-			if (tree)
+			// printf("expanded exp: =%s=\n", env_expansion(input));
+			if (*input)
 			{
-				pid_t pid = fork();
-				if (pid == 0)
+				tree = tokenization(input);
+				if (tree)
 				{
-					find_docs(tree);
-					gallows(tree, env);
-					printf("After gallows...\n");
-					exit(0);
+					pid_t pid = fork();
+					if (pid == 0)
+					{
+						find_docs(tree);
+						gallows(tree, env);
+						exit(0);
+					}
+					wait(NULL);
 				}
-				wait(NULL);
 			}
 			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}

@@ -1,18 +1,19 @@
 #include "../minishell.h"
 
-void	strip_spaces(char **str)
+int	strip_spaces(char **str)
 {
 	char	*striped;
 	char	*original;
 
 	if (*str == NULL)
-		return ;
+		return (1);
 	striped = ft_strtrim(*str, " ");
 	if (!striped)
-		print_exit(ERR_MALLOC);
+		return (0);
 	original = *str;
 	*str = striped;
 	free(original);
+	return (1);
 }
 
 int	splitter(char *str, t_tree **node, int i, int j)
@@ -34,18 +35,18 @@ t_tree	*tokenizer(char *str, t_tree **node)
 {
 	int	i;
 	int	j;
-	int	qoutes;
 
-	qoutes = 0;
 	i = 0;
 	j = i;
-	strip_spaces(&str);
+	if (!strip_spaces(&str))
+		return (print_error(ERR_MALLOC), NULL);
 	while (i <= ft_strlen(str))
 	{
 		if (str[i] == '"' || str[i] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
-		if (str[i] == '"' || str[i] == '\'')
+		{
+			i = inside_qoutes(str[i], str, i);
 			continue ;
+		}
 		if (splitter(str, node, i, j))
 			break ;
 		i++;
@@ -64,39 +65,12 @@ int	check_syntax(t_tree *node, t_tree *parent)
 	return (1);
 }
 
-// int syntax_error(t_tree *tree)
-// {
-// 	if (tree == NULL)
-// 		return (0);
-// 	if (tree->left != NULL)
-// 	{
-// 		if (!syntax_error(tree->left))
-// 			return (0);
-// 		if (tree->right != NULL)
-// 		{
-// 			if (!syntax_error(tree->right))
-// 				return (0);
-// 		}
-// 		else
-// 		{
-// 			if (!check_syntax(tree))
-// 				return (0);
-// 		}
-// 	}
-// 	if (!check_syntax(tree))
-// 		return (0);
-// 	return (1);
-// }
-
 t_tree	*tokenization(char *str)
 {
 	t_tree	*tree;
 
-	strip_spaces(&str);
-	if (*str == '\0')
-		return (NULL);
 	if (!qoutes_checker(str))
-		print_error(ERR_FORMAT);
+		return (print_error(ERR_FORMAT), NULL);
 	else
 	{
 		tree = NULL;

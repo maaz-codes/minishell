@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/22 12:19:05 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/26 11:50:27 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	execute(char **cmd, char *env[])
 
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
-		print_exit(ERR_MALLOC);
+		print_exit(ERR_CMD);
 	execve(path, cmd, env);
-	print_error(ERR_EXECVE);
-    exit(1);
+	print_exit(ERR_CMD);
+    exit(EXIT_FAILURE);
 }
 
 int handle_input_redir(char *file_name)
@@ -119,7 +119,7 @@ void handle_redir(t_tree *tree, char **env)
 
 void handle_cmd(t_tree *tree, char **env)
 {
-    execute(tree->left->data.argument, env);   
+    execute(tree->left->data.argument, env); 
 }
 
 void gallows(t_tree *tree, char **env)

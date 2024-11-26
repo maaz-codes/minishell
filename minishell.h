@@ -6,17 +6,18 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/25 17:42:54 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/26 11:32:18 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 #include <unistd.h>
-#include <fcntl.h>
 
 // general
 #define TRUE 1
@@ -32,8 +33,15 @@ typedef enum s_err_codes
 	ERR_FORK,
 	ERR_EXECVE,
 	ERR_FILE,
-	ERR_PIPE
-} t_err_codes;
+	ERR_PIPE,
+	ERR_CMD
+}					t_err_codes;
+
+typedef struct env
+{
+	char			*env;
+	struct env		*next;
+}					t_env;
 
 typedef enum s_node_types
 {
@@ -85,7 +93,7 @@ void				print_data(t_tree *tree);
 void				print_tree(t_tree *tree);
 
 // tokenization
-void				strip_spaces(char **str);
+int					strip_spaces(char **str);
 t_tree				*tokenization(char *str);
 t_tree				*tokenizer(char *str, t_tree **node);
 
@@ -97,11 +105,12 @@ t_tree				*init_redir_node(char *redir);
 t_tree				*init_file_node(char *str, int start, int end);
 t_tree				*init_cmd_node(char *str, int end);
 t_tree				*init_args_node(char *str, int start, int end, char *cmd);
-char 				*exp_after_redir_node(char *str, int start, int end, int append);
-char 				*extract_file_name(char *str, int start, int end);
+char				*exp_after_redir_node(char *str, int start, int end,
+						int append);
+char				*extract_file_name(char *str, int start, int end);
 
 // qoutes.c
-int					inside_qoutes(int *qoutes, char c, char *str, int *i);
+int 				inside_qoutes(char qoute, char *str, int i);
 int					count_qoutes(char *str);
 char				*remove_qoutes(char *str);
 
@@ -131,7 +140,7 @@ int					split_cmd(char *str, int i, t_tree **node);
 char				**split_args(char *str, char *cmd);
 
 // gallows.c
-void 				gallows(t_tree *tree, char **env);
+void				gallows(t_tree *tree, char **env);
 void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c
@@ -144,7 +153,7 @@ int					ft_here_doc(char *limiter);
 int					check_log_op_node(t_tree *node);
 int					check_op_node(t_tree *node);
 int					check_redir_node(t_tree *node);
-int 				syntax_checker(t_tree *tree);
+int					syntax_checker(t_tree *tree);
 
 // main.c
 int					qoutes_checker(char *str);

@@ -164,25 +164,23 @@ char *exp_after_redir_node(char *str, int start, int end, int append)
 	char *exp;
 	int first_half;
 	int second_half;
-	int qoutes;
 
 	first_half = start;
 	second_half = end - append;
-	qoutes = 0;
 	while (str[end] == ' ')
 		end++;
 	while (end < ft_strlen(str))
 	{
 		if (str[end] == '"' || str[end] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[end]), str, &end);
-		if (str[end] == '"' || str[end] == '\'')
+		{
+			end = inside_qoutes(str[end], str, end);
 			continue ;
+		}
 		if (str[end] == ' ')
 			break ;
 		end++;
 	}
 	char *cmd_name = ft_substr(str, first_half, second_half - first_half);
-	// printf("cmd_name: -%s-\n", cmd_name);
 	if (*cmd_name == '\0')
 		return (NULL);
 	char *cmd_flags = ft_substr(str, end, ft_strlen(str));
@@ -196,20 +194,19 @@ char *exp_after_redir_node(char *str, int start, int end, int append)
 
 char *extract_file_name(char *str, int start, int end)
 {
-	int qoutes;
 	int store_start;
 	char *file_name;
 
-	qoutes = 0;
 	store_start = start;
 	while (str[start] == ' ')
 		start++;
 	while (start < ft_strlen(str))
 	{
 		if (str[start] == '"' || str[start] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[start]), str, &start);
-		if (str[start] == '"' || str[start] == '\'')
+		{
+			start = inside_qoutes(str[start], str, start);
 			continue ;
+		}
 		if (str[start] == ' ')
 			break ;
 		start++;

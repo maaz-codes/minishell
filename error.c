@@ -11,9 +11,9 @@ int	print_error(int code)
 	return (0);
 }
 
-void print_exit(int code)
+void	print_exit(int code)
 {
-    if (code == ERR_MALLOC)
+	if (code == ERR_MALLOC)
 		printf("Error: Malloc Failed!\n");
 	else if (code == ERR_FILE)
 		printf("Error: File Failed!\n");
@@ -21,5 +21,7 @@ void print_exit(int code)
 		printf("Error: Fork() failed\n");
 	else if (code == ERR_PIPE)
 		printf("Error: Pipe() failed\n");
-    exit(EXIT_FAILURE);
+	else if (code == ERR_CMD)
+		printf("minishell: cmd not found\n"), exit(127);
+	exit(EXIT_FAILURE);
 }

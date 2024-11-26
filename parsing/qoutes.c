@@ -1,18 +1,31 @@
 #include "../minishell.h"
 
-int inside_qoutes(int *qoutes, char c, char *str, int *i)
+// int inside_qoutes(int *qoutes, char c, char *str, int *i)
+// {
+// 	(*i) += 1;
+// 	*qoutes = !(*qoutes);
+// 	while (*qoutes && str[*i])
+// 	{
+// 		if (str[*i] == c)
+// 			*qoutes = !(*qoutes);
+// 		(*i) += 1;
+// 	}
+// 	if (*qoutes == 0)
+// 		return (1);
+// 	return (0);
+// }
+
+// echo "hi"
+int inside_qoutes(char qoute, char *str, int i)
 {
-	(*i) += 1;
-	*qoutes = !(*qoutes);
-	while (*qoutes && str[*i])
-	{
-		if (str[*i] == c)
-			*qoutes = !(*qoutes);
-		(*i) += 1;
-	}
-	if (*qoutes == 0)
-		return (1);
-	return (0);
+    i++;
+    while (str[i] != qoute && str[i])
+    {
+        i++;
+    }
+    if (str[i] == '\0')
+        return (-1);
+    return (i + 1);
 }
 
 int count_qoutes(char *str)
@@ -35,23 +48,27 @@ int count_qoutes(char *str)
 int qoutes_checker(char *str)
 {
 	int	i;
-	int	qoutes;
 
-	qoutes = 0;
 	i = 0;
 	while (i <= ft_strlen(str))
 	{
         if (str[i] == ';' || str[i] == '\\')
             return (0);
 		if (str[i] == '"' || str[i] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
-		if (str[i] == '"' || str[i] == '\'')
-			continue ;
+        {
+            i = inside_qoutes(str[i], str, i);
+            if (i == -1)
+                return (0);
+            continue;
+        }
+        if (str[i])
+            break ;
+		// inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
+		// if (str[i] == '"' || str[i] == '\'')
+		// 	continue ;
 		i++;
 	}
-	if (qoutes == 0)
-		return (1);
-	return (0);
+	return (1);
 }
 
 char *remove_qoutes(char *str)
@@ -59,13 +76,11 @@ char *remove_qoutes(char *str)
     int i;
     int j;
     int k;
-    int qoutes;
     char *new_str;
 
     i = 0;
     j = 0;
     k = 0;
-    qoutes = 0;
     new_str = malloc(sizeof(char) * ft_strlen(str));
     if (!new_str)
         print_exit(ERR_MALLOC);
@@ -74,12 +89,11 @@ char *remove_qoutes(char *str)
         if (str[i] == '"' || str[i] == '\'')
         {
             j = i + 1;
-			inside_qoutes(&qoutes, symbol_checker(str[i]), str, &i);
+			i = inside_qoutes(str[i], str, i);
             while (j < i - 1)
-                new_str[k++] = str[j++]; 
+                new_str[k++] = str[j++];
+            continue ;
         }
-		if (str[i] == '"' || str[i] == '\'')
-			continue ;
         new_str[k++] = str[i++];
     }
     free(str);
