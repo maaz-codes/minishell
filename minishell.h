@@ -14,12 +14,19 @@ typedef struct env{
     struct env *next;
 }   t_env;
 
+typedef struct export{
+    
+    char *exp;
+    struct export *next;
+}   t_exp;
+
 typedef struct pwd{
 
     char *pwd;
     char *pwd_old;
     struct pwd *next;
     t_env *env_struct;
+    t_exp *exp_struct;
 }   t_path;
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -35,6 +42,7 @@ void	ft_lstdelone(t_path **lst);
 int     ft_atoi(char *s);
 void    *ft_memset(void *b, int c, size_t len);
 unsigned long long	ft_atol(char *s);
+char	*ft_strchr(const char *s, int c);
 
 void	ft_lstclear(t_path **lst);
 void	ft_lstclear_env(t_env **lst);
@@ -70,7 +78,10 @@ void    unset_cmd(char **str, t_path **paths);
 void    export_cmd(char **str, t_path **paths);
 t_env	*lstlast_env(t_env *lst);
 char    **separator(char *str);
-void    final_split(char ***res, char *sep, char *holder);
+t_exp   *int_exp(char **env);
+void    exp_print(t_path **paths);
+t_exp	*lstlast_exp(t_exp *lst);
+void    ap_exp(t_exp **paths, char *res);
 
 void    set_signals(void);
 void    set_signals_after(void);

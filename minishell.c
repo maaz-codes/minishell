@@ -70,6 +70,7 @@ int main(int ac, char **av, char **env)
 
     paths = int_cd();
     paths->env_struct = int_env(env);
+    paths->exp_struct = int_exp(env);
     while(1)
     {
         char *input;

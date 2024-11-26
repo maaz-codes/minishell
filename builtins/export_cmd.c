@@ -1,16 +1,6 @@
 #include "../minishell.h"
 
-void	ft_lstadd_back_env(t_env **lst, t_env *new)
-{
-	if (!lst || !new)
-		return ;
-	if (*lst)
-		lstlast_env(*lst)->next = new;
-	else
-		*lst = new;
-}
-
-void ap_env(t_env **paths, char *res)
+void ap_env(t_env **env, char *res)
 {   
     t_env *temp;
     char *env_new;
@@ -21,7 +11,63 @@ void ap_env(t_env **paths, char *res)
         return ;
     temp->env = res;
     temp->next = NULL;
-    ft_lstadd_back_env(paths,temp);
+    if (*env)
+		lstlast_env(*env)->next = temp;
+	else
+		*env = temp;
+}
+
+void export_t_env(t_path **paths, char *tmp_char, char *sep, char *str)
+{
+    t_env *tmp;
+    int i;
+
+    i = 0;
+    tmp = (*paths)->env_struct;
+    while(str[i] != '=' && str[i])
+        i++;
+    if(i == ft_strlen(str))
+        return ;
+    while(tmp)
+    {
+        if(!ft_strncmp(tmp_char,tmp->env,ft_strlen(tmp_char)))
+        {   
+            free(tmp->env);
+            tmp->env = ft_strjoin(tmp_char,sep);
+            return ;
+        }
+        tmp = tmp->next;
+    }
+    (ap_env(&(*paths)->env_struct,ft_strjoin(tmp_char,sep)));
+}
+
+void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
+{
+    t_exp *tmp;
+    int i;
+    int check;
+
+    i = 0;
+    check = 1;
+    tmp = (*paths)->exp_struct;
+    while(str[i] != '=' && str[i])
+        i++;
+    if(i == ft_strlen(str))
+        check = 0;
+    while(tmp)
+    {
+        if(!ft_strncmp(tmp_char,tmp->exp,ft_strlen(tmp_char)))
+        {   
+            free(tmp->exp);
+            tmp->exp = ft_strjoin(tmp_char,sep);
+            return ;
+        }
+        tmp = tmp->next;
+    }
+    if(!check)
+        ap_exp(&(*paths)->exp_struct,ft_strdup(str));
+    else
+        ap_exp(&(*paths)->exp_struct,ft_strjoin(tmp_char,sep));
 }
 
 void export_cmd(char **str, t_path **paths)
@@ -30,11 +76,10 @@ void export_cmd(char **str, t_path **paths)
     char **sep;
     char *tmp_char;
     int   i;
-    int checker;
 
     i = 1;
     if(!ft_strncmp("export",str[0],7) && str[1] == NULL)
-        env_cmd(str, paths);
+        exp_print(paths);
     else if(!ft_strncmp("export",str[0],7) && str[1] != NULL)
     {   
         while(str[i])
@@ -43,22 +88,9 @@ void export_cmd(char **str, t_path **paths)
             if(!sep)
                 return ;
             tmp_char = ft_strjoin(sep[0],"=");
-            tmp = (*paths)->env_struct;
-            checker = 0;
-            while(tmp)
-            {
-                if(!ft_strncmp(tmp_char,tmp->env,ft_strlen(tmp_char)))
-                {   
-                    free(tmp->env);
-                    tmp->env = ft_strjoin(tmp_char,sep[1]);
-                    (free_double(sep),free(tmp_char));
-                    checker = 1;
-                    break;
-                }
-                tmp = tmp->next;
-            }
-            if(!checker) 
-                (ap_env(&(*paths)->env_struct,ft_strjoin(tmp_char,sep[1])),free_double(sep),free(tmp_char));
+            export_t_env(paths,tmp_char,sep[1],str[i]);
+            export_t_exp(paths,tmp_char,sep[1],str[i]);
+            (free_double(sep),free(tmp_char));
             i++;
         }
     }
