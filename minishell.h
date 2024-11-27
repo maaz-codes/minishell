@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 16:38:08 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/11/27 17:02:18 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ typedef struct env
 	struct env		*next;
 }					t_env;
 
-typedef struct s_exp
+typedef struct export
 {
 	char			*exp;
 	struct export	*next;
 }					t_exp;
 
-typedef struct s_path
+typedef struct pwd
 {
 	char			*pwd;
 	char			*pwd_old;
@@ -119,13 +119,13 @@ char				**ft_split(const char *s, char c);
 // char	*ft_strdup(const char *s1);
 // char	*ft_strchr(const char *s, int c);
 // char	*ft_strjoin(char const *s1, char const *s2);
+// size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol);
+// void	ft_lstdelone(t_path **lst);
 
 // helpers - raph
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_bzero(void *s, size_t n);
-void	ft_lstdelone(t_path **lst);
 int     ft_atoi(char *s);
 void    *ft_memset(void *b, int c, size_t len);
 unsigned long long	ft_atol(char *s);

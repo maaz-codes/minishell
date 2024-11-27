@@ -45,6 +45,7 @@ SRCS = 	minishell.c \
 			libft/ft_calloc.c \
 			libft/ft_bzero.c \
 			libft/ft_lstclear.c \
+			libft/ft_atol.c \
 			
 
 OBJS = $(SRCS:.c=.o)
