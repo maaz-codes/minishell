@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/26 11:32:18 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/27 10:13:40 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char				*exp_after_redir_node(char *str, int start, int end,
 char				*extract_file_name(char *str, int start, int end);
 
 // qoutes.c
-int 				inside_qoutes(char qoute, char *str, int i);
+int					inside_qoutes(char qoute, char *str, int i);
 int					count_qoutes(char *str);
 char				*remove_qoutes(char *str);
 
@@ -147,6 +147,7 @@ void				execute(char **cmd, char *env[]);
 char				*ft_cmd_exits(char **env, char *temp_cmd);
 
 // here_doc
+void				find_docs(t_tree *tree);
 int					ft_here_doc(char *limiter);
 
 // syntax.c
@@ -154,6 +155,12 @@ int					check_log_op_node(t_tree *node);
 int					check_op_node(t_tree *node);
 int					check_redir_node(t_tree *node);
 int					syntax_checker(t_tree *tree);
+
+// expansions.c
+char				*extract_env_var(char *str, int start, int *index);
+char				*assign_value(char *env_var, t_env *env);
+char				*expanded_str(char *str, char *env_var, int start, int end);
+char				*env_expansion(char *str, t_env *env);
 
 // main.c
 int					qoutes_checker(char *str);
