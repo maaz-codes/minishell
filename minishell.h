@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 10:13:40 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/27 15:08:28 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,13 @@ typedef union s_data
 	int				here_doc;
 	// char *env_expansion;
 }					t_data;
+
+typedef struct s_std_fds
+{
+	int				std_in;
+	int				std_out;
+	int				std_err;
+}					t_std_fds;
 
 typedef struct s_tree
 {
@@ -140,7 +147,7 @@ int					split_cmd(char *str, int i, t_tree **node);
 char				**split_args(char *str, char *cmd);
 
 // gallows.c
-void				gallows(t_tree *tree, char **env);
+void				gallows(t_tree *tree, char **env, int fork_flag);
 void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c

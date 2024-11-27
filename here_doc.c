@@ -6,12 +6,11 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 10:13:18 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/27 12:21:18 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// #include "get_next_line/get_next_line.h"
 
 void	find_docs(t_tree *tree)
 {
