@@ -1,28 +1,41 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 19:14:06 by maakhan           #+#    #+#             */
-/*   Updated: 2024/07/01 15:04:29 by maakhan          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../minishell.h"
 
-#include "libft.h"
-
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	ft_lstdelone(t_path **lst)
 {
-	t_list	*node;
-
-	if (!lst || !del)
+	if (!(*lst))
 		return ;
-	while (*lst != NULL)
-	{
+	
+	free((*lst)->pwd);
+	free((*lst)->pwd_old);
+	free((*lst));
+	
+}
+
+void	ft_lstclear(t_path **lst)
+{
+	t_path	*node;
+	
+	if (!lst || !*lst)
+		return ;
+	while (*lst)
+	{	
 		node = (*lst)->next;
-		ft_lstdelone(*lst, del);
+		ft_lstdelone(lst);
 		*lst = node;
 	}
-	*lst = NULL;
+}
+
+
+void	ft_lstclear_env(t_env **lst)
+{
+	t_env	*node;
+	
+	if (!lst || !*lst)
+		return ;
+	while (*lst)
+	{	
+		node = (*lst)->next;
+		free((*lst)->env);
+		*lst = node;
+	}
 }

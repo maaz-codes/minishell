@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gallows.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 15:12:09 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/27 18:46:47 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,21 +149,20 @@ int	is_builtin(char *str)
 
 void handle_builtin(t_tree *tree, char **env)
 {
-    printf("Builtins in construction...\n");
-    // if (!ft_strncmp(tree->data.command, "echo", 5))
-    //     ft_echo();
-    // else if (!ft_strncmp(tree->data.command, "cd", 3))
-    //     ft_cd();
-    // else if (!ft_strncmp(tree->data.command, "pwd", 4))
-    //     ft_pwd();
-    // else if (!ft_strncmp(tree->data.command, "export", 7))
-    //     ft_export();
-    // else if (!ft_strncmp(tree->data.command, "unset", 6))
-    //     ft_unset();
-    // else if (!ft_strncmp(tree->data.command, "env", 4))
-    //     ft_env();
-    // else if (!ft_strncmp(tree->data.command, "exit", 5))
-    //     ft_exit();
+    if(!ft_strncmp(tree->left->data.argument[0],"echo",5))
+        echo_cmd(tree->left->data.argument);
+    else if(!ft_strncmp(tree->left->data.argument[0],"pwd",4))
+        pwd_cmd(tree->left->data.argument);
+    else if(!ft_strncmp(tree->left->data.argument[0],"env",4))
+        env_cmd(tree->left->data.argument, &tree);
+    // else if(!ft_strncmp(tree->left->data.argument[0],"cd",3))
+    //     cd_cmd(env,&tree->paths);
+    // else if(!ft_strncmp(env[0],"export",7))
+    //     export_cmd(env,tree);
+    // else if(!ft_strncmp(env[0],"unset",6))
+    //     unset_cmd(env,tree);
+    // else if (!ft_strncmp(env[0],"exit",5))
+    //     exit_cmd(tree,env);
 }
 
 void	gallows(t_tree *tree, char **env, int fork_flag)

@@ -3,27 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 19:35:13 by maakhan           #+#    #+#             */
-/*   Updated: 2024/07/01 15:47:45 by maakhan          ###   ########.fr       */
+/*   Created: 2024/06/25 18:06:53 by rcreer            #+#    #+#             */
+/*   Updated: 2024/10/28 17:13:03 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 
 	i = 0;
-	if (!dst || !src || !dstsize)
-		return (ft_strlen(src));
-	while ((i < dstsize - 1) && src[i])
-	{
-		dst[i] = src[i];
+	while (*src && (i + 1) < dstsize)
+	{	
+		// if(*src == '"' || *src == '\'')
+		// {
+		// 	// printf("bruh");
+		// 	src++;
+		// 	i++;
+		// }
+		*dst++ = *src++;
 		i++;
 	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
+	if (i < dstsize)
+		*dst = '\0';
+	while (*src++)
+		i++;
+	return (i);
 }
+
+size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol)
+{
+	size_t	i;
+	if(symbol == '\0')
+		(void)symbol;
+	i = 0;
+	while (*src && (i + 1) < dstsize)
+	{	
+		if(*src == symbol)
+		{
+			src++;
+			i++;
+		}
+		*dst++ = *src++;
+		i++;
+	}
+	if (i < dstsize)
+		*dst = '\0';
+	while (*src++)
+		i++;
+	return (i);
+}
+
+// int main()
+// {
+// 	char *s = "hello\"there\"man";
+// 	char *res = malloc(1024);
+// 	ft_strlcpy(res,s,16);
+// 	while(*res)
+// 	{
+// 		printf("%c",*res++);
+// 	}
+	
+// }

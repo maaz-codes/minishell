@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 19:22:35 by maakhan           #+#    #+#             */
-/*   Updated: 2024/06/28 19:27:54 by maakhan          ###   ########.fr       */
+/*   Created: 2024/06/25 17:49:36 by rcreer            #+#    #+#             */
+/*   Updated: 2024/10/22 18:02:01 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	putstr_fd(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0')
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
+	if (!s || fd < 0 || s[i] == '\0')
+		return ;
+	while (s[i])
+		write(fd, &s[i++], 1);
 }

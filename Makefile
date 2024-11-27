@@ -30,9 +30,10 @@ SRCS = 	minishell.c \
 		builtins/echo_cmd.c \
 		builtins/pwd_cmd.c \
 		builtins/cd_cmd.c \
+		builtins/cd_utils.c \
+		builtins/cd_utils_2.c \
 		builtins/exit_cmd.c \
 		builtins/env_cmd.c \
-		builtins/cd_utils.c \
 		builtins/unset_cmd.c \
 		builtins/export_cmd.c \
 		builtins/exit_utils.c \
@@ -46,6 +47,7 @@ SRCS = 	minishell.c \
 			libft/ft_bzero.c \
 			libft/ft_lstclear.c \
 			libft/ft_atol.c \
+			libft/ft_free_double.c 
 			
 
 OBJS = $(SRCS:.c=.o)

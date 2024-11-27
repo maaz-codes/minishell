@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:35:56 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 16:57:13 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/11/27 18:34:19 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		j = ft_strlen(s1);
 		while (s1[i] && ft_strchr(set, s1[i]))
 			i++;
-		while (s1[j - 1] && ft_strchr(set, s1[j - 1]) && j > i)
+		while (j > i && s1[j - 1] && ft_strchr(set, s1[j - 1]))
 			j--;
 		str = malloc(j - i + 1);
 		if (str == NULL)

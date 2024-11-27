@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 17:02:18 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/11/27 18:48:37 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,17 @@ typedef struct env
 	struct env		*next;
 }					t_env;
 
-typedef struct export
+typedef struct s_exp
 {
 	char			*exp;
-	struct export	*next;
+	struct s_exp	*next;
 }					t_exp;
 
-typedef struct pwd
+typedef struct s_path
 {
 	char			*pwd;
 	char			*pwd_old;
-	struct pwd		*next;
+	struct s_path	*next;
 	t_env			*env_struct;
 	t_exp			*exp_struct;
 }					t_path;
@@ -101,6 +101,7 @@ typedef struct s_tree
 	t_data			data;
 	struct s_tree	*left;
 	struct s_tree	*right;
+	struct s_path   *paths; //new raph
 }					t_tree;
 
 // helpers
@@ -149,15 +150,19 @@ void    exit_cmd(t_path **paths, char **str);
 void    valid_num(char *s, t_path **paths);
 void    error_msg(char *str,t_path **paths);
 
-void    env_cmd(char **str, t_path **paths);
+void    env_cmd(char **str, t_tree **tree);
 t_env   *int_env(char **env);
 
-void    cd_cmd(char **str, t_path **paths, char **env);
+void    cd_cmd(char **str, t_path **paths);
+char 	*get_cwd(void);
+t_path	*int_cd(void);
 char    *new_path(char *cwd, int id);
 t_path	*ft_lstlast_path(t_path *lst);
 void	ft_lstadd_back_path(t_path **lst, t_path *new);
 void    add_NEWPWD(t_path **paths, t_path *new);
 void    add_OLDPWD(t_path **paths, t_path *new);
+char 	*new_path(char *cwd, int id);
+char 	*get_home(t_path **paths);	
 
 void    unset_cmd(char **str, t_path **paths);
 

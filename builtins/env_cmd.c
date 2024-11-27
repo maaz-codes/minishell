@@ -41,17 +41,19 @@ t_env *int_env(char **env)
     return(node_new);
 }
 
-void env_cmd(char **str, t_path **paths)
+void env_cmd(char **str, t_tree **tree)
 {   
     t_env *new_node;
-    new_node = (*paths)->env_struct;
+    new_node = (*tree)->paths->env_struct;
+    printf("we are in\n");
     if(str[1] != NULL)
     {
         printf("env: too many arguments\n");
         return ;
     }
     while(new_node)
-    {
+    {   
+        printf("enter here\n");
         printf("%s\n",new_node->env);
         new_node = new_node->next;
     }

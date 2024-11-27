@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 19:35:48 by maakhan           #+#    #+#             */
-/*   Updated: 2024/07/03 15:09:58 by maakhan          ###   ########.fr       */
+/*   Created: 2024/06/25 17:59:22 by rcreer            #+#    #+#             */
+/*   Updated: 2024/10/22 18:02:07 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strdup(const char *s1)
 {
-	int	i;
+	size_t	i;
+	char	*dest;
 
-	i = ft_strlen(s);
-	while (i >= 0)
+	i = 0;
+	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!dest)
+		return (NULL);
+	while (s1[i])
 	{
-		if (s[i] == (unsigned char)c)
-			return ((char *)s + i);
-		i--;
+		dest[i] = s1[i];
+		i++;
 	}
-	return (NULL);
+	dest[i] = '\0';
+	return (dest);
 }

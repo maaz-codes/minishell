@@ -31,12 +31,24 @@ int	main(int ac, char **av, char **env)
 	t_tree		*tree;
 	t_env		*env_vars;
 	t_std_fds 	std_fds;
+	t_path 		*paths;
 
+    paths = int_cd();
+    paths->env_struct = int_env(env);
+    paths->exp_struct = int_exp(env);
+
+	// int i;
+
+	// i = 0;
+	// while(paths->env_struct)
+	// {
+	// 	printf("env_struct: %s\n",paths->env_struct->env);
+	// 	paths->env_struct = paths->env_struct->next;
+	// }
 	dup_fds(&std_fds);
 	while (1)
 	{
 		input = readline("minishell> ");
-		// printf("nininininiini\n");
 		if (input)
 		{
 			add_history(input);

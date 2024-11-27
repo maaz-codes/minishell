@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 18:48:44 by maakhan           #+#    #+#             */
-/*   Updated: 2024/07/01 15:50:40 by maakhan          ###   ########.fr       */
+/*   Created: 2024/10/14 19:57:53 by rcreer            #+#    #+#             */
+/*   Updated: 2024/10/22 18:01:56 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*ptr;
+	void	*arr;
+	size_t	total_size;
 
-	if (size && count > SIZE_MAX / size)
+	if (size && nmemb > (SIZE_MAX / size))
 		return (NULL);
-	ptr = malloc(count * size);
-	if (!ptr)
+	total_size = nmemb * size;
+	arr = malloc(total_size);
+	if (!arr)
 		return (NULL);
-	ft_bzero(ptr, count * size);
-	return (ptr);
+	ft_bzero(arr, total_size);
+	return (arr);
 }
