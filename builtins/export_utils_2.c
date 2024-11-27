@@ -42,6 +42,23 @@ t_exp *int_exp(char **env)
     return(node_new);
 }
 
+// void sorted_exp(t_exp **head)
+// {
+//     int swap;
+//     t_exp *current;
+//     t_exp *holder;
+
+//     if(!(*head))
+//         return ;
+    
+//     while((*head))
+//     {
+//         swap = 0;
+//         current = (*head);
+        
+//         while(current-)
+//     }
+// }
 void exp_print(t_path **paths)
 {
     t_exp *tmp;
