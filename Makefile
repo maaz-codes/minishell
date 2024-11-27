@@ -26,17 +26,29 @@ SRCS = 	minishell.c \
 					parsing/token_utils.c \
 					parsing/tokenization.c \
 					parsing/tokens.c \
-							# get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
-						# pipex/process.c \
-						# pipex/errors.c \
-						# pipex/paths.c \
-						# pipex/here_doc.c \
-						# pipex/libft/libft.c  pipex/libft/ft_split.c pipex/libft/ft_strtrim.c \
-						# pipex/get_next_line/get_next_line.c pipex/get_next_line/get_next_line_utils.c \
+	signals.c \
+		builtins/echo_cmd.c \
+		builtins/pwd_cmd.c \
+		builtins/cd_cmd.c \
+		builtins/exit_cmd.c \
+		builtins/env_cmd.c \
+		builtins/cd_utils.c \
+		builtins/unset_cmd.c \
+		builtins/export_cmd.c \
+		builtins/exit_utils.c \
+		builtins/export_utils.c \
+		builtins/export_utils_2.c \
+			libft/ft_atol.c \
+			libft/ft_memset.c \
+			libft/ft_strlcpy.c \
+			libft/ft_atoi.c \
+			libft/ft_calloc.c \
+			libft/ft_bzero.c \
+			libft/ft_lstclear.c \
 			
 
 OBJS = $(SRCS:.c=.o)
-LDFLAGS = -lreadline
+LDFLAGS = -l readline
 
 all:$(NAME)
 
