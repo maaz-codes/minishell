@@ -24,47 +24,45 @@ void ap_exp(t_exp **exp, char *res)
         *exp = temp;   
 }
 
-t_exp *int_exp(char **env)
+void swap_node(t_exp *cur, t_exp *hold)
 {
-    t_exp *node_new;
-    int i;
-
-    i = 1;
-    if(!env)
-        return (NULL);
-    node_new = (t_exp *)malloc(sizeof(t_exp));
-    if(node_new == NULL)
-        return (NULL);
-    node_new->exp = ft_strdup(env[0]);
-    node_new->next = NULL;
-    while(env[i])
-        ap_exp(&node_new,env[i++]);
-    return(node_new);
+    char *tmp = cur->exp;
+    cur->exp = hold->exp;
+    hold->exp = tmp;
 }
 
-// void sorted_exp(t_exp **head)
-// {
-//     int swap;
-//     t_exp *current;
-//     t_exp *holder;
+void sorted_exp(t_exp **head)
+{
+    int swap;
+    t_exp *current;
+    t_exp *holder;
 
-//     if(!(*head))
-//         return ;
-    
-//     while((*head))
-//     {
-//         swap = 0;
-//         current = (*head);
-        
-//         while(current-)
-//     }
-// }
+    if(!(*head))
+        return ;
+    while(swap)
+    {
+        swap = 0;
+        current = (*head);
+        while(current->next != holder && current->next)
+        {   
+            if(ft_strncmp(current->exp,current->next->exp,ft_strlen(current->exp)) > 0)
+            {
+                swap_node(current,current->next);
+                swap = 1;
+            }
+            current = current->next;
+        }
+        holder = current;
+    }
+}
 void exp_print(t_path **paths)
 {
     t_exp *tmp;
     char *check;
 
+    tmp = malloc(sizeof(t_exp));
     tmp = (*paths)->exp_struct;
+    sorted_exp(&tmp);
     while(tmp)
     {
         check = ft_strchr(tmp->exp,'=');
@@ -75,6 +73,7 @@ void exp_print(t_path **paths)
         tmp = tmp->next;
     }
 }
+
 
 
 

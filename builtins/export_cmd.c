@@ -70,6 +70,24 @@ void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
         ap_exp(&(*paths)->exp_struct,ft_strjoin(tmp_char,sep));
 }
 
+t_exp *int_exp(char **env)
+{
+    t_exp *node_new;
+    int i;
+
+    i = 1;
+    if(!env)
+        return (NULL);
+    node_new = (t_exp *)malloc(sizeof(t_exp));
+    if(node_new == NULL)
+        return (NULL);
+    node_new->exp = ft_strdup(env[0]);
+    node_new->next = NULL;
+    while(env[i])
+        ap_exp(&node_new,env[i++]);
+    return(node_new);
+}
+
 void export_cmd(char **str, t_path **paths)
 {   
     t_env *tmp;
