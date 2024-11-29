@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:27:26 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/25 17:42:40 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/29 11:07:07 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,35 @@ int check_log_op_node(t_tree *node)
 int check_op_node(t_tree *node)
 {
     if (node->left != NULL && node->right != NULL)
-        return (1);
+	{
+		// if (!ft_strncmp(node->left->data.expression, "<", 2))
+		// 	return (0);
+		// else if (!ft_strncmp(node->left->data.expression, "<<", 3))
+		// 	return (0);
+		// else if (!ft_strncmp(node->left->data.expression, ">", 2))
+		// 	return (0);
+		// else if (!ft_strncmp(node->left->data.expression, ">>", 3))
+		// 	return (0);
+		return (1);
+	}
     return (0);
 }
 
 int check_redir_node(t_tree *node)
 {
-    if (node->right == NULL)
-        return (0);
-    return (1);
+    if (node->right != NULL)
+	{
+		if (!ft_strncmp(node->right->data.expression, "<", 2))
+			return (0);
+		else if (!ft_strncmp(node->right->data.expression, "<<", 3))
+			return (0);
+		else if (!ft_strncmp(node->right->data.expression, ">", 2))
+			return (0);
+		else if (!ft_strncmp(node->right->data.expression, ">>", 3))
+			return (0);
+        return (1);
+	}
+    return (0);
 }
 
 int syntax_checker(t_tree *tree)
