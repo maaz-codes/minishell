@@ -23,7 +23,7 @@ void execution(t_tree *tree, char **env)
 
 	find_docs(tree);
 	tree->level = 0;
-	gallows(tree, env, tree->type != NODE_OPERATOR); 
+	gallows(tree, env, tree->type == NODE_OPERATOR); 
 }
 
 int	main(int ac, char **av, char **env)

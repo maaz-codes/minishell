@@ -127,8 +127,7 @@ int split_cmd(char *str, int i, t_tree **node)
 	{
 		// replacing the pointer, not over-writing it // free it later
 		*node = init_cmd_node(str, i);
-		// if (str[*i] != '\0')
-			add_node(node, init_args_node(str, i + 1, ft_strlen(str), (*node)->data.command), LEFT);
+		add_node(node, init_args_node(str, i + 1, ft_strlen(str), (*node)->data.command), LEFT);
 		return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/29 09:53:00 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/29 10:49:32 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	handle_here_doc(int read_from)
 	return (read_from);
 }
 
-void	handle_pipe(t_tree *tree, char **env, int fork_flag)
+void	handle_pipe(t_tree *tree, char **env, int pipe_flag)
 {
 	pid_t	pid;
 	int		pipefd[2];
@@ -85,7 +85,7 @@ void	handle_pipe(t_tree *tree, char **env, int fork_flag)
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], 1), close(pipefd[1]);
-		gallows(tree->left, env, fork_flag);
+		gallows(tree->left, env, pipe_flag);
 	}
 	pid = fork();
 	if (pid == -1)
@@ -94,7 +94,7 @@ void	handle_pipe(t_tree *tree, char **env, int fork_flag)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], 0), close(pipefd[0]);
-		gallows(tree->right, env, fork_flag);
+		gallows(tree->right, env, pipe_flag);
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);
@@ -104,7 +104,7 @@ void	handle_pipe(t_tree *tree, char **env, int fork_flag)
 		exit(0);
 }
 
-void	handle_redir(t_tree *tree, char **env, int fork_flag)
+void	handle_redir(t_tree *tree, char **env, int pipe_flag)
 {
 	int fd;
 	
@@ -117,14 +117,16 @@ void	handle_redir(t_tree *tree, char **env, int fork_flag)
 	else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
 		fd = handle_here_doc(tree->right->data.here_doc);
 	if (fd != -1)
-		gallows(tree->left, env, fork_flag);
+		gallows(tree->left, env, pipe_flag);
+	if (pipe_flag)
+		exit(1);
 }
 
-void	handle_cmd(t_tree *tree, char **env, int fork_flag)
+void	handle_cmd(t_tree *tree, char **env, int pipe_flag)
 {
 	pid_t	pid;
 
-	if (fork_flag)
+	if (!pipe_flag)
 	{
 		pid = fork();
 		if (pid == -1)
@@ -173,19 +175,19 @@ void handle_builtin(t_tree *tree, char **env)
     //     ft_exit();
 }
 
-int	gallows(t_tree *tree, char **env, int fork_flag)
+int	gallows(t_tree *tree, char **env, int pipe_flag)
 {
 	tree->level += 1;
 	if (tree->type == NODE_OPERATOR) // { | }
-		handle_pipe(tree, env, fork_flag);
+		handle_pipe(tree, env, pipe_flag);
 	else if (tree->type == NODE_REDIRECTION) // { > < >> << }
-		handle_redir(tree, env, fork_flag);
+		handle_redir(tree, env, pipe_flag);
 	else if (tree->type == NODE_COMMAND)
 	{
 		if (is_builtin(tree->data.command))
 			handle_builtin(tree, env);
 		else
-			handle_cmd(tree, env, fork_flag);
+			handle_cmd(tree, env, pipe_flag);
 	}
 	return (1);
 }

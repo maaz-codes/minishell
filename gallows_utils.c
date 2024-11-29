@@ -40,7 +40,8 @@ char	*ft_cmd_exits(char **env, char *temp_cmd)
 	char	*cmd;
 
 	path = NULL;
-	cmd = ft_strtrim(temp_cmd, " ");
+	// cmd = ft_strtrim(temp_cmd, " ");
+	cmd = temp_cmd;
 	a_paths = extract_path_env(env);
 	if (!cmd || set_own_path(cmd) || !a_paths)
 		return (free(a_paths), ft_strdup(cmd));
