@@ -29,6 +29,7 @@ typedef struct pwd{
     t_exp *exp_struct;
 }   t_path;
 
+//LIBFT
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char *s, char c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
@@ -38,16 +39,19 @@ size_t	ft_strlcpy_modif(char *dst, const char *src, size_t dstsize, char symbol)
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_bzero(void *s, size_t n);
-void	ft_lstdelone(t_path **lst);
 int     ft_atoi(char *s);
 void    *ft_memset(void *b, int c, size_t len);
 unsigned long long	ft_atol(char *s);
 char	*ft_strchr(const char *s, int c);
 
-void	ft_lstclear(t_path **lst);
+// for freeing;
+void    clear_all(t_path **paths,char **str);
+void	ft_lstclear_path(t_path **lst);
 void	ft_lstclear_env(t_env **lst);
-
+void	ft_lstclear_exp(t_exp **lst);
 void    free_double(char **s);
+
+//tokenization (TEMPORARY)
 char    symbol_checker(char s);
 int     malloc_safe(char **res, int position, size_t len);
 int     checker_tokens(char *s, char symbol, int tokens, int inside);
@@ -55,13 +59,13 @@ char    **tokenization_char(char *input);
 void     malloc_everything(char **res,char *s,int tokens, int position);
 int     filler_last(char **res,char *s,int position,int len);
 
-
+//Builtins 
 void    echo_cmd(char **str);
 void    pwd_cmd(char **str);
 
 void    exit_cmd(t_path **paths, char **str);
-void    valid_num(char *s, t_path **paths);
-void    error_msg(char *str,t_path **paths);
+void    valid_num(char *s, t_path **paths, char **str);
+void    error_msg(char **str,t_path **paths);
 
 void    env_cmd(char **str, t_path **paths);
 t_env   *int_env(char **env);
@@ -83,6 +87,8 @@ void    exp_print(t_path **paths);
 t_exp	*lstlast_exp(t_exp *lst);
 void    ap_exp(t_exp **paths, char *res);
 
+
+//Signals
 void    set_signals(void);
 void    set_signals_after(void);
 
