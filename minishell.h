@@ -8,6 +8,14 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+typedef struct s_sig
+{
+    int sig_quit;
+    int sig_int;
+    int exit_status;
+    pid_t pid;
+}   t_sig;
+
 typedef struct env{
     
     char *env;

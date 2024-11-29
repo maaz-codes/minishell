@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+t_sig signals;
+
 void free_double(char **s)
 {
     int i;
@@ -73,9 +75,9 @@ int main(int ac, char **av, char **env)
         char *input;
         char **res;
 
-        // set_signals();
+        set_signals();
         input = readline("minishell> ");
-        // set_signals_after();
+        set_signals_after();
         if(!input)
         {
             printf("\nexiting now...\n");
