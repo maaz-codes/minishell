@@ -33,27 +33,31 @@ void print_data(t_tree *tree)
 	}
 	if (tree->type == NODE_EXPRESSION)
 	{
-		printf("%c: %s = type: %d\n", tree->pos, tree->data.expression, tree->type);
+		printf("%c: %s type: exp\n", tree->pos, tree->data.expression);
 		// printf("data: %s		type: EXP pos: %c lvl: %d\n", tree->data.expression, tree->pos, tree->level);
 	}
 	else if (tree->type == NODE_LOG_OPERATOR)
 	{
-		printf("%c: %s = type: %d\n", tree->pos, tree->data.log_operator, tree->type);
+		printf("%c: %s type: log_operator\n", tree->pos, tree->data.log_operator);
 		// printf("data: %s		type: EXP pos: %c lvl: %d\n", tree->data.expression, tree->pos, tree->level);
 	}
 	else if (tree->type == NODE_OPERATOR)
 	{
-		printf("%c: %c = type: %d\n", tree->pos, tree->data.operator, tree->type);
+		printf("%c: %c type: operator\n", tree->pos, tree->data.operator);
 		// printf("data: %c			type: OPT{%d} pos: %c lvl: %d\n", tree->data.operator, tree->type, tree->pos, tree->level);
 	}
 	else if (tree->type == NODE_REDIRECTION)
 	{
-		printf("%c: %s = type: %d\n", tree->pos, tree->data.redirection, tree->type);
+		printf("%c: %s type: redir^\n", tree->pos, tree->data.redirection);
 		// printf("data: %s			type: REDIR pos: %c lvl: %d\n", tree->data.redirection, tree->pos, tree->level);
+	}
+	else if (tree->type == NODE_FILE)
+	{
+		printf("%c: %s type: file\n", tree->pos, tree->data.file);
 	}
 	else if (tree->type == NODE_COMMAND)
 	{
-		printf("%c: %s = type: %d\n", tree->pos, tree->data.command, tree->type);
+		printf("%c: %s type: cmd\n", tree->pos, tree->data.command);
 		// printf("data: %s		type: CMD pos: %c lvl: %d\n", tree->data.command, tree->pos, tree->level);
 	}
 	else if (tree->type == NODE_ARGUMENT)
@@ -65,7 +69,7 @@ void print_data(t_tree *tree)
 			printf("%s, ", tree->data.argument[i]);
 			i++;
 		}
-		printf(" = type: %d\n", tree->type);
+		printf("type: args\n");
 		// printf("		type: ARGS pos: %c lvl: %d\n", tree->pos, tree->level);
 	}
 	printf("\n");

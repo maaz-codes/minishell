@@ -85,7 +85,7 @@ t_tree	*tokenization(char *str)
 				print_error(ERR_FORMAT);
 				return (NULL);
 			}
-			// print_tree(tree);
+			print_tree(tree);
 		}
 	}
 	return (tree);

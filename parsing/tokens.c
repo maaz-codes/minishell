@@ -54,14 +54,17 @@ t_tree *init_file_node(char *str, int start, int end)
     t_tree *node;
 	char *striped_str;
 
-	node = malloc(sizeof(t_tree));
-	if (!node)
-		print_exit(ERR_MALLOC);
-	node->type = NODE_FILE;
 	striped_str = ft_substr(str, start, end - start);
 	if (!striped_str)
 		print_exit(ERR_MALLOC);
 	strip_spaces(&striped_str);
+	if (*striped_str == '\0')
+		return (NULL);
+	// printf("file: %s\n", striped_str);
+	node = malloc(sizeof(t_tree));
+	if (!node)
+		print_exit(ERR_MALLOC);
+	node->type = NODE_FILE;
 	node->data.file = striped_str;
 	if (!node->data.file)
 		print_exit(ERR_MALLOC);

@@ -48,7 +48,7 @@ int split_redirection(char *str, t_tree **node, int i, int j)
 				add_node(node, init_exp_node(cmd_name, 0, ft_strlen(str)), LEFT); // in init_nodes - stop mallocing, instead pass the substr or strdup in init_nodes();
 			cmd_flags = extract_file_name(str, i + 2, ft_strlen(str));
 			if (cmd_flags)
-				add_node(node, init_exp_node(cmd_flags, 0, ft_strlen(str)), RIGHT);
+				add_node(node, init_file_node(cmd_flags, 0, ft_strlen(str)), RIGHT);
 		}
 		else
 		{
@@ -58,12 +58,12 @@ int split_redirection(char *str, t_tree **node, int i, int j)
 				add_node(node, init_exp_node(cmd_name, 0, ft_strlen(str)), LEFT); // in init_nodes - stop mallocing, instead pass the substr or strdup in init_nodes();
 			cmd_flags = extract_file_name(str, i + 1, ft_strlen(str));
 			if (cmd_flags)
-				add_node(node, init_exp_node(cmd_flags, 0, ft_strlen(str)), RIGHT);
+				add_node(node, init_file_node(cmd_flags, 0, ft_strlen(str)), RIGHT);
 		}
 		if ((*node)->left != NULL)
 			tokenizer((*node)->left->data.expression, &(*node)->left);
-		if ((*node)->right != NULL)
-			tokenizer((*node)->right->data.expression, &(*node)->right);
+		// if ((*node)->right != NULL)
+		// 	tokenizer((*node)->right->data.expression, &(*node)->right);
 		return (1);
 	}
 	return (0);

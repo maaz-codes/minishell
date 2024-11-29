@@ -12,3 +12,8 @@ Status :
 Behaviour : Exiting after executing everything correctly.
 Desired : Shouldn't exit.
 Status : 
+
+####exp: ls < in1
+Behaviour : ls shouldn't work if in1 doesn't exist.
+Desired : It still prints ls content & doesn't print err for in1 not existing.
+Status :

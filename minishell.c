@@ -22,6 +22,7 @@ void execution(t_tree *tree, char **env)
 	pid_t pid;
 
 	find_docs(tree);
+	tree->level = 0;
 	gallows(tree, env, tree->type != NODE_OPERATOR); 
 }
 
@@ -32,11 +33,10 @@ int	main(int ac, char **av, char **env)
 	t_env		*env_vars;
 	t_std_fds 	std_fds;
 
-	dup_fds(&std_fds);
 	while (1)
 	{
+		dup_fds(&std_fds);
 		input = readline("minishell> ");
-		// printf("nininininiini\n");
 		if (input)
 		{
 			add_history(input);
@@ -53,6 +53,7 @@ int	main(int ac, char **av, char **env)
 				tree = tokenization(input);
 				if (tree)
 					execution(tree, env);
+				reset_std_fds(&std_fds);
 			}
 			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 15:12:09 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/29 08:40:57 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	handle_pipe(t_tree *tree, char **env, int fork_flag)
 	pid = fork();
 	if (pid == -1)
 		print_exit(ERR_FORK);
-	else if (pid == 0) // left-side
+	if (pid == 0) // left-side
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], 1), close(pipefd[1]);
@@ -90,7 +90,7 @@ void	handle_pipe(t_tree *tree, char **env, int fork_flag)
 	pid = fork();
 	if (pid == -1)
 		print_exit(ERR_FORK);
-	else if (pid == 0) // right-side
+	if (pid == 0) // right-side
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], 0), close(pipefd[0]);
@@ -100,7 +100,8 @@ void	handle_pipe(t_tree *tree, char **env, int fork_flag)
 	close(pipefd[1]);
 	wait(NULL);
 	wait(NULL);
-	// exit(0);
+	if (tree->level != 1) // not the main()
+		exit(0);
 }
 
 void	handle_redir(t_tree *tree, char **env, int fork_flag)
@@ -130,7 +131,10 @@ void	handle_cmd(t_tree *tree, char **env, int fork_flag)
 		wait(NULL);
 	}
 	else
+	{
+		// printf("no fork for %s\n", tree->data.command);
 		execute(tree->left->data.argument, env);
+	}
     // exit(0);
 	// exit_codes implementation...
 }
@@ -168,6 +172,7 @@ void handle_builtin(t_tree *tree, char **env)
 
 void	gallows(t_tree *tree, char **env, int fork_flag)
 {
+	tree->level += 1;
 	if (tree->type == NODE_OPERATOR) // { | }
 		handle_pipe(tree, env, fork_flag);
 	else if (tree->type == NODE_REDIRECTION) // { > < >> << }
