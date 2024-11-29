@@ -8,6 +8,8 @@ int	print_error(int code)
 		printf("Error: Fork() failed\n");
 	else if (code == ERR_EXECVE)
 		printf("Error: Execve() failed\n");
+	else if (code == ERR_FILE)
+		printf("Error: Wrong File\n");
 	return (0);
 }
 

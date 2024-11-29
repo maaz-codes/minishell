@@ -12,9 +12,9 @@ void dup_fds(t_std_fds *std_fds)
 
 void reset_std_fds(t_std_fds *std_fds)
 {
-	dup2(STDIN_FILENO, std_fds->std_in);
-	dup2(STDOUT_FILENO, std_fds->std_out);
-	dup2(STDERR_FILENO, std_fds->std_err);
+	dup2(std_fds->std_in, STDIN_FILENO);
+	dup2(std_fds->std_out, STDOUT_FILENO);
+	dup2(std_fds->std_err, STDERR_FILENO);
 }
 
 void execution(t_tree *tree, char **env)
@@ -33,9 +33,9 @@ int	main(int ac, char **av, char **env)
 	t_env		*env_vars;
 	t_std_fds 	std_fds;
 
+	dup_fds(&std_fds);
 	while (1)
 	{
-		dup_fds(&std_fds);
 		input = readline("minishell> ");
 		if (input)
 		{
