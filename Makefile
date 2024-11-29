@@ -34,10 +34,13 @@ SRCS = minishell.c \
        libft/ft_strchr.c
 
 OBJS = $(SRCS:.c=.o)
-LDFLAGS = -l readline 
+LDFLAGS = -lreadline 
+
 
 all:$(NAME)
 
+# potential flag needed
+# $(CC) $(CFLAGS) -L/opt/vagrant/embedded/lib/ -Iopt/vagrant/embedded/include/readline
 $(NAME): $(OBJS)
 	$(CC) $^ -o $@ $(LDFLAGS)
 

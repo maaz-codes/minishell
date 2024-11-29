@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "minishell.h": "c",
-        "__node_handle": "c"
+        "__node_handle": "c",
+        "readline.h": "c",
+        "history.h": "c"
     }
 }
