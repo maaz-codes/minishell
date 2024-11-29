@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/29 09:38:51 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/29 09:53:00 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	handle_input_redir(char *file_name)
 	if (fd == -1)
 	{
 		print_error(ERR_FILE);
-		return (1);
+		return (fd);
 	}
 	dup2(fd, 0);
 	return (fd);
@@ -46,7 +46,7 @@ int	handle_output_redir(char *file_name)
 	if (fd == -1)
 	{
 		print_exit(ERR_FILE);
-		return (1);
+		return (fd);
 	}
 	dup2(fd, 1);
 	return (fd);
@@ -59,7 +59,7 @@ int	handle_append_redir(char *file_name)
 	if (fd == -1)
 	{
 		print_error(ERR_FILE);
-		return (1);
+		return (fd);
 	}
 	dup2(fd, 1);
 	return (fd);
@@ -68,7 +68,7 @@ int	handle_here_doc(int read_from)
 {
 	dup2(read_from, 0);
 	close(read_from);
-	return (1);
+	return (read_from);
 }
 
 void	handle_pipe(t_tree *tree, char **env, int fork_flag)
@@ -106,15 +106,18 @@ void	handle_pipe(t_tree *tree, char **env, int fork_flag)
 
 void	handle_redir(t_tree *tree, char **env, int fork_flag)
 {
+	int fd;
+	
 	if (ft_strncmp(tree->data.redirection, "<", 2) == 0)
-		handle_input_redir(tree->right->data.file);
+		fd = handle_input_redir(tree->right->data.file);
 	else if (ft_strncmp(tree->data.redirection, ">", 2) == 0)
-		handle_output_redir(tree->right->data.file);
+		fd = handle_output_redir(tree->right->data.file);
 	else if (ft_strncmp(tree->data.redirection, ">>", 2) == 0)
-		handle_append_redir(tree->right->data.file);
+		fd = handle_append_redir(tree->right->data.file);
 	else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
-		handle_here_doc(tree->right->data.here_doc);
-	gallows(tree->left, env, fork_flag);
+		fd = handle_here_doc(tree->right->data.here_doc);
+	if (fd != -1)
+		gallows(tree->left, env, fork_flag);
 }
 
 void	handle_cmd(t_tree *tree, char **env, int fork_flag)
@@ -170,7 +173,7 @@ void handle_builtin(t_tree *tree, char **env)
     //     ft_exit();
 }
 
-void	gallows(t_tree *tree, char **env, int fork_flag)
+int	gallows(t_tree *tree, char **env, int fork_flag)
 {
 	tree->level += 1;
 	if (tree->type == NODE_OPERATOR) // { | }
@@ -184,4 +187,5 @@ void	gallows(t_tree *tree, char **env, int fork_flag)
 		else
 			handle_cmd(tree, env, fork_flag);
 	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/29 08:14:11 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/29 09:50:16 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int					split_cmd(char *str, int i, t_tree **node);
 char				**split_args(char *str, char *cmd);
 
 // gallows.c
-void				gallows(t_tree *tree, char **env, int fork_flag);
+int					gallows(t_tree *tree, char **env, int fork_flag);
 void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c
