@@ -11,12 +11,13 @@ static void handle_sigint(int sig)
 	}
 }
 
-static void handle_sigquit(void)
+static void handle_sigquit(t_sig sig)
 {
     struct sigaction set;
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = SIG_IGN;
     sigaction(SIGQUIT,&set,NULL);
+    sig.sig_quit = 0;
 }
 
 static void sig_newline(int signal)
@@ -24,7 +25,7 @@ static void sig_newline(int signal)
     (void)signal;
     rl_on_new_line();
 }
-void set_signals_after(void)
+void set_signals_after(t_sig signals)
 {
     struct sigaction set;
 
@@ -34,12 +35,21 @@ void set_signals_after(void)
     sigaction(SIGINT, &set, NULL);
 }
 
-void set_signals(void)
+void set_signals(t_sig signals)
 {
     struct sigaction set;
 
-    handle_sigquit();
+    handle_sigquit(signals);
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = &handle_sigint;
-    sigaction(SIGINT,&set,NULL);
+    printf("signal: %d\n",sigaction(SIGINT,&set,NULL));
 }
+
+void int_signals(t_sig signals)
+{
+    signals.sig_int = 0;
+    signals.sig_quit = 0;
+    signals.pid = 0;
+    signals.exit_status = 0;
+}
+

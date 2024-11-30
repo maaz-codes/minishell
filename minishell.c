@@ -63,6 +63,22 @@ t_path	*int_cd(void)
 	return (node_new);
 }
 
+char  *signal_checkpoint(t_sig signals)
+{
+    char *input;
+
+    int_signals(signals);
+    set_signals(signals);
+    input = readline("minishell> ");
+    set_signals_after(signals);
+    if(!input)
+    {
+        printf("\nexiting now...\n");
+        exit(signals.exit_status);
+    }
+    return (input);
+}
+
 int main(int ac, char **av, char **env)
 {   
     t_path *paths;
@@ -75,14 +91,7 @@ int main(int ac, char **av, char **env)
         char *input;
         char **res;
 
-        set_signals();
-        input = readline("minishell> ");
-        set_signals_after();
-        if(!input)
-        {
-            printf("\nexiting now...\n");
-            exit(0);
-        }
+        input = signal_checkpoint(signals);
         if(input) 
         {   
             res = tokenization_char(input);
