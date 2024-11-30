@@ -33,17 +33,17 @@ void chop_branch(t_tree *node)
 		return ;
 	if (node->type == NODE_ARGUMENT)
 	{
-		printf("--freed:args\n");
+		// printf("--freed:args\n");
 		free_array(node->data.argument);
 	}
 	else if (node->type == NODE_OPERATOR)
 		;
 	else
 	{
-		printf("--freed:expression\n");
+		// printf("--freed:expression\n");
 		free(node->data.expression);
 	}
-	printf("--freed:node\n");
+	// printf("--freed:node\n");
 	free(node);
 }
 

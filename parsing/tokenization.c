@@ -66,7 +66,7 @@ int	check_syntax(t_tree *node, t_tree *parent)
 	return (1);
 }
 
-t_tree	*tokenization(char *str)
+t_tree	* tokenization(char *str)
 {
 	t_tree	*tree;
 
@@ -86,7 +86,7 @@ t_tree	*tokenization(char *str)
 				print_error(ERR_FORMAT);
 				return (NULL);
 			}
-			// print_tree(tree);
+			print_tree(tree);
 		}
 	}
 	return (tree);

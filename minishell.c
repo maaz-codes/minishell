@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **env)
 				ancient_one = tree;
 				if (tree)
 					execution(tree, env, ancient_one);
+				printf("alive\n");
 				lumberjack(tree);
 				reset_std_fds(&std_fds);
 			}

@@ -17,3 +17,8 @@ Status : FIXED!
 Behaviour : Exiting after executing everything correctly.
 Desired : Shouldn't exit.
 Status : FIXED!
+
+####exp: > out cat
+Behaviour : 
+Desired : 
+Status : 

@@ -1,7 +1,7 @@
 NAME = minishell
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CC = gcc -g #-fsanitize=address,undefined
+CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
 SRCS = 	minishell.c \
@@ -10,8 +10,8 @@ SRCS = 	minishell.c \
 		gallows_utils.c \
 		here_doc.c \
 		expansions.c \
+			tree/lumberjack.c \
 			tree/tree_utils.c \
-			tree/free_tree.c \
 				helpers/ft_strchr.c \
 				helpers/ft_strdup.c \
 				helpers/ft_strlen.c \

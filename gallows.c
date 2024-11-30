@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/30 11:55:17 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/30 14:36:28 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char **array_dup(char **array)
         return NULL;
 	while (j < i)
 	{
-		dup_array[j] = strdup(array[j]);
+		dup_array[j] = ft_strdup(array[j]);
 		j++;
 	}
     dup_array[i] = NULL;
@@ -132,6 +132,7 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 {
 	int fd;
+		// printf("alive\n");
 	
 	if (ft_strncmp(tree->data.redirection, "<", 2) == 0)
 		fd = handle_input_redir(tree->right->data.file);
@@ -142,7 +143,9 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 	else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
 		fd = handle_here_doc(tree->right->data.here_doc);
 	if (fd != -1)
+	{
 		gallows(tree->left, env, pipe_flag, ancient_one);
+	}
 	if (pipe_flag)
 		exit(1);
 }
@@ -212,6 +215,8 @@ void handle_builtin(t_tree *tree, char **env, t_tree *ancient_one)
 
 int	gallows(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 {
+	if (tree == NULL)
+		return 1;
 	tree->level += 1;
 	if (tree->type == NODE_OPERATOR) // { | }
 		handle_pipe(tree, env, pipe_flag, ancient_one);
