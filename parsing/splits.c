@@ -124,20 +124,19 @@ int split_file(char *str, int *i, t_tree **node)
 int split_cmd(char *str, int i, t_tree **node)
 {
 	char *args;
-	// t_tree *node_tmp;
+	char *cmd;
+	t_tree *node_tmp;
 
-	args = NULL;
 	if (str[i] == ' ' || str[i] == '\0')
 	{
-		// replacing the pointer, not over-writing it // free it later
-		// node_tmp = *node;
-		*node = init_cmd_node(str, i);
-		// free(node_tmp);
+		node_tmp = *node;
+		cmd = ft_substr(str, 0, i);
+		*node = init_cmd_node(cmd);
+		chop_branch(node_tmp);
 		args = ft_substr(str, i, ft_strlen(str) - i);
 		if (!args)
 			print_exit(ERR_MALLOC);
 		add_node(node, init_args_node(args, (*node)->data.command), LEFT);
-		// add_node(node, init_args_node(str, i, ft_strlen(str), (*node)->data.command), LEFT);
 		return (1);
 	}
 	return (0);

@@ -100,17 +100,15 @@ t_tree *init_exp_node(char *str, int start, int end)
 	return (node);
 }
 
-t_tree *init_cmd_node(char *str, int end)
+t_tree *init_cmd_node(char *cmd_tmp)
 {
     t_tree *node;
 
-	// take in the previous node and free it and return this one;
     node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
     node->type = NODE_COMMAND;
-	node->data.command = NULL;
-	node->data.command = remove_qoutes(ft_substr(str, 0, end));
+	node->data.command = remove_qoutes(cmd_tmp);
 	if (!node->data.command)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;
@@ -141,18 +139,14 @@ t_tree *init_cmd_node(char *str, int end)
 t_tree *init_args_node(char *args, char *cmd)
 {
 	t_tree *node;
-	// char *striped_str;
 
     node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
     node->type = NODE_ARGUMENT;
-	// striped_str = ft_substr(str, start, end);
-	// if (!striped_str)
-		// print_exit(ERR_MALLOC);
 	strip_spaces(&args);
-	// printf("str = -%s-\n", striped_str);
 	node->data.argument = split_args(args, cmd);
+	free(args);
 	if (!node->data.argument)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;

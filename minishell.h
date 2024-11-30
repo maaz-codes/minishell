@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/30 08:44:24 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/30 11:18:00 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_tree				*init_log_op_node(char spl_op);
 t_tree				*init_op_node(char op);
 t_tree				*init_redir_node(char *redir);
 t_tree				*init_file_node(char *str, int start, int end);
-t_tree				*init_cmd_node(char *str, int end);
+t_tree				*init_cmd_node(char *cmd_tmp);
 t_tree				*init_args_node(char *args, char *cmd);
 char				*exp_after_redir_node(char *str, int start, int end,
 						int append);
@@ -132,9 +132,9 @@ int					skip_spaces(char *str, int *i);
 int					print_error(int code);
 void				print_exit(int code);
 
-// free_tree.c
-void				free_tree(t_tree *tree);
-void				free_node(t_tree *node);
+// lumberjack.c
+void				lumberjack(t_tree *tree);
+void				chop_branch(t_tree *node);
 void				free_array(char **array);
 
 // splits.c
@@ -147,7 +147,7 @@ int					split_cmd(char *str, int i, t_tree **node);
 char				**split_args(char *str, char *cmd);
 
 // gallows.c
-int					gallows(t_tree *tree, char **env, int pipe_flag);
+int					gallows(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one);
 void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c

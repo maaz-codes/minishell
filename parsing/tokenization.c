@@ -51,6 +51,7 @@ t_tree	*tokenizer(char *str, t_tree **node)
 			break ;
 		i++;
 	}
+	free(str);
 	return (*node);
 }
 

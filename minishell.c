@@ -17,13 +17,13 @@ void reset_std_fds(t_std_fds *std_fds)
 	dup2(std_fds->std_err, STDERR_FILENO);
 }
 
-void execution(t_tree *tree, char **env)
+void execution(t_tree *tree, char **env, t_tree *ancient_one)
 {
 	pid_t pid;
 
 	find_docs(tree);
 	tree->level = 0;
-	gallows(tree, env, tree->type == NODE_OPERATOR); 
+	gallows(tree, env, tree->type == NODE_OPERATOR, ancient_one); 
 }
 
 int	main(int ac, char **av, char **env)
@@ -32,6 +32,7 @@ int	main(int ac, char **av, char **env)
 	t_tree		*tree;
 	t_env		*env_vars;
 	t_std_fds 	std_fds;
+	t_tree 		*ancient_one;
 
 	dup_fds(&std_fds);
 	while (1)
@@ -40,8 +41,7 @@ int	main(int ac, char **av, char **env)
 		if (input)
 		{
 			add_history(input);
-			if (!ft_strncmp(input, "exit", 5) || !ft_strncmp(input, "\"exit\"",
-					7))
+			if (!ft_strncmp(input, "exit", 5) || !ft_strncmp(input, "\"exit\"", 7))
 			{
 				printf("Exiting now.....\n");
 				exit(EXIT_SUCCESS);
@@ -51,10 +51,11 @@ int	main(int ac, char **av, char **env)
 			if (*input)
 			{
 				tree = tokenization(input);
+				ancient_one = tree;
 				if (tree)
-					execution(tree, env);
+					execution(tree, env, ancient_one);
+				lumberjack(tree);
 				reset_std_fds(&std_fds);
-				free_tree(tree);
 			}
 			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}
