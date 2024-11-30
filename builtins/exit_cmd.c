@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+extern t_sig signals;
+
 void clear_all(t_path **paths,char **str)
 {   
     t_exp *exp;
@@ -80,6 +82,6 @@ void exit_cmd(t_path **paths, char **str)
         (clear_all(paths,str),printf("exit\n"),exit(exit_num));
     }
     else if(!ft_strncmp(str[0],"exit",5) && str[1] == NULL)
-        (clear_all(paths,str),printf("exit\n"),exit(exit_num));
+        (clear_all(paths,str),printf("exit\n"),exit(signals.exit_status));
 }
 
