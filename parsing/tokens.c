@@ -52,17 +52,20 @@ t_tree *init_redir_node(char *redir)
 t_tree *init_file_node(char *str, int start, int end)
 {
     t_tree *node;
-	char *striped_str;
+	// char *striped_str;
 
+	// striped_str = ft_substr(str, start, end - start);
+	// if (!striped_str)
+	// 	print_exit(ERR_MALLOC);
+	strip_spaces(&str);
+	if (*str == '\0')
+		return (NULL);
+	// printf("file: %s\n", striped_str);
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
 	node->type = NODE_FILE;
-	striped_str = ft_substr(str, start, end - start);
-	if (!striped_str)
-		print_exit(ERR_MALLOC);
-	strip_spaces(&striped_str);
-	node->data.file = striped_str;
+	node->data.file = str;
 	if (!node->data.file)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;
@@ -77,14 +80,16 @@ t_tree *init_exp_node(char *str, int start, int end)
 	t_tree *node;
 	char *striped_str;
 
-	node = malloc(sizeof(t_tree));
-	if (!node)
-		print_exit(ERR_MALLOC);
-	node->type = NODE_EXPRESSION;
 	striped_str = ft_substr(str, start, end - start);
 	if (!striped_str)
 		print_exit(ERR_MALLOC);
 	strip_spaces(&striped_str);
+	if (*striped_str == '\0')
+		return (NULL);
+	node = malloc(sizeof(t_tree));
+	if (!node)
+		print_exit(ERR_MALLOC);
+	node->type = NODE_EXPRESSION;
 	node->data.expression = striped_str;
 	if (!node->data.expression)
 		print_exit(ERR_MALLOC);
@@ -95,7 +100,7 @@ t_tree *init_exp_node(char *str, int start, int end)
 	return (node);
 }
 
-t_tree *init_cmd_node(char *str, int end)
+t_tree *init_cmd_node(char *cmd_tmp)
 {
     t_tree *node;
 
@@ -103,7 +108,7 @@ t_tree *init_cmd_node(char *str, int end)
 	if (!node)
 		print_exit(ERR_MALLOC);
     node->type = NODE_COMMAND;
-	node->data.command = remove_qoutes(ft_substr(str, 0, end));
+	node->data.command = remove_qoutes(cmd_tmp);
 	if (!node->data.command)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;
@@ -131,20 +136,17 @@ t_tree *init_cmd_node(char *str, int end)
 // 	return (node);
 // }
 
-t_tree *init_args_node(char *str, int start, int end, char *cmd)
+t_tree *init_args_node(char *args, char *cmd)
 {
 	t_tree *node;
-	char *striped_str;
 
     node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
     node->type = NODE_ARGUMENT;
-	striped_str = ft_substr(str, start, end);
-	if (!striped_str)
-		print_exit(ERR_MALLOC);
-	strip_spaces(&striped_str);
-	node->data.argument = split_args(striped_str, cmd);
+	strip_spaces(&args);
+	node->data.argument = split_args(args, cmd);
+	free(args);
 	if (!node->data.argument)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;
@@ -155,30 +157,34 @@ t_tree *init_args_node(char *str, int start, int end, char *cmd)
 }
 
 
-char *exp_after_redir_node(char *str, int start, int  end)
+char *exp_after_redir_node(char *str, int start, int end, int append)
 {
 	char *exp;
 	int first_half;
 	int second_half;
-	int qoutes;
 
 	first_half = start;
-	second_half = end;
-	qoutes = 0;
-	end++;
+	second_half = end - append;
 	while (str[end] == ' ')
 		end++;
 	while (end < ft_strlen(str))
 	{
 		if (str[end] == '"' || str[end] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[end]), str, &end);
-		if (str[end] == '"' || str[end] == '\'')
+		{
+			end = inside_qoutes(str[end], str, end);
 			continue ;
+		}
 		if (str[end] == ' ')
 			break ;
 		end++;
 	}
-	exp = ft_strjoin(ft_substr(str, first_half, second_half), ft_substr(str, end + 1, ft_strlen(str)));
+	char *cmd_name = ft_substr(str, first_half, second_half - first_half);
+	if (*cmd_name == '\0')
+		return (NULL);
+	char *cmd_flags = ft_substr(str, end, ft_strlen(str));
+	if (!cmd_flags || !cmd_name)
+		print_exit(ERR_MALLOC);
+	exp = ft_strjoin(cmd_name, cmd_flags);
 	if (!exp)
 		print_exit(ERR_MALLOC);
 	return (exp);
@@ -186,20 +192,19 @@ char *exp_after_redir_node(char *str, int start, int  end)
 
 char *extract_file_name(char *str, int start, int end)
 {
-	int qoutes;
 	int store_start;
 	char *file_name;
 
-	qoutes = 0;
 	store_start = start;
 	while (str[start] == ' ')
 		start++;
 	while (start < ft_strlen(str))
 	{
 		if (str[start] == '"' || str[start] == '\'')
-			inside_qoutes(&qoutes, symbol_checker(str[start]), str, &start);
-		if (str[start] == '"' || str[start] == '\'')
+		{
+			start = inside_qoutes(str[start], str, start);
 			continue ;
+		}
 		if (str[start] == ' ')
 			break ;
 		start++;
@@ -207,5 +212,7 @@ char *extract_file_name(char *str, int start, int end)
 	file_name = ft_substr(str, store_start, start - store_start);
 	if (!file_name)
 		print_exit(ERR_MALLOC);
+	if (*file_name == '\0')
+		return (NULL);
 	return (file_name);
 }

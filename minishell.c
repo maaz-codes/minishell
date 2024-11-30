@@ -3,24 +3,38 @@
 #include <readline/readline.h>
 #include <stdio.h>
 
-void find_docs(t_tree *tree)
+void dup_fds(t_std_fds *std_fds)
 {
-	if (tree->left != NULL)
-	{
-		find_docs(tree->left);
-		if (tree->right != NULL)
-			find_docs(tree->right);
-	}
-	if (tree->type == NODE_REDIRECTION)
-		if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
-        	tree->right->data.here_doc = ft_here_doc(tree->right->data.expression);
+	std_fds->std_in = dup(STDIN_FILENO);
+	std_fds->std_out = dup(STDOUT_FILENO);
+	std_fds->std_err = dup(STDERR_FILENO);
+}
+
+void reset_std_fds(t_std_fds *std_fds)
+{
+	dup2(std_fds->std_in, STDIN_FILENO);
+	dup2(std_fds->std_out, STDOUT_FILENO);
+	dup2(std_fds->std_err, STDERR_FILENO);
+}
+
+void execution(t_tree *tree, char **env, t_tree *ancient_one)
+{
+	pid_t pid;
+
+	find_docs(tree);
+	tree->level = 0;
+	gallows(tree, env, tree->type == NODE_OPERATOR, ancient_one); 
 }
 
 int	main(int ac, char **av, char **env)
 {
-	char *input;
-	t_tree *tree;
+	char		*input;
+	t_tree		*tree;
+	t_env		*env_vars;
+	t_std_fds 	std_fds;
+	t_tree 		*ancient_one;
 
+	dup_fds(&std_fds);
 	while (1)
 	{
 		input = readline("minishell> ");
@@ -32,20 +46,24 @@ int	main(int ac, char **av, char **env)
 				printf("Exiting now.....\n");
 				exit(EXIT_SUCCESS);
 			}
-			tree = tokenization(input);
-			if (tree)
+			// printf("old_str = -%s-\n", input);
+			// printf("expanded_str = -%s-\n", env_expansion(input, env_vars));
+			if (*input)
 			{
-				pid_t pid = fork();
-				if (pid == 0)
-				{
-					find_docs(tree);
-					gallows(tree, env);
-					printf("After gallows...\n");
-					exit(0);
-				}
-				wait(NULL);
+				tree = tokenization(input);
+				ancient_one = tree;
+				if (tree)
+					execution(tree, env, ancient_one);
+				printf("alive\n");
+				lumberjack(tree);
+				reset_std_fds(&std_fds);
 			}
 			// free(input); // no need, coz we're freeing it inside tokenizer;
+		}
+		else
+		{
+			printf("readline failure\n");
+			exit(1);
 		}
 	}
 	return (0);

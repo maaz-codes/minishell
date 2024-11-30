@@ -1,15 +1,17 @@
 NAME = minishell
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CC = gcc -g #-fsanitize=address,undefined
+CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
 SRCS = 	minishell.c \
 		error.c \
 		gallows.c \
 		gallows_utils.c \
+		here_doc.c \
+		expansions.c \
+			tree/lumberjack.c \
 			tree/tree_utils.c \
-			tree/free_tree.c \
 				helpers/ft_strchr.c \
 				helpers/ft_strdup.c \
 				helpers/ft_strlen.c \
@@ -24,8 +26,7 @@ SRCS = 	minishell.c \
 					parsing/token_utils.c \
 					parsing/tokenization.c \
 					parsing/tokens.c \
-						here_doc.c \
-							get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
+							# get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 						# pipex/process.c \
 						# pipex/errors.c \
 						# pipex/paths.c \

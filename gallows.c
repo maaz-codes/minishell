@@ -6,11 +6,35 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/22 12:19:05 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/30 14:36:28 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char **array_dup(char **array)
+{
+    int i;
+	int j;
+    char **dup_array;
+
+	i = 0;
+	j = 0;
+    if (!array)
+        return NULL;
+    while (array[i])
+        i++;
+    dup_array = (char **)malloc(sizeof(char *) * (i + 1));
+    if (!dup_array)
+        return NULL;
+	while (j < i)
+	{
+		dup_array[j] = ft_strdup(array[j]);
+		j++;
+	}
+    dup_array[i] = NULL;
+    return (dup_array);
+}
 
 void	execute(char **cmd, char *env[])
 {
@@ -18,116 +42,192 @@ void	execute(char **cmd, char *env[])
 
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
-		print_exit(ERR_MALLOC);
+		(free_array(cmd), print_exit(ERR_CMD));
 	execve(path, cmd, env);
-	print_error(ERR_EXECVE);
-    exit(1);
+	// free: path, cmd, env;
+	print_exit(ERR_CMD);
+	exit(EXIT_FAILURE);
 }
 
-int handle_input_redir(char *file_name)
+int	handle_input_redir(char *file_name)
 {
-    int fd;
-    
-    fd = open(file_name, O_RDONLY);
-    if (fd == -1)
-    {
-        print_error(ERR_FILE);
-        return (1);
-    }
-    dup2(fd, 0);
-    return (fd);
+	int	fd;
+
+	fd = open(file_name, O_RDONLY);
+	if (fd == -1)
+	{
+		print_error(ERR_FILE);
+		return (fd);
+	}
+	dup2(fd, 0);
+	return (fd);
 }
 
-int handle_output_redir(char *file_name)
+int	handle_output_redir(char *file_name)
 {
-    int fd;
-    
-    fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-    if (fd == -1)
-    {
-        print_exit(ERR_FILE);
-        return (1);
-    }
-    dup2(fd, 1);
-    return (fd);
+	int	fd;
+
+	fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		print_exit(ERR_FILE);
+		return (fd);
+	}
+	dup2(fd, 1);
+	return (fd);
 }
-int handle_append_redir(char *file_name)
+int	handle_append_redir(char *file_name)
 {
-    int fd;
-    
-    fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
-    if (fd == -1)
-    {
-        print_error(ERR_FILE);
-        return (1);
-    }
-    dup2(fd, 1);
-    return (fd);
+	int	fd;
+
+	fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (fd == -1)
+	{
+		print_error(ERR_FILE);
+		return (fd);
+	}
+	dup2(fd, 1);
+	return (fd);
 }
-int handle_here_doc(int read_from)
+int	handle_here_doc(int read_from)
 {
-    dup2(read_from, 0);
-    close(read_from);
-    return (1);
+	dup2(read_from, 0);
+	close(read_from);
+	return (read_from);
 }
 
-void handle_pipe(t_tree *tree, char **env)
+void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 {
-    // duping STDin & STDout to reading & writing end of pipe
-    pid_t pid;
-    int pipefd[2];
+	pid_t	pid;
+	int		pipefd[2];
 
-    if (pipe(pipefd)== -1)
-        print_exit(ERR_PIPE);
-    pid = fork();
-    if (pid == -1)
-        print_exit(ERR_FORK);
-    else if (pid == 0) // left-side
-    {
-        close(pipefd[0]);
-        dup2(pipefd[1], 1), close(pipefd[1]);
-        gallows(tree->left, env);
-    }
-    pid = fork();
-    if (pid == -1)
-        print_exit(ERR_FORK);
-    else if (pid == 0) // right-side
-    {
-        close(pipefd[1]);
-        dup2(pipefd[0], 0), close(pipefd[0]);
-        gallows(tree->right, env);
-    }
-    close(pipefd[0]);
-    close(pipefd[1]);
-    wait(NULL);
-    wait(NULL);
-    exit (0);
+	if (pipe(pipefd) == -1)
+		print_exit(ERR_PIPE);
+	pid = fork();
+	if (pid == -1)
+		print_exit(ERR_FORK);
+	if (pid == 0) // left-side
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], 1), close(pipefd[1]);
+		gallows(tree->left, env, pipe_flag, ancient_one);
+	}
+	pid = fork();
+	if (pid == -1)
+		print_exit(ERR_FORK);
+	if (pid == 0) // right-side
+	{
+		close(pipefd[1]);
+		dup2(pipefd[0], 0), close(pipefd[0]);
+		gallows(tree->right, env, pipe_flag, ancient_one);
+	}
+	close(pipefd[0]);
+	close(pipefd[1]);
+	wait(NULL);
+	wait(NULL);
+	if (tree->level != 1) // not the main()
+		exit(0);
 }
 
-void handle_redir(t_tree *tree, char **env)
+void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 {
-    if (ft_strncmp(tree->data.redirection, "<", 2) == 0)
-        handle_input_redir(tree->right->data.file);
-    else if (ft_strncmp(tree->data.redirection, ">", 2) == 0)
-        handle_output_redir(tree->right->data.file);
-    else if (ft_strncmp(tree->data.redirection, ">>", 2) == 0)
-        handle_append_redir(tree->right->data.file);
-    else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
-        handle_here_doc(tree->right->data.here_doc);
-    gallows(tree->left, env);
+	int fd;
+		// printf("alive\n");
+	
+	if (ft_strncmp(tree->data.redirection, "<", 2) == 0)
+		fd = handle_input_redir(tree->right->data.file);
+	else if (ft_strncmp(tree->data.redirection, ">", 2) == 0)
+		fd = handle_output_redir(tree->right->data.file);
+	else if (ft_strncmp(tree->data.redirection, ">>", 2) == 0)
+		fd = handle_append_redir(tree->right->data.file);
+	else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
+		fd = handle_here_doc(tree->right->data.here_doc);
+	if (fd != -1)
+	{
+		gallows(tree->left, env, pipe_flag, ancient_one);
+	}
+	if (pipe_flag)
+		exit(1);
 }
 
-void handle_cmd(t_tree *tree, char **env)
+void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 {
-    execute(tree->left->data.argument, env);   
+	pid_t	pid;
+	char 	**args;
+
+	args = array_dup(tree->left->data.argument);
+	if (!pipe_flag)
+	{
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+		{
+			// free(tree->left); // freeing args_node
+			// chop_branch(tree); // freeing cmd_node fully
+			lumberjack(ancient_one);
+			execute(args, env);
+		}
+		free_array(args);
+		wait(NULL);
+	}
+	else
+	{
+		// free(tree->left); // freeing args_node
+		// chop_branch(tree); // freeing cmd_node fully
+		lumberjack(ancient_one);
+		execute(args, env);
+	}
+    // exit(0);
+	// exit_codes implementation...
 }
 
-void gallows(t_tree *tree, char **env)
+int	is_builtin(char *str)
 {
-    if (tree->type == NODE_OPERATOR) // { | }
-        handle_pipe(tree, env);
-    else if (tree->type == NODE_REDIRECTION) // { > < >> << }
-        handle_redir(tree, env);
-    else if (tree->type == NODE_COMMAND)
-        handle_cmd(tree, env);
+	if (!ft_strncmp(str, "echo", 5) || !ft_strncmp(str, "cd", 3)
+		|| !ft_strncmp(str, "pwd", 4) || !ft_strncmp(str, "export", 7)
+		|| !ft_strncmp(str, "unset", 6) || !ft_strncmp(str, "env", 4)
+		|| !ft_strncmp(str, "exit", 5))
+	{
+		return (1);
+	}
+	return (0);
+}
+
+void handle_builtin(t_tree *tree, char **env, t_tree *ancient_one)
+{
+    printf("Builtins in construction...\n");
+    // if (!ft_strncmp(tree->data.command, "echo", 5))
+    //     ft_echo();
+    // else if (!ft_strncmp(tree->data.command, "cd", 3))
+    //     ft_cd();
+    // else if (!ft_strncmp(tree->data.command, "pwd", 4))
+    //     ft_pwd();
+    // else if (!ft_strncmp(tree->data.command, "export", 7))
+    //     ft_export();
+    // else if (!ft_strncmp(tree->data.command, "unset", 6))
+    //     ft_unset();
+    // else if (!ft_strncmp(tree->data.command, "env", 4))
+    //     ft_env();
+    // else if (!ft_strncmp(tree->data.command, "exit", 5))
+    //     ft_exit();
+}
+
+int	gallows(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
+{
+	if (tree == NULL)
+		return 1;
+	tree->level += 1;
+	if (tree->type == NODE_OPERATOR) // { | }
+		handle_pipe(tree, env, pipe_flag, ancient_one);
+	else if (tree->type == NODE_REDIRECTION) // { > < >> << }
+		handle_redir(tree, env, pipe_flag, ancient_one);
+	else if (tree->type == NODE_COMMAND)
+	{
+		if (is_builtin(tree->data.command))
+			handle_builtin(tree, env, ancient_one);
+		else
+			handle_cmd(tree, env, pipe_flag, ancient_one);
+	}
+	return (1);
 }

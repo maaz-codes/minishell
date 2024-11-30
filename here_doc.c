@@ -6,29 +6,43 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/22 12:48:23 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/27 12:21:18 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "get_next_line/get_next_line.h"
+
+void	find_docs(t_tree *tree)
+{
+	if (tree->type == NODE_REDIRECTION)
+		if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
+			tree->right->data.here_doc = ft_here_doc(tree->right->data.expression);
+	if (tree->left != NULL)
+	{
+		find_docs(tree->left);
+		if (tree->right != NULL)
+			find_docs(tree->right);
+	}
+}
 
 static void	read_write(char *limiter, int write_to)
 {
-	char	*new_limiter;
+	char	*new_line;
 	char	*line;
 
-	new_limiter = ft_strjoin(limiter, "\n");
-	line = get_next_line(0);
-	while (line)
+	while (1)
 	{
-		if (!ft_strncmp(line, new_limiter, ft_strlen(new_limiter)))
-			break ;
-		write(write_to, line, ft_strlen(line));
-		free(line);
-		line = get_next_line(0);
+		line = readline("> ");
+		if (line)
+		{
+			if (!ft_strncmp(line, limiter, ft_strlen(limiter)))
+				break ;
+			new_line = ft_strjoin(line, "\n");
+			write(write_to, new_line, ft_strlen(new_line));
+			free(line);
+		}
 	}
-	free(new_limiter);
+	free(new_line);
 	free(line);
 	close(write_to);
 }
@@ -41,7 +55,6 @@ int	ft_here_doc(char *limiter)
 
 	if (pipe(doc_pipe) == -1)
 		print_error(ERR_PIPE);
-	write(1, "<here_doc/>\n", 12);
 	read_write(limiter, doc_pipe[1]);
     return (doc_pipe[0]);
 }

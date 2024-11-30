@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tree.c                                        :+:      :+:    :+:   */
+/*   lumberjack.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:06:11 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/21 14:02:57 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/30 09:52:57 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,34 @@ void free_array(char **array)
 	free(array);
 }
 
-void free_node(t_tree *node)
+void chop_branch(t_tree *node)
 {
+	if (!node)
+		return ;
 	if (node->type == NODE_ARGUMENT)
+	{
+		// printf("--freed:args\n");
 		free_array(node->data.argument);
+	}
 	else if (node->type == NODE_OPERATOR)
 		;
 	else
+	{
+		// printf("--freed:expression\n");
 		free(node->data.expression);
+	}
+	// printf("--freed:node\n");
 	free(node);
 }
 
-void free_tree(t_tree *tree)
+void lumberjack(t_tree *tree)
 {
 	if (tree)
 	{
-		if (tree->left)
-			free_tree(tree->left);
-		else if (tree->right)
-			free_tree(tree->right);
-		free_node(tree);
+		if (tree->left != NULL)
+			lumberjack(tree->left);
+		if (tree->right != NULL)
+			lumberjack(tree->right);
+		chop_branch(tree);
 	}
 }
