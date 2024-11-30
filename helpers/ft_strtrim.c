@@ -6,13 +6,13 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:35:56 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/07 14:36:56 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/30 09:07:10 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+static size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 
@@ -35,6 +35,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	char	*str;
 
 	str = 0;
+	if (ft_strlen(s1) == 0)
+		return (ft_strdup(""));
 	if (s1 != 0 && set != 0)
 	{
 		i = 0;

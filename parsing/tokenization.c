@@ -9,7 +9,7 @@ int	strip_spaces(char **str)
 		return (1);
 	striped = ft_strtrim(*str, " ");
 	if (!striped)
-		return (0);
+		print_exit(ERR_MALLOC);
 	original = *str;
 	*str = striped;
 	free(original);

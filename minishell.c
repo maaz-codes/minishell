@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **env)
 				if (tree)
 					execution(tree, env);
 				reset_std_fds(&std_fds);
+				free_tree(tree);
 			}
 			// free(input); // no need, coz we're freeing it inside tokenizer;
 		}

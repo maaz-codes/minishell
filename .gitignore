@@ -4,3 +4,5 @@ libft.a
 .vscode
 .DS_STORE
 *.txt
+a.out
+testing.c

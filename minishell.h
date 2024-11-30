@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/29 10:18:03 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/11/30 08:44:24 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_tree				*init_op_node(char op);
 t_tree				*init_redir_node(char *redir);
 t_tree				*init_file_node(char *str, int start, int end);
 t_tree				*init_cmd_node(char *str, int end);
-t_tree				*init_args_node(char *str, int start, int end, char *cmd);
+t_tree				*init_args_node(char *args, char *cmd);
 char				*exp_after_redir_node(char *str, int start, int end,
 						int append);
 char				*extract_file_name(char *str, int start, int end);

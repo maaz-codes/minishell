@@ -60,7 +60,7 @@ char *remove_qoutes(char *str)
     i = 0;
     j = 0;
     k = 0;
-    new_str = malloc(sizeof(char) * ft_strlen(str));
+    new_str = malloc(sizeof(char) * ft_strlen(str) + 1);
     if (!new_str)
         print_exit(ERR_MALLOC);
     while (i < ft_strlen(str))
@@ -75,6 +75,6 @@ char *remove_qoutes(char *str)
         }
         new_str[k++] = str[i++];
     }
-    free(str);
-    return (new_str);
+    new_str[k] = '\0';
+    return (free(str), new_str);
 }
