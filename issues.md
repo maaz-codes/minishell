@@ -22,3 +22,6 @@ Status : FIXED!
 Behaviour : 
 Desired : 
 Status : 
+
+###Redundant Code
+1. Stop passing int j everywhere, it's value is always zero.

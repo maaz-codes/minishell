@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/30 11:18:00 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/02 10:12:43 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,19 +101,18 @@ void				print_tree(t_tree *tree);
 
 // tokenization
 int					strip_spaces(char **str);
-t_tree				*tokenization(char *str);
+t_tree				*tokenization(char **str);
 t_tree				*tokenizer(char *str, t_tree **node);
 
 // tokens.c
-t_tree				*init_exp_node(char *str, int start, int end);
+t_tree				*init_exp_node(char **str);
 t_tree				*init_log_op_node(char spl_op);
 t_tree				*init_op_node(char op);
 t_tree				*init_redir_node(char *redir);
 t_tree				*init_file_node(char *str, int start, int end);
 t_tree				*init_cmd_node(char *cmd_tmp);
 t_tree				*init_args_node(char *args, char *cmd);
-char				*exp_after_redir_node(char *str, int start, int end,
-						int append);
+char 				*exp_after_redir_node(char *str, char *first_half, int start);
 char				*extract_file_name(char *str, int start, int end);
 
 // qoutes.c
@@ -131,6 +130,7 @@ int					skip_spaces(char *str, int *i);
 // error.c
 int					print_error(int code);
 void				print_exit(int code);
+void 				free_str(char **str);
 
 // lumberjack.c
 void				lumberjack(t_tree *tree);

@@ -23,3 +23,12 @@ void	print_exit(int code)
 		printf("minishell: cmd not found\n"), exit(127);
 	exit(EXIT_FAILURE);
 }
+
+void free_str(char **str)
+{
+    if (str && *str)
+    {
+        free(*str); 
+        *str = NULL;
+    }
+}
