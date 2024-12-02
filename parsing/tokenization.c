@@ -47,6 +47,7 @@ t_tree	*tokenizer(char *str, t_tree **node)
 			break ;
 		i++;
 	}
+	free(str);
 	return (*node);
 }
 
@@ -82,9 +83,9 @@ t_tree	*tokenization(char **str)
 			tree->level = 0;
 			if (!syntax_checker(tree))
 				return (print_error(ERR_FORMAT), NULL);
-			// print_tree(tree);
+			print_tree(tree);
 		}
 	}
-	free_str(str);
+	// free_str(str);
 	return (tree);
 }

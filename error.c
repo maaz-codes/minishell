@@ -14,13 +14,13 @@ int	print_error(int code)
 void	print_exit(int code)
 {
 	if (code == ERR_MALLOC)
-		printf("Error: Malloc Failed!\n");
+		write(2, "Error: Malloc Failed!\n", 23);
 	else if (code == ERR_FORK)
 		write(2, "Error: Fork() failed\n", 22);
 	else if (code == ERR_PIPE)
-		printf("Error: Pipe() failed\n");
+		write(2, "Error: Pipe() failed\n", 22);
 	else if (code == ERR_CMD)
-		printf("minishell: cmd not found\n"), exit(127);
+		(write(2, "minishell: cmd not found\n", 26), exit(127));
 	exit(EXIT_FAILURE);
 }
 

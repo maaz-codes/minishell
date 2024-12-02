@@ -41,7 +41,7 @@ void chop_branch(t_tree *node)
 	else
 	{
 		// printf("--freed:expression\n");
-		free(node->data.expression);
+		free_str(&node->data.expression);
 	}
 	// printf("--freed:node\n");
 	free(node);
@@ -52,9 +52,15 @@ void lumberjack(t_tree *tree)
 	if (tree)
 	{
 		if (tree->left != NULL)
+		{
+			// printf("node: %s\n", tree->left->data.expression);
 			lumberjack(tree->left);
+		}
 		if (tree->right != NULL)
+		{
+			// printf("node: %s\n", tree->right->data.expression);
 			lumberjack(tree->right);
+		}
 		chop_branch(tree);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/30 14:36:28 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/02 13:44:09 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ void	execute(char **cmd, char *env[])
 
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
-		(free_array(cmd), print_exit(ERR_CMD));
+		(free_array(cmd), print_exit(ERR_CMD)); // free env as well...
 	execve(path, cmd, env);
 	// free: path, cmd, env;
+	free_str(&path);
+	// free_array(cmd);
 	print_exit(ERR_CMD);
 	exit(EXIT_FAILURE);
 }
@@ -96,6 +98,20 @@ int	handle_here_doc(int read_from)
 	return (read_from);
 }
 
+void left_pipe(int *pipefd, t_tree *tree, t_tree *ancient_one, char **env)
+{
+	close(pipefd[0]);
+	dup2(pipefd[1], 1), close(pipefd[1]);
+	gallows(tree->left, env, 1, ancient_one);
+}
+
+void right_pipe(int *pipefd, t_tree *tree, t_tree *ancient_one, char **env)
+{
+	close(pipefd[1]);
+	dup2(pipefd[0], 0), close(pipefd[0]);
+	gallows(tree->right, env, 1, ancient_one);
+}
+
 void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 {
 	pid_t	pid;
@@ -106,21 +122,13 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 	pid = fork();
 	if (pid == -1)
 		print_exit(ERR_FORK);
-	if (pid == 0) // left-side
-	{
-		close(pipefd[0]);
-		dup2(pipefd[1], 1), close(pipefd[1]);
-		gallows(tree->left, env, pipe_flag, ancient_one);
-	}
+	if (pid == 0)
+		left_pipe(pipefd, tree, ancient_one, env);
 	pid = fork();
 	if (pid == -1)
 		print_exit(ERR_FORK);
-	if (pid == 0) // right-side
-	{
-		close(pipefd[1]);
-		dup2(pipefd[0], 0), close(pipefd[0]);
-		gallows(tree->right, env, pipe_flag, ancient_one);
-	}
+	if (pid == 0)
+		right_pipe(pipefd, tree, ancient_one, env);
 	close(pipefd[0]);
 	close(pipefd[1]);
 	wait(NULL);
@@ -132,7 +140,6 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 {
 	int fd;
-		// printf("alive\n");
 	
 	if (ft_strncmp(tree->data.redirection, "<", 2) == 0)
 		fd = handle_input_redir(tree->right->data.file);
@@ -155,7 +162,7 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 	pid_t	pid;
 	char 	**args;
 
-	args = array_dup(tree->left->data.argument);
+	// args = array_dup(tree->left->data.argument);
 	if (!pipe_flag)
 	{
 		pid = fork();
@@ -163,20 +170,18 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 			return ;
 		if (pid == 0)
 		{
-			// free(tree->left); // freeing args_node
-			// chop_branch(tree); // freeing cmd_node fully
-			lumberjack(ancient_one);
-			execute(args, env);
+			// lumberjack(ancient_one);
+			// execute(args, env);
+			execute(tree->left->data.argument, env);
 		}
-		free_array(args);
+		// free_array(args);
 		wait(NULL);
 	}
 	else
 	{
-		// free(tree->left); // freeing args_node
-		// chop_branch(tree); // freeing cmd_node fully
-		lumberjack(ancient_one);
-		execute(args, env);
+		// lumberjack(ancient_one);
+		// execute(args, env);
+		execute(tree->left->data.argument, env);
 	}
     // exit(0);
 	// exit_codes implementation...

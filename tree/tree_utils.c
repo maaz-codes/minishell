@@ -12,6 +12,8 @@ int count_array(char **array)
 
 void add_node(t_tree **tree, t_tree *node, int side)
 {
+	if (!node)
+		return ;
 	if (*tree == NULL)
 	{
 		*tree = node;
