@@ -48,17 +48,12 @@ int	main(int ac, char **av, char **env)
 			}
 			// printf("old_str = -%s-\n", input);
 			// printf("expanded_str = -%s-\n", env_expansion(input, env_vars));
-			if (*input)
-			{
-				tree = tokenization(input);
-				ancient_one = tree;
-				if (tree)
-					execution(tree, env, ancient_one);
-				printf("alive\n");
-				lumberjack(tree);
-				reset_std_fds(&std_fds);
-			}
-			// free(input); // no need, coz we're freeing it inside tokenizer;
+			tree = tokenization(&input);
+			ancient_one = tree;
+			if (tree)
+				execution(tree, env, ancient_one);
+			lumberjack(tree);
+			reset_std_fds(&std_fds);
 		}
 		else
 		{

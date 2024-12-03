@@ -3,6 +3,7 @@
         "minishell.h": "c",
         "stdlib.h": "c",
         "stdbool.h": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "testing,c": "cpp"
     }
 }

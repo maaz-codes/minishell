@@ -16,42 +16,34 @@ int	strip_spaces(char **str)
 	return (1);
 }
 
-int	splitter(char *str, t_tree **node, int i, int j)
+int	splitter(char **str, t_tree **node, int i, int j)
 {
-	if (split_log_operator(str, node, i, j))
+	if (split_operator(str, node, i, j))
 		return (1);
-	else if (!spl_operator_ahead(str, i) && split_operator(str, node, i, j))
+	else if (!operator_ahead(*str, i) && split_redirection(str, node, i, j))
 		return (1);
-	else if (!operator_ahead(str, i) && !spl_operator_ahead(str, i)
-		&& split_redirection(str, node, i, j))
-		return (1);
-	else if (!redirection_ahead(str, i) && !operator_ahead(str, i)
-		&& !spl_operator_ahead(str, i) && split_cmd(str, i, node))
+	else if (!redirection_ahead(*str, i) && !operator_ahead(*str, i)
+		&& split_cmd(str, i, node))
 		return (1);
 	return (0);
 }
 
-t_tree	*tokenizer(char *str, t_tree **node)
+t_tree	*tokenizer(char **str, t_tree **node)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = i;
-	if (!strip_spaces(&str))
-		return (print_error(ERR_MALLOC), NULL);
-	while (i <= ft_strlen(str))
+	while (i <= ft_strlen(*str))
 	{
-		if (str[i] == '"' || str[i] == '\'')
+		if ((*str)[i] == '"' || (*str)[i] == '\'')
 		{
-			i = inside_qoutes(str[i], str, i);
+			i = inside_qoutes((*str)[i], *str, i);
 			continue ;
 		}
-		if (splitter(str, node, i, j))
+		if (splitter(str, node, i, 0))
 			break ;
 		i++;
 	}
-	free(str);
 	return (*node);
 }
 
@@ -66,27 +58,28 @@ int	check_syntax(t_tree *node, t_tree *parent)
 	return (1);
 }
 
-t_tree	* tokenization(char *str)
+t_tree	*tokenization(char **str)
 {
 	t_tree	*tree;
 
-	if (!qoutes_checker(str))
-		return (print_error(ERR_FORMAT), NULL);
+	if (!qoutes_checker(*str))
+		return (free_str(str), print_error(ERR_FORMAT), NULL);
 	else
 	{
 		tree = NULL;
+		if (!strip_spaces(str))
+			return (free_str(str), print_exit(ERR_MALLOC), NULL);
+		if (ft_strlen(*str) == 0)
+			return (NULL);
 		tokenizer(str, &tree);
 		if (tree == NULL)
-			print_error(ERR_FORMAT);
+			return (NULL);
 		else
 		{
 			tree->level = 0;
 			if (!syntax_checker(tree))
-			{
-				print_error(ERR_FORMAT);
-				return (NULL);
-			}
-			print_tree(tree);
+				return (print_error(ERR_FORMAT), NULL); // free the tree...
+			// print_tree(tree);
 		}
 	}
 	return (tree);

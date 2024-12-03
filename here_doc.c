@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 12:21:18 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/02 13:40:42 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static void	read_write(char *limiter, int write_to)
 				break ;
 			new_line = ft_strjoin(line, "\n");
 			write(write_to, new_line, ft_strlen(new_line));
-			free(line);
+			free_str(&new_line);
+			free_str(&line);
 		}
+		free_str(&line);
 	}
-	free(new_line);
-	free(line);
 	close(write_to);
 }
 

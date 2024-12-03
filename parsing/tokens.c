@@ -37,6 +37,8 @@ t_tree *init_redir_node(char *redir)
 {
 	t_tree *node;
 
+	if (!redir)
+		print_exit(ERR_MALLOC);
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
@@ -75,22 +77,18 @@ t_tree *init_file_node(char *str, int start, int end)
 	return (node);
 }
 
-t_tree *init_exp_node(char *str, int start, int end)
+t_tree *init_exp_node(char **str)
 {
 	t_tree *node;
-	char *striped_str;
 
-	striped_str = ft_substr(str, start, end - start);
-	if (!striped_str)
-		print_exit(ERR_MALLOC);
-	strip_spaces(&striped_str);
-	if (*striped_str == '\0')
+	strip_spaces(str);
+	if (ft_strlen(*str) == 0)
 		return (NULL);
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
 	node->type = NODE_EXPRESSION;
-	node->data.expression = striped_str;
+	node->data.expression = *str;
 	if (!node->data.expression)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;
@@ -100,7 +98,7 @@ t_tree *init_exp_node(char *str, int start, int end)
 	return (node);
 }
 
-t_tree *init_cmd_node(char *cmd_tmp)
+t_tree *init_cmd_node(char **cmd)
 {
     t_tree *node;
 
@@ -108,7 +106,8 @@ t_tree *init_cmd_node(char *cmd_tmp)
 	if (!node)
 		print_exit(ERR_MALLOC);
     node->type = NODE_COMMAND;
-	node->data.command = remove_qoutes(cmd_tmp);
+	*cmd = remove_qoutes(*cmd);
+	node->data.command = *cmd;
 	if (!node->data.command)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;
@@ -136,19 +135,23 @@ t_tree *init_cmd_node(char *cmd_tmp)
 // 	return (node);
 // }
 
-t_tree *init_args_node(char *args, char *cmd)
+t_tree *init_args_node(char **args, char *cmd)
 {
 	t_tree *node;
+	char **arguments;
 
     node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
     node->type = NODE_ARGUMENT;
-	strip_spaces(&args);
-	node->data.argument = split_args(args, cmd);
-	free(args);
-	if (!node->data.argument)
-		print_exit(ERR_MALLOC);
+	strip_spaces(args);
+	arguments = split_args(*args, cmd);
+	if (!arguments)
+		return (NULL); // if fails, free stuff in split_args();
+	// if (!arguments)
+		// (free_str(args), print_exit(ERR_MALLOC));
+	free_str(args);
+	node->data.argument = arguments;
 	node->left = NULL;
 	node->right = NULL;
 	node->level = 1;
@@ -157,37 +160,65 @@ t_tree *init_args_node(char *args, char *cmd)
 }
 
 
-char *exp_after_redir_node(char *str, int start, int end, int append)
-{
-	char *exp;
-	int first_half;
-	int second_half;
+// char *exp_after_redir_node(char *str, int start, int end, int append)
+// {
+// 	char *exp;
+// 	int first_half;
+// 	int second_half;
 
-	first_half = start;
-	second_half = end - append;
-	while (str[end] == ' ')
-		end++;
-	while (end < ft_strlen(str))
+// 	first_half = start;
+// 	second_half = end - append;
+// 	while (str[end] == ' ')
+// 		end++;
+// 	while (end < ft_strlen(str))
+// 	{
+// 		if (str[end] == '"' || str[end] == '\'')
+// 		{
+// 			end = inside_qoutes(str[end], str, end);
+// 			continue ;
+// 		}
+// 		if (str[end] == ' ')
+// 			break ;
+// 		end++;
+// 	}
+// 	char *cmd_name = ft_substr(str, first_half, second_half - first_half);
+// 	if (*cmd_name == '\0')
+// 		return (NULL);
+// 	char *cmd_flags = ft_substr(str, end, ft_strlen(str));
+// 	if (!cmd_flags || !cmd_name)
+// 		print_exit(ERR_MALLOC);
+// 	exp = ft_strjoin(cmd_name, cmd_flags);
+// 	if (!exp)
+// 		print_exit(ERR_MALLOC);
+// 	return (exp);
+// }
+
+char *exp_after_redir_node(char *str, char *first_half, int start)
+{
+	char *second_half;
+	char *left_exp;
+
+	while (str[start] == ' ') // reach to the first char of file_name
+		start++;
+	while (str[start])
 	{
-		if (str[end] == '"' || str[end] == '\'')
+		if (str[start] == '"' || str[start] == '\'')
 		{
-			end = inside_qoutes(str[end], str, end);
+			start = inside_qoutes(str[start], str, start);
 			continue ;
 		}
-		if (str[end] == ' ')
+		if (str[start] == ' ')
 			break ;
-		end++;
+		start++;
 	}
-	char *cmd_name = ft_substr(str, first_half, second_half - first_half);
-	if (*cmd_name == '\0')
-		return (NULL);
-	char *cmd_flags = ft_substr(str, end, ft_strlen(str));
-	if (!cmd_flags || !cmd_name)
+	second_half = ft_substr(str, start, ft_strlen(str));
+	if (!second_half)
 		print_exit(ERR_MALLOC);
-	exp = ft_strjoin(cmd_name, cmd_flags);
-	if (!exp)
+	left_exp = ft_strjoin(first_half, second_half);
+	free(second_half);
+	if (!left_exp)
 		print_exit(ERR_MALLOC);
-	return (exp);
+	return (left_exp);
 }
 
 char *extract_file_name(char *str, int start, int end)
