@@ -34,8 +34,8 @@ SRCS = minishell.c \
        libft/ft_strchr.c
 
 OBJS = $(SRCS:.c=.o)
-# LDFLAGS = -lreadline 
-LDFLAGS = -L/usr/local/opt/readline/8.2.1/lib -lreadline 
+LDFLAGS = -lreadline 
+READLINEFLAGS = -L/opt/vagrant/embedded/lib/ -Iopt/vagrant/embedded/include/readline
 
 
 all:$(NAME)
@@ -43,7 +43,7 @@ all:$(NAME)
 # potential flag needed
 # $(CC) $(CFLAGS) -L/opt/vagrant/embedded/lib/ -Iopt/vagrant/embedded/include/readline
 $(NAME): $(OBJS)
-	$(CC) $^ -o $@ $(LDFLAGS)
+	$(CC) $(READLINEFLAGS) $^ -o $@ $(LDFLAGS)
 
 #Add CFLAGS Later
 %.o:%.c

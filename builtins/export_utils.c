@@ -6,9 +6,9 @@ char *holder_env(char *str, int len, int check)
 
     holder = malloc(sizeof(char *) * len + 1);
     if(!check)
-        ft_strlcpy(holder,str,ft_strlen(holder));
+        ft_strlcpy(holder,str,ft_strlen(str));
     else
-        ft_strlcpy(holder,str + (len + 1),ft_strlen(holder) - (len - 1));
+        ft_strlcpy(holder,str + (len + 1),ft_strlen(str) - (len - 1));
     return (holder);
 }
 
@@ -81,6 +81,7 @@ char **separator(char *str)
     if(!valid_export(sep[0],res,sep))
         return (NULL);
     free_double(sep);
+    // free(holder);
     return(res);
 }
 

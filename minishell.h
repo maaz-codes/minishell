@@ -32,6 +32,7 @@ typedef struct pwd{
 
 int exit_status;
 
+void rl_replace_line (const char *text, int clear_undo);
 //LIBFT
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char *s, char c);
