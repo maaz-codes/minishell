@@ -6,27 +6,27 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:35:56 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/30 09:07:10 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/03 14:04:11 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
+// static size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
+// {
+// 	size_t	i;
 
-	i = 0;
-	if (!dst || !src || !dstsize)
-		return (ft_strlen(src));
-	while ((i < dstsize - 1) && src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
-}
+// 	i = 0;
+// 	if (!dst || !src || !dstsize)
+// 		return (ft_strlen(src));
+// 	while ((i < dstsize - 1) && src[i])
+// 	{
+// 		dst[i] = src[i];
+// 		i++;
+// 	}
+// 	dst[i] = '\0';
+// 	return (ft_strlen(src));
+// }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {

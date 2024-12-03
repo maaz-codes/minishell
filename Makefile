@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = gcc -g #-fsanitize=address,undefined
+CC = gcc -g -fsanitize=address,undefined
 CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
@@ -26,20 +26,35 @@ SRCS = 	minishell.c \
 					parsing/token_utils.c \
 					parsing/tokenization.c \
 					parsing/tokens.c \
-							# get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
-						# pipex/process.c \
-						# pipex/errors.c \
-						# pipex/paths.c \
-						# pipex/here_doc.c \
-						# pipex/libft/libft.c  pipex/libft/ft_split.c pipex/libft/ft_strtrim.c \
-						# pipex/get_next_line/get_next_line.c pipex/get_next_line/get_next_line_utils.c \
-			
+		signals.c \
+		builtins/echo_cmd.c \
+		builtins/pwd_cmd.c \
+		builtins/cd_cmd.c \
+		builtins/cd_utils.c \
+		builtins/exit_cmd.c \
+		builtins/env_cmd.c \
+		builtins/unset_cmd.c \
+		builtins/export_cmd.c \
+		builtins/exit_utils.c \
+		builtins/export_utils.c \
+		builtins/export_utils_2.c \
+			helpers/ft_atol.c \
+			helpers/ft_memset.c \
+			helpers/ft_strlcpy.c \
+			helpers/ft_atoi.c \
+			helpers/ft_calloc.c \
+			helpers/ft_bzero.c \
+			helpers/ft_lstclear.c \
 
 OBJS = $(SRCS:.c=.o)
-LDFLAGS = -lreadline
+# LDFLAGS = -lreadline 
+LDFLAGS = -L/usr/local/opt/readline/8.2.1/lib -lreadline 
+
 
 all:$(NAME)
 
+# potential flag needed
+# $(CC) $(CFLAGS) -L/opt/vagrant/embedded/lib/ -Iopt/vagrant/embedded/include/readline
 $(NAME): $(OBJS)
 	$(CC) $^ -o $@ $(LDFLAGS)
 

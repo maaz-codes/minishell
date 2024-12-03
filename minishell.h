@@ -6,17 +6,21 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/03 11:25:54 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/03 14:09:28 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
+#include <limits.h>
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <signal.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <termios.h>
 #include <unistd.h>
 
 // general
@@ -24,6 +28,9 @@
 #define FALSE 0
 #define LEFT 0
 #define RIGHT 1
+
+// global variable
+int exit_status;
 
 // error_codes
 typedef enum s_err_codes
@@ -37,11 +44,26 @@ typedef enum s_err_codes
 	ERR_CMD
 }					t_err_codes;
 
-typedef struct env
-{
-	char			*env;
-	struct env		*next;
-}					t_env;
+typedef struct env{
+    
+    char *env;
+    struct env *next;
+}   t_env;
+
+typedef struct export{
+    
+    char *exp;
+    struct export *next;
+}   t_exp;
+
+typedef struct pwd{
+
+    char *pwd;
+    char *pwd_old;
+    struct pwd *next;
+    t_env *env_struct;
+    t_exp *exp_struct;
+}   t_path;
 
 typedef enum s_node_types
 {
@@ -83,6 +105,12 @@ typedef struct s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 }					t_tree;
+
+typedef struct s_ancient 
+{
+	t_tree *head;
+	t_path *paths;	
+} 				t_ancient;
 
 // helpers
 size_t				ft_strlen(const char *str);
@@ -148,8 +176,8 @@ char				**split_args(char *str, char *cmd);
 // int					split_file(char *str, int *i, t_tree **node);
 
 // gallows.c
-int					gallows(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one);
-void				execute(char **cmd, char *env[], t_tree *ancient_one);
+int					gallows(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one);
+void				execute(char **cmd, char *env[], t_ancient *ancient_one);
 
 // gallows_utils.c
 char				*ft_cmd_exits(char **env, char *temp_cmd);
@@ -171,3 +199,53 @@ char				*expanded_str(char *str, char *env_var, int start, int end);
 char				*env_expansion(char *str, t_env *env);
 
 // main.c
+
+// helpers - raph
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_bzero(void *s, size_t n);
+int     ft_atoi(char *s);
+void    *ft_memset(void *b, int c, size_t len);
+unsigned long long	ft_atol(char *s);
+
+// for freeing;
+void    clear_all(t_path **paths,char **str);
+void	ft_lstclear_path(t_path **lst);
+void	ft_lstclear_env(t_env **lst);
+void	ft_lstclear_exp(t_exp **lst);
+// void    free_array(char **s);
+
+
+//Builtins 
+void    echo_cmd(char **str);
+void    pwd_cmd(char **str);
+
+void    exit_cmd(t_path **paths, char **str);
+void    valid_num(char *s, t_path **paths, char **str);
+void    error_msg(char **str,t_path **paths);
+
+void    env_cmd(char **str, t_path **paths);
+t_env   *int_env(char **env);
+
+void    cd_cmd(char **str, t_path **paths);
+char    *new_path(char *cwd, int id);
+t_path	*ft_lstlast_path(t_path *lst);
+void	ft_lstadd_back_path(t_path **lst, t_path *new);
+void    add_NEWPWD(t_path **paths, t_path *new);
+void    add_OLDPWD(t_path **paths, t_path *new);
+
+void    unset_cmd(char **str, t_path **paths);
+
+void    export_cmd(char **str, t_path **paths);
+t_env	*lstlast_env(t_env *lst);
+char    **separator(char *str);
+t_exp   *int_exp(char **env);
+void    exp_print(t_path **paths);
+t_exp	*lstlast_exp(t_exp *lst);
+void    ap_exp(t_exp **paths, char *res);
+
+
+//Signals
+void    set_signals();   
+
+extern int exit_status;

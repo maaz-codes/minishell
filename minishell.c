@@ -1,7 +1,69 @@
 #include "minishell.h"
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
+
+int exit_status;
+
+// void in_buit_cmd(char **str,t_path **paths, char **env)
+// {   
+//     if(!str[0])
+//         return ;
+//     if(!ft_strncmp(str[0],"echo",5))
+//         echo_cmd(str);
+//     else if(!ft_strncmp(str[0],"pwd",4))
+//         pwd_cmd(str);
+//     else if(!ft_strncmp(str[0],"cd",3))
+//         cd_cmd(str,paths,env);
+//     else if (!ft_strncmp(str[0],"exit",5))
+//         exit_cmd(paths,str);
+//     else if(!ft_strncmp(str[0],"env",4))
+//         env_cmd(str, paths);
+//     else if(!ft_strncmp(str[0],"unset",6))
+//         unset_cmd(str,paths);
+//     else if(!ft_strncmp(str[0],"export",7))
+//         export_cmd(str,paths);
+//     else
+//         (printf("minishell: %s : command not found\n",str[0]));
+// }
+
+char *get_cwd(void)
+{
+    char cwd[1024];
+    char *res;
+    if(getcwd(cwd,sizeof(cwd)) == NULL)
+        printf("error");
+    res = new_path(cwd,0);
+    return(res);
+}
+
+t_path	*int_cd(void)
+{
+	t_path	*node_new;
+    char    *str1;
+    char    *str2;
+
+    str1 = get_cwd();
+    str2 = get_cwd();
+	node_new = (t_path *)malloc(sizeof(t_path));
+	if (node_new == NULL)
+		return (NULL);
+	node_new->pwd = str1;
+	node_new->pwd_old = str2;
+	node_new->next = NULL;
+	return (node_new);
+}
+
+char  *signal_checkpoint()
+{
+    char *input;
+
+    set_signals();
+    input = readline("minishell> ");
+    if(!input)
+    {
+        printf("\nexiting now...\n");
+        exit(exit_status);
+    }
+    return (input);
+}
 
 void dup_fds(t_std_fds *std_fds)
 {
@@ -17,7 +79,7 @@ void reset_std_fds(t_std_fds *std_fds)
 	dup2(std_fds->std_err, STDERR_FILENO);
 }
 
-void execution(t_tree *tree, char **env, t_tree *ancient_one)
+void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 {
 	pid_t pid;
 
@@ -30,30 +92,35 @@ int	main(int ac, char **av, char **env)
 {
 	char		*input;
 	t_tree		*tree;
-	t_env		*env_vars;
 	t_std_fds 	std_fds;
-	t_tree 		*ancient_one;
+	t_ancient 	*ancient_one;
+
+    t_path *paths;
+
+    paths = int_cd();
+    paths->env_struct = int_env(env);
+    paths->exp_struct = int_exp(env);
+	ancient_one = malloc(sizeof(t_ancient));
+	ancient_one->paths = paths;
 
 	dup_fds(&std_fds);
 	while (1)
 	{
-		input = readline("minishell> ");
+		// input = readline("minishell> ");
+        input = signal_checkpoint();
 		if (input)
 		{
 			add_history(input);
-			if (!ft_strncmp(input, "exit", 5) || !ft_strncmp(input, "\"exit\"", 7))
-			{
-				printf("Exiting now.....\n");
-				exit(EXIT_SUCCESS);
-			}
 			// printf("old_str = -%s-\n", input);
 			// printf("expanded_str = -%s-\n", env_expansion(input, env_vars));
 			tree = tokenization(&input);
-			ancient_one = tree;
+			ancient_one->head = tree;
 			if (tree)
 				execution(tree, env, ancient_one);
 			lumberjack(tree);
 			reset_std_fds(&std_fds);
+
+            // in_buit_cmd(res,&paths,env);
 		}
 		else
 		{
