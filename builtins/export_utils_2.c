@@ -39,6 +39,8 @@ void sorted_exp(t_exp **head)
 
     if(!(*head))
         return ;
+    holder = current;
+    swap = 0;
     while(swap)
     {
         swap = 0;
@@ -58,13 +60,13 @@ void sorted_exp(t_exp **head)
 void exp_print(t_path **paths)
 {
     t_exp *tmp;
+    t_exp *tmp_head;
     char *check;
 
-    tmp = malloc(sizeof(t_exp));
     tmp = (*paths)->exp_struct;
     sorted_exp(&tmp);
     while(tmp)
-    {
+    {   
         check = ft_strchr(tmp->exp,'=');
         if(check)
             printf("declare -x %.*s=\"%s\"\n",(int)(check - tmp->exp),tmp->exp,check + 1);

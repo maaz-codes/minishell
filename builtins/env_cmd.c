@@ -26,15 +26,17 @@ static void appending_env(t_env **env, char *res)
 t_env *int_env(char **env)
 {
     t_env *node_new;
+    char *str;
     int i;
 
     i = 1;
+    str = ft_strdup(env[0]);
     if(!env)
         return (NULL);
     node_new = (t_env *)malloc(sizeof(t_env));
-    if(node_new == NULL)
+    if(!node_new)
         return (NULL);
-    node_new->env = ft_strdup(env[0]);
+    node_new->env = str;
     node_new->next = NULL;
     while(env[i])
         appending_env(&node_new,ft_strdup(env[i++]));
