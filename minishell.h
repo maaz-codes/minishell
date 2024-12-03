@@ -98,7 +98,8 @@ void    ap_exp(t_exp **paths, char *res);
 
 //Signals
 void    set_signals();
-void    set_signals_after();
 void    int_signals();   
+
+extern t_sig signals;
 
 

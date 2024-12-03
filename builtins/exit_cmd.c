@@ -1,7 +1,5 @@
 #include "../minishell.h"
 
-extern t_sig signals;
-
 void clear_all(t_path **paths,char **str)
 {   
     t_exp *exp;

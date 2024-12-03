@@ -1,11 +1,9 @@
 #include "minishell.h"
 
-extern t_sig signals;
-
 static void handle_sigint(int sig)
 {
     if (sig == SIGINT)
-	{
+	{   
 		write(STDERR_FILENO, "\n", 1);
 		rl_on_new_line();
         rl_replace_line("",0);
@@ -30,7 +28,7 @@ void set_signals()
     handle_sigquit(signals);
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = &handle_sigint;
-    sigaction(SIGINT,&set,NULL);       
+    sigaction(SIGINT,&set,NULL);
 }
 
 void int_signals()
