@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_sig signals;
+int exit_status;
 
 void free_double(char **s)
 {
@@ -67,13 +67,12 @@ char  *signal_checkpoint()
 {
     char *input;
 
-    int_signals();
     set_signals();
     input = readline("minishell> ");
     if(!input)
     {
         printf("\nexiting now...\n");
-        exit(signals.exit_status);
+        exit(exit_status);
     }
     return (input);
 }

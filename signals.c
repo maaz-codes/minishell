@@ -8,7 +8,7 @@ static void handle_sigint(int sig)
 		rl_on_new_line();
         rl_replace_line("",0);
 		rl_redisplay();
-        signals.sig_int = 1;
+        exit_status = 1;
 	}
 }
 
@@ -18,24 +18,17 @@ static void handle_sigquit()
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = SIG_IGN;
     sigaction(SIGQUIT,&set,NULL);
-    signals.sig_quit = 0;
+    exit_status = 0;
 }
 
 void set_signals()
 {
     struct sigaction set;
 
-    handle_sigquit(signals);
+    handle_sigquit();
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = &handle_sigint;
     sigaction(SIGINT,&set,NULL);
 }
 
-void int_signals()
-{
-    signals.sig_int = 0;
-    signals.sig_quit = 0;
-    signals.pid = 0;
-    signals.exit_status = 0;
-}
 

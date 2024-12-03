@@ -1,0 +1,1 @@
+valgrind --suppressions=readline_supp.txt --trace-children=yes --track-fds=yes --leak-check=full --leak-resolution=high -s --track-origins=yes 

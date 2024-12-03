@@ -8,13 +8,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-typedef struct s_sig
-{
-    int sig_quit;
-    int sig_int;
-    int exit_status;
-    pid_t pid;
-}   t_sig;
 
 typedef struct env{
     
@@ -36,6 +29,8 @@ typedef struct pwd{
     t_env *env_struct;
     t_exp *exp_struct;
 }   t_path;
+
+int exit_status;
 
 //LIBFT
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -97,9 +92,8 @@ void    ap_exp(t_exp **paths, char *res);
 
 
 //Signals
-void    set_signals();
-void    int_signals();   
+void    set_signals();   
 
-extern t_sig signals;
+extern int exit_status;
 
 

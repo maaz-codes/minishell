@@ -34,7 +34,8 @@ SRCS = minishell.c \
        libft/ft_strchr.c
 
 OBJS = $(SRCS:.c=.o)
-LDFLAGS = -lreadline 
+# LDFLAGS = -lreadline 
+LDFLAGS = -L/usr/local/opt/readline/8.2.1/lib -lreadline 
 
 
 all:$(NAME)
