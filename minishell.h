@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/03 14:09:28 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:03:32 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_ancient
 	t_path *paths;	
 } 				t_ancient;
 
+void rl_replace_line (const char *text, int clear_undo);
 // helpers
 size_t				ft_strlen(const char *str);
 char				*ft_strchr(const char *s, int c);

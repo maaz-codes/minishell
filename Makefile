@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = gcc -g -fsanitize=address,undefined
+CC = gcc -g #-fsanitize=address,undefined
 CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
@@ -47,16 +47,14 @@ SRCS = 	minishell.c \
 			helpers/ft_lstclear.c \
 
 OBJS = $(SRCS:.c=.o)
-# LDFLAGS = -lreadline 
-LDFLAGS = -L/usr/local/opt/readline/8.2.1/lib -lreadline 
+LDFLAGS = -lreadline 
+READLINEFLAGS = -L/opt/vagrant/embedded/lib/ -Iopt/vagrant/embedded/include/readline
 
 
 all:$(NAME)
 
-# potential flag needed
-# $(CC) $(CFLAGS) -L/opt/vagrant/embedded/lib/ -Iopt/vagrant/embedded/include/readline
 $(NAME): $(OBJS)
-	$(CC) $^ -o $@ $(LDFLAGS)
+	$(CC) $(READLINEFLAGS) $^ -o $@ $(LDFLAGS)
 
 #Add CFLAGS Later
 %.o:%.c

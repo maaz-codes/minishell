@@ -54,7 +54,7 @@ char **append_exp(char *sep,char *holder)
     res = (char **)malloc(sizeof(char *) * 3);
     if(!res)
         return (NULL);
-    res[0] = ft_strdup(sep);
+    res[0] = sep;
     res[1] = holder;
     res[2] = NULL;
     return (res);
