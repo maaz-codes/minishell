@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/02 10:12:43 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/03 09:11:02 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void				print_tree(t_tree *tree);
 // tokenization
 int					strip_spaces(char **str);
 t_tree				*tokenization(char **str);
-t_tree				*tokenizer(char *str, t_tree **node);
+t_tree				*tokenizer(char **str, t_tree **node);
 
 // tokens.c
 t_tree				*init_exp_node(char **str);
@@ -110,8 +110,8 @@ t_tree				*init_log_op_node(char spl_op);
 t_tree				*init_op_node(char op);
 t_tree				*init_redir_node(char *redir);
 t_tree				*init_file_node(char *str, int start, int end);
-t_tree				*init_cmd_node(char *cmd_tmp);
-t_tree				*init_args_node(char *args, char *cmd);
+t_tree				*init_cmd_node(char **cmd);
+t_tree				*init_args_node(char **args, char *cmd);
 char 				*exp_after_redir_node(char *str, char *first_half, int start);
 char				*extract_file_name(char *str, int start, int end);
 
@@ -139,12 +139,12 @@ void				free_array(char **array);
 
 // splits.c
 int					count_args(char *str);
-int					split_log_operator(char *str, t_tree **node, int i, int j);
-int					split_operator(char *str, t_tree **node, int i, int j);
-int					split_redirection(char *str, t_tree **node, int i, int j);
-int					split_file(char *str, int *i, t_tree **node);
-int					split_cmd(char *str, int i, t_tree **node);
+int					split_operator(char **str, t_tree **node, int i, int j);
+int					split_redirection(char **str, t_tree **node, int i, int j);
+int					split_cmd(char **str, int i, t_tree **node);
 char				**split_args(char *str, char *cmd);
+// int					split_log_operator(char *str, t_tree **node, int i, int j);
+// int					split_file(char *str, int *i, t_tree **node);
 
 // gallows.c
 int					gallows(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one);

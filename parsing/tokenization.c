@@ -16,38 +16,34 @@ int	strip_spaces(char **str)
 	return (1);
 }
 
-int	splitter(char *str, t_tree **node, int i, int j)
+int	splitter(char **str, t_tree **node, int i, int j)
 {
 	if (split_operator(str, node, i, j))
 		return (1);
-	else if (!operator_ahead(str, i) && split_redirection(str, node, i, j))
+	else if (!operator_ahead(*str, i) && split_redirection(str, node, i, j))
 		return (1);
-	else if (!redirection_ahead(str, i) && !operator_ahead(str, i)
+	else if (!redirection_ahead(*str, i) && !operator_ahead(*str, i)
 		&& split_cmd(str, i, node))
 		return (1);
 	return (0);
 }
 
-t_tree	*tokenizer(char *str, t_tree **node)
+t_tree	*tokenizer(char **str, t_tree **node)
 {
 	int	i;
 
 	i = 0;
-	// printf("exp =%s=\n", str);
-	if (ft_strlen(str) == 0)
-		return (NULL);
-	while (i <= ft_strlen(str))
+	while (i <= ft_strlen(*str))
 	{
-		if (str[i] == '"' || str[i] == '\'')
+		if ((*str)[i] == '"' || (*str)[i] == '\'')
 		{
-			i = inside_qoutes(str[i], str, i);
+			i = inside_qoutes((*str)[i], *str, i);
 			continue ;
 		}
 		if (splitter(str, node, i, 0))
 			break ;
 		i++;
 	}
-	free(str);
 	return (*node);
 }
 
@@ -67,25 +63,24 @@ t_tree	*tokenization(char **str)
 	t_tree	*tree;
 
 	if (!qoutes_checker(*str))
-		return (print_error(ERR_FORMAT), NULL);
+		return (free_str(str), print_error(ERR_FORMAT), NULL);
 	else
 	{
 		tree = NULL;
 		if (!strip_spaces(str))
-			return (print_exit(ERR_MALLOC), NULL);
+			return (free_str(str), print_exit(ERR_MALLOC), NULL);
 		if (ft_strlen(*str) == 0)
 			return (NULL);
-		tokenizer(*str, &tree);
+		tokenizer(str, &tree);
 		if (tree == NULL)
 			return (NULL);
 		else
 		{
 			tree->level = 0;
 			if (!syntax_checker(tree))
-				return (print_error(ERR_FORMAT), NULL);
+				return (print_error(ERR_FORMAT), NULL); // free the tree...
 			print_tree(tree);
 		}
 	}
-	// free_str(str);
 	return (tree);
 }

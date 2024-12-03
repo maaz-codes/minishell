@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int inside_qoutes(char qoute, char *str, int i)
+int inside_qoutes(char qoute, char (*str), int i)
 {
     i++;
     while (str[i] != qoute && str[i])
@@ -12,7 +12,7 @@ int inside_qoutes(char qoute, char *str, int i)
     return (i + 1);
 }
 
-int count_qoutes(char *str)
+int count_qoutes(char (*str))
 {
     int  i;
     int count;
@@ -29,7 +29,7 @@ int count_qoutes(char *str)
     return (0);
 }
 
-int qoutes_checker(char *str)
+int qoutes_checker(char (*str))
 {
 	int	i;
 
@@ -50,7 +50,7 @@ int qoutes_checker(char *str)
 	return (1);
 }
 
-char *remove_qoutes(char *str)
+char *remove_qoutes(char (*str))
 {
     int i;
     int j;

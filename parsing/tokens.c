@@ -82,6 +82,8 @@ t_tree *init_exp_node(char **str)
 	t_tree *node;
 
 	strip_spaces(str);
+	if (ft_strlen(*str) == 0)
+		return (NULL);
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
@@ -96,7 +98,7 @@ t_tree *init_exp_node(char **str)
 	return (node);
 }
 
-t_tree *init_cmd_node(char *cmd_tmp)
+t_tree *init_cmd_node(char **cmd)
 {
     t_tree *node;
 
@@ -104,7 +106,8 @@ t_tree *init_cmd_node(char *cmd_tmp)
 	if (!node)
 		print_exit(ERR_MALLOC);
     node->type = NODE_COMMAND;
-	node->data.command = remove_qoutes(cmd_tmp);
+	*cmd = remove_qoutes(*cmd);
+	node->data.command = *cmd;
 	if (!node->data.command)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;
@@ -132,19 +135,21 @@ t_tree *init_cmd_node(char *cmd_tmp)
 // 	return (node);
 // }
 
-t_tree *init_args_node(char *args, char *cmd)
+t_tree *init_args_node(char **args, char *cmd)
 {
 	t_tree *node;
+	char **arguments;
 
     node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
     node->type = NODE_ARGUMENT;
-	strip_spaces(&args);
-	node->data.argument = split_args(args, cmd);
-	free(args);
-	if (!node->data.argument)
-		print_exit(ERR_MALLOC);
+	strip_spaces(args);
+	arguments = split_args(*args, cmd);
+	if (!arguments)
+		(free_str(args), print_exit(ERR_MALLOC));
+	free_str(args);
+	node->data.argument = arguments;
 	node->left = NULL;
 	node->right = NULL;
 	node->level = 1;
