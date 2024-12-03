@@ -1,3 +1,6 @@
+###Readline suppression
+valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./minishell
+
 ####exp: > out
 Behaviour : This it prints execve() fail err msg in out.
 Desired : Creates an empty out file.
@@ -22,6 +25,13 @@ Status : FIXED!
 Behaviour : 
 Desired : 
 Status : 
+
+####exp: "" | ""
+Behaviour : Doesn't print anything.
+Desired : Shoud parse the empty strings and give cmd not found twice.
+Status : 
+
+
 
 ###Redundant Code
 1. Stop passing int j everywhere, it's value is always zero.

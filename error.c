@@ -26,9 +26,6 @@ void	print_exit(int code)
 
 void free_str(char **str)
 {
-    if (str && *str)
-    {
         free(*str); 
         *str = NULL;
-    }
 }

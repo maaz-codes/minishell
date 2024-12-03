@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int count_args(char ((*str)))
+int count_args(char *str)
 {
     int count;
     int qoutes;
@@ -115,11 +115,13 @@ int split_cmd(char **str, int i, t_tree **node)
 		node_tmp = *node;
 		cmd = ft_substr((*str), 0, i);
 		*node = init_cmd_node(&cmd);
-		args = ft_substr((*str), i, ft_strlen((*str)) - i); // this can be improved alot... just take the whole string as it is and then just split it with your split_args(), you dont even need cmd_name anymore.
+		// args = ft_substr((*str), i, ft_strlen(*str) - i); // this can be improved alot... just take the whole string as it is and then just split it with your split_args(), you dont even need cmd_name anymore.
+		args = ft_substr((*str), 0, ft_strlen(*str)); // this can be improved alot... just take the whole string as it is and then just split it with your split_args(), you dont even need cmd_name anymore.
 		if (!args)
 			print_exit(ERR_MALLOC);
 		add_node(node, init_args_node(&args, (*node)->data.command), LEFT);
-		free_str(str);
+		// free_str(str);
+		free(*str);
 		free(node_tmp);
 		// chop_branch(node_tmp);
 		return (1);
@@ -127,7 +129,7 @@ int split_cmd(char **str, int i, t_tree **node)
 	return (0);
 }
 
-char **split_args(char (*str), char *cmd)
+char **split_args(char *str, char *cmd)
 {
     int i;
 	int j;
@@ -140,12 +142,14 @@ char **split_args(char (*str), char *cmd)
     args = malloc(sizeof(char *) * (count_args(str) + 3));
 	if (!args)
 		print_exit(ERR_MALLOC);
-	args[k++] = remove_qoutes(ft_strdup(cmd));
-	if (!((*str)))
-	{
-		args[k] = NULL;
-		return (args);
-	}
+	// args[k++] = remove_qoutes(ft_strdup(cmd));
+	// if (!(*str))
+	// {
+	// 	args[k] = NULL;
+	// 	return (args);
+	// }
+	if (*str == '\0')
+		return (NULL);
     while (i <= ft_strlen(str))
 	{
 		if (str[i] == '"' || str[i] == '\'')

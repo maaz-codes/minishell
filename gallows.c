@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/02 13:44:09 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/03 11:43:31 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ char **array_dup(char **array)
     return (dup_array);
 }
 
-void	execute(char **cmd, char *env[])
+void	execute(char **cmd, char *env[], t_tree *ancient_one)
 {
 	char	*path;
 
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
-		(free_array(cmd), print_exit(ERR_CMD)); // free env as well...
+		(lumberjack(ancient_one), print_exit(ERR_CMD)); // free env as well...
 	execve(path, cmd, env);
 	// free: path, cmd, env;
-	free_str(&path);
-	// free_array(cmd);
+	free(path);
+	free_array(cmd);
 	print_exit(ERR_CMD);
 	exit(EXIT_FAILURE);
 }
@@ -172,7 +172,7 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 		{
 			// lumberjack(ancient_one);
 			// execute(args, env);
-			execute(tree->left->data.argument, env);
+			execute(tree->left->data.argument, env, ancient_one);
 		}
 		// free_array(args);
 		wait(NULL);
@@ -181,7 +181,7 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one)
 	{
 		// lumberjack(ancient_one);
 		// execute(args, env);
-		execute(tree->left->data.argument, env);
+		execute(tree->left->data.argument, env, ancient_one);
 	}
     // exit(0);
 	// exit_codes implementation...

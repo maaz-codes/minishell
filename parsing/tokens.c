@@ -147,7 +147,9 @@ t_tree *init_args_node(char **args, char *cmd)
 	strip_spaces(args);
 	arguments = split_args(*args, cmd);
 	if (!arguments)
-		(free_str(args), print_exit(ERR_MALLOC));
+		return (NULL); // if fails, free stuff in split_args();
+	// if (!arguments)
+		// (free_str(args), print_exit(ERR_MALLOC));
 	free_str(args);
 	node->data.argument = arguments;
 	node->left = NULL;
@@ -213,6 +215,7 @@ char *exp_after_redir_node(char *str, char *first_half, int start)
 	if (!second_half)
 		print_exit(ERR_MALLOC);
 	left_exp = ft_strjoin(first_half, second_half);
+	free(second_half);
 	if (!left_exp)
 		print_exit(ERR_MALLOC);
 	return (left_exp);

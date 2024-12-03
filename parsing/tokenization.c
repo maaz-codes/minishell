@@ -79,7 +79,7 @@ t_tree	*tokenization(char **str)
 			tree->level = 0;
 			if (!syntax_checker(tree))
 				return (print_error(ERR_FORMAT), NULL); // free the tree...
-			print_tree(tree);
+			// print_tree(tree);
 		}
 	}
 	return (tree);

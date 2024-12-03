@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/03 09:11:02 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/03 11:25:54 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ char				*extract_file_name(char *str, int start, int end);
 int					inside_qoutes(char qoute, char *str, int i);
 int					count_qoutes(char *str);
 char				*remove_qoutes(char *str);
+int					qoutes_checker(char *str);
 
 // tokens_utils.c
 char				symbol_checker(char s);
@@ -148,7 +149,7 @@ char				**split_args(char *str, char *cmd);
 
 // gallows.c
 int					gallows(t_tree *tree, char **env, int pipe_flag, t_tree *ancient_one);
-void				execute(char **cmd, char *env[]);
+void				execute(char **cmd, char *env[], t_tree *ancient_one);
 
 // gallows_utils.c
 char				*ft_cmd_exits(char **env, char *temp_cmd);
@@ -170,4 +171,3 @@ char				*expanded_str(char *str, char *env_var, int start, int end);
 char				*env_expansion(char *str, t_env *env);
 
 // main.c
-int					qoutes_checker(char *str);
