@@ -41,10 +41,10 @@ t_env *int_env(char **env)
     return(node_new);
 }
 
-void env_cmd(char **str, t_tree **tree)
+void env_cmd(char **str, t_tree *tree)
 {   
     t_env *new_node;
-    new_node = (*tree)->paths->env_struct;
+    new_node = tree->paths->env_struct;
     printf("we are in\n");
     if(str[1] != NULL)
     {

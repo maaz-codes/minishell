@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 18:48:37 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/11/27 19:21:23 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ typedef struct s_tree
 	char			pos;
 	int				level;
 	t_data			data;
+	struct s_path   *paths; //new raph
 	struct s_tree	*left;
 	struct s_tree	*right;
-	struct s_path   *paths; //new raph
 }					t_tree;
 
 // helpers
@@ -150,7 +150,7 @@ void    exit_cmd(t_path **paths, char **str);
 void    valid_num(char *s, t_path **paths);
 void    error_msg(char *str,t_path **paths);
 
-void    env_cmd(char **str, t_tree **tree);
+void    env_cmd(char **str, t_tree *tree);
 t_env   *int_env(char **env);
 
 void    cd_cmd(char **str, t_path **paths);

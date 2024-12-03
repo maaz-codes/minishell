@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/27 18:46:47 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/11/27 19:20:36 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,15 @@ int	is_builtin(char *str)
 
 void handle_builtin(t_tree *tree, char **env)
 {
-    if(!ft_strncmp(tree->left->data.argument[0],"echo",5))
+    if(!ft_strncmp(tree->data.command, "echo", 5))
         echo_cmd(tree->left->data.argument);
-    else if(!ft_strncmp(tree->left->data.argument[0],"pwd",4))
+    else if(!ft_strncmp(tree->data.command,"pwd",4))
         pwd_cmd(tree->left->data.argument);
-    else if(!ft_strncmp(tree->left->data.argument[0],"env",4))
-        env_cmd(tree->left->data.argument, &tree);
+    else if(!ft_strncmp(tree->data.command,"env",4))
+	{
+		// printf("inside env\n");
+        env_cmd(tree->left->data.argument, tree);
+	}
     // else if(!ft_strncmp(tree->left->data.argument[0],"cd",3))
     //     cd_cmd(env,&tree->paths);
     // else if(!ft_strncmp(env[0],"export",7))
