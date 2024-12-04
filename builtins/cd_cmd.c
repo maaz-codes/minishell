@@ -29,22 +29,24 @@ char *new_path(char *cwd, int id)
 }
 
 char *get_home(t_path **paths)
-{
+{   
+    t_env *tmp;
     char **holder;
     char *res;
 
-    while((*paths)->env_struct)
+    tmp = (*paths)->env_struct;
+    while(tmp)
     {
-        if(!ft_strncmp((*paths)->env_struct->env,"HOME=",5))
+        if(!ft_strncmp(tmp->env,"HOME=",5))
         {   
-            holder = ft_split((*paths)->env_struct->env, '=');
+            holder = ft_split(tmp->env, '=');
             res = new_path(holder[1],0);
             free_array(holder);
             if(chdir(res) == -1)
                 (free(res),printf("error home\n"));
             return (res);
         }
-        (*paths)->env_struct = (*paths)->env_struct->next;
+        tmp = tmp->next;
     }
     printf("minishell: cd: HOME not set\n");
     return (NULL);
@@ -91,13 +93,14 @@ int valid_old_pwd(t_path **paths)
     {
         if(!ft_strncmp(tmp->env,"OLDPWD=",7))
         {
-           old_pwd = separator(tmp->env);
+            old_pwd = separator(tmp->env);
            if(chdir(old_pwd[1]) == -1)
            {    
                 printf("minishell: cd: %s: No such file or directory\n",old_pwd[1]);
                 free_array(old_pwd);
                 return (0);         
            }
+           free_array(old_pwd);
         }
         tmp = tmp->next;
     }
@@ -134,7 +137,7 @@ char *switch_cd(t_path **paths)
     return (res);
 }
 
-void cd_cmd(char **str, t_path **paths)
+void cd_cmd(char **str, t_path **paths, char **env)
 {  
     char cwd[1024];
     char *res;

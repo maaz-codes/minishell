@@ -50,12 +50,16 @@ int valid_export(char *str, char **res, char **sep)
 char **append_exp(char *sep,char *holder)
 {
     char **res;
+    char *sep_str;
+    char *holder_str;
 
+    sep_str = ft_strdup(sep);
+    holder_str = ft_strdup(holder);
     res = (char **)malloc(sizeof(char *) * 3);
     if(!res)
         return (NULL);
-    res[0] = sep;
-    res[1] = holder;
+    res[0] = sep_str;
+    res[1] = holder_str;
     res[2] = NULL;
     return (res);
 }
@@ -81,6 +85,7 @@ char **separator(char *str)
     if(!valid_export(sep[0],res,sep))
         return (NULL);
     free_array(sep);
+    free(holder);
     return(res);
 }
 
