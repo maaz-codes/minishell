@@ -34,14 +34,20 @@ void chop_branch(t_tree *node)
 	if (node->type == NODE_ARGUMENT)
 	{
 		// printf("--freed:args\n");
-		free_array(node->data.argument);
+		if(node->data.argument)
+			free_array(node->data.argument);
 	}
 	else if (node->type == NODE_OPERATOR)
-		;
+		return ;
 	else
 	{
 		// printf("--freed:expression\n");
-		free(node->data.expression);
+		if(node->data.expression)
+		{
+			// free(node->data.expression);
+			node->data.expression = NULL;
+		}	
+		
 	}
 	// printf("--freed:(*node)\n");
 	free(node);
