@@ -107,6 +107,16 @@ int valid_old_pwd(t_path **paths)
     return (1);
 }
 
+void append_switch_struct(t_path **paths, t_path **temp)
+{   
+    *temp = malloc(sizeof(t_path));
+    if(!temp)
+        return ;
+    (*temp)->pwd = ft_strdup(ft_lstlast_path(*paths)->pwd_old);
+    (*temp)->pwd_old = ft_strdup(ft_lstlast_path(*paths)->pwd);
+    (*temp)->next = NULL;
+}
+
 char *switch_cd(t_path **paths)
 {   
     t_path *temp;
@@ -119,12 +129,7 @@ char *switch_cd(t_path **paths)
     }
     if(!valid_old_pwd(paths))
         return (NULL);
-    temp = malloc(sizeof(t_path));
-    if(!temp)
-        return NULL;
-    temp->pwd = ft_strdup(ft_lstlast_path(*paths)->pwd_old);
-    temp->pwd_old = ft_strdup(ft_lstlast_path(*paths)->pwd);
-    temp->next = NULL;
+    append_switch_struct(paths, &temp);
     (add_NEWPWD(paths,temp),add_OLDPWD(paths,temp));
     ft_lstadd_back_path(paths,temp);
     res = ft_strdup(temp->pwd);
@@ -137,7 +142,7 @@ char *switch_cd(t_path **paths)
     return (res);
 }
 
-void cd_cmd(char **str, t_path **paths, char **env)
+void cd_cmd(char **str, t_path **paths)
 {  
     char cwd[1024];
     char *res;

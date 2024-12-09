@@ -17,6 +17,7 @@ static void handle_sigquit()
     struct sigaction set;
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = SIG_IGN;
+    set.sa_flags = SA_RESTART;
     sigaction(SIGQUIT,&set,NULL);
     exit_status = 0;
 }
@@ -28,6 +29,7 @@ void set_signals()
     handle_sigquit();
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = &handle_sigint;
+    set.sa_flags = SA_RESTART;
     sigaction(SIGINT,&set,NULL);
 }
 
