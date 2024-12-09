@@ -36,24 +36,7 @@ void set_signals_after()
     sigaction(SIGINT,&set,NULL);
 }
 
-void sigint_catch_doc(int sig)
-{
-    if(sig == SIGINT)
-    {
-        signal_caught = SIGINT;
-    }
-}
 
-void set_signals_heredoc()
-{
-    struct sigaction set;
-
-    handle_sigquit();
-    ft_memset(&set,0,sizeof(set));
-    set.sa_handler = &sigint_catch_doc;
-    sigemptyset(&set.sa_mask);
-    sigaction(SIGINT,&set,NULL);
-}
 
 void set_signals()
 {
