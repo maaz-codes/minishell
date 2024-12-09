@@ -25,18 +25,29 @@ static void sig_newline(int sig)
 {
     (void)signal;
     rl_on_new_line();
-    
 }
 
 void set_signals_after()
 {
     struct sigaction set;
 
+    handle_sigquit();
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = &sig_newline;
     set.sa_flags = SA_RESTART;
     sigaction(SIGINT,&set,NULL);
-    sigaction(SIGQUIT,&set,NULL);
+}
+
+int set_signals_heredoc()
+{
+    struct sigaction set;
+
+    handle_sigquit();
+    ft_memset(&set,0,sizeof(set));
+    set.sa_handler = SIG_IGN;
+    if(!sigaction(SIGINT,&set,NULL));
+        return 0;
+    return 1;
 }
 
 void set_signals()

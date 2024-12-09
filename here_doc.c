@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/04 18:29:16 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/09 19:24:00 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,15 @@ static void	read_write(char *limiter, int write_to)
 {
 	char	*new_line;
 	char	*line;
+	int 	check;
 
+	check = 0;
 	while (1)
 	{	
 		
-		set_signals_after();
+		check = set_signals_heredoc();
+		if(!check)
+			break;
 		line = readline("> ");
 		if(!line)
 			break ;
