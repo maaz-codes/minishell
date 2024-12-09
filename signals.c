@@ -8,7 +8,6 @@ static void handle_sigint(int sig)
 		rl_on_new_line();
         rl_replace_line("",0);
 		rl_redisplay();
-        exit_status = 1;
 	}
 }
 
@@ -18,7 +17,6 @@ static void handle_sigquit()
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = SIG_IGN;
     sigaction(SIGQUIT,&set,NULL);
-    exit_status = 0;
 }
 
 static void sig_newline(int sig)
@@ -38,16 +36,23 @@ void set_signals_after()
     sigaction(SIGINT,&set,NULL);
 }
 
-int set_signals_heredoc()
+void sigint_catch_doc(int sig)
+{
+    if(sig == SIGINT)
+    {
+        signal_caught = SIGINT;
+    }
+}
+
+void set_signals_heredoc()
 {
     struct sigaction set;
 
     handle_sigquit();
     ft_memset(&set,0,sizeof(set));
-    set.sa_handler = SIG_IGN;
-    if(!sigaction(SIGINT,&set,NULL));
-        return 0;
-    return 1;
+    set.sa_handler = &sigint_catch_doc;
+    sigemptyset(&set.sa_mask);
+    sigaction(SIGINT,&set,NULL);
 }
 
 void set_signals()

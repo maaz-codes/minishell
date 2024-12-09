@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int exit_status;
+// int signal_caught;
 
 char *get_cwd(void)
 {
@@ -39,7 +39,7 @@ char  *signal_checkpoint()
     if(!input)
     {
         printf("\nexiting now...\n");
-        exit(exit_status);
+        exit(0);
     }
     return (input);
 }
@@ -81,6 +81,7 @@ int	main(int ac, char **av, char **env)
     paths->exp_struct = int_exp(env);
 	ancient_one = malloc(sizeof(t_ancient));
 	ancient_one->paths = paths;
+	ancient_one->catch_signal = 0;
 
 	dup_fds(&std_fds);
 	while (1)

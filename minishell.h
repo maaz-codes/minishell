@@ -30,7 +30,7 @@
 #define RIGHT 1
 
 // global variable
-int exit_status;
+int signal_caught;
 
 // error_codes
 typedef enum s_err_codes
@@ -110,6 +110,7 @@ typedef struct s_ancient
 {
 	t_tree *head;
 	t_path *paths;	
+	int   catch_signal;
 } 				t_ancient;
 
 void rl_replace_line (const char *text, int clear_undo);
@@ -249,6 +250,6 @@ void    ap_exp(t_exp **paths, char *res);
 //Signals
 void    set_signals();   
 void    set_signals_after();
-int  	set_signals_heredoc();	
+void	set_signals_heredoc();	
 
-extern int exit_status;
+extern int signal_caught;

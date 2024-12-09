@@ -29,20 +29,18 @@ static void	read_write(char *limiter, int write_to)
 {
 	char	*new_line;
 	char	*line;
-	int 	check;
 
-	check = 0;
+	set_signals_heredoc();
 	while (1)
 	{	
 		
-		check = set_signals_heredoc();
-		if(!check)
-			break;
 		line = readline("> ");
+		if(signal_caught == SIGINT)
+			return ;
 		if(!line)
 			break ;
 		if (line)
-		{
+		{	
 			if (!ft_strncmp(line, limiter, ft_strlen(limiter)))
 				break ;
 			new_line = ft_strjoin(line, "\n");
@@ -61,6 +59,7 @@ int	ft_here_doc(char *limiter)
 	char	**cmd;
 	int		doc_pipe[2];
 
+	signal_caught = 0;
 	if (pipe(doc_pipe) == -1)
 		print_error(ERR_PIPE);
 	read_write(limiter, doc_pipe[1]);
