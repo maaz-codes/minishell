@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/03 16:03:32 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/04 18:00:39 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,5 +248,6 @@ void    ap_exp(t_exp **paths, char *res);
 
 //Signals
 void    set_signals();   
+void    set_signals_after();
 
 extern int exit_status;

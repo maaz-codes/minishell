@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/02 13:40:42 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/04 18:29:16 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,12 @@ static void	read_write(char *limiter, int write_to)
 	char	*line;
 
 	while (1)
-	{
+	{	
+		
+		set_signals_after();
 		line = readline("> ");
+		if(!line)
+			break ;
 		if (line)
 		{
 			if (!ft_strncmp(line, limiter, ft_strlen(limiter)))

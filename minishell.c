@@ -35,6 +35,7 @@ char  *signal_checkpoint()
 
     set_signals();
     input = readline("minishell> ");
+	set_signals_after();
     if(!input)
     {
         printf("\nexiting now...\n");
@@ -97,8 +98,6 @@ int	main(int ac, char **av, char **env)
 				execution(tree, env, ancient_one);
 			lumberjack(tree);
 			reset_std_fds(&std_fds);
-
-            // in_buit_cmd(res,&paths,env);
 		}
 		else
 		{

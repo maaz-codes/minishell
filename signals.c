@@ -22,6 +22,22 @@ static void handle_sigquit()
     exit_status = 0;
 }
 
+static void sig_newline(int sig)
+{
+    (void)signal;
+    rl_on_new_line();
+}
+
+void set_signals_after()
+{
+    struct sigaction set;
+
+    ft_memset(&set,0,sizeof(set));
+    set.sa_handler = &sig_newline;
+    sigaction(SIGINT,&set,NULL);
+    sigaction(SIGQUIT,&set,NULL);
+}
+
 void set_signals()
 {
     struct sigaction set;
