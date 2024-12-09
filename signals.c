@@ -17,7 +17,6 @@ static void handle_sigquit()
     struct sigaction set;
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = SIG_IGN;
-    set.sa_flags = SA_RESTART;
     sigaction(SIGQUIT,&set,NULL);
     exit_status = 0;
 }
@@ -26,6 +25,7 @@ static void sig_newline(int sig)
 {
     (void)signal;
     rl_on_new_line();
+    
 }
 
 void set_signals_after()
@@ -34,6 +34,7 @@ void set_signals_after()
 
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = &sig_newline;
+    set.sa_flags = SA_RESTART;
     sigaction(SIGINT,&set,NULL);
     sigaction(SIGQUIT,&set,NULL);
 }
@@ -45,7 +46,6 @@ void set_signals()
     handle_sigquit();
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = &handle_sigint;
-    set.sa_flags = SA_RESTART;
     sigaction(SIGINT,&set,NULL);
 }
 
