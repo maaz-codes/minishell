@@ -82,6 +82,8 @@ t_tree *init_exp_node(char **str)
 	t_tree *node;
 
 	strip_spaces(str);
+	if (ft_strlen(*str) == 0)
+		return (free(*str), NULL);
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		(free(*str), print_exit(ERR_MALLOC));
@@ -205,7 +207,7 @@ char *extract_file_name(char *str, int start, int end)
 	file_name = ft_substr(str, store_start, start - store_start);
 	if (!file_name)
 		print_exit(ERR_MALLOC);
-	if (*file_name == '\0')
-		return (NULL);
+	if (ft_strlen(file_name) == 0)
+		return (free(file_name), NULL);
 	return (file_name);
 }

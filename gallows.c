@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 10:38:18 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/10 15:41:28 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,21 @@ char **array_dup(char **array)
 void	execute(char **cmd, char *env[], t_ancient *ancient_one)
 {
 	char	*path;
+	struct stat directory;
 
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
 		(reset_std_fds(ancient_one->std_fds), lumberjack(ancient_one->head), print_exit(ERR_CMD)); // free env as well...
 	execve(path, cmd, env);
-	// free: path, cmd, env;
+	if (stat(path, &directory) == 0)
+	{
+		write(2, "it's a directory\n", 18);
+		reset_std_fds(ancient_one->std_fds), lumberjack(ancient_one->head);
+		exit(126);
+	}
 	free(path);
 	free_array(cmd);
 	print_exit(ERR_CMD);
-	exit(EXIT_FAILURE);
 }
 
 int	handle_input_redir(char *file_name)
@@ -201,7 +206,6 @@ int	is_builtin(char *str)
 
 void handle_builtin(t_tree *tree, t_path *paths, t_ancient *ancient_one)
 {
-    // printf("Builtins in construction...\n");
     if (!ft_strncmp(tree->data.command, "echo", 5))
         echo_cmd(tree->left->data.argument);
     else if (!ft_strncmp(tree->data.command, "pwd", 4))
@@ -230,7 +234,11 @@ int	gallows(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 	else if (tree->type == NODE_COMMAND)
 	{
 		if (is_builtin(tree->data.command))
+		{
 			handle_builtin(tree, ancient_one->paths, ancient_one);
+			if (pipe_flag)
+				exit(EXIT_SUCCESS);
+		}
 		else
 			handle_cmd(tree, env, pipe_flag, ancient_one);
 	}

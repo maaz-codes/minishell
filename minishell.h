@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 10:38:36 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/10 15:48:17 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <sys/wait.h>
 #include <termios.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 // general
 #define TRUE 1
@@ -112,6 +113,7 @@ typedef struct s_ancient
 	t_tree			*head;
 	t_path			*paths;
 	t_std_fds		*std_fds;
+	int				exit_status;
 }					t_ancient;
 
 // helpers

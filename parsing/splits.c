@@ -42,6 +42,8 @@ char *extract_cmd_from_redir(char *first_half, char *str, int start, int append)
 	if (!cmd_flags)
 		(free(first_half), free(str), print_exit(ERR_MALLOC));
 	free(first_half);
+	if (ft_strlen(cmd_flags) == 0)
+		return (free(cmd_flags), NULL);
 	return (cmd_flags);
 }
 
@@ -91,6 +93,7 @@ int split_operator(char *str, t_tree **node, int i)
 			(free(str), print_exit(ERR_MALLOC));
 		add_node(node, init_exp_node(&left_exp), LEFT);
 		right_exp = ft_substr(str, i + 1, ft_strlen(str));
+		// printf("left: %s | right: %s\n");
 		if (!right_exp)
 			(free(str), print_exit(ERR_MALLOC));
 		add_node(node, init_exp_node(&right_exp), RIGHT);
