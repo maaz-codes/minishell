@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gallows.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 16:20:23 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/10 17:49:36 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ void handle_builtin(t_tree *tree, t_path *paths, t_ancient *ancient_one)
     else if (!ft_strncmp(tree->data.command, "env", 4))
         env_cmd(tree->left->data.argument, &paths);
     else if (!ft_strncmp(tree->data.command, "exit", 5))
-        exit_cmd(&paths, tree->left->data.argument);
+        exit_cmd(tree->left->data.argument, ancient_one);
 }
 
 int	gallows(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)

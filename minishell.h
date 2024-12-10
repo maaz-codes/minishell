@@ -6,10 +6,10 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/09 19:22:11 by rcreer           ###   ########.fr       */
-/*   Updated: 2024/12/10 15:48:17 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/10 17:49:07 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <fcntl.h>
 #include <limits.h>
@@ -214,7 +214,7 @@ void				*ft_memset(void *b, int c, size_t len);
 unsigned long long	ft_atol(char *s);
 
 // for freeing;
-void				clear_all(t_path **paths, char **str);
+void				clear_all(t_ancient *ancient_one, char **str);
 void				ft_lstclear_path(t_path **lst);
 void				ft_lstclear_env(t_env **lst);
 void				ft_lstclear_exp(t_exp **lst);
@@ -224,9 +224,9 @@ void				ft_lstclear_exp(t_exp **lst);
 void				echo_cmd(char **str);
 void				pwd_cmd(char **str);
 
-void				exit_cmd(t_path **paths, char **str);
-void				valid_num(char *s, t_path **paths, char **str);
-void				error_msg(char **str, t_path **paths);
+void				exit_cmd(char **str, t_ancient *ancient_one);
+void				valid_num(char *s, t_ancient *ancient_one, char **str);
+void				error_msg(char **str, t_ancient *ancient_one);
 
 void				env_cmd(char **str, t_path **paths);
 t_env				*int_env(char **env);

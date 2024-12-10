@@ -27,21 +27,6 @@ t_path	*int_cd(void)
 	return (node_new);
 }
 
-// char  *signal_checkpoint()
-// {
-//     char *input;
-
-//     set_signals();
-//     input = readline("minishell> ");
-// 	set_signals_after();
-//     if(!input)
-//     {
-//         printf("\nexiting now...\n");
-//         exit(0);
-//     }
-//     return (input);
-// }
-
 void dup_fds(t_std_fds *std_fds)
 {
 	std_fds->std_in = dup(STDIN_FILENO);
@@ -59,7 +44,7 @@ void reset_std_fds(t_std_fds *std_fds)
 	close(std_fds->std_err);
 }
 
-char  *signal_checkpoint(t_std_fds *std_fds)
+char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 {
     char *input;
 
@@ -67,9 +52,12 @@ char  *signal_checkpoint(t_std_fds *std_fds)
     input = readline("minishell> ");
 	set_signals_after();
     if(!input)
-    {
-        printf("\nexiting now...\n");
+    {	
+		// free using lumberjack
+		lumberjack(ancient_one->head);
+		clear_all(ancient_one, NULL);
 		reset_std_fds(std_fds);
+        printf("\nexiting now...\n");
         exit(0);
     }
     return (input);
@@ -104,12 +92,10 @@ int	main(int ac, char **av, char **env)
 	dup_fds(&std_fds);
 	while (1)
 	{
-        input = signal_checkpoint(&std_fds);
+        input = signal_checkpoint(&std_fds,ancient_one);
 		if (input)
 		{
 			add_history(input);
-			// printf("old_str = -%s-\n", input);
-			// printf("expanded_str = -%s-\n", env_expansion(input, env_vars));
 			tree = tokenization(input);
 			if (tree)
 			{
