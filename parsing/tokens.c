@@ -23,7 +23,7 @@ t_tree *init_op_node(char op)
 
 	node = malloc(sizeof(t_tree));
 	if (!node)
-		print_exit(ERR_MALLOC);
+		return (print_error(ERR_MALLOC), NULL);
 	node->type = NODE_OPERATOR;
 	node->data.operator = op;
 	node->left = NULL;
@@ -41,7 +41,7 @@ t_tree *init_redir_node(char *redir)
 		print_exit(ERR_MALLOC);
 	node = malloc(sizeof(t_tree));
 	if (!node)
-		print_exit(ERR_MALLOC);
+		(free(redir), print_exit(ERR_MALLOC));
 	node->type = NODE_REDIRECTION;
 	node->data.redirection = redir;
 	node->left = NULL;
@@ -83,14 +83,14 @@ t_tree *init_exp_node(char **str)
 
 	strip_spaces(str);
 	if (ft_strlen(*str) == 0)
-		return (NULL);
+		return (free(*str), NULL);
 	node = malloc(sizeof(t_tree));
 	if (!node)
-		print_exit(ERR_MALLOC);
+		(free(*str), print_exit(ERR_MALLOC));
 	node->type = NODE_EXPRESSION;
 	node->data.expression = *str;
 	if (!node->data.expression)
-		print_exit(ERR_MALLOC);
+		(free(*str), print_exit(ERR_MALLOC));
 	node->left = NULL;
 	node->right = NULL;
 	node->level = 1;
@@ -142,14 +142,12 @@ t_tree *init_args_node(char **args, char *cmd)
 
     node = malloc(sizeof(t_tree));
 	if (!node)
-		print_exit(ERR_MALLOC);
+		(free(cmd), free(*args), print_exit(ERR_MALLOC));
     node->type = NODE_ARGUMENT;
 	strip_spaces(args);
 	arguments = split_args(*args, cmd);
 	if (!arguments)
-		return (NULL); // if fails, free stuff in split_args();
-	// if (!arguments)
-		// (free_str(args), print_exit(ERR_MALLOC));
+		(free(cmd), free(*args), print_exit(ERR_MALLOC));
 	free_str(args);
 	node->data.argument = arguments;
 	node->left = NULL;
@@ -158,40 +156,6 @@ t_tree *init_args_node(char **args, char *cmd)
 	node->pos = 'm';
 	return (node);
 }
-
-
-// char *exp_after_redir_node(char *str, int start, int end, int append)
-// {
-// 	char *exp;
-// 	int first_half;
-// 	int second_half;
-
-// 	first_half = start;
-// 	second_half = end - append;
-// 	while (str[end] == ' ')
-// 		end++;
-// 	while (end < ft_strlen(str))
-// 	{
-// 		if (str[end] == '"' || str[end] == '\'')
-// 		{
-// 			end = inside_qoutes(str[end], str, end);
-// 			continue ;
-// 		}
-// 		if (str[end] == ' ')
-// 			break ;
-// 		end++;
-// 	}
-// 	char *cmd_name = ft_substr(str, first_half, second_half - first_half);
-// 	if (*cmd_name == '\0')
-// 		return (NULL);
-// 	char *cmd_flags = ft_substr(str, end, ft_strlen(str));
-// 	if (!cmd_flags || !cmd_name)
-// 		print_exit(ERR_MALLOC);
-// 	exp = ft_strjoin(cmd_name, cmd_flags);
-// 	if (!exp)
-// 		print_exit(ERR_MALLOC);
-// 	return (exp);
-// }
 
 char *exp_after_redir_node(char *str, char *first_half, int start)
 {
@@ -213,11 +177,11 @@ char *exp_after_redir_node(char *str, char *first_half, int start)
 	}
 	second_half = ft_substr(str, start, ft_strlen(str));
 	if (!second_half)
-		print_exit(ERR_MALLOC);
+		(free(str), print_exit(ERR_MALLOC));
 	left_exp = ft_strjoin(first_half, second_half);
 	free(second_half);
 	if (!left_exp)
-		print_exit(ERR_MALLOC);
+		(free(str), print_exit(ERR_MALLOC));
 	return (left_exp);
 }
 
@@ -243,7 +207,7 @@ char *extract_file_name(char *str, int start, int end)
 	file_name = ft_substr(str, store_start, start - store_start);
 	if (!file_name)
 		print_exit(ERR_MALLOC);
-	if (*file_name == '\0')
-		return (NULL);
+	if (ft_strlen(file_name) == 0)
+		return (free(file_name), NULL);
 	return (file_name);
 }

@@ -31,6 +31,11 @@ Behaviour : Doesn't print anything.
 Desired : Shoud parse the empty strings and give cmd not found twice.
 Status : 
 
+####exp: ><
+Behaviour : Taking it as a valid expression.
+Desired : Should throw a syntax error.
+Status : 
+
 
 
 ###Redundant Code
