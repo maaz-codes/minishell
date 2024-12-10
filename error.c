@@ -8,6 +8,8 @@ int	print_error(int code)
 		write(2, "Error: Execve() failed\n", 24);
 	else if (code == ERR_FILE)
 		write(2, "Error: Wrong File\n", 19);
+	else if (code == ERR_MALLOC)
+		write(2, "Error: Malloc Failed!\n", 23);
 	return (0);
 }
 

@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
 /*   Updated: 2024/12/09 19:22:11 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/10 15:48:17 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +23,7 @@
 #include <sys/wait.h>
 #include <termios.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 // general
 #define TRUE 1
@@ -44,26 +46,27 @@ typedef enum s_err_codes
 	ERR_CMD
 }					t_err_codes;
 
-typedef struct env{
-    
-    char *env;
-    struct env *next;
-}   t_env;
+typedef struct env
+{
+	char			*env;
+	struct env		*next;
+}					t_env;
 
-typedef struct export{
-    
-    char *exp;
-    struct export *next;
-}   t_exp;
+typedef struct export
+{
+	char			*exp;
+	struct export	*next;
+}
+t_exp;
 
-typedef struct pwd{
-
-    char *pwd;
-    char *pwd_old;
-    struct pwd *next;
-    t_env *env_struct;
-    t_exp *exp_struct;
-}   t_path;
+typedef struct pwd
+{
+	char			*pwd;
+	char			*pwd_old;
+	struct pwd		*next;
+	t_env			*env_struct;
+	t_exp			*exp_struct;
+}					t_path;
 
 typedef enum s_node_types
 {
@@ -106,12 +109,13 @@ typedef struct s_tree
 	struct s_tree	*right;
 }					t_tree;
 
-typedef struct s_ancient 
+typedef struct s_ancient
 {
-	t_tree *head;
-	t_path *paths;	
-	int   catch_signal;
-} 				t_ancient;
+	t_tree			*head;
+	t_path			*paths;
+	t_std_fds		*std_fds;
+	int				exit_status;
+}					t_ancient;
 
 void rl_replace_line (const char *text, int clear_undo);
 // helpers
@@ -131,8 +135,8 @@ void				print_tree(t_tree *tree);
 
 // tokenization
 int					strip_spaces(char **str);
-t_tree				*tokenization(char **str);
-t_tree				*tokenizer(char **str, t_tree **node);
+t_tree				*tokenization(char *str);
+t_tree				*tokenizer(char *str, t_tree **node);
 
 // tokens.c
 t_tree				*init_exp_node(char **str);
@@ -142,7 +146,8 @@ t_tree				*init_redir_node(char *redir);
 t_tree				*init_file_node(char *str, int start, int end);
 t_tree				*init_cmd_node(char **cmd);
 t_tree				*init_args_node(char **args, char *cmd);
-char 				*exp_after_redir_node(char *str, char *first_half, int start);
+char				*exp_after_redir_node(char *str, char *first_half,
+						int start);
 char				*extract_file_name(char *str, int start, int end);
 
 // qoutes.c
@@ -161,7 +166,7 @@ int					skip_spaces(char *str, int *i);
 // error.c
 int					print_error(int code);
 void				print_exit(int code);
-void 				free_str(char **str);
+void				free_str(char **str);
 
 // lumberjack.c
 void				lumberjack(t_tree *tree);
@@ -170,15 +175,15 @@ void				free_array(char **array);
 
 // splits.c
 int					count_args(char *str);
-int					split_operator(char **str, t_tree **node, int i, int j);
-int					split_redirection(char **str, t_tree **node, int i, int j);
-int					split_cmd(char **str, int i, t_tree **node);
+int					split_operator(char *str, t_tree **node, int i);
+int					split_redirection(char *str, t_tree **node, int i);
+int					split_cmd(char *str, int i, t_tree **node);
 char				**split_args(char *str, char *cmd);
 // int					split_log_operator(char *str, t_tree **node, int i, int j);
-// int					split_file(char *str, int *i, t_tree **node);
 
 // gallows.c
-int					gallows(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one);
+int					gallows(t_tree *tree, char **env, int pipe_flag,
+						t_ancient *ancient_one);
 void				execute(char **cmd, char *env[], t_ancient *ancient_one);
 
 // gallows_utils.c
@@ -200,52 +205,54 @@ char				*assign_value(char *env_var, t_env *env);
 char				*expanded_str(char *str, char *env_var, int start, int end);
 char				*env_expansion(char *str, t_env *env);
 
-// main.c
-
 // helpers - raph
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void	*ft_calloc(size_t nmemb, size_t size);
-void	ft_bzero(void *s, size_t n);
-int     ft_atoi(char *s);
-void    *ft_memset(void *b, int c, size_t len);
+size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void				*ft_calloc(size_t nmemb, size_t size);
+void				ft_bzero(void *s, size_t n);
+int					ft_atoi(char *s);
+void				*ft_memset(void *b, int c, size_t len);
 unsigned long long	ft_atol(char *s);
 
 // for freeing;
-void    clear_all(t_path **paths,char **str);
-void	ft_lstclear_path(t_path **lst);
-void	ft_lstclear_env(t_env **lst);
-void	ft_lstclear_exp(t_exp **lst);
+void				clear_all(t_path **paths, char **str);
+void				ft_lstclear_path(t_path **lst);
+void				ft_lstclear_env(t_env **lst);
+void				ft_lstclear_exp(t_exp **lst);
 // void    free_array(char **s);
 
+// Builtins
+void				echo_cmd(char **str);
+void				pwd_cmd(char **str);
 
-//Builtins 
-void    echo_cmd(char **str);
-void    pwd_cmd(char **str);
+void				exit_cmd(t_path **paths, char **str);
+void				valid_num(char *s, t_path **paths, char **str);
+void				error_msg(char **str, t_path **paths);
 
-void    exit_cmd(t_path **paths, char **str);
-void    valid_num(char *s, t_path **paths, char **str);
-void    error_msg(char **str,t_path **paths);
+void				env_cmd(char **str, t_path **paths);
+t_env				*int_env(char **env);
 
-void    env_cmd(char **str, t_path **paths);
-t_env   *int_env(char **env);
+void				cd_cmd(char **str, t_path **paths);
+char				*new_path(char *cwd, int id);
+t_path				*ft_lstlast_path(t_path *lst);
+void				ft_lstadd_back_path(t_path **lst, t_path *new);
+void				add_NEWPWD(t_path **paths, t_path *new);
+void				add_OLDPWD(t_path **paths, t_path *new);
 
-void    cd_cmd(char **str, t_path **paths);
-char    *new_path(char *cwd, int id);
-t_path	*ft_lstlast_path(t_path *lst);
-void	ft_lstadd_back_path(t_path **lst, t_path *new);
-void    add_NEWPWD(t_path **paths, t_path *new);
-void    add_OLDPWD(t_path **paths, t_path *new);
+void				unset_cmd(char **str, t_path **paths);
 
-void    unset_cmd(char **str, t_path **paths);
+void				export_cmd(char **str, t_path **paths);
+t_env				*lstlast_env(t_env *lst);
+char				**separator(char *str);
+t_exp				*int_exp(char **env);
+void				exp_print(t_path **paths);
+t_exp				*lstlast_exp(t_exp *lst);
+void				ap_exp(t_exp **paths, char *res);
 
-void    export_cmd(char **str, t_path **paths);
-t_env	*lstlast_env(t_env *lst);
-char    **separator(char *str);
-t_exp   *int_exp(char **env);
-void    exp_print(t_path **paths);
-t_exp	*lstlast_exp(t_exp *lst);
-void    ap_exp(t_exp **paths, char *res);
+// signals
+void				set_signals(void);
 
+// main.c
+void				reset_std_fds(t_std_fds *std_fds);
 
 //Signals
 void    set_signals();   

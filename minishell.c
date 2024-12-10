@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-// int signal_caught;
-
 char *get_cwd(void)
 {
     char cwd[1024];
@@ -56,6 +54,24 @@ void reset_std_fds(t_std_fds *std_fds)
 	dup2(std_fds->std_in, STDIN_FILENO);
 	dup2(std_fds->std_out, STDOUT_FILENO);
 	dup2(std_fds->std_err, STDERR_FILENO);
+	close(std_fds->std_in);
+	close(std_fds->std_out);
+	close(std_fds->std_err);
+}
+
+char  *signal_checkpoint(t_std_fds *std_fds)
+{
+    char *input;
+
+    set_signals();
+    input = readline("minishell> ");
+    if(!input)
+    {
+        printf("\nexiting now...\n");
+		reset_std_fds(std_fds);
+        exit(exit_status);
+    }
+    return (input);
 }
 
 void execution(t_tree *tree, char **env, t_ancient *ancient_one)
@@ -64,7 +80,7 @@ void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 
 	find_docs(tree);
 	tree->level = 0;
-	gallows(tree, env, tree->type == NODE_OPERATOR, ancient_one); 
+	gallows(tree, env, tree->type == NODE_OPERATOR, ancient_one);
 }
 
 int	main(int ac, char **av, char **env)
@@ -80,27 +96,34 @@ int	main(int ac, char **av, char **env)
     paths->env_struct = int_env(env);
     paths->exp_struct = int_exp(env);
 	ancient_one = malloc(sizeof(t_ancient));
+	if (!ancient_one)
+		print_exit(ERR_MALLOC); // free the paths...
 	ancient_one->paths = paths;
 	ancient_one->catch_signal = 0;
 
 	dup_fds(&std_fds);
 	while (1)
 	{
-        input = signal_checkpoint();
+        input = signal_checkpoint(&std_fds);
 		if (input)
 		{
 			add_history(input);
-			tree = tokenization(&input);
-			ancient_one->head = tree;
+			// printf("old_str = -%s-\n", input);
+			// printf("expanded_str = -%s-\n", env_expansion(input, env_vars));
+			tree = tokenization(input);
 			if (tree)
+			{
+				ancient_one->head = tree;
+				ancient_one->std_fds = &std_fds;
 				execution(tree, env, ancient_one);
+			}
 			lumberjack(tree);
 			reset_std_fds(&std_fds);
 		}
 		else
 		{
 			printf("readline failure\n");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 	return (0);

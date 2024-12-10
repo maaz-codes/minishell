@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:27:26 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/03 11:45:59 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/10 11:20:45 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,9 @@ int check_redir_node(t_tree *node)
 int syntax_checker(t_tree *tree)
 {
 	if (tree->left != NULL)
-	{
 		syntax_checker(tree->left);
-		if (tree->right != NULL)
-			syntax_checker(tree->right);
-	}
+	if (tree->right != NULL)
+		syntax_checker(tree->right);
 	if (tree->type == NODE_REDIRECTION)
 		return (check_redir_node(tree));
 	else if (tree->type == NODE_OPERATOR)
