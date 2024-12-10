@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/03 14:03:41 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/10 10:38:18 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	execute(char **cmd, char *env[], t_ancient *ancient_one)
 
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
-		(lumberjack(ancient_one->head), print_exit(ERR_CMD)); // free env as well...
+		(reset_std_fds(ancient_one->std_fds), lumberjack(ancient_one->head), print_exit(ERR_CMD)); // free env as well...
 	execve(path, cmd, env);
 	// free: path, cmd, env;
 	free(path);
