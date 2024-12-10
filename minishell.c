@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-int exit_status;
-
 char *get_cwd(void)
 {
     char cwd[1024];
@@ -27,6 +25,21 @@ t_path	*int_cd(void)
 	node_new->pwd_old = str2;
 	node_new->next = NULL;
 	return (node_new);
+}
+
+char  *signal_checkpoint()
+{
+    char *input;
+
+    set_signals();
+    input = readline("minishell> ");
+	set_signals_after();
+    if(!input)
+    {
+        printf("\nexiting now...\n");
+        exit(0);
+    }
+    return (input);
 }
 
 void dup_fds(t_std_fds *std_fds)
@@ -86,6 +99,7 @@ int	main(int ac, char **av, char **env)
 	if (!ancient_one)
 		print_exit(ERR_MALLOC); // free the paths...
 	ancient_one->paths = paths;
+	ancient_one->catch_signal = 0;
 
 	dup_fds(&std_fds);
 	while (1)

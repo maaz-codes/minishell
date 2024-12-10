@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
+/*   Updated: 2024/12/09 19:22:11 by rcreer           ###   ########.fr       */
 /*   Updated: 2024/12/10 15:48:17 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -31,7 +32,7 @@
 #define RIGHT 1
 
 // global variable
-int					exit_status;
+int signal_caught;
 
 // error_codes
 typedef enum s_err_codes
@@ -116,6 +117,7 @@ typedef struct s_ancient
 	int				exit_status;
 }					t_ancient;
 
+void rl_replace_line (const char *text, int clear_undo);
 // helpers
 size_t				ft_strlen(const char *str);
 char				*ft_strchr(const char *s, int c);
@@ -252,4 +254,9 @@ void				set_signals(void);
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 
-extern int			exit_status;
+//Signals
+void    set_signals();   
+void    set_signals_after();
+void	set_signals_heredoc();	
+
+extern int signal_caught;
