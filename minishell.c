@@ -86,13 +86,10 @@ int	main(int ac, char **av, char **env)
 	dup_fds(&std_fds);
 	while (1)
 	{
-		// input = readline("minishell> ");
         input = signal_checkpoint();
 		if (input)
 		{
 			add_history(input);
-			// printf("old_str = -%s-\n", input);
-			// printf("expanded_str = -%s-\n", env_expansion(input, env_vars));
 			tree = tokenization(&input);
 			ancient_one->head = tree;
 			if (tree)

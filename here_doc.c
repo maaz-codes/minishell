@@ -20,7 +20,7 @@ void sigint_catch_doc(int sig)
         exit(130);
     }
 }
-void set_signals_heredoc(char *line, char *new_line, int write_to)
+void set_signals_heredoc(char *line, char *new_line)
 {	
 	signal(SIGINT,sigint_catch_doc);
 	signal(SIGQUIT,SIG_IGN);
@@ -30,7 +30,6 @@ void set_signals_heredoc(char *line, char *new_line, int write_to)
 			free(line);
 		if(new_line)
 			free(new_line);
-		close(write_to);
 	}
 }
 
@@ -52,10 +51,9 @@ static void	read_write(char *limiter, int write_to)
 	char	*new_line;
 	char	*line;
 
-	set_signals_heredoc(line, new_line, write_to);
+	set_signals_heredoc(line, new_line);
 	while (1)
-	{	
-		
+	{
 		line = readline("> ");
 		if(!line)
 			break ;
@@ -86,7 +84,12 @@ int	ft_here_doc(char *limiter)
 	if (pipe(doc_pipe) == -1)
 		print_error(ERR_PIPE);
 	if(!pid)
+	{
+		// close(doc_pipe[0]);
 		read_write(limiter, doc_pipe[1]);
+		// exit(0);
+	}
+	// close(doc_pipe[1]);
 	waitpid(pid,NULL,0);
     return (doc_pipe[0]);
 }
