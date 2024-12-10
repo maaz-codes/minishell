@@ -27,20 +27,20 @@ t_path	*int_cd(void)
 	return (node_new);
 }
 
-char  *signal_checkpoint()
-{
-    char *input;
+// char  *signal_checkpoint()
+// {
+//     char *input;
 
-    set_signals();
-    input = readline("minishell> ");
-	set_signals_after();
-    if(!input)
-    {
-        printf("\nexiting now...\n");
-        exit(0);
-    }
-    return (input);
-}
+//     set_signals();
+//     input = readline("minishell> ");
+// 	set_signals_after();
+//     if(!input)
+//     {
+//         printf("\nexiting now...\n");
+//         exit(0);
+//     }
+//     return (input);
+// }
 
 void dup_fds(t_std_fds *std_fds)
 {
@@ -65,11 +65,12 @@ char  *signal_checkpoint(t_std_fds *std_fds)
 
     set_signals();
     input = readline("minishell> ");
+	set_signals_after();
     if(!input)
     {
         printf("\nexiting now...\n");
 		reset_std_fds(std_fds);
-        exit(exit_status);
+        exit(0);
     }
     return (input);
 }
@@ -99,7 +100,6 @@ int	main(int ac, char **av, char **env)
 	if (!ancient_one)
 		print_exit(ERR_MALLOC); // free the paths...
 	ancient_one->paths = paths;
-	ancient_one->catch_signal = 0;
 
 	dup_fds(&std_fds);
 	while (1)

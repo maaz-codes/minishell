@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 15:41:28 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/10 16:20:23 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	execute(char **cmd, char *env[], t_ancient *ancient_one)
 	if (stat(path, &directory) == 0)
 	{
 		write(2, "it's a directory\n", 18);
+		free(path);
 		reset_std_fds(ancient_one->std_fds), lumberjack(ancient_one->head);
 		exit(126);
 	}
