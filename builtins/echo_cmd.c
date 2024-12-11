@@ -21,7 +21,7 @@ void n_check(int *checker, int *i,char *str)
     if(*checker == 1)
         *i += 1;
 }
-void echo_cmd(char **str, t_ancient *ancient_one)
+void echo_cmd(char **str)
 {   
     int i; 
     int checker;
@@ -36,11 +36,6 @@ void echo_cmd(char **str, t_ancient *ancient_one)
     }
     else if(!ft_strncmp(str[0],"echo",5) && !ft_strncmp(str[i],"-n",3) && str[i + 1] == NULL)
         return ;
-    if(!ft_strncmp(str[i],"$?",2))
-    {
-        printf("exit_status: %d\n",ancient_one->exit_status);
-        return ;
-    }
     n_check(&checker,&i,str[i]);
     while(str[i])
     {

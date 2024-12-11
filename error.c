@@ -28,6 +28,6 @@ void	print_exit(int code)
 
 void free_str(char **str)
 {
-	free(*str); 
-	*str = NULL;
+        free(*str); 
+        *str = NULL;
 }
