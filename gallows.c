@@ -6,44 +6,45 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/11 13:48:05 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/11 14:27:46 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **array_dup(char **array)
+char	**array_dup(char **array)
 {
-    int i;
-	int j;
-    char **dup_array;
+	int		i;
+	int		j;
+	char	**dup_array;
 
 	i = 0;
 	j = 0;
-    if (!array)
-        return NULL;
-    while (array[i])
-        i++;
-    dup_array = (char **)malloc(sizeof(char *) * (i + 1));
-    if (!dup_array)
-        return NULL;
+	if (!array)
+		return (NULL);
+	while (array[i])
+		i++;
+	dup_array = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!dup_array)
+		return (NULL);
 	while (j < i)
 	{
 		dup_array[j] = ft_strdup(array[j]);
 		j++;
 	}
-    dup_array[i] = NULL;
-    return (dup_array);
+	dup_array[i] = NULL;
+	return (dup_array);
 }
 
 void	execute(char **cmd, char *env[], t_ancient *ancient_one)
 {
-	char	*path;
-	struct stat directory;
+	char		*path;
+	struct stat	directory;
 
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
-		(reset_std_fds(ancient_one->std_fds), lumberjack(ancient_one->head), print_exit(ERR_CMD)); // free env as well...
+		(reset_std_fds(ancient_one->std_fds), lumberjack(ancient_one->head),
+			print_exit(ERR_CMD)); // free env as well...
 	execve(path, cmd, env);
 	if (stat(path, &directory) == 0)
 	{
@@ -104,49 +105,66 @@ int	handle_here_doc(int read_from)
 	return (read_from);
 }
 
-void left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one, char **env)
-{
-	close(pipefd[0]);
-	dup2(pipefd[1], 1), close(pipefd[1]);
-	gallows(tree->left, env, 1, ancient_one);
-}
-
-void right_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one, char **env)
-{
-	close(pipefd[1]);
-	dup2(pipefd[0], 0), close(pipefd[0]);
-	gallows(tree->right, env, 1, ancient_one);
-}
-
-void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
+pid_t	left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one, char **env)
 {
 	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		(mini_fuk(ancient_one), print_exit(ERR_FORK));
+	if (pid == 0)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], 1), close(pipefd[1]);
+		gallows(tree->left, env, 1, ancient_one);
+	}
+	return (pid);
+}
+
+pid_t	right_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one,
+		char **env)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		(mini_fuk(ancient_one), print_exit(ERR_FORK));
+	if (pid == 0)
+	{
+		close(pipefd[1]);
+		dup2(pipefd[0], 0), close(pipefd[0]);
+		gallows(tree->right, env, 1, ancient_one);
+	}
+	return (pid);
+}
+
+void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
+		t_ancient *ancient_one)
+{
+	pid_t	pid_left;
+	pid_t	pid_right;
 	int		pipefd[2];
+	int		status;
 
 	if (pipe(pipefd) == -1)
-		print_exit(ERR_PIPE);
-	pid = fork();
-	if (pid == -1)
-		print_exit(ERR_FORK);
-	if (pid == 0)
-		left_pipe(pipefd, tree, ancient_one, env);
-	pid = fork();
-	if (pid == -1)
-		print_exit(ERR_FORK);
-	if (pid == 0)
-		right_pipe(pipefd, tree, ancient_one, env);
+		(mini_fuk(ancient_one), print_exit(ERR_PIPE));
+	pid_left = left_pipe(pipefd, tree, ancient_one, env);
+	pid_right = right_pipe(pipefd, tree, ancient_one, env);
 	close(pipefd[0]);
 	close(pipefd[1]);
-	wait(NULL);
-	wait(NULL);
+	waitpid(pid_left, &status, 0);
+	waitpid(pid_right, &status, 0);
+	if (WIFSIGNALED(status) != 0)
+		printf("Found a signal!\n");
 	if (tree->level != 1) // not the main()
 		exit(0);
 }
 
-void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
+void	handle_redir(t_tree *tree, char **env, int pipe_flag,
+		t_ancient *ancient_one)
 {
-	int fd;
-	
+	int	fd;
+
 	if (ft_strncmp(tree->data.redirection, "<", 2) == 0)
 		fd = handle_input_redir(tree->right->data.file);
 	else if (ft_strncmp(tree->data.redirection, ">", 2) == 0)
@@ -156,17 +174,16 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_on
 	else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
 		fd = handle_here_doc(tree->right->data.here_doc);
 	if (fd != -1)
-	{
 		gallows(tree->left, env, pipe_flag, ancient_one);
-	}
 	if (pipe_flag)
 		exit(1);
 }
 
-void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
+void	handle_cmd(t_tree *tree, char **env, int pipe_flag,
+		t_ancient *ancient_one)
 {
 	pid_t	pid;
-	char 	**args;
+	char	**args;
 
 	args = array_dup(tree->left->data.argument);
 	if (!pipe_flag)
@@ -190,7 +207,7 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 		execute(args, env, ancient_one);
 	}
 	free_array(args);
-    // exit(0);
+	// exit(0);
 	// exit_codes implementation...
 }
 
@@ -206,28 +223,28 @@ int	is_builtin(char *str)
 	return (0);
 }
 
-void handle_builtin(t_tree *tree, t_path *paths, t_ancient *ancient_one)
+void	handle_builtin(t_tree *tree, t_path *paths, t_ancient *ancient_one)
 {
-    if (!ft_strncmp(tree->data.command, "echo", 5))
-        echo_cmd(tree->left->data.argument);
-    else if (!ft_strncmp(tree->data.command, "pwd", 4))
-        pwd_cmd(tree->left->data.argument);
-    else if (!ft_strncmp(tree->data.command, "cd", 3))
-        cd_cmd(tree->left->data.argument, &paths);
-    else if (!ft_strncmp(tree->data.command, "export", 7))
-        export_cmd(tree->left->data.argument, &paths);
-    else if (!ft_strncmp(tree->data.command, "unset", 6))
-        unset_cmd(tree->left->data.argument, &paths);
-    else if (!ft_strncmp(tree->data.command, "env", 4))
-        env_cmd(tree->left->data.argument, &paths);
-    else if (!ft_strncmp(tree->data.command, "exit", 5))
-        exit_cmd(&paths, tree->left->data.argument, ancient_one);
+	if (!ft_strncmp(tree->data.command, "echo", 5))
+		echo_cmd(tree->left->data.argument);
+	else if (!ft_strncmp(tree->data.command, "pwd", 4))
+		pwd_cmd(tree->left->data.argument);
+	else if (!ft_strncmp(tree->data.command, "cd", 3))
+		cd_cmd(tree->left->data.argument, &paths);
+	else if (!ft_strncmp(tree->data.command, "export", 7))
+		export_cmd(tree->left->data.argument, &paths);
+	else if (!ft_strncmp(tree->data.command, "unset", 6))
+		unset_cmd(tree->left->data.argument, &paths);
+	else if (!ft_strncmp(tree->data.command, "env", 4))
+		env_cmd(tree->left->data.argument, &paths);
+	else if (!ft_strncmp(tree->data.command, "exit", 5))
+		exit_cmd(&paths, tree->left->data.argument, ancient_one);
 }
 
 int	gallows(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 {
 	if (tree == NULL)
-		return 1;
+		return (1);
 	tree->level += 1;
 	if (tree->type == NODE_OPERATOR)
 		handle_pipe(tree, env, pipe_flag, ancient_one);
