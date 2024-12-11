@@ -114,7 +114,6 @@ t_tree *init_cmd_node(char **cmd)
 	node->right = NULL;
 	node->level = 1;
 	node->pos = 'm';
-	// free_array(cmd);
 	return (node);
 }
 
@@ -149,13 +148,12 @@ t_tree *init_args_node(char **args, char *cmd)
 	arguments = split_args(*args, cmd);
 	if (!arguments)
 		(free(cmd), free(*args), print_exit(ERR_MALLOC));
-	// free_array(args);
+	free_str(args);
 	node->data.argument = arguments;
 	node->left = NULL;
 	node->right = NULL;
 	node->level = 1;
 	node->pos = 'm';
-	// free_array(arguments);
 	return (node);
 }
 
