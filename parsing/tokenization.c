@@ -18,7 +18,7 @@ int	strip_spaces(char **str)
 
 int	splitter(char *str, t_tree **node, int i)
 {
-	if (split_operator(str, node, i)) // done
+	if (split_operator(str, node, i)) 
 		return (1);
 	else if (!operator_ahead(str, i) && split_redirection(str, node, i)) // still some work...
 		return (1);
@@ -33,6 +33,8 @@ t_tree	*tokenizer(char *str, t_tree **node)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (i <= ft_strlen(str))
 	{
 		if (str[i] == '"' || str[i] == '\'')
