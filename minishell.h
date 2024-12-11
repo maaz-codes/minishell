@@ -116,6 +116,7 @@ typedef struct s_ancient
 	t_std_fds		*std_fds;
 	int				inside_pipe;
 	int				exit_status;
+	int				inside_pipe;
 }					t_ancient;
 
 void rl_replace_line (const char *text, int clear_undo);
@@ -215,19 +216,19 @@ void				*ft_memset(void *b, int c, size_t len);
 unsigned long long	ft_atol(char *s);
 
 // for freeing;
-void				clear_all(t_path **paths, char **str);
+void				clear_all(t_ancient *ancient_one, char **str);
 void				ft_lstclear_path(t_path **lst);
 void				ft_lstclear_env(t_env **lst);
 void				ft_lstclear_exp(t_exp **lst);
 // void    free_array(char **s);
 
 // Builtins
-void				echo_cmd(char **str);
+void				echo_cmd(char **str, t_ancient *ancient_one);
 void				pwd_cmd(char **str);
 
 void				exit_cmd(t_path **paths, char **str, t_ancient *ancient_one);
-void				valid_num(char *s, t_path **paths, char **str);
-void				error_msg(char **str, t_path **paths);
+void				valid_num(char *s, t_ancient *ancient_one, char **str);
+void				error_msg(char **str, t_ancient *ancient_one);
 
 void				env_cmd(char **str, t_path **paths);
 t_env				*int_env(char **env);
@@ -250,15 +251,15 @@ t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
 
 // signals
-void				set_signals(void);
+// void				set_signals(void);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 void mini_fuk(t_ancient *ancient_one);
 
 //Signals
-void    set_signals();   
-void    set_signals_after();
+void    set_signals(t_ancient *ancient_one);   
+void    set_signals_after(t_ancient *ancient_one);
 void	set_signals_heredoc();	
 
 extern int signal_caught;

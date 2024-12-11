@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   gallows.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
 /*   Updated: 2024/12/11 14:32:41 by maakhan          ###   ########.fr       */
@@ -114,6 +114,8 @@ pid_t	left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one, char **env)
 		(mini_fuk(ancient_one), print_exit(ERR_FORK));
 	if (pid == 0)
 	{
+    signal(SIGINT,SIG_DFL);
+	  signal(SIGQUIT,SIG_DFL);
 		close(pipefd[0]);
 		dup2(pipefd[1], 1), close(pipefd[1]);
 		gallows(tree->left, env, 1, ancient_one);
@@ -131,6 +133,8 @@ pid_t	right_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one,
 		(mini_fuk(ancient_one), print_exit(ERR_FORK));
 	if (pid == 0)
 	{
+    signal(SIGINT,SIG_DFL);
+	  signal(SIGQUIT,SIG_DFL);
 		close(pipefd[1]);
 		dup2(pipefd[0], 0), close(pipefd[0]);
 		gallows(tree->right, env, 1, ancient_one);
@@ -146,6 +150,7 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
 	int		pipefd[2];
 	int		status;
 
+  signal(SIGINT,SIG_IGN);
 	if (pipe(pipefd) == -1)
 		(mini_fuk(ancient_one), print_exit(ERR_PIPE));
 	pid_left = left_pipe(pipefd, tree, ancient_one, env);
@@ -154,8 +159,11 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
 	close(pipefd[1]);
 	waitpid(pid_left, &status, 0);
 	waitpid(pid_right, &status, 0);
-	if (WIFSIGNALED(status) != 0)
-		printf("Found a signal!\n");
+  if(WIFSIGNALED(status) != 0)
+	{
+		ancient_one->exit_status = status + 128;
+		signal_caught = status + 128;
+	}
 	if (tree->level != 1) // not the main()
 		exit(0);
 }
@@ -224,7 +232,7 @@ int	is_builtin(char *str)
 void	handle_builtin(t_tree *tree, t_path *paths, t_ancient *ancient_one)
 {
 	if (!ft_strncmp(tree->data.command, "echo", 5))
-		echo_cmd(tree->left->data.argument);
+		echo_cmd(tree->left->data.argument,ancient_one);
 	else if (!ft_strncmp(tree->data.command, "pwd", 4))
 		pwd_cmd(tree->left->data.argument);
 	else if (!ft_strncmp(tree->data.command, "cd", 3))

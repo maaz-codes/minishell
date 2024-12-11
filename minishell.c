@@ -58,13 +58,20 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 {
     char *input;
 
-    set_signals();
+    set_signals(ancient_one);
     input = readline("minishell> ");
-	set_signals_after();
+	if(signal_caught == SIGINT)
+		ancient_one->exit_status = 1;
+	else if(signal_caught == 0)
+		ancient_one->exit_status = 0;
+	if(*input != '\0')
+		signal_caught = 0;
     if(!input)
     {
-        printf("\nexiting now...\n");
+		lumberjack(ancient_one->head);
+		clear_all(ancient_one, NULL);
 		reset_std_fds(std_fds);
+    printf("\nexiting now...\n");
 		mini_fuk(ancient_one);
         exit(0);
     }
@@ -99,7 +106,7 @@ int	main(int ac, char **av, char **env)
 	if (!ancient_one)
 		print_exit(ERR_MALLOC); // free the paths...
 	ancient_one->paths = paths;
-
+	ancient_one->exit_status = 0;
 	dup_fds(&std_fds);
 	while (1)
 	{
@@ -108,8 +115,6 @@ int	main(int ac, char **av, char **env)
 		if (input)
 		{
 			add_history(input);
-			// printf("old_str = -%s-\n", input);
-			// printf("expanded_str = -%s-\n", env_expansion(input, env_vars));
 			tree = tokenization(input);
 			ancient_one->head = tree;
 			ancient_one->std_fds = &std_fds;

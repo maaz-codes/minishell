@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void valid_num(char *s, t_path **paths, char **str)
+void valid_num(char *s, t_ancient *ancient_one, char **str)
 {   
     int i;
     int len;
@@ -17,8 +17,8 @@ void valid_num(char *s, t_path **paths, char **str)
             len++;
         }
         else
-            error_msg(str,paths);
+            error_msg(str,ancient_one);
     }
     if(len >= 20)
-        error_msg(str,paths);
+        error_msg(str,ancient_one);
 }
