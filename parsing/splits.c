@@ -79,9 +79,11 @@ int split_redirection(char *str, t_tree **node, int i)
 int split_operator(char *str, t_tree **node, int i)
 {
 	t_tree *node_tmp;
+	t_tree *node_left;
+	t_tree *node_right;
 	char *left_exp;
 	char *right_exp;
-
+	
 	if (str[i] == '|')
 	{
 		node_tmp = *node;
@@ -91,16 +93,21 @@ int split_operator(char *str, t_tree **node, int i)
 		left_exp = ft_substr(str, 0, i);
 		if (!left_exp)
 			(free(str), print_exit(ERR_MALLOC));
-		add_node(node, init_exp_node(&left_exp), LEFT);
+		node_left = init_exp_node(&left_exp);
+		if (node_left)
+			add_node(node, node_left, LEFT);
 		right_exp = ft_substr(str, i + 1, ft_strlen(str));
-		// printf("left: %s | right: %s\n");
 		if (!right_exp)
 			(free(str), print_exit(ERR_MALLOC));
-		add_node(node, init_exp_node(&right_exp), RIGHT);
+		node_right = init_exp_node(&right_exp);
+		if (node_right)
+			add_node(node, node_right, RIGHT);
 		free(str);
 		free(node_tmp);
-		tokenizer(left_exp, &(*node)->left);
-		tokenizer(right_exp, &(*node)->right);
+		if (node_left != NULL)
+			tokenizer(left_exp, &(*node)->left);
+		if (node_right != NULL)
+			tokenizer(right_exp, &(*node)->right);
 		return (1);
 	}
 	return (0);

@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/09 19:22:11 by rcreer           ###   ########.fr       */
-/*   Updated: 2024/12/10 15:48:17 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/11 13:47:19 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <fcntl.h>
 #include <limits.h>
@@ -169,7 +169,7 @@ void				print_exit(int code);
 void				free_str(char **str);
 
 // lumberjack.c
-void				lumberjack(t_tree *tree);
+t_tree 				*lumberjack(t_tree *tree);
 void				chop_branch(t_tree *node);
 void				free_array(char **array);
 
@@ -224,7 +224,7 @@ void				ft_lstclear_exp(t_exp **lst);
 void				echo_cmd(char **str);
 void				pwd_cmd(char **str);
 
-void				exit_cmd(t_path **paths, char **str);
+void				exit_cmd(t_path **paths, char **str, t_ancient *ancient_one);
 void				valid_num(char *s, t_path **paths, char **str);
 void				error_msg(char **str, t_path **paths);
 
@@ -253,6 +253,7 @@ void				set_signals(void);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
+void mini_fuk(t_ancient *ancient_one);
 
 //Signals
 void    set_signals();   

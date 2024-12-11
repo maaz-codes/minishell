@@ -83,7 +83,7 @@ t_tree *init_exp_node(char **str)
 
 	strip_spaces(str);
 	if (ft_strlen(*str) == 0)
-		return (free(*str), NULL);
+		return (free_str(str), NULL);
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		(free(*str), print_exit(ERR_MALLOC));

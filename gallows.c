@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 16:20:23 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/11 13:48:05 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 	pid_t	pid;
 	char 	**args;
 
-	// args = array_dup(tree->left->data.argument);
+	args = array_dup(tree->left->data.argument);
 	if (!pipe_flag)
 	{
 		pid = fork();
@@ -176,19 +176,20 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 			return ;
 		if (pid == 0)
 		{
-			// lumberjack(ancient_one);
-			// execute(args, env);
-			execute(tree->left->data.argument, env, ancient_one);
+			mini_fuk(ancient_one);
+			// execute(tree->left->data.argument, env, ancient_one);
+			execute(args, env, ancient_one);
 		}
-		// free_array(args);
+		free_array(args);
 		wait(NULL);
 	}
 	else
 	{
-		// lumberjack(ancient_one);
-		// execute(args, env);
-		execute(tree->left->data.argument, env, ancient_one);
+		mini_fuk(ancient_one);
+		// execute(tree->left->data.argument, env, ancient_one);
+		execute(args, env, ancient_one);
 	}
+	free_array(args);
     // exit(0);
 	// exit_codes implementation...
 }
@@ -220,7 +221,7 @@ void handle_builtin(t_tree *tree, t_path *paths, t_ancient *ancient_one)
     else if (!ft_strncmp(tree->data.command, "env", 4))
         env_cmd(tree->left->data.argument, &paths);
     else if (!ft_strncmp(tree->data.command, "exit", 5))
-        exit_cmd(&paths, tree->left->data.argument);
+        exit_cmd(&paths, tree->left->data.argument, ancient_one);
 }
 
 int	gallows(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
@@ -238,7 +239,10 @@ int	gallows(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 		{
 			handle_builtin(tree, ancient_one->paths, ancient_one);
 			if (pipe_flag)
+			{
+				mini_fuk(ancient_one);
 				exit(EXIT_SUCCESS);
+			}
 		}
 		else
 			handle_cmd(tree, env, pipe_flag, ancient_one);

@@ -37,7 +37,7 @@ void chop_branch(t_tree *node)
 		free_array(node->data.argument);
 	}
 	else if (node->type == NODE_OPERATOR)
-		return ;
+		;
 	else
 	{
 		// printf("--freed:expression\n");
@@ -47,10 +47,10 @@ void chop_branch(t_tree *node)
 	free(node);
 }
 
-void lumberjack(t_tree *tree)
+t_tree *lumberjack(t_tree *tree)
 {
-	if (!tree)
-		return ;
+	if (tree == NULL)
+		return (NULL);
 	if (tree->left != NULL)
 	{
 		// printf("node: %s\n", tree->left->data.expression);
@@ -62,4 +62,5 @@ void lumberjack(t_tree *tree)
 		lumberjack(tree->right);
 	}
 	chop_branch(tree);
+	return (NULL);
 }
