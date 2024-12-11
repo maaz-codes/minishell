@@ -57,7 +57,7 @@ void num_valid_check(unsigned long long e, int c, char **str, t_path **paths)
 }
 
 
-void exit_cmd(t_path **paths, char **str)
+void exit_cmd(t_path **paths, char **str, t_ancient *ancient_one)
 {   
     unsigned long long exit_num;
     int check;
@@ -77,9 +77,9 @@ void exit_cmd(t_path **paths, char **str)
             neg_num_exit(paths,str,exit_num);
         if(exit_num >= 256 && check == 1)
             exit_num = exit_num % 256;
-        (clear_all(paths,str),printf("exit\n"),exit(exit_num));
+        (mini_fuk(ancient_one), printf("exit\n"), exit(exit_num));
     }
     else if(!ft_strncmp(str[0],"exit",5) && str[1] == NULL)
-        (clear_all(paths,str),printf("exit\n"),exit(0));
+        (mini_fuk(ancient_one), printf("exit\n"),exit(0));
 }
 
