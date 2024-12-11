@@ -86,17 +86,12 @@ void print_tree(t_tree *tree)
 		tree->left->level += tree->level;
 		tree->left->pos = 'l';
 		print_tree(tree->left);
-		if (tree->right != NULL)
-		{
-			tree->right->level += tree->level;
-			tree->right->pos = 'r';
-			print_tree(tree->right);
-		}
-		else
-		{
-			print_data(tree);
-			return ;
-		}
+	}
+	if (tree->right != NULL)
+	{
+		tree->right->level += tree->level;
+		tree->right->pos = 'r';
+		print_tree(tree->right);
 	}
 	print_data(tree);
 }

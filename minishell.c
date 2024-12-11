@@ -115,9 +115,9 @@ int	main(int ac, char **av, char **env)
 			{
 				ancient_one->head = tree;
 				ancient_one->std_fds = &std_fds;
-				execution(tree, env, ancient_one);
+				// execution(tree, env, ancient_one);
 			}
-			lumberjack(tree);
+			// lumberjack(tree);
 			reset_std_fds(&std_fds);
 		}
 		else
