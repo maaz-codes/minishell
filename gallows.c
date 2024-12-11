@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/11 14:27:46 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/11 14:32:41 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,7 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag,
 		exit(1);
 }
 
-void	handle_cmd(t_tree *tree, char **env, int pipe_flag,
-		t_ancient *ancient_one)
+void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 {
 	pid_t	pid;
 	char	**args;
@@ -197,7 +196,6 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag,
 			// execute(tree->left->data.argument, env, ancient_one);
 			execute(args, env, ancient_one);
 		}
-		free_array(args);
 		wait(NULL);
 	}
 	else

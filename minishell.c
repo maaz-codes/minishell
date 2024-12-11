@@ -6,8 +6,8 @@ void mini_fuk(t_ancient *ancient_one)
 	ft_lstclear_exp(&ancient_one->paths->exp_struct);
 	ft_lstclear_path(&ancient_one->paths);
 	lumberjack(ancient_one->head);
+	reset_std_fds(ancient_one->std_fds);
 	free(ancient_one);
-	printf("nuked everything\n");
 }
 
 char *get_cwd(void)
@@ -77,7 +77,9 @@ void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 
 	find_docs(tree);
 	tree->level = 0;
-	gallows(tree, env, tree->type == NODE_OPERATOR, ancient_one);
+	if (tree->type == NODE_OPERATOR)
+		ancient_one->inside_pipe = TRUE;
+	gallows(tree, env, ancient_one->inside_pipe, ancient_one);
 }
 
 
@@ -101,6 +103,7 @@ int	main(int ac, char **av, char **env)
 	dup_fds(&std_fds);
 	while (1)
 	{
+		ancient_one->inside_pipe = FALSE;
         input = signal_checkpoint(&std_fds, ancient_one);
 		if (input)
 		{
