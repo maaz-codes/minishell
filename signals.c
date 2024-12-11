@@ -8,6 +8,7 @@ static void handle_sigint(int sig)
 		rl_on_new_line();
         rl_replace_line("",0);
 		rl_redisplay();
+        signal_caught = SIGINT;
 	}
 }
 
@@ -21,24 +22,27 @@ static void handle_sigquit()
 
 static void sig_newline(int sig)
 {
-    (void)signal;
+    if(sig == SIGINT)
+    {
+        printf("signal 10 caught\n");
+        signal_caught = 10;
+    }
     rl_on_new_line();
 }
 
-void set_signals_after()
+void set_signals_after(t_ancient *ancient_one)
 {
     struct sigaction set;
 
     handle_sigquit();
     ft_memset(&set,0,sizeof(set));
     set.sa_handler = &sig_newline;
-    set.sa_flags = SA_RESTART;
     sigaction(SIGINT,&set,NULL);
 }
 
 
 
-void set_signals()
+void set_signals(t_ancient *ancient_one)
 {
     struct sigaction set;
 

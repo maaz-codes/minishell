@@ -9,7 +9,8 @@ void clear_all(t_ancient *ancient_one,char **str)
     exp = ancient_one->paths->exp_struct;
     env = ancient_one->paths->env_struct;
     paths = ancient_one->paths;
-
+    if(!ancient_one)
+        return ;
     if(str)
         free(str);
     if(env)

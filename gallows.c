@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 17:49:36 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/11 14:38:14 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,40 +105,54 @@ int	handle_here_doc(int read_from)
 }
 
 void left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one, char **env)
-{
+{	
+	signal(SIGINT,SIG_DFL);
+	signal(SIGQUIT,SIG_DFL);
 	close(pipefd[0]);
 	dup2(pipefd[1], 1), close(pipefd[1]);
 	gallows(tree->left, env, 1, ancient_one);
 }
 
 void right_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one, char **env)
-{
+{	
+	signal(SIGINT,SIG_DFL);
+	signal(SIGQUIT,SIG_DFL);
 	close(pipefd[1]);
 	dup2(pipefd[0], 0), close(pipefd[0]);
 	gallows(tree->right, env, 1, ancient_one);
 }
 
+
+
 void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 {
-	pid_t	pid;
+	pid_t	pid_left;
+	pid_t	pid_right;
 	int		pipefd[2];
-
+	int 	status;
+	
+	signal(SIGINT,SIG_IGN);
 	if (pipe(pipefd) == -1)
 		print_exit(ERR_PIPE);
-	pid = fork();
-	if (pid == -1)
+	pid_left = fork();
+	if (pid_left == -1)
 		print_exit(ERR_FORK);
-	if (pid == 0)
+	if (pid_left == 0)
 		left_pipe(pipefd, tree, ancient_one, env);
-	pid = fork();
-	if (pid == -1)
+	pid_right = fork();
+	if (pid_right == -1)
 		print_exit(ERR_FORK);
-	if (pid == 0)
+	if (pid_right == 0)
 		right_pipe(pipefd, tree, ancient_one, env);
 	close(pipefd[0]);
 	close(pipefd[1]);
-	wait(NULL);
-	wait(NULL);
+	waitpid(pid_left,&status,0);
+	waitpid(pid_right,&status,0);
+	if(WIFSIGNALED(status) != 0)
+	{
+		ancient_one->exit_status = status + 128;
+		signal_caught = status + 128;
+	}
 	if (tree->level != 1) // not the main()
 		exit(0);
 }
@@ -208,7 +222,7 @@ int	is_builtin(char *str)
 void handle_builtin(t_tree *tree, t_path *paths, t_ancient *ancient_one)
 {
     if (!ft_strncmp(tree->data.command, "echo", 5))
-        echo_cmd(tree->left->data.argument);
+        echo_cmd(tree->left->data.argument,ancient_one);
     else if (!ft_strncmp(tree->data.command, "pwd", 4))
         pwd_cmd(tree->left->data.argument);
     else if (!ft_strncmp(tree->data.command, "cd", 3))

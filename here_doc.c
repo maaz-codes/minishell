@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 16:40:09 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/11 13:02:50 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,11 @@ static void	read_write(char *limiter, int write_to)
 
 int	ft_here_doc(char *limiter)
 {
-	// pid_t	pid;
 	char	**cmd;
 	int		doc_pipe[2];
 
 	if (pipe(doc_pipe) == -1)
 		print_error(ERR_PIPE);
 	read_write(limiter, doc_pipe[1]);
-	// waitpid(pid,NULL,0);
     return (doc_pipe[0]);
 }

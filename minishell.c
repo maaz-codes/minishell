@@ -48,12 +48,16 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 {
     char *input;
 
-    set_signals();
+    set_signals(ancient_one);
     input = readline("minishell> ");
-	set_signals_after();
+	if(signal_caught == SIGINT)
+		ancient_one->exit_status = 1;
+	else if(signal_caught == 0)
+		ancient_one->exit_status = 0;
+	if(*input != '\0')
+		signal_caught = 0;
     if(!input)
-    {	
-		// free using lumberjack
+    {
 		lumberjack(ancient_one->head);
 		clear_all(ancient_one, NULL);
 		reset_std_fds(std_fds);
@@ -69,7 +73,9 @@ void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 
 	find_docs(tree);
 	tree->level = 0;
-	gallows(tree, env, tree->type == NODE_OPERATOR, ancient_one);
+	if (tree->type == NODE_OPERATOR)
+		ancient_one->inside_pipe = TRUE;
+	gallows(tree, env, ancient_one->inside_pipe, ancient_one);
 }
 
 int	main(int ac, char **av, char **env)
@@ -88,10 +94,11 @@ int	main(int ac, char **av, char **env)
 	if (!ancient_one)
 		print_exit(ERR_MALLOC); // free the paths...
 	ancient_one->paths = paths;
-
+	ancient_one->exit_status = 0;
 	dup_fds(&std_fds);
 	while (1)
-	{
+	{	
+		ancient_one->inside_pipe = FALSE;
         input = signal_checkpoint(&std_fds,ancient_one);
 		if (input)
 		{
@@ -103,7 +110,8 @@ int	main(int ac, char **av, char **env)
 				ancient_one->std_fds = &std_fds;
 				execution(tree, env, ancient_one);
 			}
-			lumberjack(tree);
+			// free(input);
+			// lumberjack(tree);
 			reset_std_fds(&std_fds);
 		}
 		else

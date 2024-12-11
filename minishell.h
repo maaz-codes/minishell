@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 17:49:07 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/11 12:22:16 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_ancient
 	t_path			*paths;
 	t_std_fds		*std_fds;
 	int				exit_status;
+	int				inside_pipe;
 }					t_ancient;
 
 void rl_replace_line (const char *text, int clear_undo);
@@ -221,7 +222,7 @@ void				ft_lstclear_exp(t_exp **lst);
 // void    free_array(char **s);
 
 // Builtins
-void				echo_cmd(char **str);
+void				echo_cmd(char **str, t_ancient *ancient_one);
 void				pwd_cmd(char **str);
 
 void				exit_cmd(char **str, t_ancient *ancient_one);
@@ -249,14 +250,14 @@ t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
 
 // signals
-void				set_signals(void);
+// void				set_signals(void);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 
 //Signals
-void    set_signals();   
-void    set_signals_after();
+void    set_signals(t_ancient *ancient_one);   
+void    set_signals_after(t_ancient *ancient_one);
 void	set_signals_heredoc();	
 
 extern int signal_caught;

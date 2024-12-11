@@ -17,7 +17,7 @@ void free_array(char **array)
 	int i;
 
 	i = 0;
-	if (!array)
+	if (!array || !*array)
 		return ;
 	while (array[i])
 	{
@@ -35,7 +35,10 @@ void chop_branch(t_tree *node)
 	{
 		// printf("--freed:args\n");
 		if(node->data.argument)
+		{
 			free_array(node->data.argument);
+			// node->data.argument = NULL;
+		}
 	}
 	else if (node->type == NODE_OPERATOR)
 		return ;
@@ -49,6 +52,8 @@ void chop_branch(t_tree *node)
 		}	
 		
 	}
+	if(node->data.command)
+		free(node->data.command);
 	// printf("--freed:(*node)\n");
 	free(node);
 }
