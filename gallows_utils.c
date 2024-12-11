@@ -43,7 +43,7 @@ char	*ft_cmd_exits(char **env, char *temp_cmd)
 	cmd = temp_cmd;
 	a_paths = extract_path_env(env);
 	if (!cmd || set_own_path(cmd) || !a_paths)
-		return (free_array(a_paths), cmd);
+		return (free_array(a_paths), ft_strdup(cmd));
 	i = -1;
 	while (a_paths[++i])
 	{

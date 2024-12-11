@@ -6,7 +6,9 @@ void mini_fuk(t_ancient *ancient_one)
 	ft_lstclear_exp(&ancient_one->paths->exp_struct);
 	ft_lstclear_path(&ancient_one->paths);
 	lumberjack(ancient_one->head);
-	reset_std_fds(ancient_one->std_fds);
+	close(ancient_one->std_fds->std_in);
+	close(ancient_one->std_fds->std_out);
+	close(ancient_one->std_fds->std_err);
 	free(ancient_one);
 }
 

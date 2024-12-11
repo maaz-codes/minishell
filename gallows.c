@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/11 14:32:41 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/11 19:42:40 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,15 @@ void	execute(char **cmd, char *env[], t_ancient *ancient_one)
 
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
-		(reset_std_fds(ancient_one->std_fds), lumberjack(ancient_one->head),
-			print_exit(ERR_CMD)); // free env as well...
+		(free_array(cmd), print_exit(ERR_CMD));
+	// if (stat(path, &directory) == 0)
+	// {
+	// 	write(2, "it's a directory\n", 18);
+	// 	free(path);
+	// 	free_array(cmd);
+	// 	exit(126);
+	// }
 	execve(path, cmd, env);
-	if (stat(path, &directory) == 0)
-	{
-		write(2, "it's a directory\n", 18);
-		free(path);
-		reset_std_fds(ancient_one->std_fds), lumberjack(ancient_one->head);
-		exit(126);
-	}
 	free(path);
 	free_array(cmd);
 	print_exit(ERR_CMD);
@@ -182,6 +181,7 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag,
 void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 {
 	pid_t	pid;
+	int		status;
 	char	**args;
 
 	args = array_dup(tree->left->data.argument);
@@ -193,19 +193,21 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 		if (pid == 0)
 		{
 			mini_fuk(ancient_one);
-			// execute(tree->left->data.argument, env, ancient_one);
+			ancient_one = NULL;
 			execute(args, env, ancient_one);
 		}
-		wait(NULL);
+		free_array(args);
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) == 0)
+			printf("Signal caught: %d\n", status);
 	}
 	else
 	{
 		mini_fuk(ancient_one);
-		// execute(tree->left->data.argument, env, ancient_one);
+		ancient_one = NULL;
 		execute(args, env, ancient_one);
 	}
-	free_array(args);
-	// exit(0);
+	
 	// exit_codes implementation...
 }
 
