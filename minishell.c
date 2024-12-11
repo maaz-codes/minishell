@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+void mini_fuk(t_ancient *ancient_one)
+{
+	ft_lstclear_env(&ancient_one->paths->env_struct);
+	ft_lstclear_exp(&ancient_one->paths->exp_struct);
+	ft_lstclear_path(&ancient_one->paths);
+	lumberjack(ancient_one->head);
+	reset_std_fds(ancient_one->std_fds);
+	free(ancient_one);
+}
+
 char *get_cwd(void)
 {
     char cwd[1024];
@@ -61,7 +71,8 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 		lumberjack(ancient_one->head);
 		clear_all(ancient_one, NULL);
 		reset_std_fds(std_fds);
-        printf("\nexiting now...\n");
+    printf("\nexiting now...\n");
+		mini_fuk(ancient_one);
         exit(0);
     }
     return (input);
@@ -77,6 +88,7 @@ void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 		ancient_one->inside_pipe = TRUE;
 	gallows(tree, env, ancient_one->inside_pipe, ancient_one);
 }
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -97,21 +109,18 @@ int	main(int ac, char **av, char **env)
 	ancient_one->exit_status = 0;
 	dup_fds(&std_fds);
 	while (1)
-	{	
+	{
 		ancient_one->inside_pipe = FALSE;
-        input = signal_checkpoint(&std_fds,ancient_one);
+        input = signal_checkpoint(&std_fds, ancient_one);
 		if (input)
 		{
 			add_history(input);
 			tree = tokenization(input);
+			ancient_one->head = tree;
+			ancient_one->std_fds = &std_fds;
 			if (tree)
-			{
-				ancient_one->head = tree;
-				ancient_one->std_fds = &std_fds;
 				execution(tree, env, ancient_one);
-			}
-			// free(input);
-			// lumberjack(tree);
+			ancient_one->head = lumberjack(ancient_one->head);
 			reset_std_fds(&std_fds);
 		}
 		else
