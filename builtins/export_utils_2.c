@@ -40,7 +40,7 @@ void sorted_exp(t_exp **head)
     if(!(*head))
         return ;
     holder = current;
-    swap = 0;
+    swap = 1;
     while(swap)
     {
         swap = 0;
