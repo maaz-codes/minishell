@@ -31,23 +31,23 @@ Behaviour : Taking it as a valid expression.
 Desired : Should throw a syntax error.
 Status : 
 
-##BUILTINS
-<!-- leaks: DONE! -->
-<!-- fds: DONE! -->
-behaviour: echo, export, unset
-
 ##CMDS
 <!-- leaks: DONE! -->
 <!-- fds : DONE! -->
 <!-- behaviour: DONE! -->
 
+#PIPES
+<!-- leaks: DONE! -->
+<!-- fds: DONE! -->
+<!-- behaviour: DONE! -->
+
+##BUILTINS
+<!-- leaks: DONE! -->
+<!-- fds: DONE! -->
+behaviour: echo, export, unset
+
 #REDIRECTIONS
 leaks: 
-fds:
-behaviour:
-
-#PIPES
-leaks:
 fds:
 behaviour:
 
