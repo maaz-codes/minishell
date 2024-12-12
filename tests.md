@@ -35,6 +35,8 @@ export VAR=value
 export VAR+=VALUE
 {VAR should become "valueVALUE"}
 
+need to update the old PWD and current PWD;
+
 <!-- UNSET -->
 unset
 {should not give error}

@@ -30,22 +30,34 @@ void	ft_lstadd_back_path(t_path **lst, t_path *new)
 
 void add_NEWPWD(t_path **paths, t_path *new)
 {   
-    t_env *tmp;
+    t_env *tmp_env;
+    t_exp *tmp_exp;
     char *path_name;
 
     path_name = ft_strdup("PWD=");
-    tmp = (*paths)->env_struct;
-    while(tmp)
+    tmp_env = (*paths)->env_struct;
+    tmp_exp = (*paths)->exp_struct;
+    while(tmp_env)
     {   
-        if(!ft_strncmp(tmp->env,"PWD=",4))
+        if(!ft_strncmp(tmp_env->env,"PWD=",4))
         {   
-            free(tmp->env);
-            tmp->env = ft_strjoin(path_name,new->pwd);
+            free(tmp_env->env);
+            tmp_env->env = ft_strjoin(path_name,new->pwd);
+        }
+        tmp_env = tmp_env->next;
+    }
+    while(tmp_exp)
+    {   
+        if(!ft_strncmp(tmp_exp->exp,"PWD=",4))
+        {   
+            free(tmp_exp->exp);
+            tmp_exp->exp = ft_strjoin(path_name,new->pwd);
             free(path_name);
             return ;
         }
-        tmp = tmp->next;
+        tmp_exp = tmp_exp->next;
     }
+
     return ;
 }
 

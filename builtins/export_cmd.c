@@ -104,7 +104,6 @@ void export_cmd(char **str, t_path **paths)
     i = 1;
     if(!ft_strncmp("export",str[0],7) && str[1] == NULL)
         exp_print(paths);
-        
     else if(!ft_strncmp("export",str[0],7) && str[1] != NULL)
     {   
         while(str[i])
