@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 15:41:45 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/12 13:50:38 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,7 @@ pid_t	right_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one,
 	return (pid);
 }
 
-void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
-		t_ancient *ancient_one)
+void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 {
 	pid_t	pid_left;
 	pid_t	pid_right;
@@ -156,7 +155,7 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
 	if (WIFSIGNALED(status) != 0)
 		printf("Found a signal!\n");
 	if (tree->level != 1) // not the main()
-		exit(0);
+		(mini_fuk(ancient_one), exit(0));
 }
 
 void	handle_redir(t_tree *tree, char **env, int pipe_flag,
