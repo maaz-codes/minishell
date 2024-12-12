@@ -116,7 +116,6 @@ typedef struct s_ancient
 	t_std_fds		*std_fds;
 	int				inside_pipe;
 	int				exit_status;
-	int				inside_pipe;
 }					t_ancient;
 
 void rl_replace_line (const char *text, int clear_undo);
@@ -192,8 +191,8 @@ void				execute(char **cmd, char *env[], t_ancient *ancient_one);
 char				*ft_cmd_exits(char **env, char *temp_cmd);
 
 // here_doc
-void				find_docs(t_tree *tree);
-int					ft_here_doc(char *limiter);
+void				find_docs(t_tree *tree, t_ancient *ancient_one);
+int					ft_here_doc(char *limiter, t_ancient *ancient_one);
 
 // syntax.c
 int					check_log_op_node(t_tree *node);
@@ -260,6 +259,6 @@ void mini_fuk(t_ancient *ancient_one);
 //Signals
 void    set_signals(t_ancient *ancient_one);   
 void    set_signals_after(t_ancient *ancient_one);
-void	set_signals_heredoc();	
+void	set_signals_heredoc(t_ancient *ancient_one);	
 
 extern int signal_caught;
