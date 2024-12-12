@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 18:53:17 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/12 19:07:37 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	execute(char **cmd, char *env[], t_ancient *ancient_one)
 		write(2, "No such file or directory\n", 27);
 		free(path);
 		free_array(cmd);
-		exit(126);
+		exit(127);
 	}
 	free(path);
 	free_array(cmd);
@@ -204,6 +204,8 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 		}
 		free_array(args);
 		waitpid(pid, &status, 0);
+		if (WIFEXITED(status) != 0)
+			ancient_one->exit_status = WEXITSTATUS(status);
 	}
 	else
 	{
