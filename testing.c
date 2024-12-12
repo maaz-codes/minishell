@@ -23,6 +23,4 @@ int main(int ac, char **av, char **env)
     set.sa_handler = &handle_sigint;
     if(!sigaction(SIGINT,&set,NULL));
         printf("sigint\n");
-    
-
 }

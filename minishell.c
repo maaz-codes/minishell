@@ -82,7 +82,7 @@ void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 {
 	pid_t pid;
 
-	find_docs(tree);
+	find_docs(tree,ancient_one);
 	tree->level = 0;
 	if (tree->type == NODE_OPERATOR)
 		ancient_one->inside_pipe = TRUE;

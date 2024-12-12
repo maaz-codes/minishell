@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 19:42:23 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/12 20:17:42 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,8 +192,8 @@ void				execute(char **cmd, char *env[], t_ancient *ancient_one);
 char				*ft_cmd_exits(char **env, char *temp_cmd);
 
 // here_doc
-void				find_docs(t_tree *tree);
-int					ft_here_doc(char *limiter);
+void				find_docs(t_tree *tree, t_ancient *ancient_one);
+int					ft_here_doc(char *limiter, t_ancient *ancient_one);
 
 // syntax.c
 int					check_log_op_node(t_tree *node);
