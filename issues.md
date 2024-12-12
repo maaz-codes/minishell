@@ -21,11 +21,6 @@ Behaviour : Exiting after executing everything correctly.
 Desired : Shouldn't exit.
 Status : FIXED!
 
-####exp: > out cat
-Behaviour : 
-Desired : 
-Status : 
-
 ####exp: "" | ""
 Behaviour : Doesn't print anything.
 Desired : Shoud parse the empty strings and give cmd not found twice.
@@ -36,7 +31,40 @@ Behaviour : Taking it as a valid expression.
 Desired : Should throw a syntax error.
 Status : 
 
+##BUILTINS
+<!-- leaks: DONE! -->
+<!-- fds: DONE! -->
+behaviour: echo, export, unset
 
+##CMDS
+<!-- leaks: DONE! -->
+<!-- fds : DONE! -->
+<!-- behaviour: DONE! -->
+
+#REDIRECTIONS
+leaks: 
+fds:
+behaviour:
+
+#PIPES
+leaks:
+fds:
+behaviour:
+
+#HEREDOC
+leaks:
+fds:
+behaviour:
+
+#SIGNALS
+leaks:
+fds:
+behaviour:
+
+#MIX
+leaks:
+fds:
+behaviour:
 
 ###Redundant Code
 1. Stop passing int j everywhere, it's value is always zero.
