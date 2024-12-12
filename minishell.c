@@ -72,12 +72,20 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
     }
     return (input);
 }
-
+void sigint_caught(int sig)
+{
+	if(sig == SIGINT)
+		signal_caught = SIGINT;
+}
 void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 {
 	pid_t pid;
 
+	signal(SIGINT,sigint_caught);
 	find_docs(tree);
+	if(signal_caught == SIGINT)
+		return ;
+	signal(SIGINT,SIG_DFL);
 	tree->level = 0;
 	if (tree->type == NODE_OPERATOR)
 		ancient_one->inside_pipe = TRUE;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 13:13:49 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/12 15:18:44 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ typedef enum s_node_types
 	NODE_REDIRECTION,
 	NODE_EXPRESSION,
 	NODE_LOG_OPERATOR,
-	NODE_FILE
+	NODE_FILE,
+	NODE_HEREDOC
 }					t_node_types;
 
 typedef union s_data

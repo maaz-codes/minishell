@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 16:40:09 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/12 15:19:05 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	find_docs(t_tree *tree)
 {
 	if (tree->type == NODE_REDIRECTION)
 		if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
+		{
+			tree->right->type = NODE_HEREDOC;
 			tree->right->data.here_doc = ft_here_doc(tree->right->data.expression);
+		}
 	if (tree->left != NULL)
 	{
 		find_docs(tree->left);
