@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 15:18:44 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/12 17:56:23 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ t_path				*ft_lstlast_path(t_path *lst);
 void				ft_lstadd_back_path(t_path **lst, t_path *new);
 void				add_NEWPWD(t_path **paths, t_path *new);
 void				add_OLDPWD(t_path **paths, t_path *new);
+void 				add_OLDPWD_exp(t_path **paths, t_path *new);
 
 void				unset_cmd(char **str, t_path **paths);
 
@@ -249,6 +250,7 @@ t_exp				*int_exp(char **env);
 void				exp_print(t_path **paths);
 t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
+
 
 // signals
 void				set_signals(void);

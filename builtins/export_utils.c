@@ -15,8 +15,10 @@ char *holder_env(char *str, int len, int check)
 int error_exp(char *str, char **res, char **sep)
 {
     printf("export: \'%s\': not a valid identifier\n",str);
-    free_array(res);
-    free_array(sep);
+    if(res)
+        free_array(res);
+    if(sep)
+        free_array(sep);
     return (0);
 }
 int valid_export(char *str, char **res, char **sep)
@@ -77,7 +79,10 @@ char **separator(char *str)
     while(str[len] != '=' && str[len])
         len++;
     if(!len)
+    {
+        error_exp(str,NULL,sep);
         return (NULL);
+    }
     if(ft_strlen(str) == len)
         check = 0;
     holder = holder_env(str,len,check);

@@ -18,6 +18,7 @@ t_env	*lstlast_env(t_env *lst)
 	return (lst);
 }
 
+
 void	ft_lstadd_back_path(t_path **lst, t_path *new)
 {
 	if (!lst || !new)
@@ -85,6 +86,34 @@ void add_OLDPWD(t_path **paths, t_path *new)
     old_pwd->env = ft_strjoin(path_name,new->pwd_old);
     old_pwd->next = NULL;
     lstlast_env((*paths)->env_struct)->next = old_pwd;
+    free(path_name);
+    return ;
+}
+
+void add_OLDPWD_exp(t_path **paths, t_path *new)
+{
+    t_exp *tmp;
+    char *path_name;
+    t_exp *old_pwd;
+
+    path_name = ft_strdup("OLDPWD=");
+    tmp = (*paths)->exp_struct;
+    old_pwd = malloc(sizeof(t_env));
+    while(tmp)
+    {
+        if(!ft_strncmp(tmp->exp,"OLDPWD=",7))
+        {   
+            free(tmp->exp);
+            tmp->exp = ft_strjoin(path_name,new->pwd_old);
+            free(path_name);
+            free(old_pwd);
+            return ;
+        }
+        tmp = tmp->next;
+    }
+    old_pwd->exp = ft_strjoin(path_name,new->pwd_old);
+    old_pwd->next = NULL;
+    lstlast_exp((*paths)->exp_struct)->next = old_pwd;
     free(path_name);
     return ;
 }
