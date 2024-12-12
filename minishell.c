@@ -72,12 +72,20 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
     }
     return (input);
 }
-
+void sigint_caught(int sig)
+{
+	if(sig == SIGINT)
+		signal_caught = SIGINT;
+}
 void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 {
 	pid_t pid;
 
+	signal(SIGINT,sigint_caught);
 	find_docs(tree);
+	if(signal_caught == SIGINT)
+		return ;
+	signal(SIGINT,SIG_DFL);
 	tree->level = 0;
 	if (tree->type == NODE_OPERATOR)
 		ancient_one->inside_pipe = TRUE;
@@ -94,6 +102,8 @@ int	main(int ac, char **av, char **env)
 
     t_path *paths;
 
+	if (ac != 1)
+		return (write(2, "This shell doesn't take any args\n", 34), 1);
     paths = int_cd();
     paths->env_struct = int_env(env);
     paths->exp_struct = int_exp(env);
