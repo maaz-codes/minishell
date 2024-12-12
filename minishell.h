@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/11 14:33:36 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/12 13:13:49 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,8 +226,8 @@ void				echo_cmd(char **str);
 void				pwd_cmd(char **str);
 
 void				exit_cmd(t_path **paths, char **str, t_ancient *ancient_one);
-void				valid_num(char *s, t_path **paths, char **str);
-void				error_msg(char **str, t_path **paths);
+void				valid_num(char *s, char **str, t_ancient *ancient_one);
+void				error_msg(char **str, t_ancient *ancient_one);
 
 void				env_cmd(char **str, t_path **paths);
 t_env				*int_env(char **env);
