@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 17:56:23 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/12 19:42:23 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ void				ft_lstclear_exp(t_exp **lst);
 // void    free_array(char **s);
 
 // Builtins
-void				echo_cmd(char **str);
+void				echo_cmd(char **str, t_ancient *ancient_one);
 void				pwd_cmd(char **str);
 
 void				exit_cmd(t_path **paths, char **str, t_ancient *ancient_one);
@@ -251,17 +251,13 @@ void				exp_print(t_path **paths);
 t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
 
-
-// signals
-void				set_signals(void);
-
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 void mini_fuk(t_ancient *ancient_one);
 
 //Signals
-void    set_signals();   
-void    set_signals_after();
-void	set_signals_heredoc();	
+void    set_signals(t_ancient *ancient_one);   
+void    set_signals_after(t_ancient *ancient_one);
+// void	set_signals_heredoc();	
 
 extern int signal_caught;
