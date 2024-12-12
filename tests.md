@@ -20,6 +20,9 @@
 
 <!-- Builtins -->
 
+<!-- CD -->
+need to fix cd- going back and fourth
+
 <!-- ECHO -->
 echo -n -n Hello
 {treat multiple flags as just one}
