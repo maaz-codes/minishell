@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gallows.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/11 19:42:40 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/12 15:41:45 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,8 +198,6 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 		}
 		free_array(args);
 		waitpid(pid, &status, 0);
-		if (WIFSIGNALED(status) == 0)
-			printf("Signal caught: %d\n", status);
 	}
 	else
 	{
