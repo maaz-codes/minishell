@@ -41,13 +41,15 @@ static void	read_write(char *limiter, int write_to)
 {
 	char	*new_line;
 	char	*line;
-
-	
 	while (1)
 	{
 		line = readline("> ");
 		if(!line)
 			break ;
+		if(signal_caught == SIGINT)
+		{
+			printf("enter here\n");
+		}
 		if (line)
 		{	
 			if (!ft_strncmp(line, limiter, ft_strlen(limiter)))
@@ -70,7 +72,6 @@ int	ft_here_doc(char *limiter, t_ancient *ancient_one)
 	int		doc_pipe[2];
 	int		status;
 	
-	// signal(SIGINT,SIG_IGN);
 	signal(SIGINT,sig_newline);
 	signal(SIGQUIT,SIG_IGN);
 	if (pipe(doc_pipe) == -1)
@@ -81,17 +82,16 @@ int	ft_here_doc(char *limiter, t_ancient *ancient_one)
 	pid = fork();
 	if(pid == 0)
 	{
-		close(doc_pipe[0]);
 		read_write(limiter, doc_pipe[1]);
-		exit(0);
+		(close(doc_pipe[1]),close(doc_pipe[0]));
+		mini_fuk(ancient_one);
+		free(limiter);
+		exit(1);
 	}
 	close(doc_pipe[1]);
 	waitpid(pid,&status,0);
-	if(WIFSIGNALED(status) != 0)
-	{	
-		printf("enter here\n");
-		ancient_one->exit_status = 1;
-		signal_caught = 1;
-	}
+	if(signal_caught == SIGINT)
+		(close(doc_pipe[1]),close(doc_pipe[0]));
+	free(limiter);
     return (doc_pipe[0]);
 }
