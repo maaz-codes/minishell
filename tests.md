@@ -27,7 +27,7 @@ need to fix cd- going back and fourth
 echo -n -n Hello
 {treat multiple flags as just one}
 
-<!-- EXPORT  : FIXED -->
+<!-- EXPORT -->
 export =value
 {should give error that '=value' is not a valid name}
 
