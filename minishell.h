@@ -240,6 +240,8 @@ void				ft_lstadd_back_path(t_path **lst, t_path *new);
 void				add_NEWPWD(t_path **paths, t_path *new);
 void				add_OLDPWD(t_path **paths, t_path *new);
 void 				add_OLDPWD_exp(t_path **paths, t_path *new);
+void 				ft_append(t_path **paths, char *res);
+void 				append_switch_struct(t_path **paths, t_path **temp);
 
 void				unset_cmd(char **str, t_path **paths);
 
@@ -250,6 +252,7 @@ t_exp				*int_exp(char **env);
 void				exp_print(t_path **paths);
 t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
+int 				valid_export(char *str, char **res, char **sep);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);

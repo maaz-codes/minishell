@@ -64,25 +64,27 @@ void unset_cmd(char **str, t_path **paths)
     t_env *tmp;
     int i;
     int pos;
-    
+
     i = 1;
     if(str[1] == NULL)
-    {
-        printf("unset: not enough arguments\n");
         return ;
-    }
     while(str[i])
     {   
-        tmp = (*paths)->env_struct;
-        pos = 0;
-        while(tmp)
+        if(!valid_export(str[i], NULL, NULL))
+            i++;
+        else
         {
-            if(!ft_strncmp(str[i],tmp->env,ft_strlen(str[i])))
-                break ;
-            pos++;
-            tmp = tmp->next;
+            tmp = (*paths)->env_struct;
+            pos = 0;
+            while(tmp)
+            {
+                if(!ft_strncmp(str[i],tmp->env,ft_strlen(str[i])))
+                    break ;
+                pos++;
+                tmp = tmp->next;
+            }
+            remove_node(paths,pos);
+            i++;
         }
-        remove_node(paths,pos);
-        i++;
     }
 }

@@ -31,6 +31,7 @@ SRCS = 	minishell.c \
 		builtins/pwd_cmd.c \
 		builtins/cd_cmd.c \
 		builtins/cd_utils.c \
+		builtins/cd_utils_2.c \
 		builtins/exit_cmd.c \
 		builtins/env_cmd.c \
 		builtins/unset_cmd.c \
@@ -55,6 +56,7 @@ all:$(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(READLINEFLAGS) $^ -o $@ $(LDFLAGS)
+
 
 #Add CFLAGS Later
 %.o:%.c

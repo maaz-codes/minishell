@@ -110,12 +110,15 @@ void export_cmd(char **str, t_path **paths)
         {   
             sep = separator(str[i]);
             if(!sep)
-                return ;
-            tmp_char = ft_strjoin(sep[0],"=");
-            export_t_exp(paths,tmp_char,sep[1],str[i]);
-            export_t_env(paths,tmp_char,sep[1],str[i]);
-            (free_array(sep),free(tmp_char));
-            i++;
+                i++;
+            else
+            {
+                tmp_char = ft_strjoin(sep[0],"=");
+                export_t_exp(paths,tmp_char,sep[1],str[i]);
+                export_t_env(paths,tmp_char,sep[1],str[i]);
+                (free_array(sep),free(tmp_char));
+                i++;
+            }
         }
     }
     return ;

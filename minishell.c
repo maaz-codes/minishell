@@ -78,6 +78,7 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
     }
     return (input);
 }
+
 void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 {
 	pid_t pid;

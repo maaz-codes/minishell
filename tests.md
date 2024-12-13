@@ -20,14 +20,14 @@
 
 <!-- Builtins -->
 
-<!-- CD -->
+<!-- CD : FIXED -->
 need to fix cd- going back and fourth
 
-<!-- ECHO -->
+<!-- ECHO : FIXED -->
 echo -n -n Hello
 {treat multiple flags as just one}
 
-<!-- EXPORT -->
+<!-- EXPORT  : FIXED -->
 export =value
 {should give error that '=value' is not a valid name}
 
@@ -37,7 +37,7 @@ export VAR+=VALUE
 
 need to update the old PWD and current PWD;
 
-<!-- UNSET -->
+<!-- UNSET : FIXED --> 
 unset
 {should not give error}
 

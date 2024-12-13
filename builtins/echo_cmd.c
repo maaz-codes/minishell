@@ -14,37 +14,38 @@ int valid_dash_n(char *str)
 
 }
 
-void n_check(int *checker, int *i,char *str)
-{
-    if(!ft_strncmp(str,"-n",2))
-        *checker = valid_dash_n(str);
-    if(*checker == 1)
-        *i += 1;
+void n_check(int *checker, int *i,char **str)
+{   
+    *checker = 1;
+    while(str[*i])
+    {
+        if(valid_dash_n(str[*i])) 
+            *i += 1;
+        else
+            break;
+    }
 }
+
 void echo_cmd(char **str, t_ancient *ancient_one)
 {   
     int i; 
     int checker;
-    int valid_n;
 
     checker = 0;
     i = 1;
-    if(!ft_strncmp(str[0],"echo",5) && str[1] == NULL)
-    {
-        printf("\n");
-        return ;
+    if(!ft_strncmp(str[0],"echo",5))
+    {   
+        if(str[1] == NULL)
+            checker = 1;
+        else if(valid_dash_n(str[1]))
+            n_check(&checker, &i, str);
     }
-    else if(!ft_strncmp(str[0],"echo",5) && !ft_strncmp(str[i],"-n",3) && str[i + 1] == NULL)
-        return ;
-    if(!ft_strncmp(str[i],"$?",2))
-    {
-        printf("exit_status: %d\n",ancient_one->exit_status);
-        return ;
-    }
-    n_check(&checker,&i,str[i]);
     while(str[i])
-    {
-        printf("%s",str[i]);
+    {   
+        if(!ft_strncmp(str[i],"$?",2))
+            printf("exit_status: %d",ancient_one->exit_status);
+        else
+            printf("%s",str[i]);
         if(str[i + 1] != NULL)
             printf(" ");
         i++;
