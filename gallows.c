@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gallows.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 19:46:24 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/14 14:45:27 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	execute(char **cmd, char *env[], t_ancient *ancient_one)
 	char		*path;
 	struct stat	directory;
 
+	if (ft_strlen(cmd[0]) == 0)
+		(free_array(cmd), print_exit(ERR_CMD));
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
 		(free_array(cmd), print_exit(ERR_CMD));
@@ -59,9 +61,7 @@ void	execute(char **cmd, char *env[], t_ancient *ancient_one)
 		free_array(cmd);
 		exit(127);
 	}
-	free(path);
-	free_array(cmd);
-	print_exit(ERR_CMD);
+	(free(path), free_array(cmd), print_exit(ERR_CMD));
 }
 
 int	handle_input_redir(char *file_name)

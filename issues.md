@@ -21,13 +21,18 @@ Behaviour : Exiting after executing everything correctly.
 Desired : Shouldn't exit.
 Status : FIXED!
 
+####exp: ><
+Behaviour : Taking it as a valid expression.
+Desired : Should throw a syntax error.
+Status : FIXED!
+
 ####exp: "" | ""
 Behaviour : Doesn't print anything.
 Desired : Shoud parse the empty strings and give cmd not found twice.
 Status : 
 
-####exp: ><
-Behaviour : Taking it as a valid expression.
+####exp: ls | |
+Behaviour : Doesn't throw a syntax error.
 Desired : Should throw a syntax error.
 Status : 
 
