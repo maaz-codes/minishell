@@ -60,9 +60,15 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 {
     char *input;
 
-    set_signals();
+    set_signals(ancient_one);
     input = readline("minishell> ");
-	set_signals_after();
+	if(signal_caught == SIGINT)
+		ancient_one->exit_status = 1;
+	else if(signal_caught == 0)
+		ancient_one->exit_status = 0;
+	if(*input != '\0')
+		signal_caught = 0;
+	void set_signals_after(t_ancient *ancient_one);
     if(!input)
     {
         printf("\nexiting now...\n");
@@ -72,20 +78,12 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
     }
     return (input);
 }
-void sigint_caught(int sig)
-{
-	if(sig == SIGINT)
-		signal_caught = SIGINT;
-}
+
 void execution(t_tree *tree, char **env, t_ancient *ancient_one)
 {
 	pid_t pid;
 
-	signal(SIGINT,sigint_caught);
-	find_docs(tree);
-	if(signal_caught == SIGINT)
-		return ;
-	signal(SIGINT,SIG_DFL);
+	find_docs(tree,ancient_one);
 	tree->level = 0;
 	if (tree->type == NODE_OPERATOR)
 		ancient_one->inside_pipe = TRUE;
@@ -99,7 +97,6 @@ int	main(int ac, char **av, char **env)
 	t_tree		*tree;
 	t_std_fds 	std_fds;
 	t_ancient 	*ancient_one;
-
     t_path *paths;
 
 	if (ac != 1)
@@ -111,7 +108,7 @@ int	main(int ac, char **av, char **env)
 	if (!ancient_one)
 		print_exit(ERR_MALLOC); // free the paths...
 	ancient_one->paths = paths;
-
+	ancient_one->exit_status = 0;
 	dup_fds(&std_fds);
 	while (1)
 	{
@@ -120,8 +117,6 @@ int	main(int ac, char **av, char **env)
 		if (input)
 		{
 			add_history(input);
-			// printf("old_str = -%s-\n", input);
-			// printf("expanded_str = -%s-\n", env_expansion(input, env_vars));
 			tree = tokenization(input);
 			ancient_one->head = tree;
 			ancient_one->std_fds = &std_fds;

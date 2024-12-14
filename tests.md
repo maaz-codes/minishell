@@ -20,10 +20,10 @@
 
 <!-- Builtins -->
 
-<!-- CD -->
+<!-- CD : FIXED -->
 need to fix cd- going back and fourth
 
-<!-- ECHO -->
+<!-- ECHO : FIXED -->
 echo -n -n Hello
 {treat multiple flags as just one}
 
@@ -35,7 +35,9 @@ export VAR=value
 export VAR+=VALUE
 {VAR should become "valueVALUE"}
 
-<!-- UNSET -->
+need to update the old PWD and current PWD;
+
+<!-- UNSET : FIXED --> 
 unset
 {should not give error}
 

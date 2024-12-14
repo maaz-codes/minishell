@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 15:18:44 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/12 20:17:42 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,8 +192,8 @@ void				execute(char **cmd, char *env[], t_ancient *ancient_one);
 char				*ft_cmd_exits(char **env, char *temp_cmd);
 
 // here_doc
-void				find_docs(t_tree *tree);
-int					ft_here_doc(char *limiter);
+void				find_docs(t_tree *tree, t_ancient *ancient_one);
+int					ft_here_doc(char *limiter, t_ancient *ancient_one);
 
 // syntax.c
 int					check_log_op_node(t_tree *node);
@@ -223,7 +223,7 @@ void				ft_lstclear_exp(t_exp **lst);
 // void    free_array(char **s);
 
 // Builtins
-void				echo_cmd(char **str);
+void				echo_cmd(char **str, t_ancient *ancient_one);
 void				pwd_cmd(char **str);
 
 void				exit_cmd(t_path **paths, char **str, t_ancient *ancient_one);
@@ -239,6 +239,9 @@ t_path				*ft_lstlast_path(t_path *lst);
 void				ft_lstadd_back_path(t_path **lst, t_path *new);
 void				add_NEWPWD(t_path **paths, t_path *new);
 void				add_OLDPWD(t_path **paths, t_path *new);
+void 				add_OLDPWD_exp(t_path **paths, t_path *new);
+void 				ft_append(t_path **paths, char *res);
+void 				append_switch_struct(t_path **paths, t_path **temp);
 
 void				unset_cmd(char **str, t_path **paths);
 
@@ -249,17 +252,15 @@ t_exp				*int_exp(char **env);
 void				exp_print(t_path **paths);
 t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
-
-// signals
-void				set_signals(void);
+int 				valid_export(char *str, char **res, char **sep);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 void mini_fuk(t_ancient *ancient_one);
 
 //Signals
-void    set_signals();   
-void    set_signals_after();
-void	set_signals_heredoc();	
+void    set_signals(t_ancient *ancient_one);   
+void    set_signals_after(t_ancient *ancient_one);
+// void	set_signals_heredoc();	
 
 extern int signal_caught;
