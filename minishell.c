@@ -117,13 +117,16 @@ int	main(int ac, char **av, char **env)
 		if (input)
 		{
 			add_history(input);
-			tree = tokenization(input);
-			ancient_one->head = tree;
-			ancient_one->std_fds = &std_fds;
-			if (tree)
-				execution(tree, env, ancient_one);
-			ancient_one->head = lumberjack(ancient_one->head);
-			reset_std_fds(&std_fds);
+			input = env_expansion(input, paths->env_struct);
+			printf("=> %s\n", input);
+			free(input);
+			// tree = tokenization(input);
+			// ancient_one->head = tree;
+			// ancient_one->std_fds = &std_fds;
+			// if (tree)
+			// 	execution(tree, env, ancient_one);
+			// ancient_one->head = lumberjack(ancient_one->head);
+			// reset_std_fds(&std_fds);
 		}
 		else
 		{
