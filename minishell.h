@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 20:17:42 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/14 15:07:42 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,24 @@ typedef enum s_err_codes
 	ERR_CMD
 }					t_err_codes;
 
-typedef struct env
+typedef struct s_env
 {
 	char			*env;
-	struct env		*next;
+	struct s_env		*next;
 }					t_env;
 
-typedef struct export
+typedef struct s_export
 {
 	char			*exp;
-	struct export	*next;
+	struct s_export	*next;
 }
 t_exp;
 
-typedef struct pwd
+typedef struct s_pwd
 {
 	char			*pwd;
 	char			*pwd_old;
-	struct pwd		*next;
+	struct s_pwd		*next;
 	t_env			*env_struct;
 	t_exp			*exp_struct;
 }					t_path;

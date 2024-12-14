@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/14 14:27:56 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/14 15:06:24 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ char	*assign_value(char *env_var, t_env *env)
 	char	*env_value;
 
 	env_value = NULL;
-	printf("env=%s\n", env->env);
-	while (env->env)
+	while (env)
 	{
 		if (!ft_strncmp(env->env, env_var, ft_strlen(env_var)))
 		{
@@ -60,7 +59,6 @@ char	*assign_value(char *env_var, t_env *env)
 		}
 		env = env->next;
 	}
-	printf("came\n");
 	free(env_var);
 	env_value = ft_strdup("");
 	if (!env_value)
@@ -120,7 +118,7 @@ char	*env_expansion(char *str, t_env *env)
 		{
 			j = i;
 			env_var = extract_env_var(str, i + 1, &i);
-			printf("var_name: %s | str = %s\n", env_var, str);
+			// printf("var_name: %s | str = %s\n", env_var, str);
 			env_var = assign_value(env_var, env);
 			if (str[i] != '$')
 				str = expanded_str(str, env_var, j, i);

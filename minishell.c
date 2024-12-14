@@ -118,7 +118,6 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(input);
 			input = env_expansion(input, paths->env_struct);
-			printf("=> %s\n", input);
 			tree = tokenization(input);
 			ancient_one->head = tree;
 			ancient_one->std_fds = &std_fds;
