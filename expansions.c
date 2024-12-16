@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/14 15:06:24 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/16 08:59:22 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,15 @@ char	*extract_env_var(char *str, int start, int *index)
 char	*assign_value(char *env_var, t_env *env)
 {
 	char	*env_value;
+	char 	*env_compare;
+	int 	index;
 
 	env_value = NULL;
+	index = 0;
 	while (env)
 	{
-		if (!ft_strncmp(env->env, env_var, ft_strlen(env_var)))
+		env_compare = extract_env_var(env->env, 0, &index);
+		if (!ft_strncmp(env->env, env_var, ft_strlen(env_compare)))
 		{
 			env_value = ft_substr(env->env, ft_strlen(env_var) + 1,
 					ft_strlen(env->env));
@@ -87,14 +91,14 @@ char	*expanded_str(char *str, char *env_var, int start, int end)
 		return (NULL);
 	}
 	i = -1;
-	while (++i < start) // "echo This "
+	while (++i < start)
 		expanded[i] = str[i];
-	while (*env_var) // "user"
+	while (*env_var)
 	{
 		expanded[i++] = *env_var;
 		env_var++;
 	}
-	while (end < ft_strlen(str)) // " is amazing."
+	while (end < ft_strlen(str))
 		expanded[i++] = str[++end];
 	free(str);
 	return (expanded);
@@ -118,7 +122,6 @@ char	*env_expansion(char *str, t_env *env)
 		{
 			j = i;
 			env_var = extract_env_var(str, i + 1, &i);
-			// printf("var_name: %s | str = %s\n", env_var, str);
 			env_var = assign_value(env_var, env);
 			if (str[i] != '$')
 				str = expanded_str(str, env_var, j, i);
