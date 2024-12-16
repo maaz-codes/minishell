@@ -58,7 +58,6 @@ void add_NEWPWD(t_path **paths, t_path *new)
         }
         tmp_exp = tmp_exp->next;
     }
-
     return ;
 }
 

@@ -21,7 +21,7 @@ char *new_path(char *cwd, int id)
     ft_strlcpy(new_path,cwd,len + 1);
     if(chdir(new_path) == -1)
     {
-        (free(new_path),printf("error new path\n"));
+        (free(new_path),perror("cd chdir\n"));
         return NULL;
     }
     printf("new path: %s\n",new_path);
@@ -43,7 +43,7 @@ char *get_home(t_path **paths)
             res = new_path(holder[1],0);
             free_array(holder);
             if(chdir(res) == -1)
-                (free(res),printf("error home\n"));
+                (free(res),perror("cd chdir\n"));
             return (res);
         }
         tmp = tmp->next;
@@ -109,7 +109,7 @@ char *switch_cd(t_path **paths)
     res = ft_strdup(temp->pwd);
     if(chdir(res) == -1)
     {
-        (free(res),printf("error switch: %s\n",res));
+        (free(res),perror("cd chdir"));
         return NULL;
     }
     printf("new path: %s\n",res);
@@ -124,7 +124,7 @@ void cd_cmd(char **str, t_path **paths)
 
     check = 0;
     if(getcwd(cwd,sizeof(cwd)) == NULL)
-        printf("error");
+        perror("getcwd");
     if(!ft_strncmp(str[0],"cd",3) && str[1] == NULL)
         res = get_home(paths);
     else if(!ft_strncmp(str[0],"cd",3) && (!ft_strncmp(str[1],"~",2)))
