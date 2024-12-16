@@ -94,13 +94,62 @@ t_exp *int_exp(char **env)
     return(node_new);
 }
 
+int check_join(char *str)
+{
+    int i;
+
+    i = 0;
+    if(!str)
+        return (0);
+    if((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') || str[i] == '_')
+        i++;
+    else
+        return (0);
+    while(str[i])
+    {
+        if(str[i] == '+')
+        {
+            if(str[i] == '=')
+                return (1);
+            else
+                return (0);
+        }
+        i++;
+    }
+    return (0);
+}
+
+// void join_cmd(char *str, t_path **paths)
+// {
+//     char *updt;
+//     t_exp *tmp_exp;
+//     char env_path;
+
+//     env_path = 
+//     updt = ft_strchr(str,'=');
+//     tmp_exp = (*paths)->exp_struct;
+//     while(tmp_exp)
+//     {
+//         if(!ft_strncmp(tmp_exp,,ft_strlen(tmp_char)))
+//         {   
+//             free(tmp->exp);
+//             tmp->exp = joined_str;
+//             free(only_str);
+//             return ;
+//         }
+//     } 
+// }
+
+
 void export_cmd(char **str, t_path **paths)
 {   
     t_env *tmp;
     char **sep;
     char *tmp_char;
     int   i;
+    int   join_or_not;
 
+    join_or_not = 0;
     i = 1;
     if(!ft_strncmp("export",str[0],7) && str[1] == NULL)
         exp_print(paths);
@@ -108,17 +157,22 @@ void export_cmd(char **str, t_path **paths)
     {   
         while(str[i])
         {   
-            sep = separator(str[i]);
-            if(!sep)
-                i++;
-            else
+            join_or_not = check_join(str[i]);
+            if(!join_or_not)
             {
-                tmp_char = ft_strjoin(sep[0],"=");
-                export_t_exp(paths,tmp_char,sep[1],str[i]);
-                export_t_env(paths,tmp_char,sep[1],str[i]);
-                (free_array(sep),free(tmp_char));
-                i++;
+                sep = separator(str[i]);
+                if(!sep)
+                    i++;
+                else
+                {
+                    tmp_char = ft_strjoin(sep[0],"=");
+                    export_t_exp(paths,tmp_char,sep[1],str[i]);
+                    export_t_env(paths,tmp_char,sep[1],str[i]);
+                    (free_array(sep),free(tmp_char));
+                    i++;
+                }
             }
+
         }
     }
     return ;

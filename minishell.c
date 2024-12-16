@@ -6,10 +6,14 @@ void mini_fuk(t_ancient *ancient_one)
 	ft_lstclear_exp(&ancient_one->paths->exp_struct);
 	ft_lstclear_path(&ancient_one->paths);
 	lumberjack(ancient_one->head);
-	close(ancient_one->std_fds->std_in);
-	close(ancient_one->std_fds->std_out);
-	close(ancient_one->std_fds->std_err);
-	free(ancient_one);
+	if(ancient_one->std_fds->std_in)
+		close(ancient_one->std_fds->std_in);
+	if(ancient_one->std_fds->std_out)	
+		close(ancient_one->std_fds->std_out);
+	if(ancient_one->std_fds->std_err)	
+		close(ancient_one->std_fds->std_err);
+	if(ancient_one)
+		free(ancient_one);
 }
 
 char *get_cwd(void)
@@ -66,8 +70,8 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 		ancient_one->exit_status = 1;
 	else if(signal_caught == 0)
 		ancient_one->exit_status = 0;
-	if(*input != '\0')
-		signal_caught = 0;
+	// if(*input != '\0')
+	// 	signal_caught = 0;
 	void set_signals_after(t_ancient *ancient_one);
     if(!input)
     {

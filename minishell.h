@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/12 20:17:42 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/16 16:58:21 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,11 +256,10 @@ int 				valid_export(char *str, char **res, char **sep);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
-void mini_fuk(t_ancient *ancient_one);
+void 				mini_fuk(t_ancient *ancient_one);
 
 //Signals
-void    set_signals(t_ancient *ancient_one);   
-void    set_signals_after(t_ancient *ancient_one);
-// void	set_signals_heredoc();	
+void    		set_signals(t_ancient *ancient_one);   
+void    		set_signals_after(t_ancient *ancient_one);
 
 extern int signal_caught;
