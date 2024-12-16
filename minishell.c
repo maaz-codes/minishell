@@ -89,6 +89,27 @@ int execution(t_tree *tree, char **env, t_ancient *ancient_one)
 	return (1);
 }
 
+t_ancient *init_ancient(char *env)
+{
+	t_ancient 	*ancient_one;
+	t_path 		*paths;
+
+	paths = int_cd();
+    paths->env_struct = int_env(env);
+    paths->exp_struct = int_exp(env);
+	ancient_one = malloc(sizeof(t_ancient));
+	if (!ancient_one)
+		print_exit(ERR_MALLOC); // free paths
+	ancient_one->paths = paths;
+	ancient_one->exit_status = 0;
+	ancient_one->inside_pipe = FALSE;
+	return (ancient_one);
+}
+
+t_path *init_paths(char *env)
+{
+	// paths...
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -96,27 +117,21 @@ int	main(int ac, char **av, char **env)
 	t_tree		*tree;
 	t_std_fds 	std_fds;
 	t_ancient 	*ancient_one;
-    t_path *paths;
+	t_path		paths;
 
 	if (ac != 1)
 		return (write(2, "This shell doesn't take any args\n", 34), 1);
-    paths = int_cd();
-    paths->env_struct = int_env(env);
-    paths->exp_struct = int_exp(env);
-	ancient_one = malloc(sizeof(t_ancient));
-	if (!ancient_one)
-		print_exit(ERR_MALLOC); // free the paths...
-	ancient_one->paths = paths;
-	ancient_one->exit_status = 0;
-	dup_fds(&std_fds);
+	
+	paths = init_paths(env);
 	while (1)
 	{
-		ancient_one->inside_pipe = FALSE;
+		ancient_one = init_ancient(env);
+		dup_fds(&std_fds);
         input = signal_checkpoint(&std_fds, ancient_one);
 		if (input)
 		{
 			add_history(input);
-			input = env_expansion(input, paths->env_struct);
+			input = env_expansion(input, ancient_one->paths->env_struct);
 			tree = tokenization(input);
 			ancient_one->head = tree;
 			ancient_one->std_fds = &std_fds;
