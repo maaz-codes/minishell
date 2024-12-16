@@ -66,9 +66,8 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 		ancient_one->exit_status = 1;
 	else if(signal_caught == 0)
 		ancient_one->exit_status = 0;
-	if(*input != '\0')
-		signal_caught = 0;
-	void set_signals_after(t_ancient *ancient_one);
+	// if(*input != '\0') // this is what causes segfault
+	// 	signal_caught = 0;
     if(!input)
     {
         printf("\nexiting now...\n");
