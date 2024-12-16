@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/14 15:07:42 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/16 09:06:00 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ void				execute(char **cmd, char *env[], t_ancient *ancient_one);
 char				*ft_cmd_exits(char **env, char *temp_cmd);
 
 // here_doc
-void				find_docs(t_tree *tree, t_ancient *ancient_one);
+int					find_docs(t_tree *tree, t_ancient *ancient_one);
 int					ft_here_doc(char *limiter, t_ancient *ancient_one);
 
 // syntax.c

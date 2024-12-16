@@ -78,15 +78,15 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
     return (input);
 }
 
-void execution(t_tree *tree, char **env, t_ancient *ancient_one)
+int execution(t_tree *tree, char **env, t_ancient *ancient_one)
 {
-	pid_t pid;
-
-	find_docs(tree,ancient_one);
+	if (!find_docs(tree,ancient_one))
+		return (0);
 	tree->level = 0;
 	if (tree->type == NODE_OPERATOR)
 		ancient_one->inside_pipe = TRUE;
 	gallows(tree, env, ancient_one->inside_pipe, ancient_one);
+	return (1);
 }
 
 
@@ -121,7 +121,13 @@ int	main(int ac, char **av, char **env)
 			ancient_one->head = tree;
 			ancient_one->std_fds = &std_fds;
 			if (tree)
-				execution(tree, env, ancient_one);
+			{
+				if (!execution(tree, env, ancient_one))
+				{
+					mini_fuk(ancient_one);
+					continue ;
+				}
+			}
 			ancient_one->head = lumberjack(ancient_one->head);
 			reset_std_fds(&std_fds);
 		}
