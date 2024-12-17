@@ -23,11 +23,13 @@ void	print_exit(int code)
 		write(2, "Error: Pipe() failed\n", 22);
 	else if (code == ERR_CMD)
 		(write(2, "minishell: cmd not found\n", 26), exit(127));
+	else if (code == ERR_READLINE)
+		write(2, "Readline failed!\n", 18);
 	exit(EXIT_FAILURE);
 }
 
 void free_str(char **str)
 {
-        free(*str); 
-        *str = NULL;
+	free(*str); 
+	*str = NULL;
 }

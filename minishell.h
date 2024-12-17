@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/16 09:06:00 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/17 08:44:07 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 #define FALSE 0
 #define LEFT 0
 #define RIGHT 1
+#define FREE_PATH 6201
 
 // global variable
 int signal_caught;
@@ -43,7 +44,8 @@ typedef enum s_err_codes
 	ERR_EXECVE,
 	ERR_FILE,
 	ERR_PIPE,
-	ERR_CMD
+	ERR_CMD,
+	ERR_READLINE
 }					t_err_codes;
 
 typedef struct s_env
@@ -186,7 +188,7 @@ char				**split_args(char *str, char *cmd);
 // gallows.c
 int					gallows(t_tree *tree, char **env, int pipe_flag,
 						t_ancient *ancient_one);
-void				execute(char **cmd, char *env[], t_ancient *ancient_one);
+void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c
 char				*ft_cmd_exits(char **env, char *temp_cmd);
@@ -256,7 +258,7 @@ int 				valid_export(char *str, char **res, char **sep);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
-void mini_fuk(t_ancient *ancient_one);
+void				mini_fuk(t_ancient *ancient_one, int flag);
 
 //Signals
 void    set_signals(t_ancient *ancient_one);   

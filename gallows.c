@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/16 10:13:47 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/17 08:45:31 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**array_dup(char **array)
 	return (dup_array);
 }
 
-void	execute(char **cmd, char *env[], t_ancient *ancient_one)
+void	execute(char **cmd, char *env[])
 {
 	char		*path;
 	struct stat	directory;
@@ -117,7 +117,7 @@ pid_t	left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one, char **env)
 
 	pid = fork();
 	if (pid == -1)
-		(mini_fuk(ancient_one), print_exit(ERR_FORK));
+		(mini_fuk(ancient_one, FREE_PATH), print_exit(ERR_FORK));
 	if (pid == 0)
 	{
 		signal(SIGINT,SIG_DFL);
@@ -136,7 +136,7 @@ pid_t	right_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one,
 
 	pid = fork();
 	if (pid == -1)
-		(mini_fuk(ancient_one), print_exit(ERR_FORK));
+		(mini_fuk(ancient_one, FREE_PATH), print_exit(ERR_FORK));
 	if (pid == 0)
 	{	
 		signal(SIGINT,SIG_DFL);
@@ -157,7 +157,7 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one
 
 	signal(SIGINT,SIG_IGN);
 	if (pipe(pipefd) == -1)
-		(mini_fuk(ancient_one), print_exit(ERR_PIPE));
+		(mini_fuk(ancient_one,FREE_PATH), print_exit(ERR_PIPE));
 	pid_left = left_pipe(pipefd, tree, ancient_one, env);
 	pid_right = right_pipe(pipefd, tree, ancient_one, env);
 	close(pipefd[0]);
@@ -174,7 +174,7 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one
 		signal_caught = status + 128;
 	}
 	if (tree->level != 1) // not the main()
-		(mini_fuk(ancient_one), exit(0));
+		(mini_fuk(ancient_one, FREE_PATH), exit(0));
 }
 
 void	handle_redir(t_tree *tree, char **env, int pipe_flag,
@@ -210,9 +210,8 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 			return ;
 		if (pid == 0)
 		{
-			mini_fuk(ancient_one);
-			ancient_one = NULL;
-			execute(args, env, ancient_one);
+			mini_fuk(ancient_one, FREE_PATH);
+			execute(args, env);
 		}
 		free_array(args);
 		waitpid(pid, &status, 0);
@@ -221,9 +220,8 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 	}
 	else
 	{
-		mini_fuk(ancient_one);
-		ancient_one = NULL;
-		execute(args, env, ancient_one);
+		mini_fuk(ancient_one, FREE_PATH);
+		execute(args, env);
 	}
 	
 	// exit_codes implementation...
@@ -275,7 +273,7 @@ int	gallows(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
 			handle_builtin(tree, ancient_one->paths, ancient_one);
 			if (pipe_flag)
 			{
-				mini_fuk(ancient_one);
+				mini_fuk(ancient_one, FREE_PATH);
 				exit(EXIT_SUCCESS);
 			}
 		}

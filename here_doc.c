@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/16 09:45:41 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/17 08:46:26 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ int	ft_here_doc(char *limiter, t_ancient *ancient_one)
 		(close(doc_pipe[1]),close(doc_pipe[0]), print_error(ERR_PIPE));
 	pid = fork();
 	if (pid == -1)
-		(mini_fuk(ancient_one), print_exit(ERR_PIPE));
+		(mini_fuk(ancient_one, FREE_PATH), print_exit(ERR_PIPE));
 	if (pid == 0)
 	{
 		read_write(limiter, doc_pipe[1]);
 		close(doc_pipe[0]); 
-		(free(limiter), mini_fuk(ancient_one), exit(1));
+		(free(limiter), mini_fuk(ancient_one, FREE_PATH), exit(EXIT_SUCCESS));
 	}
 	waitpid(pid, &status, 0);
 	// if(signal_caught == SIGINT)

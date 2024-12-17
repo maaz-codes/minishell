@@ -1,10 +1,13 @@
 #include "minishell.h"
 
-void mini_fuk(t_ancient *ancient_one)
+void mini_fuk(t_ancient *ancient_one, int flag)
 {
-	ft_lstclear_env(&ancient_one->paths->env_struct);
-	ft_lstclear_exp(&ancient_one->paths->exp_struct);
-	ft_lstclear_path(&ancient_one->paths);
+	if (flag == FREE_PATH)
+	{
+		ft_lstclear_env(&ancient_one->paths->env_struct);
+		ft_lstclear_exp(&ancient_one->paths->exp_struct);
+		ft_lstclear_path(&ancient_one->paths);
+	}
 	lumberjack(ancient_one->head);
 	close(ancient_one->std_fds->std_in);
 	close(ancient_one->std_fds->std_out);
@@ -72,7 +75,7 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
     {
         printf("\nexiting now...\n");
 		reset_std_fds(std_fds);
-		mini_fuk(ancient_one);
+		mini_fuk(ancient_one, FREE_PATH);
         exit(0);
     }
     return (input);
@@ -89,68 +92,80 @@ int execution(t_tree *tree, char **env, t_ancient *ancient_one)
 	return (1);
 }
 
-t_ancient *init_ancient(char *env)
+t_ancient *init_ancient(char **env, t_path *paths)
 {
 	t_ancient 	*ancient_one;
-	t_path 		*paths;
-
-	paths = int_cd();
-    paths->env_struct = int_env(env);
-    paths->exp_struct = int_exp(env);
+	t_std_fds 	std_fds;
 	ancient_one = malloc(sizeof(t_ancient));
 	if (!ancient_one)
-		print_exit(ERR_MALLOC); // free paths
+	{
+		ft_lstclear_env(&ancient_one->paths->env_struct);
+		ft_lstclear_exp(&ancient_one->paths->exp_struct);
+		ft_lstclear_path(&ancient_one->paths);
+		print_exit(ERR_MALLOC);
+	}
+	dup_fds(&std_fds);
+	ancient_one->std_fds = &std_fds;
 	ancient_one->paths = paths;
 	ancient_one->exit_status = 0;
 	ancient_one->inside_pipe = FALSE;
 	return (ancient_one);
 }
 
-t_path *init_paths(char *env)
+t_path *init_paths(char **env)
 {
-	// paths...
+	t_path 		*paths;
+
+	paths = int_cd();
+	if (!paths)
+		print_exit(ERR_MALLOC);
+    paths->env_struct = int_env(env);
+	if (!paths->env_struct)
+		print_exit(ERR_MALLOC);
+    paths->exp_struct = int_exp(env);
+	if (!paths->exp_struct)
+		print_exit(ERR_MALLOC);
+	return (paths);
+}
+
+t_tree *parsing(char *input, t_ancient *ancient_one)
+{
+	t_tree		*tree;
+
+	tree = NULL;
+	input = env_expansion(input, ancient_one->paths->env_struct);
+	tree = tokenization(input);
+	ancient_one->head = tree;
+	return (tree);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
 	t_tree		*tree;
-	t_std_fds 	std_fds;
 	t_ancient 	*ancient_one;
-	t_path		paths;
+	t_path		*paths;
 
 	if (ac != 1)
 		return (write(2, "This shell doesn't take any args\n", 34), 1);
-	
 	paths = init_paths(env);
 	while (1)
 	{
-		ancient_one = init_ancient(env);
-		dup_fds(&std_fds);
-        input = signal_checkpoint(&std_fds, ancient_one);
+		ancient_one = init_ancient(env, paths);
+        input = signal_checkpoint(ancient_one->std_fds, ancient_one);
 		if (input)
 		{
 			add_history(input);
-			input = env_expansion(input, ancient_one->paths->env_struct);
-			tree = tokenization(input);
-			ancient_one->head = tree;
-			ancient_one->std_fds = &std_fds;
+			tree = parsing(input, ancient_one);
 			if (tree)
-			{
-				if (!execution(tree, env, ancient_one))
-				{
-					mini_fuk(ancient_one);
-					continue ;
-				}
-			}
-			ancient_one->head = lumberjack(ancient_one->head);
-			reset_std_fds(&std_fds);
+				execution(tree, env, ancient_one);
+			// ancient_one->head = lumberjack(ancient_one->head);
+			// reset_std_fds(&std_fds);
+			reset_std_fds(ancient_one->std_fds);
+			mini_fuk(ancient_one, 0);
 		}
 		else
-		{
-			printf("readline failure\n");
-			exit(EXIT_FAILURE);
-		}
+			print_exit(ERR_READLINE);
 	}
 	return (0);
 }

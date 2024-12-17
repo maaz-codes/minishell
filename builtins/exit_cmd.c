@@ -22,7 +22,7 @@ void error_msg(char **str, t_ancient *ancient_one)
 {
     printf("exit\n");
     printf("minishell: exit: %s: numeric argument required\n",str[1]);
-    mini_fuk(ancient_one);
+    mini_fuk(ancient_one, FREE_PATH);
     exit(255);
 }
 
@@ -33,7 +33,7 @@ void neg_num_exit(t_path **paths, char **str, unsigned long long exit_num, t_anc
     negative_num = -exit_num;
     negative_num = negative_num % 256;
     
-    (mini_fuk(ancient_one), printf("exit\n"), exit(negative_num));
+    (mini_fuk(ancient_one, FREE_PATH), printf("exit\n"), exit(negative_num));
 }
 
 unsigned long long symbol_check(char *str, int *check)
@@ -78,9 +78,9 @@ void exit_cmd(t_path **paths, char **str, t_ancient *ancient_one)
             neg_num_exit(paths,str,exit_num, ancient_one);
         if(exit_num >= 256 && check == 1)
             exit_num = exit_num % 256;
-        (mini_fuk(ancient_one), printf("exit\n"), exit(exit_num));
+        (mini_fuk(ancient_one, FREE_PATH), printf("exit\n"), exit(exit_num));
     }
     else if(!ft_strncmp(str[0],"exit",5) && str[1] == NULL)
-        (mini_fuk(ancient_one), printf("exit\n"),exit(0));
+        (mini_fuk(ancient_one, FREE_PATH), printf("exit\n"),exit(0));
 }
 

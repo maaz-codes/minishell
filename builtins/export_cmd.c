@@ -88,6 +88,8 @@ t_exp *int_exp(char **env)
     if(node_new == NULL)
         return (NULL);
     node_new->exp = ft_strdup(env[0]);
+    if (!node_new->exp)
+        return (NULL);
     node_new->next = NULL;
     while(env[i])
         ap_exp(&node_new,env[i++]);
