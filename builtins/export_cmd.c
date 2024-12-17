@@ -21,6 +21,7 @@ void export_t_env(t_path **paths, char *tmp_char, char *sep, char *str)
 {
     t_env *tmp;
     int i;
+    int tmpo;
 
     i = 0;
     tmp = (*paths)->env_struct;
@@ -30,7 +31,7 @@ void export_t_env(t_path **paths, char *tmp_char, char *sep, char *str)
         return ;
     while(tmp)
     {
-        if(!ft_strncmp(tmp_char,tmp->env,ft_strlen(tmp_char)))
+        if(!ft_strncmp(tmp_char,tmp->env, ft_strlen(extract_env_var(tmp->env, 0, &tmpo))))
         {   
             free(tmp->env);
             tmp->env = ft_strjoin(tmp_char,sep);
@@ -48,6 +49,7 @@ void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
     int check;
     char *joined_str;
     char *only_str;
+    int tmpo;
 
     i = 0;
     check = 1;
@@ -60,17 +62,20 @@ void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
     only_str = ft_strdup(str);
     while(tmp)
     {
-        if(!ft_strncmp(tmp_char,tmp->exp,ft_strlen(tmp_char)))
+        if(!ft_strncmp(tmp_char,tmp->exp, ft_strlen(extract_env_var(tmp->exp, 0, &tmpo))))
         {   
             free(tmp->exp);
-            tmp->exp = joined_str;
-            free(only_str);
+            if(!check)
+                tmp->exp = only_str;
+            else
+                tmp->exp = joined_str;
+            // free(only_str);
             return ;
         }
         tmp = tmp->next;
     }
     if(!check)
-        ap_exp(&(*paths)->exp_struct,only_str);
+        ap_exp(&(*paths)->exp_struct, only_str);
     else
         ap_exp(&(*paths)->exp_struct,joined_str);
     (free(joined_str),free(only_str));

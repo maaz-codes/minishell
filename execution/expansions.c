@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/17 17:56:03 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/17 18:52:08 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ char	*extract_env_var(char *str, int start, int *index)
 		while ((str[start] >= 'a' && str[start] <= 'z') || (str[start] >= 'A'
 				&& str[start] <= 'Z') || str[start] == '_' || (str[start] >= '0'
 				&& str[start] <= '9'))
-		{
 			start++;
-		}
 	}
 	env_var = ft_substr(str, end, start - end);
 	if (!env_var)

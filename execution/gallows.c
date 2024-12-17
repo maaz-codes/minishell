@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/17 17:56:11 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/17 19:05:44 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one
 	int		pipefd[2];
 	int		status;
 
-	signal(SIGINT,SIG_IGN);
+	// signal(SIGINT, SIG_IGN);
 	if (pipe(pipefd) == -1)
 		(mini_fuk(ancient_one,FREE_PATH), print_exit(ERR_PIPE));
 	pid_left = left_pipe(pipefd, tree, ancient_one, env);
@@ -170,8 +170,8 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one
 			write(2,"Quit: 3",8);
 		else if(WTERMSIG(status) == SIGSEGV)
 			write(2,"Segmentation fault: 11",23);
-		ancient_one->exit_status = status + 128;
 		signal_caught = status + 128;
+		ancient_one->exit_status = status + 128;
 	}
 	if (tree->level != 1) // not the main()
 		(mini_fuk(ancient_one, FREE_PATH), exit(0));
