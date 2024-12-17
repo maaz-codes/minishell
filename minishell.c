@@ -60,12 +60,13 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 {
     char *input;
 
-    set_signals(ancient_one);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
     input = readline("minishell> ");
 	if(signal_caught == SIGINT)
 		ancient_one->exit_status = 1;
-	else if(signal_caught == 0)
-		ancient_one->exit_status = 0;
+	// else if(signal_caught == 0)
+	// 	ancient_one->exit_status = 0;
 	// if(*input != '\0') // this is what causes segfault
 	// 	signal_caught = 0;
     if(!input)
@@ -73,7 +74,7 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
         printf("\nexiting now...\n");
 		reset_std_fds(std_fds);
 		mini_fuk(ancient_one, FREE_PATH);
-        exit(0);
+        exit(127);
     }
     return (input);
 }
@@ -107,6 +108,7 @@ t_ancient *init_ancient(char **env, t_path *paths)
 	ancient_one->paths = paths;
 	ancient_one->exit_status = 0;
 	ancient_one->inside_pipe = FALSE;
+	ancient_one->head = NULL;
 	return (ancient_one);
 }
 
@@ -126,20 +128,29 @@ t_path *init_paths(char **env)
 	return (paths);
 }
 
-expansions(t_tree **tree)
+void expansions(t_tree **tree, t_env *env)
 {	
-	
+	if ((*tree))
+	{
+		if ((*tree)->left != NULL)
+			expansions(&(*tree)->left, env);
+		if ((*tree)->right != NULL)
+			expansions(&(*tree)->right, env);
+		if ((*tree)->type == NODE_HEREDOC)
+			(*tree)->data.file = env_expansion((*tree)->data.file, env);
+		else if ((*tree)->type == NODE_OPERATOR)
+			;
+		else
+			(*tree)->data.expression = env_expansion((*tree)->data.expression, env);
+	}
 }
 
 t_tree *parsing(char *input, t_ancient *ancient_one)
 {
-	t_tree		*tree;
-
-	tree = tokenization(input, ancient_one);
-	expansions(&tree);
-	input = env_expansion(input, ancient_one->paths->env_struct);
-	ancient_one->head = tree;
-	return (tree);
+	// expansions(&tree, ancient_one->paths->env_struct);
+	// input = env_expansion(input, ancient_one->paths->env_struct);
+	ancient_one->head = tokenization(input, ancient_one);
+	return (ancient_one->head);
 }
 
 int	main(int ac, char **av, char **env)
@@ -154,6 +165,7 @@ int	main(int ac, char **av, char **env)
 	paths = init_paths(env);
 	while (1)
 	{
+		signal_caught = 0;
 		ancient_one = init_ancient(env, paths);
         input = signal_checkpoint(&ancient_one->std_fds, ancient_one);
 		if (input)
@@ -165,8 +177,6 @@ int	main(int ac, char **av, char **env)
 			reset_std_fds(&ancient_one->std_fds);
 			mini_fuk(ancient_one, 0);
 		}
-		else
-			print_exit(ERR_READLINE);
 	}
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/17 10:59:32 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/17 14:33:04 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,8 @@ void				mini_fuk(t_ancient *ancient_one, int flag);
 //Signals
 void    set_signals(t_ancient *ancient_one);   
 void    set_signals_after(t_ancient *ancient_one);
+void 	handle_sigint(int sig);
+void 	handle_sigquit();
 // void	set_signals_heredoc();	
 
 extern int signal_caught;

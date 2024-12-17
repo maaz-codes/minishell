@@ -36,6 +36,11 @@ Behaviour : Doesn't throw a syntax error.
 Desired : Should throw a syntax error.
 Status : 
 
+####exp: echo $SHLVL
+Behaviour : 
+Desired : 
+Status : 
+
 ##CMDS
 <!-- leaks: DONE! -->
 <!-- fds : DONE! -->
