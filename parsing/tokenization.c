@@ -60,19 +60,20 @@ int	check_syntax(t_tree *node, t_tree *parent)
 	return (1);
 }
 
-t_tree	*tokenization(char *str)
+t_tree	*tokenization(char *str, t_ancient *ancient_one)
 {
 	t_tree	*tree;
 
+	tree = NULL; 
 	if (!qoutes_checker(str))
-		return (free(str), print_error(ERR_FORMAT), NULL); // free ancient-one & paths within
+		return (free(str), print_error(ERR_FORMAT), NULL);
 	else
 	{
 		tree = NULL;
 		if (!strip_spaces(&str))
-			(free(str), exit(EXIT_FAILURE)); // free ancient-one & paths within
+			(free(str), mini_fuk(ancient_one, FREE_PATH), exit(EXIT_FAILURE));
 		if (ft_strlen(str) == 0)
-			return (free(str), NULL); // free ancient-one & paths within
+			return (free(str), NULL);
 		tokenizer(str, &tree); // free str inside tokenizer...
 		if (tree == NULL)
 			return (NULL);

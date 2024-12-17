@@ -22,7 +22,7 @@ void	print_exit(int code)
 	else if (code == ERR_PIPE)
 		write(2, "Error: Pipe() failed\n", 22);
 	else if (code == ERR_CMD)
-		(write(2, "minishell: cmd not found\n", 26), exit(127));
+		(write(2, "minishell: cmd not found\n", 26), exit(127));1
 	else if (code == ERR_READLINE)
 		write(2, "Readline failed!\n", 18);
 	exit(EXIT_FAILURE);

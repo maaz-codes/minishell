@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/17 08:44:07 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/17 10:59:32 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ typedef struct s_ancient
 {
 	t_tree			*head;
 	t_path			*paths;
-	t_std_fds		*std_fds;
+	t_std_fds		std_fds;
 	int				inside_pipe;
 	int				exit_status;
 }					t_ancient;
@@ -139,7 +139,7 @@ void				print_tree(t_tree *tree);
 
 // tokenization
 int					strip_spaces(char **str);
-t_tree				*tokenization(char *str);
+t_tree				*tokenization(char *str, t_ancient *ancient_one);
 t_tree				*tokenizer(char *str, t_tree **node);
 
 // tokens.c
@@ -222,7 +222,6 @@ void				clear_all(t_path **paths, char **str);
 void				ft_lstclear_path(t_path **lst);
 void				ft_lstclear_env(t_env **lst);
 void				ft_lstclear_exp(t_exp **lst);
-// void    free_array(char **s);
 
 // Builtins
 void				echo_cmd(char **str, t_ancient *ancient_one);

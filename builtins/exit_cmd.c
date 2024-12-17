@@ -66,7 +66,8 @@ void exit_cmd(t_path **paths, char **str, t_ancient *ancient_one)
     check = 1;
     if(!ft_strncmp(str[0],"exit",5) && str[1] != NULL && str[2] != NULL)
     {
-        (printf("exit\n"),printf("exit: too many arguments\n"));
+        (write(2, "exit\n", 6), write(2, "exit: too many arguments\n", 26));
+        ancient_one->exit_status = 1;
         return ;
     }
     else if(!ft_strncmp(str[0],"exit",5) && str[1] != NULL)
@@ -78,9 +79,9 @@ void exit_cmd(t_path **paths, char **str, t_ancient *ancient_one)
             neg_num_exit(paths,str,exit_num, ancient_one);
         if(exit_num >= 256 && check == 1)
             exit_num = exit_num % 256;
-        (mini_fuk(ancient_one, FREE_PATH), printf("exit\n"), exit(exit_num));
+        (mini_fuk(ancient_one, FREE_PATH), write(2, "exit\n", 6), exit(exit_num));
     }
     else if(!ft_strncmp(str[0],"exit",5) && str[1] == NULL)
-        (mini_fuk(ancient_one, FREE_PATH), printf("exit\n"),exit(0));
+        (mini_fuk(ancient_one, FREE_PATH), write(2, "exit\n", 6),exit(0));
 }
 
