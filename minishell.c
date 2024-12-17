@@ -63,12 +63,6 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
     input = readline("minishell> ");
-	if(signal_caught == SIGINT)
-		ancient_one->exit_status = 1;
-	// else if(signal_caught == 0)
-	// 	ancient_one->exit_status = 0;
-	// if(*input != '\0') // this is what causes segfault
-	// 	signal_caught = 0;
     if(!input)
     {
         printf("\nexiting now...\n");
@@ -76,6 +70,12 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 		mini_fuk(ancient_one, FREE_PATH);
         exit(127);
     }
+	if(signal_caught == SIGINT)
+		ancient_one->exit_status = 1;
+	else if(signal_caught == 0)
+		ancient_one->exit_status = 0;
+	if(*input != '\0')
+		signal_caught = 0;
     return (input);
 }
 
@@ -163,9 +163,9 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 		return (write(2, "This shell doesn't take any args\n", 34), 1);
 	paths = init_paths(env);
+	signal_caught = 0;
 	while (1)
 	{
-		signal_caught = 0;
 		ancient_one = init_ancient(env, paths);
         input = signal_checkpoint(&ancient_one->std_fds, ancient_one);
 		if (input)

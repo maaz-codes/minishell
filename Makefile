@@ -5,11 +5,11 @@ CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 SRCS = 	minishell.c \
-		error.c \
-		gallows.c \
-		gallows_utils.c \
-		here_doc.c \
-		expansions.c \
+		execution/error.c \
+		execution/gallows.c \
+		execution/gallows_utils.c \
+		execution/here_doc.c \
+		execution/expansions.c \
 			tree/lumberjack.c \
 			tree/tree_utils.c \
 				helpers/ft_strchr.c \

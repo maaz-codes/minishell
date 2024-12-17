@@ -40,15 +40,15 @@ void set_signals_after(t_ancient *ancient_one)
 
 
 
-void set_signals(t_ancient *ancient_one)
-{
-    // struct sigaction set;
+// void set_signals(t_ancient *ancient_one)
+// {
+//     // struct sigaction set;
 
-    // handle_sigquit();
-    // ft_memset(&set,0,sizeof(set));
-    // set.sa_handler = &handle_sigint;
-    // sigaction(SIGINT,&set,NULL);
-    signal(SIGINT,handle_sigint);
-}
+//     // handle_sigquit();
+//     // ft_memset(&set,0,sizeof(set));
+//     // set.sa_handler = &handle_sigint;
+//     // sigaction(SIGINT,&set,NULL);
+//     signal(SIGINT,handle_sigint);
+// }
 
 

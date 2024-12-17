@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/17 14:33:04 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/17 17:52:46 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,6 @@ int					split_operator(char *str, t_tree **node, int i);
 int					split_redirection(char *str, t_tree **node, int i);
 int					split_cmd(char *str, int i, t_tree **node);
 char				**split_args(char *str, char *cmd);
-// int					split_log_operator(char *str, t_tree **node, int i, int j);
 
 // gallows.c
 int					gallows(t_tree *tree, char **env, int pipe_flag,
@@ -195,7 +194,7 @@ char				*ft_cmd_exits(char **env, char *temp_cmd);
 
 // here_doc
 int					find_docs(t_tree *tree, t_ancient *ancient_one);
-int					ft_here_doc(char *limiter, t_ancient *ancient_one);
+int					ft_here_doc(char *limiter, t_ancient *ancient_one, pid_t *pid);
 
 // syntax.c
 int					check_log_op_node(t_tree *node);
@@ -264,6 +263,5 @@ void    set_signals(t_ancient *ancient_one);
 void    set_signals_after(t_ancient *ancient_one);
 void 	handle_sigint(int sig);
 void 	handle_sigquit();
-// void	set_signals_heredoc();	
 
 extern int signal_caught;
