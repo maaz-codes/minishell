@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:27:26 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/18 08:43:45 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/18 10:06:24 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int check_op_node(t_tree *node)
 int check_redir_node(t_tree *node)
 {
 	if (!ft_strncmp(node->data.expression, "><", 2))
+		return (0);
+	if (!ft_strncmp(node->data.expression, "<>", 2))
 		return (0);
     if (node->right != NULL)
 	{
