@@ -289,8 +289,15 @@ t_exp				*int_exp(char **env);
 void				exp_print(t_path **paths);
 t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
+void 				ap_env(t_env **env, char *res);
 int 				valid_export(char *str, char **res, char **sep, int check_for_plus);
-
+void 				export_t_env_plus(t_path **paths, char *tmp_char, char *sep, char *str);
+void 				export_t_exp_plus(t_path **paths, char *tmp_char, char *sep, char *str);
+void 				export_t_env(t_path **paths, char *tmp_char, char *sep, char *str);
+void 				export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str);
+int 				plus_equals_check(char *str);
+void 				plus_equals_export(t_path **paths, char **sep, char *str, int *i);
+void 				normal_export(t_path **paths, char **sep, char *str, int *i);
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 
