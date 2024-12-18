@@ -5,30 +5,32 @@ CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 SRCS = 	minishell.c \
-		execution/error.c \
-		execution/gallows.c \
-		execution/gallows_utils.c \
-		execution/here_doc.c \
-		execution/expansions.c \
-		execution/handle_nodes.c \
-		execution/handle_utils.c \
-			tree/lumberjack.c \
-			tree/tree_utils.c \
-				helpers/ft_strchr.c \
-				helpers/ft_strdup.c \
-				helpers/ft_strlen.c \
-				helpers/ft_strtrim.c \
-				helpers/ft_substr.c \
-				helpers/ft_strncmp.c \
-				helpers/ft_strjoin.c \
-				helpers/ft_split.c \
-					parsing/qoutes.c \
-					parsing/splits.c \
-					parsing/syntax.c \
-					parsing/token_utils.c \
-					parsing/tokenization.c \
-					parsing/tokens.c \
+		paths.c \
 		signals.c \
+		expansions/expansions.c \
+		expansions/expansions_utils.c \
+			execution/error.c \
+			execution/gallows.c \
+			execution/gallows_utils.c \
+			execution/here_doc.c \
+			execution/handle_nodes.c \
+			execution/handle_utils.c \
+				tree/lumberjack.c \
+				tree/tree_utils.c \
+					helpers/ft_strchr.c \
+					helpers/ft_strdup.c \
+					helpers/ft_strlen.c \
+					helpers/ft_strtrim.c \
+					helpers/ft_substr.c \
+					helpers/ft_strncmp.c \
+					helpers/ft_strjoin.c \
+					helpers/ft_split.c \
+						parsing/qoutes.c \
+						parsing/splits.c \
+						parsing/syntax.c \
+						parsing/token_utils.c \
+						parsing/tokenization.c \
+						parsing/tokens.c \
 		builtins/echo_cmd.c \
 		builtins/pwd_cmd.c \
 		builtins/cd_cmd.c \

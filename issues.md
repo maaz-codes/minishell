@@ -41,6 +41,11 @@ Behaviour : Doesn't print the things that are just one char long.
 Desired : Should print every value as long as it exists.
 Status : 
 
+####exp: echo $PWDPP
+Behaviour : Still prints PWD (kinda trimmed PWD).
+Desired : Should not print anything.
+Status : 
+
 ##CMDS
 <!-- leaks: DONE! -->
 <!-- fds : DONE! -->

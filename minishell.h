@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/18 09:04:37 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/18 10:28:16 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,21 @@ char				*assign_value(char *env_var, t_env *env);
 char				*expanded_str(char *str, char *env_var, int start, int end);
 char				*env_expansion(char *str, t_env *env);
 
+// expansions_utils.c
+void 				expand_args(t_tree **arg_node, t_env *env);
+void 				expansions(t_tree **tree, t_env *env);
+
+// paths.c
+t_path 				*init_paths(char **env);
+char 				*get_cwd(void);
+t_path				*int_cd(void);
+
+// signals.c
+char  				*signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one);
+void				set_signals_after(t_ancient *ancient_one);
+void				handle_sigint(int sig);
+void				handle_sigquit(void);
+
 // helpers - raph
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void				*ft_calloc(size_t nmemb, size_t size);
@@ -278,11 +293,5 @@ int					valid_export(char *str, char **res, char **sep);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
-
-// Signals
-void				set_signals(t_ancient *ancient_one);
-void				set_signals_after(t_ancient *ancient_one);
-void				handle_sigint(int sig);
-void				handle_sigquit(void);
 
 extern int			signal_caught;
