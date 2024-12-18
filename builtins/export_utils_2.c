@@ -45,7 +45,7 @@ void sorted_exp(t_exp **head)
     {
         swap = 0;
         current = (*head);
-        while(current->next != holder && current->next)
+        while(current->next)
         {   
             if(ft_strncmp(current->exp,current->next->exp,ft_strlen(current->exp)) > 0)
             {

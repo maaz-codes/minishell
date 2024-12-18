@@ -21,7 +21,7 @@ int error_exp(char *str, char **res, char **sep)
         free_array(sep);
     return (0);
 }
-int valid_export(char *str, char **res, char **sep)
+int valid_export(char *str, char **res, char **sep, int check_for_plus)
 {
     int i;
     int check;
@@ -44,8 +44,11 @@ int valid_export(char *str, char **res, char **sep)
             len++;
         i++;
     }
-    if(len != ft_strlen(str))
+    if(len != ft_strlen(str) && !check_for_plus)
+    {
+        printf("enter here\n");
         check = error_exp(str, res, sep);
+    }
     return (check);
 }
 
@@ -65,7 +68,7 @@ char **append_exp(char *sep,char *holder)
     res[2] = NULL;
     return (res);
 }
-char **separator(char *str)
+char **separator(char *str, int check_for_plus)
 {
     int len;
     char **sep;
@@ -79,7 +82,7 @@ char **separator(char *str)
     while(str[len] != '=' && str[len])
         len++;
     if(!len)
-    {
+    {   
         error_exp(str,NULL,sep);
         return (NULL);
     }
@@ -87,7 +90,7 @@ char **separator(char *str)
         check = 0;
     holder = holder_env(str,len,check);
     res = append_exp(sep[0],holder);
-    if(!valid_export(sep[0],res,sep))
+    if(!valid_export(sep[0],res,sep,check_for_plus))
         return (NULL);
     free_array(sep);
     free(holder);

@@ -53,8 +53,9 @@ void env_cmd(char **str, t_path **paths)
         return ;
     }
     while(new_node)
-    {
+    {   
         printf("%s\n",new_node->env);
         new_node = new_node->next;
     }
+    
 }

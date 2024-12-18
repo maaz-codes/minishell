@@ -30,22 +30,25 @@ void echo_cmd(char **str, t_ancient *ancient_one)
 {   
     int i; 
     int checker;
+    int f;
 
     checker = 0;
     i = 1;
+    f = 0;
+    while(str[f])
+    {
+        printf("%s\n",str[f++]);
+    }
     if(!ft_strncmp(str[0],"echo",5))
     {   
         if(str[1] == NULL)
-            checker = 1;
+            checker = 0;
         else if(valid_dash_n(str[1]))
             n_check(&checker, &i, str);
     }
     while(str[i])
     {   
-        if(!ft_strncmp(str[i],"$?",2))
-            printf("exit_status: %d",ancient_one->exit_status);
-        else
-            printf("%s",str[i]);
+        printf("%s",str[i]);
         if(str[i + 1] != NULL)
             printf(" ");
         i++;

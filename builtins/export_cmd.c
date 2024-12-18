@@ -21,7 +21,6 @@ void export_t_env(t_path **paths, char *tmp_char, char *sep, char *str)
 {
     t_env *tmp;
     int i;
-    int tmpo;
 
     i = 0;
     tmp = (*paths)->env_struct;
@@ -31,7 +30,7 @@ void export_t_env(t_path **paths, char *tmp_char, char *sep, char *str)
         return ;
     while(tmp)
     {
-        if(!ft_strncmp(tmp_char,tmp->env, ft_strlen(extract_env_var(tmp->env, 0, &tmpo))))
+        if(!ft_strncmp(tmp_char,tmp->env, ft_strlen(tmp_char) - 1))
         {   
             free(tmp->env);
             tmp->env = ft_strjoin(tmp_char,sep);
@@ -49,7 +48,6 @@ void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
     int check;
     char *joined_str;
     char *only_str;
-    int tmpo;
 
     i = 0;
     check = 1;
@@ -62,7 +60,7 @@ void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
     only_str = ft_strdup(str);
     while(tmp)
     {
-        if(!ft_strncmp(tmp_char,tmp->exp, ft_strlen(extract_env_var(tmp->exp, 0, &tmpo))))
+        if(!ft_strncmp(tmp_char,tmp->exp, ft_strlen(tmp_char) - 1))
         {   
             free(tmp->exp);
             if(!check)
@@ -102,32 +100,89 @@ t_exp *int_exp(char **env)
         ap_exp(&node_new,env[i++]);
     return(node_new);
 }
+int plus_equals_check(char *str)
+{   
+    int i;
 
+    i = 0;
+    if((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') || str[i] == '_')
+        i++;
+    else
+        return(0);
+    while(str[i])
+    {
+        if(str[i] == '+')
+        {
+            if(str[i + 1] == '=')
+                return (1);
+            else
+                return (0);
+        }
+        i++;
+    }
+    return (0);
+}
+
+void plus_equals_exp(t_path **paths, char **sep, char *str, int *i)
+{
+    char *tmp_char;
+    char *new_str;
+
+    new_str = ft_calloc(ft_strlen(sep[0]), sizeof(char *));
+    ft_strlcpy(new_str, sep[0], ft_strlen(sep[0]));
+    if(!sep)
+        *i += 1;
+    else
+    {
+        tmp_char = ft_strjoin(new_str,"=");
+        export_t_exp(paths,tmp_char,sep[1],str);
+        export_t_env(paths,tmp_char,sep[1],str);
+        (free_array(sep),free(tmp_char),free(new_str));
+        *i += 1;
+    }
+}
+void normal_exp(t_path **paths, char **sep, char *str, int *i)
+{   
+    char *tmp_char;
+
+    if(!sep)
+        *i += 1;
+    else
+    {
+        tmp_char = ft_strjoin(sep[0],"=");
+        export_t_exp(paths,tmp_char,sep[1],str);
+        export_t_env(paths,tmp_char,sep[1],str);
+        (free_array(sep),free(tmp_char));
+        *i += 1;
+    }
+}
 void export_cmd(char **str, t_path **paths)
 {   
     t_env *tmp;
     char **sep;
-    char *tmp_char;
     int   i;
+    int   check_for_plus;
 
     i = 1;
+    int f = 0;
+    while(str[f])
+    {
+        printf("%s\n",str[f]);
+        f++;
+    }
     if(!ft_strncmp("export",str[0],7) && str[1] == NULL)
         exp_print(paths);
     else if(!ft_strncmp("export",str[0],7) && str[1] != NULL)
     {   
         while(str[i])
         {   
-            sep = separator(str[i]);
-            if(!sep)
-                i++;
+            check_for_plus = plus_equals_check(str[i]);
+            printf("0 normal 1 with plus: %d\n",check_for_plus);
+            sep = separator(str[i], check_for_plus);
+            if(!check_for_plus)
+                normal_exp(paths,sep,str[i],&i);
             else
-            {
-                tmp_char = ft_strjoin(sep[0],"=");
-                export_t_exp(paths,tmp_char,sep[1],str[i]);
-                export_t_env(paths,tmp_char,sep[1],str[i]);
-                (free_array(sep),free(tmp_char));
-                i++;
-            }
+                plus_equals_exp(paths,sep,str[i],&i);
         }
     }
     return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/18 10:28:16 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/18 16:18:37 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,12 +284,12 @@ void				unset_cmd(char **str, t_path **paths);
 
 void				export_cmd(char **str, t_path **paths);
 t_env				*lstlast_env(t_env *lst);
-char				**separator(char *str);
+char				**separator(char *str, int check_for_plus);
 t_exp				*int_exp(char **env);
 void				exp_print(t_path **paths);
 t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
-int					valid_export(char *str, char **res, char **sep);
+int 				valid_export(char *str, char **res, char **sep, int check_for_plus);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
