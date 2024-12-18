@@ -10,6 +10,8 @@ SRCS = 	minishell.c \
 		execution/gallows_utils.c \
 		execution/here_doc.c \
 		execution/expansions.c \
+		execution/handle_nodes.c \
+		execution/handle_utils.c \
 			tree/lumberjack.c \
 			tree/tree_utils.c \
 				helpers/ft_strchr.c \

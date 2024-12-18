@@ -1,13 +1,13 @@
 #include "../minishell.h"
 
-char	*set_own_path(char *cmd)
+static char	*set_own_path(char *cmd)
 {
 	if (ft_strchr(cmd, '/'))
 		return (cmd);
 	return (NULL);
 }
 
-char	**extract_path_env(char **env)
+static char	**extract_path_env(char **env)
 {
 	int		i;
 	char	*path;
@@ -58,4 +58,28 @@ char	*ft_cmd_exits(char **env, char *temp_cmd)
 		}
 	}
 	return (free_array(a_paths), path);
+}
+
+char	**array_dup(char **array)
+{
+	int		i;
+	int		j;
+	char	**dup_array;
+
+	i = 0;
+	j = 0;
+	if (!array)
+		return (NULL);
+	while (array[i])
+		i++;
+	dup_array = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!dup_array)
+		return (NULL);
+	while (j < i)
+	{
+		dup_array[j] = ft_strdup(array[j]);
+		j++;
+	}
+	dup_array[i] = NULL;
+	return (dup_array);
 }

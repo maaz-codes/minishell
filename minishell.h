@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/17 17:52:46 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/18 08:15:50 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <fcntl.h>
 #include <limits.h>
@@ -20,10 +19,10 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <termios.h>
 #include <unistd.h>
-#include <sys/stat.h>
 
 // general
 #define TRUE 1
@@ -33,7 +32,7 @@
 #define FREE_PATH 6201
 
 // global variable
-int signal_caught;
+int					signal_caught;
 
 // error_codes
 typedef enum s_err_codes
@@ -51,21 +50,20 @@ typedef enum s_err_codes
 typedef struct s_env
 {
 	char			*env;
-	struct s_env		*next;
+	struct s_env	*next;
 }					t_env;
 
 typedef struct s_export
 {
 	char			*exp;
 	struct s_export	*next;
-}
-t_exp;
+}					t_exp;
 
 typedef struct s_pwd
 {
 	char			*pwd;
 	char			*pwd_old;
-	struct s_pwd		*next;
+	struct s_pwd	*next;
 	t_env			*env_struct;
 	t_exp			*exp_struct;
 }					t_path;
@@ -92,7 +90,6 @@ typedef union s_data
 	char			*command;
 	char			**argument;
 	int				here_doc;
-	// char *env_expansion;
 }					t_data;
 
 typedef struct s_std_fds
@@ -121,7 +118,7 @@ typedef struct s_ancient
 	int				exit_status;
 }					t_ancient;
 
-void rl_replace_line (const char *text, int clear_undo);
+void				rl_replace_line(const char *text, int clear_undo);
 // helpers
 size_t				ft_strlen(const char *str);
 char				*ft_strchr(const char *s, int c);
@@ -173,7 +170,7 @@ void				print_exit(int code);
 void				free_str(char **str);
 
 // lumberjack.c
-t_tree 				*lumberjack(t_tree *tree);
+t_tree				*lumberjack(t_tree *tree);
 void				chop_branch(t_tree *node);
 void				free_array(char **array);
 
@@ -191,10 +188,32 @@ void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c
 char				*ft_cmd_exits(char **env, char *temp_cmd);
+char				**array_dup(char **array);
+
+// handle_nodes.c
+void				handle_builtin(t_tree *tree, t_path *paths,
+						t_ancient *ancient_one);
+void				handle_cmd(t_tree *tree, char **env, int pipe_flag,
+						t_ancient *ancient_one);
+void				handle_redir(t_tree *tree, char **env, int pipe_flag,
+						t_ancient *ancient_one);
+void				handle_pipe(t_tree *tree, char **env, int pipe_flag,
+						t_ancient *ancient_one);
+int					handle_here_doc(int read_from);
+
+// handle_utils.c
+int					handle_input_redir(char *file_name);
+int					handle_output_redir(char *file_name);
+int					handle_append_redir(char *file_name);
+pid_t				left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one,
+						char **env);
+pid_t				right_pipe(int *pipefd, t_tree *tree,
+						t_ancient *ancient_one, char **env);
 
 // here_doc
 int					find_docs(t_tree *tree, t_ancient *ancient_one);
-int					ft_here_doc(char *limiter, t_ancient *ancient_one, pid_t *pid);
+int					ft_here_doc(char *limiter, t_ancient *ancient_one,
+						pid_t *pid);
 
 // syntax.c
 int					check_log_op_node(t_tree *node);
@@ -226,7 +245,8 @@ void				ft_lstclear_exp(t_exp **lst);
 void				echo_cmd(char **str, t_ancient *ancient_one);
 void				pwd_cmd(char **str);
 
-void				exit_cmd(t_path **paths, char **str, t_ancient *ancient_one);
+void				exit_cmd(t_path **paths, char **str,
+						t_ancient *ancient_one);
 void				valid_num(char *s, char **str, t_ancient *ancient_one);
 void				error_msg(char **str, t_ancient *ancient_one);
 
@@ -239,9 +259,9 @@ t_path				*ft_lstlast_path(t_path *lst);
 void				ft_lstadd_back_path(t_path **lst, t_path *new);
 void				add_NEWPWD(t_path **paths, t_path *new);
 void				add_OLDPWD(t_path **paths, t_path *new);
-void 				add_OLDPWD_exp(t_path **paths, t_path *new);
-void 				ft_append(t_path **paths, char *res);
-void 				append_switch_struct(t_path **paths, t_path **temp);
+void				add_OLDPWD_exp(t_path **paths, t_path *new);
+void				ft_append(t_path **paths, char *res);
+void				append_switch_struct(t_path **paths, t_path **temp);
 
 void				unset_cmd(char **str, t_path **paths);
 
@@ -252,16 +272,16 @@ t_exp				*int_exp(char **env);
 void				exp_print(t_path **paths);
 t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
-int 				valid_export(char *str, char **res, char **sep);
+int					valid_export(char *str, char **res, char **sep);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 void				mini_fuk(t_ancient *ancient_one, int flag);
 
-//Signals
-void    set_signals(t_ancient *ancient_one);   
-void    set_signals_after(t_ancient *ancient_one);
-void 	handle_sigint(int sig);
-void 	handle_sigquit();
+// Signals
+void				set_signals(t_ancient *ancient_one);
+void				set_signals_after(t_ancient *ancient_one);
+void				handle_sigint(int sig);
+void				handle_sigquit(void);
 
-extern int signal_caught;
+extern int			signal_caught;

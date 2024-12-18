@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:27:26 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/14 14:30:57 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/18 08:43:45 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,21 @@ int check_op_node(t_tree *node)
 
 int check_redir_node(t_tree *node)
 {
+	if (!ft_strncmp(node->data.expression, "><", 2))
+		return (0);
     if (node->right != NULL)
 	{
 		if (!ft_strncmp(node->right->data.expression, "<", 2))
 			return (0);
-		else if (!ft_strncmp(node->right->data.expression, "<<", 3))
-			return (0);
 		else if (!ft_strncmp(node->right->data.expression, ">", 2))
 			return (0);
+		else if (!ft_strncmp(node->right->data.expression, "<<", 3))
+			return (0);
 		else if (!ft_strncmp(node->right->data.expression, ">>", 3))
+			return (0);
+		else if (!ft_strncmp(node->right->data.expression, "<>", 3))
+			return (0);
+		else if (!ft_strncmp(node->right->data.expression, "><", 3))
 			return (0);
 		else if (!ft_strncmp(node->right->data.expression, "|", 2))
 			return (0);
@@ -52,9 +58,11 @@ int check_redir_node(t_tree *node)
 int syntax_checker(t_tree *tree)
 {
 	if (tree->left != NULL)
-		syntax_checker(tree->left);
+		if (!syntax_checker(tree->left))
+			return (0);
 	if (tree->right != NULL)
-		syntax_checker(tree->right);
+		if (!syntax_checker(tree->right))
+			return (0);
 	if (tree->type == NODE_REDIRECTION)
 		return (check_redir_node(tree));
 	else if (tree->type == NODE_OPERATOR)
