@@ -45,10 +45,7 @@ int valid_export(char *str, char **res, char **sep, int check_for_plus)
         i++;
     }
     if(len != ft_strlen(str) && !check_for_plus)
-    {
-        printf("enter here\n");
         check = error_exp(str, res, sep);
-    }
     return (check);
 }
 
