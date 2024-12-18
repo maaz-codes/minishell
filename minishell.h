@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/18 08:15:50 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/18 09:04:37 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,12 @@ typedef enum s_node_types
 	NODE_COMMAND = 4201,
 	NODE_OPERATOR,
 	NODE_ARGUMENT,
-	NODE_REDIRECTION,
 	NODE_EXPRESSION,
 	NODE_LOG_OPERATOR,
+	NODE_REDIRECTION,
 	NODE_FILE,
-	NODE_HEREDOC
+	NODE_HEREDOC,
+	NODE_LIMITER
 }					t_node_types;
 
 typedef union s_data
@@ -173,6 +174,7 @@ void				free_str(char **str);
 t_tree				*lumberjack(t_tree *tree);
 void				chop_branch(t_tree *node);
 void				free_array(char **array);
+void				mini_fuk(t_ancient *ancient_one, int flag);
 
 // splits.c
 int					count_args(char *str);
@@ -276,7 +278,6 @@ int					valid_export(char *str, char **res, char **sep);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
-void				mini_fuk(t_ancient *ancient_one, int flag);
 
 // Signals
 void				set_signals(t_ancient *ancient_one);

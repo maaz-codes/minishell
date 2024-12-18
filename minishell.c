@@ -1,20 +1,5 @@
 #include "minishell.h"
 
-void mini_fuk(t_ancient *ancient_one, int flag)
-{
-	if (flag == FREE_PATH)
-	{
-		ft_lstclear_env(&ancient_one->paths->env_struct);
-		ft_lstclear_exp(&ancient_one->paths->exp_struct);
-		ft_lstclear_path(&ancient_one->paths);
-	}
-	lumberjack(ancient_one->head);
-	close(ancient_one->std_fds.std_in);
-	close(ancient_one->std_fds.std_out);
-	close(ancient_one->std_fds.std_err);
-	free(ancient_one);
-}
-
 char *get_cwd(void)
 {
     char cwd[1024];
@@ -132,13 +117,13 @@ void expansions(t_tree **tree, t_env *env)
 {	
 	if ((*tree))
 	{
+		if ((*tree)->type == NODE_REDIRECTION && ft_strncmp((*tree)->data.redirection, "<<", 2) == 0)
+			(*tree)->right->type = NODE_LIMITER;
 		if ((*tree)->left != NULL)
 			expansions(&(*tree)->left, env);
 		if ((*tree)->right != NULL)
 			expansions(&(*tree)->right, env);
-		if ((*tree)->type == NODE_HEREDOC)
-			(*tree)->data.file = env_expansion((*tree)->data.file, env);
-		else if ((*tree)->type == NODE_OPERATOR)
+		if ((*tree)->type == NODE_OPERATOR || (*tree)->type == NODE_LIMITER)
 			;
 		else
 			(*tree)->data.expression = env_expansion((*tree)->data.expression, env);
@@ -147,9 +132,10 @@ void expansions(t_tree **tree, t_env *env)
 
 t_tree *parsing(char *input, t_ancient *ancient_one)
 {
-	// expansions(&tree, ancient_one->paths->env_struct);
 	// input = env_expansion(input, ancient_one->paths->env_struct);
 	ancient_one->head = tokenization(input, ancient_one);
+	expansions(&ancient_one->head, ancient_one->paths->env_struct);
+	print_tree(ancient_one->head);
 	return (ancient_one->head);
 }
 
@@ -173,7 +159,7 @@ int	main(int ac, char **av, char **env)
 			add_history(input);
 			tree = parsing(input, ancient_one);
 			if (tree)
-				execution(tree, env, ancient_one);
+				// execution(tree, env, ancient_one);
 			reset_std_fds(&ancient_one->std_fds);
 			mini_fuk(ancient_one, 0);
 		}

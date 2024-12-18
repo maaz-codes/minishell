@@ -40,6 +40,8 @@ void print_data(t_tree *tree)
 		printf("%c: %s type: redir^\n", tree->pos, tree->data.redirection);
 	else if (tree->type == NODE_FILE)
 		printf("%c: %s type: file\n", tree->pos, tree->data.file);
+	else if (tree->type == NODE_LIMITER)
+		printf("%c: %s type: limiter\n", tree->pos, tree->data.file);
 	else if (tree->type == NODE_COMMAND)
 		printf("%c: %s type: cmd\n", tree->pos, tree->data.command);
 	else if (tree->type == NODE_ARGUMENT)

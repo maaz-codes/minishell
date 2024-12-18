@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+void mini_fuk(t_ancient *ancient_one, int flag)
+{
+	if (flag == FREE_PATH)
+	{
+		ft_lstclear_env(&ancient_one->paths->env_struct);
+		ft_lstclear_exp(&ancient_one->paths->exp_struct);
+		ft_lstclear_path(&ancient_one->paths);
+	}
+	lumberjack(ancient_one->head);
+	close(ancient_one->std_fds.std_in);
+	close(ancient_one->std_fds.std_out);
+	close(ancient_one->std_fds.std_err);
+	free(ancient_one);
+}
+
 void free_array(char **array)
 {
 	int i;

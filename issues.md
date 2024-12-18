@@ -26,19 +26,19 @@ Behaviour : Taking it as a valid expression.
 Desired : Should throw a syntax error.
 Status : FIXED!
 
-####exp: "" | ""
-Behaviour : Doesn't print anything.
-Desired : Shoud parse the empty strings and give cmd not found twice.
-Status : 
-
 ####exp: ls | |
 Behaviour : Doesn't throw a syntax error.
 Desired : Should throw a syntax error.
+Status : FIXED!
+
+####exp: "" | ""
+Behaviour : Doesn't print anything.
+Desired : Should parse the empty strings and give cmd not found twice.
 Status : 
 
 ####exp: echo $SHLVL
-Behaviour : 
-Desired : 
+Behaviour : Doesn't print the things that are just one char long.
+Desired : Should print every value as long as it exists.
 Status : 
 
 ##CMDS
