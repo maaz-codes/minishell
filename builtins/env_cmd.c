@@ -30,9 +30,9 @@ t_env *int_env(char **env)
     int i;
 
     i = 1;
-    str = ft_strdup(env[0]);
-    if(!env)
+    if(!env || !env[0])
         return (NULL);
+    str = ft_strdup(env[0]);
     node_new = (t_env *)malloc(sizeof(t_env));
     if(!node_new)
         return (NULL);
@@ -46,6 +46,7 @@ t_env *int_env(char **env)
 void env_cmd(char **str, t_path **paths)
 {   
     t_env *new_node;
+
     new_node = (*paths)->env_struct;
     if(str[1] != NULL)
     {
@@ -57,5 +58,4 @@ void env_cmd(char **str, t_path **paths)
         printf("%s\n",new_node->env);
         new_node = new_node->next;
     }
-    
 }

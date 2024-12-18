@@ -46,6 +46,12 @@ Behaviour : Still prints PWD (kinda trimmed PWD).
 Desired : Should not print anything.
 Status : 
 
+###Fix the here_doc for appending
+
+### expand $?
+
+### env -i ./minishell
+
 ##CMDS
 <!-- leaks: DONE! -->
 <!-- fds : DONE! -->

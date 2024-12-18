@@ -87,7 +87,7 @@ t_exp *int_exp(char **env)
     int i;
 
     i = 1;
-    if(!env)
+    if(!env || !env[0])
         return (NULL);
     node_new = (t_exp *)malloc(sizeof(t_exp));
     if(node_new == NULL)
