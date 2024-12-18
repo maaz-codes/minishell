@@ -68,8 +68,10 @@ void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
             if(!check)
                 tmp->exp = only_str;
             else
+            {
                 tmp->exp = joined_str;
-            // free(only_str);
+                free(only_str);
+            }
             return ;
         }
         tmp = tmp->next;
