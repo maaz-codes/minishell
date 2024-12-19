@@ -40,7 +40,10 @@ void echo_cmd(char **str, t_ancient *ancient_one)
         if(str[1] == NULL)
             checker = 0;
         else if(!ft_strncmp(str[1],"$?",2))
+        {
             printf("exit status: %d\n",ancient_one->exit_status);
+            return ;
+        }
         else if(valid_dash_n(str[1]))
             n_check(&checker, &i, str);
     }

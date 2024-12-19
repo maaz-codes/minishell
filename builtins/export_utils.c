@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-size_t	ft_sttrlcpy(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcpy_ver2(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 
@@ -15,7 +15,6 @@ size_t	ft_sttrlcpy(char *dst, const char *src, size_t dstsize)
 		i++;
 	}
 	dst[i] = '\0';
-	//abort();
 	return (ft_strlen(src));
 }
 
@@ -23,25 +22,20 @@ size_t	ft_sttrlcpy(char *dst, const char *src, size_t dstsize)
 char *holder_env(char *str, int len, int check)
 {
     char *holder;
-
-    // printf("str: %s\n",str);
-    // printf("len: %d\n",len);
-    // printf("check: %d\n",check);
-
+    char *check_str;
     holder = malloc(sizeof(char *) * len + 1);
     if(!holder)
-    {
-        printf("holder is null\n");
         return NULL;
-    }
+    if(!str)
+        return NULL;
     if(!check)
         ft_strlcpy(holder,str,ft_strlen(str));
     else
-    {   
-        // printf("")
-        ft_sttrlcpy(holder,str + (len + 1),ft_strlen(str) - (len - 1));
+    {
+        check_str = ft_strchr(str,'=');
+        check_str++;
+        holder = ft_strdup(check_str);
     }
-    // printf("holder: %s\n",holder);
     return (holder);
 }
 
@@ -118,6 +112,7 @@ char **separator(char *str, int check_for_plus)
     }
     if(ft_strlen(str) == len)
         check = 0;
+    printf("str before holder: %s\n",str);
     holder = holder_env(str,len,check);
     res = append_exp(sep[0],holder);
     if(!valid_export(sep[0],res,sep,check_for_plus))

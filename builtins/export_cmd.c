@@ -134,6 +134,8 @@ void export_cmd(char **str, t_path **paths)
         {   
             check_for_plus = plus_equals_check(str[i]);
             sep = separator(str[i], check_for_plus);
+            if(!sep)
+                return ;
             if(!check_for_plus)
                 normal_export(paths,sep,str[i],&i);
             else
