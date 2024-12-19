@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/17 17:56:15 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/19 14:55:02 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ int	find_docs(t_tree *tree, t_ancient *ancient_one)
 	int		status;
 	
 	if (tree->type == NODE_REDIRECTION)
-	{
 		if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
 		{
+			if (tree->right->type == NODE_LIMITER)
+				close (tree->right->data.here_doc);
 			tree->right->type = NODE_HEREDOC;
 			tree->right->data.here_doc = ft_here_doc(tree->right->data.expression, ancient_one, &pid);
 			waitpid(pid, &status, 0);
@@ -28,10 +29,9 @@ int	find_docs(t_tree *tree, t_ancient *ancient_one)
 			{
 				ancient_one->exit_status = 1;
 				signal_caught = SIGINT;
-				return (FALSE);
+				return (close(tree->right->data.here_doc), FALSE);
 			}
 		}
-	}
 	if (tree->left != NULL)
 	{
 		return (find_docs(tree->left, ancient_one));
