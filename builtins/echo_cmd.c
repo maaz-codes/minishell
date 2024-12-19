@@ -35,14 +35,12 @@ void echo_cmd(char **str, t_ancient *ancient_one)
     checker = 0;
     i = 1;
     f = 0;
-    while(str[f])
-    {
-        printf("%s\n",str[f++]);
-    }
     if(!ft_strncmp(str[0],"echo",5))
     {   
         if(str[1] == NULL)
             checker = 0;
+        else if(!ft_strncmp(str[1],"$?",2))
+            printf("exit status: %d\n",ancient_one->exit_status);
         else if(valid_dash_n(str[1]))
             n_check(&checker, &i, str);
     }

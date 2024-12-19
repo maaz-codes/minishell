@@ -48,19 +48,25 @@ void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
     int check;
     char *joined_str;
     char *only_str;
-
+    int len_char;
+    
     i = 0;
     check = 1;
     tmp = (*paths)->exp_struct;
     while(str[i] != '=' && str[i])
         i++;
     if(i == ft_strlen(str))
+    {
         check = 0;
+        len_char = ft_strlen(tmp_char);
+    }
+    else
+        len_char = ft_strlen(tmp_char) - 1;
     joined_str = ft_strjoin(tmp_char,sep);
     only_str = ft_strdup(str);
     while(tmp)
     {
-        if(!ft_strncmp(tmp_char,tmp->exp, ft_strlen(tmp_char) - 1))
+        if(!ft_strncmp(tmp_char,tmp->exp,len_char))
         {   
             free(tmp->exp);
             if(!check)

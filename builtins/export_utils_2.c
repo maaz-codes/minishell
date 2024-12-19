@@ -60,15 +60,25 @@ void sorted_exp(t_exp **head)
 void exp_print(t_path **paths)
 {
     t_exp *tmp;
-    t_exp *tmp_head;
     char *check;
+    int check_with_equals;
+    int i;
 
     tmp = (*paths)->exp_struct;
     sorted_exp(&tmp);
     while(tmp)
     {   
-        check = ft_strchr(tmp->exp,'=');
-        if(check)
+        i = 0;
+        while(tmp->exp[i] != '=' && tmp->exp[i])
+            i++;
+        if(i == ft_strlen(tmp->exp))
+            check_with_equals = 0;
+        else
+        {
+            check_with_equals = 1;
+            check = ft_strchr(tmp->exp,'=');
+        }
+        if(check_with_equals)
             printf("declare -x %.*s=\"%s\"\n",(int)(check - tmp->exp),tmp->exp,check + 1);
         else
             printf("declare -x %s\n",tmp->exp);

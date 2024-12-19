@@ -23,9 +23,9 @@ void export_t_env_plus(t_path **paths, char *tmp_char, char *sep, char *str)
                 tmp->env = ft_strjoin(tmp_char,sep);
                 return ;
             }
-            else if(holder[i + 1] != '\0')
+            else if(holder[i] != '\0')
             {   
-                if(holder[i] != '\0')
+                if(holder[i] == '=')
                 {
                     i++;
                     old_exp = ft_strdup(holder + i);
@@ -66,15 +66,15 @@ void export_t_exp_plus(t_path **paths, char *tmp_char, char *sep, char *str)
             holder = tmp->exp;
             while(holder[i] != '=' && holder[i])
                 i++;
-            if(holder[i + 1] == '\0' && sep[0] != '\0')
+            if(holder[i] == '\0' && sep[0] != '\0')
             {   
                 free(tmp->exp);
                 tmp->exp = ft_strjoin(tmp_char,sep);
                 return ;
             }
-            else if(holder[i + 1] != '\0')
+            else if(holder[i] != '\0')
             {   
-                if(holder[i] != '\0')
+                if(holder[i] == '=')
                 {
                     i++;
                     old_exp = ft_strdup(holder + i);
@@ -95,7 +95,9 @@ void export_t_exp_plus(t_path **paths, char *tmp_char, char *sep, char *str)
         }
         tmp = tmp->next;
     }
-    ap_exp(&(*paths)->exp_struct,ft_strjoin(tmp_char,sep));
+    joined_str = ft_strjoin(tmp_char,sep);
+    ap_exp(&(*paths)->exp_struct,joined_str);
+    free(joined_str);
 }
 
 int plus_equals_check(char *str)

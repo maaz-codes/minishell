@@ -22,6 +22,7 @@ char *new_path(char *cwd, int id)
     if(chdir(new_path) == -1)
     {
         (free(new_path),printf("error new path\n"));
+        signal_caught = SIGINT;
         return NULL;
     }
     printf("new path: %s\n",new_path);
@@ -49,6 +50,7 @@ char *get_home(t_path **paths)
         tmp = tmp->next;
     }
     printf("minishell: cd: HOME not set\n");
+    signal_caught = SIGINT;
     return (NULL);
 }
 
@@ -80,7 +82,8 @@ int valid_old_pwd(t_path **paths)
             old_pwd = separator(tmp->env, 0);
            if(stat(old_pwd[1],&stat_check) != 0)
            {    
-                printf("minishell: cd: %s: No such file or directory\n",old_pwd[1]);
+                printf("cd: %s: No such file or directory\n",old_pwd[1]);
+                signal_caught = SIGINT;
                 free_array(old_pwd);
                 return (0);         
            }
