@@ -1,14 +1,47 @@
 #include "../minishell.h"
 
+size_t	ft_sttrlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
+
+	i = 0;
+	if (!dst || !src || !dstsize)
+		return (ft_strlen(src));
+    printf("inside strlcpy\n");
+	while ((i < dstsize - 1) && src[i])
+	{
+		dst[i] = src[i];
+        printf("dst: %c, src:%c\n", dst[i], src[i]);
+		i++;
+	}
+	dst[i] = '\0';
+	//abort();
+	return (ft_strlen(src));
+}
+
+
 char *holder_env(char *str, int len, int check)
 {
     char *holder;
 
+    // printf("str: %s\n",str);
+    // printf("len: %d\n",len);
+    // printf("check: %d\n",check);
+
     holder = malloc(sizeof(char *) * len + 1);
+    if(!holder)
+    {
+        printf("holder is null\n");
+        return NULL;
+    }
     if(!check)
         ft_strlcpy(holder,str,ft_strlen(str));
     else
-        ft_strlcpy(holder,str + (len + 1),ft_strlen(str) - (len - 1));
+    {   
+        // printf("")
+        ft_sttrlcpy(holder,str + (len + 1),ft_strlen(str) - (len - 1));
+    }
+    // printf("holder: %s\n",holder);
     return (holder);
 }
 

@@ -41,29 +41,44 @@ void export_t_env(t_path **paths, char *tmp_char, char *sep, char *str)
     ap_env(&(*paths)->env_struct,ft_strjoin(tmp_char,sep));
 }
 
-void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
+void checker_which_mode(char *str, char *tmp_char, int *check, int *len_char)
 {
-    t_exp *tmp;
     int i;
-    int check;
-    char *joined_str;
-    char *only_str;
-    int len_char;
-    
+
     i = 0;
-    check = 1;
-    tmp = (*paths)->exp_struct;
+    *check = 1;
     while(str[i] != '=' && str[i])
         i++;
     if(i == ft_strlen(str))
     {
-        check = 0;
-        len_char = ft_strlen(tmp_char);
+        *check = 0;
+       *len_char = ft_strlen(tmp_char);
     }
     else
-        len_char = ft_strlen(tmp_char) - 1;
+        *len_char = ft_strlen(tmp_char) - 1;
+}
+
+void append_check_equals(t_path **paths, char *only_str, char *joined_str, int check)
+{
+    if(!check)
+        ap_exp(&(*paths)->exp_struct, only_str);
+    else
+        ap_exp(&(*paths)->exp_struct,joined_str);
+    (free(joined_str),free(only_str));
+}
+
+void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
+{
+    t_exp *tmp;
+    int check;
+    int len_char;
+    char *joined_str;
+    char *only_str;
+    
+    tmp = (*paths)->exp_struct;
     joined_str = ft_strjoin(tmp_char,sep);
     only_str = ft_strdup(str);
+    checker_which_mode(str,tmp_char,&check,&len_char);
     while(tmp)
     {
         if(!ft_strncmp(tmp_char,tmp->exp,len_char))
@@ -80,11 +95,7 @@ void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
         }
         tmp = tmp->next;
     }
-    if(!check)
-        ap_exp(&(*paths)->exp_struct, only_str);
-    else
-        ap_exp(&(*paths)->exp_struct,joined_str);
-    (free(joined_str),free(only_str));
+    append_check_equals(paths, only_str, joined_str, check);
 }
 
 t_exp *int_exp(char **env)
@@ -115,12 +126,6 @@ void export_cmd(char **str, t_path **paths)
     int   check_for_plus;
 
     i = 1;
-    int f = 0;
-    while(str[f])
-    {
-        printf("%s\n",str[f]);
-        f++;
-    }
     if(!ft_strncmp("export",str[0],7) && str[1] == NULL)
         exp_print(paths);
     else if(!ft_strncmp("export",str[0],7) && str[1] != NULL)
