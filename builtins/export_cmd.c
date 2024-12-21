@@ -143,10 +143,10 @@ void export_cmd(char **str, t_path **paths)
             check_for_plus = plus_equals_check(str[i]);
             sep = separator(str[i], check_for_plus);
             if(!sep)
-                return ;
-            if(!check_for_plus)
+                i++;
+            if(!check_for_plus && sep)
                 normal_export(paths,sep,str[i],&i);
-            else
+            else if(check_for_plus && sep)
                 plus_equals_export(paths,sep,str[i],&i);
         }
     }
