@@ -17,7 +17,7 @@ void export_t_env_plus(t_path **paths, char *tmp_char, char *sep, char *str)
             holder = tmp->env;
             while(holder[i] != '=' && holder[i])
                 i++;
-            if(holder[i + 1] == '\0' && sep[0] != '\0')
+            if(holder[i] == '\0' && sep[0] != '\0')
             {   
                 free(tmp->env);
                 tmp->env = ft_strjoin(tmp_char,sep);

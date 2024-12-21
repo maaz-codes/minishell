@@ -67,6 +67,18 @@ void append_check_equals(t_path **paths, char *only_str, char *joined_str, int c
     (free(joined_str),free(only_str));
 }
 
+void exp_loop(t_exp *tmp, char *only_str, char *joined_str, int check)
+{
+    free(tmp->exp);
+    if(!check)
+        tmp->exp = only_str;
+    else
+    {
+        tmp->exp = joined_str;
+        free(only_str);
+    }
+}
+
 void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
 {
     t_exp *tmp;
@@ -83,14 +95,7 @@ void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
     {
         if(!ft_strncmp(tmp_char,tmp->exp,len_char))
         {   
-            free(tmp->exp);
-            if(!check)
-                tmp->exp = only_str;
-            else
-            {
-                tmp->exp = joined_str;
-                free(only_str);
-            }
+            exp_loop(tmp,only_str,joined_str,check);
             return ;
         }
         tmp = tmp->next;

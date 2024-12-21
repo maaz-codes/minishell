@@ -1,40 +1,24 @@
 #include "../minishell.h"
 
-size_t	ft_strlcpy_ver2(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-
-	i = 0;
-	if (!dst || !src || !dstsize)
-		return (ft_strlen(src));
-    printf("inside strlcpy\n");
-	while ((i < dstsize - 1) && src[i])
-	{
-		dst[i] = src[i];
-        printf("dst: %c, src:%c\n", dst[i], src[i]);
-		i++;
-	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
-}
-
-
 char *holder_env(char *str, int len, int check)
 {
     char *holder;
     char *check_str;
-    holder = malloc(sizeof(char *) * len + 1);
-    if(!holder)
-        return NULL;
+
     if(!str)
         return NULL;
     if(!check)
+    {
+        holder = ft_calloc(len + 1,sizeof(char *));
+        if(!holder)
+            return NULL;
         ft_strlcpy(holder,str,ft_strlen(str));
+    }
     else
     {
         check_str = ft_strchr(str,'=');
         check_str++;
-        holder = ft_strdup(check_str);
+        holder = check_str;
     }
     return (holder);
 }
@@ -48,6 +32,7 @@ int error_exp(char *str, char **res, char **sep)
         free_array(sep);
     return (0);
 }
+
 int valid_export(char *str, char **res, char **sep, int check_for_plus)
 {
     int i;
@@ -92,6 +77,7 @@ char **append_exp(char *sep,char *holder)
     res[2] = NULL;
     return (res);
 }
+
 char **separator(char *str, int check_for_plus)
 {
     int len;
@@ -112,13 +98,11 @@ char **separator(char *str, int check_for_plus)
     }
     if(ft_strlen(str) == len)
         check = 0;
-    printf("str before holder: %s\n",str);
     holder = holder_env(str,len,check);
     res = append_exp(sep[0],holder);
     if(!valid_export(sep[0],res,sep,check_for_plus))
         return (NULL);
     free_array(sep);
-    free(holder);
     return(res);
 }
 

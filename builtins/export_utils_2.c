@@ -57,6 +57,7 @@ void sorted_exp(t_exp **head)
         holder = current;
     }
 }
+
 void exp_print(t_path **paths)
 {
     t_exp *tmp;
