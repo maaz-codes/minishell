@@ -46,3 +46,17 @@ t_env	*lstlast_env(t_env *lst)
 		lst = lst->next;
 	return (lst);
 }
+
+int check_old_pwd(t_path **paths)
+{
+    t_env *tmp;
+
+    tmp = (*paths)->env_struct;
+    while(tmp)
+    {
+        if(!ft_strncmp(tmp->env,"OLDPWD=",7))
+            return (1);
+        tmp = tmp->next;
+    }
+    return (0);
+}

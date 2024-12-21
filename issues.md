@@ -52,6 +52,8 @@ Status :
 
 ### env -i ./minishell
 
+### need to fix CFLAGS error
+
 ##CMDS
 <!-- leaks: DONE! -->
 <!-- fds : DONE! -->

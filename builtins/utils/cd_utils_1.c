@@ -1,6 +1,5 @@
 #include "../../minishell.h"
 
-
 void	ft_lstadd_back_path(t_path **lst, t_path *new)
 {
 	if (!lst || !new)

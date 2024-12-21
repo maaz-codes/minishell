@@ -26,7 +26,8 @@ int execution(t_tree *tree, char **env, t_ancient *ancient_one)
 }
 
 t_ancient *init_ancient(char **env, t_path *paths)
-{
+{	
+	(void) 		**env;
 	t_ancient 	*ancient_one;
 	t_std_fds 	std_fds;
 
@@ -57,7 +58,8 @@ t_tree *parsing(char *input, t_ancient *ancient_one)
 }
 
 int	main(int ac, char **av, char **env)
-{
+{	
+	(void)		**av;
 	char		*input;
 	t_tree		*tree;
 	t_ancient 	*ancient_one;

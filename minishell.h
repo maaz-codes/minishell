@@ -240,9 +240,7 @@ t_path				*int_cd(void);
 
 // signals.c
 char  				*signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one);
-void				set_signals_after(t_ancient *ancient_one);
 void				handle_sigint(int sig);
-void				handle_sigquit(void);
 
 // helpers - raph
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
@@ -279,6 +277,7 @@ void				add_OLDPWD(t_path **paths, t_path *new);
 void				add_OLDPWD_exp(t_path **paths, t_path *new);
 void				ft_append(t_path **paths, char *res);
 void				append_switch_struct(t_path **paths, t_path **temp);
+int 				check_old_pwd(t_path **paths);
 
 void				unset_cmd(char **str, t_path **paths);
 
@@ -302,8 +301,9 @@ char 				*if_with_equals_env(t_env *tmp, char *holder, char *tmp_char, char *sep
 void 				holder_is_equals_env(t_env *tmp, char *sep, char *tmp_char);
 char 				*if_with_equals_exp(t_exp *tmp, char *holder, char *tmp_char, char *sep);
 void 				holder_is_equals_exp(t_exp *tmp, char *sep, char *tmp_char);
-
-
+void 				checker_which_mode(char *str, char *tmp_char, int *check, int *len_char);
+void 				append_check_equals(t_path **paths, char *only_str, char *joined_str, int check);
+void 				exp_loop(t_exp *tmp, char *only_str, char *joined_str, int check);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);

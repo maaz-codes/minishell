@@ -37,28 +37,3 @@ void handle_sigint(int sig)
 	}
 }
 
-void handle_sigquit()
-{
-    struct sigaction set;
-    ft_memset(&set,0,sizeof(set));
-    set.sa_handler = SIG_IGN;
-    sigaction(SIGQUIT,&set,NULL);
-}
-
-static void sig_newline(int sig)
-{
-    (void)signal;
-    rl_on_new_line();
-    signal_caught = SIGINT;
-}
-
-void set_signals_after(t_ancient *ancient_one)
-{
-    struct sigaction set;
-
-    handle_sigquit();
-    ft_memset(&set,0,sizeof(set));
-    set.sa_handler = &sig_newline;
-    // set.sa_flags = SA_RESTART;
-    sigaction(SIGINT,&set,NULL);
-}

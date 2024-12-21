@@ -1,23 +1,5 @@
 #include "../minishell.h"
 
-void clear_all(t_path **paths,char **str)
-{   
-    t_exp *exp;
-    t_env *env;
-
-    exp = (*paths)->exp_struct;
-    env = (*paths)->env_struct;
-    if(str)
-        free_array(str);
-    if(env)
-        ft_lstclear_env(&env);
-    if(exp)
-        ft_lstclear_exp(&exp);
-    if((*paths))
-        ft_lstclear_path(&(*paths));
-    return ;
-}
-
 void error_msg(char **str, t_ancient *ancient_one)
 {
     printf("exit\n");

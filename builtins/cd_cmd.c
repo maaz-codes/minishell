@@ -54,20 +54,6 @@ char *get_home(t_path **paths)
     return (NULL);
 }
 
-int check_old_pwd(t_path **paths)
-{
-    t_env *tmp;
-
-    tmp = (*paths)->env_struct;
-    while(tmp)
-    {
-        if(!ft_strncmp(tmp->env,"OLDPWD=",7))
-            return (1);
-        tmp = tmp->next;
-    }
-    return (0);
-}
-
 int valid_old_pwd(t_path **paths)
 {
     t_env *tmp;

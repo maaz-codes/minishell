@@ -21,6 +21,7 @@ char *if_with_equals_env(t_env *tmp, char *holder, char *tmp_char, char *sep)
         free(joined_str);
         return res_char;
     }
+    return (NULL);
 }
 
 void holder_is_equals_env(t_env *tmp, char *sep, char *tmp_char)
