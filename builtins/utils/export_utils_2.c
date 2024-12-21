@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 t_exp	*lstlast_exp(t_exp *lst)
 {

@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void ft_append(t_path **paths, char *res)
 {   

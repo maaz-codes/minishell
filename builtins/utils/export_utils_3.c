@@ -1,11 +1,9 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void export_t_env_plus(t_path **paths, char *tmp_char, char *sep, char *str)
 {
     t_env *tmp;
     char *holder;
-    char *old_exp;
-    char *joined_str;
     int i;
 
     tmp = (*paths)->env_struct;
@@ -17,32 +15,11 @@ void export_t_env_plus(t_path **paths, char *tmp_char, char *sep, char *str)
             holder = tmp->env;
             while(holder[i] != '=' && holder[i])
                 i++;
-            if(holder[i] == '\0' && sep[0] != '\0')
-            {   
-                free(tmp->env);
-                tmp->env = ft_strjoin(tmp_char,sep);
-                return ;
-            }
+            if(holder[i] == '\0')
+                holder_is_equals_env(tmp, sep, tmp_char);
             else if(holder[i] != '\0')
-            {   
-                if(holder[i] == '=')
-                {
-                    i++;
-                    old_exp = ft_strdup(holder + i);
-                    free(tmp->env);
-                    joined_str = ft_strjoin(tmp_char,old_exp);
-                    tmp->env = ft_strjoin(joined_str,sep);
-                    free(old_exp);
-                }
-                free(joined_str);
-                return ;
-            }
-            else if(sep[0] == '\0')
-            {
-                free(tmp->env);
-                tmp->env = ft_strdup(tmp_char);
-                return ;
-            }
+                tmp->env = if_with_equals_env(tmp, holder, tmp_char, sep);
+            return ;
         }
         tmp = tmp->next;
     }
@@ -52,8 +29,7 @@ void export_t_env_plus(t_path **paths, char *tmp_char, char *sep, char *str)
 void export_t_exp_plus(t_path **paths, char *tmp_char, char *sep, char *str)
 {
     t_exp *tmp;
-    char *holder;
-    char *old_exp;    
+    char *holder;  
     char *joined_str;
     int i;
 
@@ -66,32 +42,11 @@ void export_t_exp_plus(t_path **paths, char *tmp_char, char *sep, char *str)
             holder = tmp->exp;
             while(holder[i] != '=' && holder[i])
                 i++;
-            if(holder[i] == '\0' && sep[0] != '\0')
-            {   
-                free(tmp->exp);
-                tmp->exp = ft_strjoin(tmp_char,sep);
-                return ;
-            }
+            if(holder[i] == '\0')
+                holder_is_equals_exp(tmp, sep, tmp_char);
             else if(holder[i] != '\0')
-            {   
-                if(holder[i] == '=')
-                {
-                    i++;
-                    old_exp = ft_strdup(holder + i);
-                    free(tmp->exp);
-                    joined_str = ft_strjoin(tmp_char,old_exp);
-                    tmp->exp = ft_strjoin(joined_str,sep);
-                    free(old_exp);
-                }
-                free(joined_str);
-                return ;
-            }
-            else if(sep[0] == '\0')
-            {
-                free(tmp->exp);
-                tmp->exp = ft_strdup(tmp_char);
-                return ;
-            }
+                tmp->exp = if_with_equals_exp(tmp, holder, tmp_char, sep);
+            return ;
         }
         tmp = tmp->next;
     }
@@ -130,7 +85,6 @@ void plus_equals_export(t_path **paths, char **sep, char *str, int *i)
 
     new_str = ft_calloc(ft_strlen(sep[0]), sizeof(char *));
     ft_strlcpy(new_str, sep[0], ft_strlen(sep[0]));
-    printf("name: %s\n",new_str);
     if(!sep)
         *i += 1;
     else

@@ -34,16 +34,17 @@ SRCS = 	minishell.c \
 		builtins/echo_cmd.c \
 		builtins/pwd_cmd.c \
 		builtins/cd_cmd.c \
-		builtins/cd_utils.c \
-		builtins/cd_utils_2.c \
 		builtins/exit_cmd.c \
 		builtins/env_cmd.c \
 		builtins/unset_cmd.c \
 		builtins/export_cmd.c \
-		builtins/exit_utils.c \
-		builtins/export_utils.c \
-		builtins/export_utils_2.c \
-		builtins/export_utils_3.c \
+		builtins/utils/cd_utils_1.c \
+		builtins/utils/cd_utils_2.c \
+		builtins/utils/exit_utils_1.c \
+		builtins/utils/export_utils_1.c \
+		builtins/utils/export_utils_2.c \
+		builtins/utils/export_utils_3.c \
+		builtins/utils/export_utils_4.c \
 			helpers/ft_atol.c \
 			helpers/ft_memset.c \
 			helpers/ft_strlcpy.c \

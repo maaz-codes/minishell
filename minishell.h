@@ -298,6 +298,13 @@ void 				export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str);
 int 				plus_equals_check(char *str);
 void 				plus_equals_export(t_path **paths, char **sep, char *str, int *i);
 void 				normal_export(t_path **paths, char **sep, char *str, int *i);
+char 				*if_with_equals_env(t_env *tmp, char *holder, char *tmp_char, char *sep);
+void 				holder_is_equals_env(t_env *tmp, char *sep, char *tmp_char);
+char 				*if_with_equals_exp(t_exp *tmp, char *holder, char *tmp_char, char *sep);
+void 				holder_is_equals_exp(t_exp *tmp, char *sep, char *tmp_char);
+
+
+
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 

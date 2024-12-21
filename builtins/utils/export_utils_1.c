@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 char *holder_env(char *str, int len, int check)
 {

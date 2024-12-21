@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void valid_num(char *s, char **str, t_ancient *ancient_one)
 {   
