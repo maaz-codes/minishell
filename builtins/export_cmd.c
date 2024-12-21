@@ -71,7 +71,10 @@ void exp_loop(t_exp *tmp, char *only_str, char *joined_str, int check)
 {
     free(tmp->exp);
     if(!check)
+    {
         tmp->exp = only_str;
+        free(joined_str);
+    }
     else
     {
         tmp->exp = joined_str;

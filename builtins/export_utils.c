@@ -18,7 +18,7 @@ char *holder_env(char *str, int len, int check)
     {
         check_str = ft_strchr(str,'=');
         check_str++;
-        holder = check_str;
+        holder = ft_strdup(check_str);
     }
     return (holder);
 }
@@ -100,6 +100,7 @@ char **separator(char *str, int check_for_plus)
         check = 0;
     holder = holder_env(str,len,check);
     res = append_exp(sep[0],holder);
+    free(holder);
     if(!valid_export(sep[0],res,sep,check_for_plus))
         return (NULL);
     free_array(sep);
