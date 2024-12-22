@@ -9,10 +9,10 @@ char  *signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
     input = readline("minishell> ");
     if(!input)
     {
-        printf("\nexiting now...\n");
+        write(1, "exit\n", 6);
 		reset_std_fds(std_fds);
 		mini_fuk(ancient_one, FREE_PATH);
-        exit(127);
+        exit(EXIT_SUCCESS);
     }
 	if(signal_caught == SIGINT)
 		ancient_one->exit_status = 1;

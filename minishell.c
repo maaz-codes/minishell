@@ -21,7 +21,6 @@ int execution(t_tree *tree, char **env, t_ancient *ancient_one)
 	tree->level = 0;
 	if (tree->type == NODE_OPERATOR)
 		ancient_one->inside_pipe = TRUE;
-	printf("came to execution!\n");
 	gallows(tree, env, ancient_one->inside_pipe, ancient_one);
 	return (1);
 }
@@ -58,13 +57,12 @@ t_tree *parsing(char *input, t_ancient *ancient_one)
 
 int	main(int ac, char **av, char **env)
 {	
-	(void)		**av;
 	char		*input;
 	t_tree		*tree;
 	t_ancient 	*ancient_one;
 	t_path		*paths;
 
-	if (ac != 1)
+	if (ac != 1 || av[1] != NULL)
 		return (write(2, "This shell doesn't take any args\n", 34), 1);
 	paths = init_paths(env);
 	signal_caught = 0;
