@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:34:19 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 18:30:07 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ void				cd_cmd(char **str, t_path **paths);
 char				*new_path(char *cwd, int id);
 t_path				*ft_lstlast_path(t_path *lst);
 void				ft_lstadd_back_path(t_path **lst, t_path *new);
-void				add_new_path(t_path **paths, t_path *new);
+void				add_new_pwd(t_path **paths, t_path *new);
 void				add_old_pwd(t_path **paths, t_path *new);
 void				add_old_pwd_exp(t_path **paths, t_path *new);
 void				ft_append(t_path **paths, char *res);

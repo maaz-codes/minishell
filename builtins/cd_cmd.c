@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:46 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 18:22:50 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 18:26:56 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*new_path(char *cwd, int id)
 	if (chdir(new_path) == -1)
 	{
 		(free(new_path), printf("error new path\n"));
-		signal_caught = SIGINT;
+		g_signal_caught = SIGINT;
 		return (NULL);
 	}
 	printf("new path: %s\n", new_path);
@@ -105,7 +105,7 @@ char	*switch_cd(t_path **paths)
 	if (!valid_old_pwd(paths))
 		return (NULL);
 	append_switch_struct(paths, &temp);
-	(add_NEWPWD(paths, temp), add_OLDPWD(paths, temp));
+	(add_new_pwd(paths, temp), add_old_pwd(paths, temp));
 	ft_lstadd_back_path(paths, temp);
 	res = ft_strdup(temp->pwd);
 	if (chdir(res) == -1)

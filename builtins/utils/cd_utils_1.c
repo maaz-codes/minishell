@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:34:19 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 18:30:07 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	add_env_pwd(t_path **paths, t_path *new, char *path_name)
 	}
 }
 
-void	add_new_path(t_path **paths, t_path *new)
+void	add_new_pwd(t_path **paths, t_path *new)
 {
 	t_exp	*tmp_exp;
 	char	*path_name;

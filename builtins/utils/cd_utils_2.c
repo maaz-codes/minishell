@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:23 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:34:19 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 18:30:07 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_append(t_path **paths, char *res)
 	temp->pwd = new_path;
 	temp->pwd_old = old_path;
 	temp->next = NULL;
-	(add_new_path(paths, temp), add_old_pwd(paths, temp));
+	(add_new_pwd(paths, temp), add_old_pwd(paths, temp));
 	add_old_pwd_exp(paths, temp);
 	ft_lstadd_back_path(paths, temp);
 }
