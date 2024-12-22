@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/22 17:41:00 by maakhan           #+#    #+#             */
+/*   Updated: 2024/12/22 18:12:08 by maakhan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int count_array(char **array)
+int	count_array(char **array)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (array[len])
@@ -10,7 +22,7 @@ int count_array(char **array)
 	return (len);
 }
 
-void add_node(t_tree **tree, t_tree *node, int side)
+void	add_node(t_tree **tree, t_tree *node, int side)
 {
 	if (!node)
 		return ;
@@ -25,15 +37,37 @@ void add_node(t_tree **tree, t_tree *node, int side)
 		(*tree)->right = node;
 }
 
-void print_data(t_tree *tree)
+void	print_tree(t_tree *tree)
 {
-	int i = -1;
+	if (tree == NULL)
+		return ;
+	if (tree->left != NULL)
+	{
+		tree->left->level += tree->level;
+		tree->left->pos = 'l';
+		print_tree(tree->left);
+	}
+	if (tree->right != NULL)
+	{
+		tree->right->level += tree->level;
+		tree->right->pos = 'r';
+		print_tree(tree->right);
+	}
+	print_data(tree);
+}
+
+void	print_data(t_tree *tree)
+{
+	int	i;
+
+	i = -1;
 	while (++i < tree->level)
 		printf("	");
 	if (tree->type == NODE_EXPRESSION)
 		printf("%c: %s type: exp\n", tree->pos, tree->data.expression);
 	else if (tree->type == NODE_LOG_OPERATOR)
-		printf("%c: %s type: log_operator\n", tree->pos, tree->data.log_operator);
+		printf("%c: %s type: log_operator\n", tree->pos,
+			tree->data.log_operator);
 	else if (tree->type == NODE_OPERATOR)
 		printf("%c: %c type: operator\n", tree->pos, tree->data.operator);
 	else if (tree->type == NODE_REDIRECTION)
@@ -50,29 +84,9 @@ void print_data(t_tree *tree)
 	{
 		printf("%c: ", tree->pos);
 		i = -1;
-		while(tree->data.argument[++i])
+		while (tree->data.argument[++i])
 			printf("%s, ", tree->data.argument[i]);
 		printf("type: args\n");
 	}
 	printf("\n");
-}
-
-void print_tree(t_tree *tree)
-{
-	if (tree == NULL)
-		return ;
-	if (tree->left != NULL)
-	{
-		tree->left->level += tree->level;
-		tree->left->pos = 'l';
-		
-		print_tree(tree->left);
-	}
-	if (tree->right != NULL)
-	{
-		tree->right->level += tree->level;
-		tree->right->pos = 'r';
-		print_tree(tree->right);
-	}
-	print_data(tree);
 }

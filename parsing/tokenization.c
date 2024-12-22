@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenization.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/22 17:13:40 by maakhan           #+#    #+#             */
+/*   Updated: 2024/12/22 17:14:41 by maakhan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	strip_spaces(char **str)
@@ -18,12 +30,12 @@ int	strip_spaces(char **str)
 
 int	splitter(char *str, t_tree **node, int i)
 {
-	if (split_operator(str, node, i)) 
+	if (split_operator(str, node, i))
 		return (1);
-	else if (!operator_ahead(str, i) && split_redirection(str, node, i)) // still some work...
+	else if (!operator_ahead(str, i) && split_redirection(str, node, i))
 		return (1);
 	else if (!redirection_ahead(str, i) && !operator_ahead(str, i)
-		&& split_cmd(str, i, node))  // still some
+		&& split_cmd(str, i, node))
 		return (1);
 	return (0);
 }
@@ -64,7 +76,7 @@ t_tree	*tokenization(char *str, t_ancient *ancient_one)
 {
 	t_tree	*tree;
 
-	tree = NULL; 
+	tree = NULL;
 	if (!qoutes_checker(str))
 		return (free(str), print_error(ERR_FORMAT), NULL);
 	else
@@ -74,15 +86,14 @@ t_tree	*tokenization(char *str, t_ancient *ancient_one)
 			(free(str), mini_fuk(ancient_one, FREE_PATH), exit(EXIT_FAILURE));
 		if (ft_strlen(str) == 0)
 			return (free(str), NULL);
-		tokenizer(str, &tree); // free str inside tokenizer...
+		tokenizer(str, &tree);
 		if (tree == NULL)
 			return (NULL);
 		else
 		{
 			tree->level = 0;
 			if (!syntax_checker(tree))
-				return (print_error(ERR_FORMAT), NULL); // free the tree...
-			// print_tree(tree);
+				return (print_error(ERR_FORMAT), NULL);
 		}
 	}
 	return (tree);

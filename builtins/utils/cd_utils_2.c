@@ -1,32 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_utils_2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/22 17:25:23 by maakhan           #+#    #+#             */
+/*   Updated: 2024/12/22 17:34:19 by maakhan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
-void ft_append(t_path **paths, char *res)
-{   
-    t_path *temp;
-    char *old_path;
-    char *new_path;
+void	ft_append(t_path **paths, char *res)
+{
+	t_path	*temp;
+	char	*old_path;
+	char	*new_path;
 
-    old_path = ft_strdup(ft_lstlast_path(*paths)->pwd);
-    new_path = ft_strdup(res);
-    temp = malloc(sizeof(t_path));
-    if(!temp)
-        return ;
-    temp->pwd = new_path;
-    temp->pwd_old = old_path;
-    temp->next = NULL;
-    (add_NEWPWD(paths,temp),add_OLDPWD(paths,temp));
-    add_OLDPWD_exp(paths,temp);
-    ft_lstadd_back_path(paths,temp);
+	old_path = ft_strdup(ft_lstlast_path(*paths)->pwd);
+	new_path = ft_strdup(res);
+	temp = malloc(sizeof(t_path));
+	if (!temp)
+		return ;
+	temp->pwd = new_path;
+	temp->pwd_old = old_path;
+	temp->next = NULL;
+	(add_new_path(paths, temp), add_old_pwd(paths, temp));
+	add_old_pwd_exp(paths, temp);
+	ft_lstadd_back_path(paths, temp);
 }
 
-void append_switch_struct(t_path **paths, t_path **temp)
-{   
-    *temp = malloc(sizeof(t_path));
-    if(!temp)
-        return ;
-    (*temp)->pwd = ft_strdup(ft_lstlast_path(*paths)->pwd_old);
-    (*temp)->pwd_old = ft_strdup(ft_lstlast_path(*paths)->pwd);
-    (*temp)->next = NULL;
+void	append_switch_struct(t_path **paths, t_path **temp)
+{
+	*temp = malloc(sizeof(t_path));
+	if (!temp)
+		return ;
+	(*temp)->pwd = ft_strdup(ft_lstlast_path(*paths)->pwd_old);
+	(*temp)->pwd_old = ft_strdup(ft_lstlast_path(*paths)->pwd);
+	(*temp)->next = NULL;
 }
 
 t_path	*ft_lstlast_path(t_path *lst)
@@ -47,16 +59,16 @@ t_env	*lstlast_env(t_env *lst)
 	return (lst);
 }
 
-int check_old_pwd(t_path **paths)
+int	check_old_pwd(t_path **paths)
 {
-    t_env *tmp;
+	t_env	*tmp;
 
-    tmp = (*paths)->env_struct;
-    while(tmp)
-    {
-        if(!ft_strncmp(tmp->env,"OLDPWD=",7))
-            return (1);
-        tmp = tmp->next;
-    }
-    return (0);
+	tmp = (*paths)->env_struct;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->env, "OLDPWD=", 7))
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
 }

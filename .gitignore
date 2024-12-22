@@ -7,3 +7,4 @@ libft.a
 a.out
 testing.c
 minishell-tester/
+clean_up.c 

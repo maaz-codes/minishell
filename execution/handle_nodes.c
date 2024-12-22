@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 14:13:26 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 16:52:34 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
 			write(2, "Quit: 3", 8);
 		else if (WTERMSIG(status) == SIGSEGV)
 			write(2, "Segmentation fault: 11", 23);
-		signal_caught = status + 128;
+		g_signal_caught = status + 128;
 		ancient_one->exit_status = status + 128;
 	}
-	if (tree->level != 1) // not the main()
+	if (tree->level != 1)
 		(mini_fuk(ancient_one, FREE_PATH), exit(0));
 }
 

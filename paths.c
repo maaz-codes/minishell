@@ -1,23 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   paths.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/22 17:24:11 by maakhan           #+#    #+#             */
+/*   Updated: 2024/12/22 17:24:16 by maakhan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char *get_cwd(void)
+char	*get_cwd(void)
 {
-    char cwd[1024];
-    char *res;
-    if(getcwd(cwd,sizeof(cwd)) == NULL)
-        printf("error");
-    res = new_path(cwd,0);
-    return(res);
+	char	cwd[1024];
+	char	*res;
+
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		printf("error");
+	res = new_path(cwd, 0);
+	return (res);
 }
 
 t_path	*int_cd(void)
 {
 	t_path	*node_new;
-    char    *str1;
-    char    *str2;
+	char	*str1;
+	char	*str2;
 
-    str1 = get_cwd();
-    str2 = get_cwd();
+	str1 = get_cwd();
+	str2 = get_cwd();
 	node_new = (t_path *)malloc(sizeof(t_path));
 	if (node_new == NULL)
 		return (NULL);
@@ -27,17 +40,17 @@ t_path	*int_cd(void)
 	return (node_new);
 }
 
-t_path *init_paths(char **env)
+t_path	*init_paths(char **env)
 {
-	t_path 		*paths;
+	t_path	*paths;
 
 	paths = int_cd();
 	if (!paths)
 		print_exit(ERR_MALLOC);
-    paths->env_struct = int_env(env);
+	paths->env_struct = int_env(env);
 	if (!paths->env_struct)
 		print_exit(ERR_MALLOC);
-    paths->exp_struct = int_exp(env);
+	paths->exp_struct = int_exp(env);
 	if (!paths->exp_struct)
 		print_exit(ERR_MALLOC);
 	return (paths);

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/18 08:09:26 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 16:52:03 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	execute(char **cmd, char *env[])
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
 		(free_array(cmd), print_exit(ERR_CMD));
-	execve(path, cmd, env);	
+	execve(path, cmd, env);
 	if (stat(path, &directory) == 0)
 	{
 		write(2, "it's a directory\n", 18);

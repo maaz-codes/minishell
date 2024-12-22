@@ -7,6 +7,7 @@ RM = rm -f
 SRCS = 	minishell.c \
 		paths.c \
 		signals.c \
+		init_shell.c \
 		expansions/expansions.c \
 		expansions/expansions_utils.c \
 			execution/error.c \
@@ -27,10 +28,12 @@ SRCS = 	minishell.c \
 					helpers/ft_split.c \
 						parsing/qoutes.c \
 						parsing/splits.c \
+						parsing/splits_utils.c \
 						parsing/syntax.c \
 						parsing/token_utils.c \
 						parsing/tokenization.c \
-						parsing/tokens.c \
+						parsing/tokens_1.c \
+						parsing/tokens_2.c \
 		builtins/echo_cmd.c \
 		builtins/pwd_cmd.c \
 		builtins/cd_cmd.c \

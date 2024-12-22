@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/22 16:51:29 by maakhan           #+#    #+#             */
+/*   Updated: 2024/12/22 16:51:30 by maakhan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	print_error(int code)
@@ -30,8 +42,8 @@ void	print_exit(int code)
 	exit(EXIT_FAILURE);
 }
 
-void free_str(char **str)
+void	free_str(char **str)
 {
-	free(*str); 
+	free(*str);
 	*str = NULL;
 }

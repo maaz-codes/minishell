@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/18 10:35:38 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 17:05:15 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	*extract_env_var(char *str, int start, int *index)
 char	*assign_value(char *env_var, t_env *env)
 {
 	char	*env_value;
-	char 	*env_compare;
-	int 	index;
+	char	*env_compare;
+	int		index;
 
 	env_value = NULL;
 	index = 0;
@@ -68,12 +68,6 @@ char	*assign_value(char *env_var, t_env *env)
 	return (env_value);
 }
 
-// modify the string and free everything...
-// str = "echo This $my_var is amazing."
-// env = "user" (value in $my_var)
-// end => 'r'
-// start => '$'
-// malloc = strlen(str) - strlen("$my_var") + strlen(env_value);
 char	*expanded_str(char *str, char *env_var, int start, int end)
 {
 	char	*expanded;

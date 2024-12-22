@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:36:05 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/10 14:17:54 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 17:08:57 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	if (!s || !len || start >= ft_strlen(s))
 		return (ft_strdup(""));
-	// if (!s || !len)
-	// 	return (NULL);
 	if (start + len > ft_strlen(s))
 		substring = (char *)malloc(sizeof(char) * (ft_strlen(s) - start + 1));
 	else

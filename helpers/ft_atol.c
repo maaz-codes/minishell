@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/22 17:07:34 by maakhan           #+#    #+#             */
+/*   Updated: 2024/12/22 17:07:38 by maakhan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 unsigned long long	ft_atol(char *s)
 {
-	int		conv;
+	int					conv;
 	unsigned long long	res;
-	int		i;
+	int					i;
 
 	res = 0;
 	conv = 1;

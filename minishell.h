@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 14:12:40 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 17:34:19 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 #define FREE_PATH 6201
 
 // global variable
-int					signal_caught;
+int					g_signal_caught;
 
 // error_codes
 typedef enum s_err_codes
@@ -131,6 +131,11 @@ char				*ft_strdup(const char *s1);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				**ft_split(const char *s, char c);
 
+// init_shell.c
+t_ancient			*init_ancient(t_path *paths);
+void				dup_fds(t_std_fds *std_fds);
+void				reset_std_fds(t_std_fds *std_fds);
+
 // tree_utils.c
 void				add_node(t_tree **tree, t_tree *node, int side);
 void				print_data(t_tree *tree);
@@ -141,12 +146,14 @@ int					strip_spaces(char **str);
 t_tree				*tokenization(char *str, t_ancient *ancient_one);
 t_tree				*tokenizer(char *str, t_tree **node);
 
-// tokens.c
+// tokens_1.c
 t_tree				*init_exp_node(char **str);
 t_tree				*init_log_op_node(char spl_op);
 t_tree				*init_op_node(char op);
 t_tree				*init_redir_node(char *redir);
 t_tree				*init_file_node(char *str, int start, int end);
+
+// tokens_2.c
 t_tree				*init_cmd_node(char **cmd);
 t_tree				*init_args_node(char **args, char *cmd);
 char				*exp_after_redir_node(char *str, char *first_half,
@@ -184,6 +191,10 @@ int					split_redirection(char *str, t_tree **node, int i);
 int					split_cmd(char *str, int i, t_tree **node);
 char				**split_args(char *str, char *cmd);
 
+// splits_utils.c
+char				*extract_cmd_from_redir(char *first_half, char *str,
+						int start, int append);
+
 // gallows.c
 int					gallows(t_tree *tree, char **env, int pipe_flag,
 						t_ancient *ancient_one);
@@ -206,8 +217,10 @@ int					handle_here_doc(int read_from);
 
 // handle_utils.c
 int					handle_input_redir(char *file_name, t_ancient *ancient_one);
-int					handle_output_redir(char *file_name, t_ancient *ancient_one);
-int					handle_append_redir(char *file_name, t_ancient *ancient_one);
+int					handle_output_redir(char *file_name,
+						t_ancient *ancient_one);
+int					handle_append_redir(char *file_name,
+						t_ancient *ancient_one);
 pid_t				left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one,
 						char **env);
 pid_t				right_pipe(int *pipefd, t_tree *tree,
@@ -231,16 +244,17 @@ char				*expanded_str(char *str, char *env_var, int start, int end);
 char				*env_expansion(char *str, t_env *env);
 
 // expansions_utils.c
-void 				expand_args(t_tree **arg_node, t_env *env);
-void 				expansions(t_tree **tree, t_env *env);
+void				expand_args(t_tree **arg_node, t_env *env);
+void				expansions(t_tree **tree, t_env *env);
 
 // paths.c
-t_path 				*init_paths(char **env);
-char 				*get_cwd(void);
+t_path				*init_paths(char **env);
+char				*get_cwd(void);
 t_path				*int_cd(void);
 
 // signals.c
-char  				*signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one);
+char				*signal_checkpoint(t_std_fds *std_fds,
+						t_ancient *ancient_one);
 void				handle_sigint(int sig);
 
 // helpers - raph
@@ -273,12 +287,12 @@ void				cd_cmd(char **str, t_path **paths);
 char				*new_path(char *cwd, int id);
 t_path				*ft_lstlast_path(t_path *lst);
 void				ft_lstadd_back_path(t_path **lst, t_path *new);
-void				add_NEWPWD(t_path **paths, t_path *new);
-void				add_OLDPWD(t_path **paths, t_path *new);
-void				add_OLDPWD_exp(t_path **paths, t_path *new);
+void				add_new_path(t_path **paths, t_path *new);
+void				add_old_pwd(t_path **paths, t_path *new);
+void				add_old_pwd_exp(t_path **paths, t_path *new);
 void				ft_append(t_path **paths, char *res);
 void				append_switch_struct(t_path **paths, t_path **temp);
-int 				check_old_pwd(t_path **paths);
+int					check_old_pwd(t_path **paths);
 
 void				unset_cmd(char **str, t_path **paths);
 
@@ -289,24 +303,36 @@ t_exp				*int_exp(char **env);
 void				exp_print(t_path **paths);
 t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
-void 				ap_env(t_env **env, char *res);
-int 				valid_export(char *str, char **res, char **sep, int check_for_plus);
-void 				export_t_env_plus(t_path **paths, char *tmp_char, char *sep, char *str);
-void 				export_t_exp_plus(t_path **paths, char *tmp_char, char *sep, char *str);
-void 				export_t_env(t_path **paths, char *tmp_char, char *sep, char *str);
-void 				export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str);
-int 				plus_equals_check(char *str);
-void 				plus_equals_export(t_path **paths, char **sep, char *str, int *i);
-void 				normal_export(t_path **paths, char **sep, char *str, int *i);
-char 				*if_with_equals_env(t_env *tmp, char *holder, char *tmp_char, char *sep);
-void 				holder_is_equals_env(t_env *tmp, char *sep, char *tmp_char);
-char 				*if_with_equals_exp(t_exp *tmp, char *holder, char *tmp_char, char *sep);
-void 				holder_is_equals_exp(t_exp *tmp, char *sep, char *tmp_char);
-void 				checker_which_mode(char *str, char *tmp_char, int *check, int *len_char);
-void 				append_check_equals(t_path **paths, char *only_str, char *joined_str, int check);
-void 				exp_loop(t_exp *tmp, char *only_str, char *joined_str, int check);
+void				ap_env(t_env **env, char *res);
+int					valid_export(char *str, char **res, char **sep,
+						int check_for_plus);
+void				export_t_env_plus(t_path **paths, char *tmp_char, char *sep,
+						char *str);
+void				export_t_exp_plus(t_path **paths, char *tmp_char, char *sep,
+						char *str);
+void				export_t_env(t_path **paths, char *tmp_char, char *sep,
+						char *str);
+void				export_t_exp(t_path **paths, char *tmp_char, char *sep,
+						char *str);
+int					plus_equals_check(char *str);
+void				plus_equals_export(t_path **paths, char **sep, char *str,
+						int *i);
+void				normal_export(t_path **paths, char **sep, char *str,
+						int *i);
+char				*if_with_equals_env(t_env *tmp, char *holder,
+						char *tmp_char, char *sep);
+void				holder_is_equals_env(t_env *tmp, char *sep, char *tmp_char);
+char				*if_with_equals_exp(t_exp *tmp, char *holder,
+						char *tmp_char, char *sep);
+void				holder_is_equals_exp(t_exp *tmp, char *sep, char *tmp_char);
+void				checker_which_mode(char *str, char *tmp_char, int *check,
+						int *len_char);
+void				append_check_equals(t_path **paths, char *only_str,
+						char *joined_str, int check);
+void				exp_loop(t_exp *tmp, char *only_str, char *joined_str,
+						int check);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 
-extern int			signal_caught;
+extern int			g_signal_caught;

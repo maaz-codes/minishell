@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lumberjack.c                                        :+:      :+:    :+:   */
+/*   lumberjack.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 13:06:11 by maakhan           #+#    #+#             */
-/*   Updated: 2024/11/30 09:52:57 by maakhan          ###   ########.fr       */
+/*   Created: 2024/12/22 17:42:01 by maakhan           #+#    #+#             */
+/*   Updated: 2024/12/22 17:42:02 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void mini_fuk(t_ancient *ancient_one, int flag)
+void	mini_fuk(t_ancient *ancient_one, int flag)
 {
 	if (flag == FREE_PATH)
 	{
@@ -27,9 +27,9 @@ void mini_fuk(t_ancient *ancient_one, int flag)
 	free(ancient_one);
 }
 
-void free_array(char **array)
+void	free_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!array)
@@ -42,7 +42,7 @@ void free_array(char **array)
 	free(array);
 }
 
-void chop_branch(t_tree *node)
+void	chop_branch(t_tree *node)
 {
 	if (!node)
 		return ;
@@ -55,7 +55,7 @@ void chop_branch(t_tree *node)
 	free(node);
 }
 
-t_tree *lumberjack(t_tree *tree)
+t_tree	*lumberjack(t_tree *tree)
 {
 	if (tree == NULL)
 		return (NULL);
