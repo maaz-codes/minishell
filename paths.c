@@ -36,9 +36,9 @@ t_path *init_paths(char **env)
 		print_exit(ERR_MALLOC);
     paths->env_struct = int_env(env);
 	if (!paths->env_struct)
-		print_exit(ERR_MALLOC);
+		paths->env_struct = NULL;
     paths->exp_struct = int_exp(env);
 	if (!paths->exp_struct)
-		print_exit(ERR_MALLOC);
+		paths->exp_struct = NULL;
 	return (paths);
 }
