@@ -21,6 +21,7 @@ int execution(t_tree *tree, char **env, t_ancient *ancient_one)
 	tree->level = 0;
 	if (tree->type == NODE_OPERATOR)
 		ancient_one->inside_pipe = TRUE;
+	printf("came to execution!\n");
 	gallows(tree, env, ancient_one->inside_pipe, ancient_one);
 	return (1);
 }
@@ -50,10 +51,8 @@ t_ancient *init_ancient(char **env, t_path *paths)
 
 t_tree *parsing(char *input, t_ancient *ancient_one)
 {
-	// input = env_expansion(input, ancient_one->paths->env_struct);
 	ancient_one->head = tokenization(input, ancient_one);
-	// expansions(&ancient_one->head, ancient_one->paths->env_struct);
-	// print_tree(ancient_one->head);
+	expansions(&(ancient_one->head), ancient_one->paths->env_struct);
 	return (ancient_one->head);
 }
 

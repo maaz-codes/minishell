@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/18 08:17:01 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 14:13:26 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,18 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag,
 	int	fd;
 
 	if (ft_strncmp(tree->data.redirection, "<", 2) == 0)
-		fd = handle_input_redir(tree->right->data.file);
+		fd = handle_input_redir(tree->right->data.file, ancient_one);
 	else if (ft_strncmp(tree->data.redirection, ">", 2) == 0)
-		fd = handle_output_redir(tree->right->data.file);
+		fd = handle_output_redir(tree->right->data.file, ancient_one);
 	else if (ft_strncmp(tree->data.redirection, ">>", 2) == 0)
-		fd = handle_append_redir(tree->right->data.file);
+		fd = handle_append_redir(tree->right->data.file, ancient_one);
 	else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
 		fd = handle_here_doc(tree->right->data.here_doc);
 	if (fd != -1)
+	{
+		close(fd);
 		gallows(tree->left, env, pipe_flag, ancient_one);
+	}
 	if (pipe_flag)
 		exit(1);
 }

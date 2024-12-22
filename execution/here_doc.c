@@ -6,32 +6,43 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/19 14:55:02 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 13:58:34 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	find_docs(t_tree *tree, t_ancient *ancient_one)
+int	here_docs_ahead(t_tree *tree)
+{
+	if (tree->type == NODE_REDIRECTION && ft_strncmp(tree->data.redirection, "<<", 2) == 0)
+		return (TRUE);
+	if (tree->left != NULL)
+		return (here_docs_ahead(tree->left));
+	if (tree->right != NULL)
+		return (here_docs_ahead(tree->right));
+	return (FALSE);
+}
+
+int	find_docs(t_tree *tree, t_ancient *ancient_one) 
 {
 	pid_t 	pid; 
 	int		status;
 	
-	if (tree->type == NODE_REDIRECTION)
-		if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
+	if (tree->type == NODE_REDIRECTION && ft_strncmp(tree->data.redirection, "<<", 2) == 0)
+	{
+		tree->right->data.here_doc = ft_here_doc(tree->right->data.expression, ancient_one, &pid);
+		waitpid(pid, &status, 0);
+		tree->right->type = NODE_HEREDOC;
+		if (WEXITSTATUS(status) == 1)
 		{
-			if (tree->right->type == NODE_LIMITER)
-				close (tree->right->data.here_doc);
-			tree->right->type = NODE_HEREDOC;
-			tree->right->data.here_doc = ft_here_doc(tree->right->data.expression, ancient_one, &pid);
-			waitpid(pid, &status, 0);
-			if (WEXITSTATUS(status) == 1)
-			{
-				ancient_one->exit_status = 1;
-				signal_caught = SIGINT;
-				return (close(tree->right->data.here_doc), FALSE);
-			}
+			ancient_one->exit_status = 1;
+			signal_caught = SIGINT;
+			return (close(tree->right->data.here_doc), FALSE);
 		}
+		if (tree->left != NULL)
+			if (here_docs_ahead(tree->left) == TRUE)
+				close(tree->right->data.here_doc);
+	}
 	if (tree->left != NULL)
 	{
 		return (find_docs(tree->left, ancient_one));
@@ -60,7 +71,7 @@ static void	read_write(char *limiter, int write_to)
 			break ;
 		if (line)
 		{	
-			if (!ft_strncmp(line, limiter, ft_strlen(limiter)))
+			if (!ft_strncmp(line, limiter, ft_strlen(limiter) + 1))
 				break ;
 			new_line = ft_strjoin(line, "\n");
 			write(write_to, new_line, ft_strlen(new_line));
@@ -88,7 +99,9 @@ int	ft_here_doc(char *limiter, t_ancient *ancient_one, pid_t *pid)
 		signal(SIGQUIT,SIG_IGN);
 		read_write(limiter, doc_pipe[1]);
 		close(doc_pipe[0]);
-		(free(limiter), mini_fuk(ancient_one, FREE_PATH), exit(signal_caught == SIGINT));
+		// print_tree(ancient_one->head);
+		// free(limiter);
+		(mini_fuk(ancient_one, FREE_PATH), exit(signal_caught == SIGINT));
 	}
 	close(doc_pipe[1]);
 	free(limiter);

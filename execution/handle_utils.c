@@ -6,13 +6,13 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:10:35 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/18 08:16:57 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 14:11:20 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_input_redir(char *file_name)
+int	handle_input_redir(char *file_name, t_ancient *ancient_one)
 {
 	int	fd;
 
@@ -22,24 +22,26 @@ int	handle_input_redir(char *file_name)
 		print_error(ERR_FILE);
 		return (fd);
 	}
-	dup2(fd, 0);
+	if (dup2(fd, 0) == -1)
+		(mini_fuk(ancient_one, FREE_PATH), print_exit(ERR_DUP));
 	return (fd);
 }
 
-int	handle_output_redir(char *file_name)
+int	handle_output_redir(char *file_name, t_ancient *ancient_one)
 {
 	int	fd;
 
 	fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		print_exit(ERR_FILE);
+		print_error(ERR_FILE);
 		return (fd);
 	}
-	dup2(fd, 1);
+	if (dup2(fd, 1) == -1)
+		(mini_fuk(ancient_one, FREE_PATH), print_exit(ERR_DUP));
 	return (fd);
 }
-int	handle_append_redir(char *file_name)
+int	handle_append_redir(char *file_name, t_ancient *ancient_one)
 {
 	int	fd;
 
@@ -49,7 +51,8 @@ int	handle_append_redir(char *file_name)
 		print_error(ERR_FILE);
 		return (fd);
 	}
-	dup2(fd, 1);
+	if (dup2(fd, 1))
+		(mini_fuk(ancient_one, FREE_PATH), print_exit(ERR_DUP));
 	return (fd);
 }
 
@@ -65,8 +68,10 @@ pid_t	left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one, char **env)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		close(pipefd[0]);
-		dup2(pipefd[1], 1), close(pipefd[1]);
-		gallows(tree->left, env, 1, ancient_one);
+		if (dup2(pipefd[1], 1))
+			(mini_fuk(ancient_one, FREE_PATH), print_exit(ERR_DUP)); 
+		close(pipefd[1]);	gallows(tree->left, env, 1, ancient_one);
+	
 	}
 	return (pid);
 }

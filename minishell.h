@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 11:33:12 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 14:12:40 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ typedef enum s_err_codes
 	ERR_FILE,
 	ERR_PIPE,
 	ERR_CMD,
-	ERR_READLINE
+	ERR_READLINE,
+	ERR_DUP
 }					t_err_codes;
 
 typedef struct s_env
@@ -119,7 +120,7 @@ typedef struct s_ancient
 	int				exit_status;
 }					t_ancient;
 
-void				rl_replace_line(const char *text, int clear_undo);
+// void				rl_replace_line(const char *text, int clear_undo);
 // helpers
 size_t				ft_strlen(const char *str);
 char				*ft_strchr(const char *s, int c);
@@ -204,9 +205,9 @@ void				handle_pipe(t_tree *tree, char **env, int pipe_flag,
 int					handle_here_doc(int read_from);
 
 // handle_utils.c
-int					handle_input_redir(char *file_name);
-int					handle_output_redir(char *file_name);
-int					handle_append_redir(char *file_name);
+int					handle_input_redir(char *file_name, t_ancient *ancient_one);
+int					handle_output_redir(char *file_name, t_ancient *ancient_one);
+int					handle_append_redir(char *file_name, t_ancient *ancient_one);
 pid_t				left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one,
 						char **env);
 pid_t				right_pipe(int *pipefd, t_tree *tree,
@@ -251,7 +252,7 @@ void				*ft_memset(void *b, int c, size_t len);
 unsigned long long	ft_atol(char *s);
 
 // for freeing;
-void				clear_all(t_path **paths, char **str);
+// void				clear_all(t_path **paths, char **str);
 void				ft_lstclear_path(t_path **lst);
 void				ft_lstclear_env(t_env **lst);
 void				ft_lstclear_exp(t_exp **lst);
