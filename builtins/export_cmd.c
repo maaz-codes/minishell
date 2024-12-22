@@ -44,41 +44,25 @@ void export_t_env(t_path **paths, char *tmp_char, char *sep, char *str)
 void export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
 {
     t_exp *tmp;
-    int i;
     int check;
+    int len_char;
     char *joined_str;
     char *only_str;
-
-    i = 0;
-    check = 1;
+    
     tmp = (*paths)->exp_struct;
-    while(str[i] != '=' && str[i])
-        i++;
-    if(i == ft_strlen(str))
-        check = 0;
     joined_str = ft_strjoin(tmp_char,sep);
     only_str = ft_strdup(str);
+    checker_which_mode(str,tmp_char,&check,&len_char);
     while(tmp)
     {
-        if(!ft_strncmp(tmp_char,tmp->exp, ft_strlen(tmp_char) - 1))
+        if(!ft_strncmp(tmp_char,tmp->exp,len_char))
         {   
-            free(tmp->exp);
-            if(!check)
-                tmp->exp = only_str;
-            else
-            {
-                tmp->exp = joined_str;
-                free(only_str);
-            }
+            exp_loop(tmp,only_str,joined_str,check);
             return ;
         }
         tmp = tmp->next;
     }
-    if(!check)
-        ap_exp(&(*paths)->exp_struct, only_str);
-    else
-        ap_exp(&(*paths)->exp_struct,joined_str);
-    (free(joined_str),free(only_str));
+    append_check_equals(paths, only_str, joined_str, check);
 }
 
 t_exp *int_exp(char **env)
@@ -109,12 +93,6 @@ void export_cmd(char **str, t_path **paths)
     int   check_for_plus;
 
     i = 1;
-    int f = 0;
-    while(str[f])
-    {
-        printf("%s\n",str[f]);
-        f++;
-    }
     if(!ft_strncmp("export",str[0],7) && str[1] == NULL)
         exp_print(paths);
     else if(!ft_strncmp("export",str[0],7) && str[1] != NULL)
@@ -123,9 +101,11 @@ void export_cmd(char **str, t_path **paths)
         {   
             check_for_plus = plus_equals_check(str[i]);
             sep = separator(str[i], check_for_plus);
-            if(!check_for_plus)
+            if(!sep)
+                i++;
+            if(!check_for_plus && sep)
                 normal_export(paths,sep,str[i],&i);
-            else
+            else if(check_for_plus && sep)
                 plus_equals_export(paths,sep,str[i],&i);
         }
     }

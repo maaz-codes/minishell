@@ -26,7 +26,8 @@ int execution(t_tree *tree, char **env, t_ancient *ancient_one)
 }
 
 t_ancient *init_ancient(char **env, t_path *paths)
-{
+{	
+	(void) 		**env;
 	t_ancient 	*ancient_one;
 	t_std_fds 	std_fds;
 
@@ -51,13 +52,14 @@ t_tree *parsing(char *input, t_ancient *ancient_one)
 {
 	// input = env_expansion(input, ancient_one->paths->env_struct);
 	ancient_one->head = tokenization(input, ancient_one);
-	expansions(&ancient_one->head, ancient_one->paths->env_struct);
+	// expansions(&ancient_one->head, ancient_one->paths->env_struct);
 	// print_tree(ancient_one->head);
 	return (ancient_one->head);
 }
 
 int	main(int ac, char **av, char **env)
-{
+{	
+	(void)		**av;
 	char		*input;
 	t_tree		*tree;
 	t_ancient 	*ancient_one;

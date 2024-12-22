@@ -1,23 +1,4 @@
-#include "../minishell.h"
-
-t_path	*ft_lstlast_path(t_path *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-t_env	*lstlast_env(t_env *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
+#include "../../minishell.h"
 
 void	ft_lstadd_back_path(t_path **lst, t_path *new)
 {
@@ -29,24 +10,32 @@ void	ft_lstadd_back_path(t_path **lst, t_path *new)
 		*lst = new;
 }
 
-void add_NEWPWD(t_path **paths, t_path *new)
+void add_env_pwd(t_path **paths, t_path *new, char *path_name)
 {   
     t_env *tmp_env;
-    t_exp *tmp_exp;
-    char *path_name;
 
-    path_name = ft_strdup("PWD=");
     tmp_env = (*paths)->env_struct;
-    tmp_exp = (*paths)->exp_struct;
     while(tmp_env)
     {   
         if(!ft_strncmp(tmp_env->env,"PWD=",4))
         {   
             free(tmp_env->env);
             tmp_env->env = ft_strjoin(path_name,new->pwd);
+            return ;
         }
         tmp_env = tmp_env->next;
     }
+}
+
+void add_NEWPWD(t_path **paths, t_path *new)
+{   
+    
+    t_exp *tmp_exp;
+    char *path_name;
+
+    path_name = ft_strdup("PWD=");
+    tmp_exp = (*paths)->exp_struct;
+    add_env_pwd(paths,new,path_name);
     while(tmp_exp)
     {   
         if(!ft_strncmp(tmp_exp->exp,"PWD=",4))
@@ -58,7 +47,6 @@ void add_NEWPWD(t_path **paths, t_path *new)
         }
         tmp_exp = tmp_exp->next;
     }
-
     return ;
 }
 
@@ -89,6 +77,7 @@ void add_OLDPWD(t_path **paths, t_path *new)
     free(path_name);
     return ;
 }
+
 
 void add_OLDPWD_exp(t_path **paths, t_path *new)
 {

@@ -34,23 +34,25 @@ SRCS = 	minishell.c \
 		builtins/echo_cmd.c \
 		builtins/pwd_cmd.c \
 		builtins/cd_cmd.c \
-		builtins/cd_utils.c \
-		builtins/cd_utils_2.c \
 		builtins/exit_cmd.c \
 		builtins/env_cmd.c \
 		builtins/unset_cmd.c \
 		builtins/export_cmd.c \
-		builtins/exit_utils.c \
-		builtins/export_utils.c \
-		builtins/export_utils_2.c \
-		builtins/export_utils_3.c \
-			helpers/ft_atol.c \
-			helpers/ft_memset.c \
-			helpers/ft_strlcpy.c \
-			helpers/ft_atoi.c \
-			helpers/ft_calloc.c \
-			helpers/ft_bzero.c \
-			helpers/ft_lstclear.c \
+			builtins/utils/cd_utils_1.c \
+			builtins/utils/cd_utils_2.c \
+			builtins/utils/exit_utils_1.c \
+			builtins/utils/export_utils_1.c \
+			builtins/utils/export_utils_2.c \
+			builtins/utils/export_utils_3.c \
+			builtins/utils/export_utils_4.c \
+			builtins/utils/export_utils_5.c \
+				helpers/ft_atol.c \
+				helpers/ft_memset.c \
+				helpers/ft_strlcpy.c \
+				helpers/ft_atoi.c \
+				helpers/ft_calloc.c \
+				helpers/ft_bzero.c \
+				helpers/ft_lstclear.c \
 
 OBJS = $(SRCS:.c=.o)
 LDFLAGS = -lreadline 

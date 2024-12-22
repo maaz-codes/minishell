@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void ft_append(t_path **paths, char *res)
 {   
@@ -27,4 +27,36 @@ void append_switch_struct(t_path **paths, t_path **temp)
     (*temp)->pwd = ft_strdup(ft_lstlast_path(*paths)->pwd_old);
     (*temp)->pwd_old = ft_strdup(ft_lstlast_path(*paths)->pwd);
     (*temp)->next = NULL;
+}
+
+t_path	*ft_lstlast_path(t_path *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
+t_env	*lstlast_env(t_env *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
+int check_old_pwd(t_path **paths)
+{
+    t_env *tmp;
+
+    tmp = (*paths)->env_struct;
+    while(tmp)
+    {
+        if(!ft_strncmp(tmp->env,"OLDPWD=",7))
+            return (1);
+        tmp = tmp->next;
+    }
+    return (0);
 }

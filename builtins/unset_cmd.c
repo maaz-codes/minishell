@@ -75,7 +75,6 @@ void unset_exp_list(t_path **paths, char *str, int *i)
     }
 }
 
-
 void unset_env_list(t_path **paths, char *str, int *i)
 {
     t_env *tmp;

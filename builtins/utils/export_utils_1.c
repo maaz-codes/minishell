@@ -1,14 +1,25 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 char *holder_env(char *str, int len, int check)
 {
     char *holder;
+    char *check_str;
 
-    holder = malloc(sizeof(char *) * len + 1);
+    if(!str)
+        return NULL;
     if(!check)
+    {
+        holder = ft_calloc(len + 1,sizeof(char *));
+        if(!holder)
+            return NULL;
         ft_strlcpy(holder,str,ft_strlen(str));
+    }
     else
-        ft_strlcpy(holder,str + (len + 1),ft_strlen(str) - (len - 1));
+    {
+        check_str = ft_strchr(str,'=');
+        check_str++;
+        holder = ft_strdup(check_str);
+    }
     return (holder);
 }
 
@@ -21,6 +32,7 @@ int error_exp(char *str, char **res, char **sep)
         free_array(sep);
     return (0);
 }
+
 int valid_export(char *str, char **res, char **sep, int check_for_plus)
 {
     int i;
@@ -65,6 +77,7 @@ char **append_exp(char *sep,char *holder)
     res[2] = NULL;
     return (res);
 }
+
 char **separator(char *str, int check_for_plus)
 {
     int len;
@@ -87,10 +100,10 @@ char **separator(char *str, int check_for_plus)
         check = 0;
     holder = holder_env(str,len,check);
     res = append_exp(sep[0],holder);
+    free(holder);
     if(!valid_export(sep[0],res,sep,check_for_plus))
         return (NULL);
     free_array(sep);
-    free(holder);
     return(res);
 }
 

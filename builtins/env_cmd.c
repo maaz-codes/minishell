@@ -50,7 +50,8 @@ void env_cmd(char **str, t_path **paths)
     new_node = (*paths)->env_struct;
     if(str[1] != NULL)
     {
-        printf("env: too many arguments\n");
+        printf("env: %s: No such file or directory\n", str[1]);
+        signal_caught = 127;
         return ;
     }
     while(new_node)
