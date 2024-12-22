@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 13:11:19 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 11:34:17 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/22 15:51:52 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ int	valid_dash_n(char *str)
 	int	i;
 
 	i = 1;
-	while (str[i] == 'n' && str[i])
-		i++;
-	if (ft_strlen(str) == i)
-		return (1);
-	else
-		return (0);
+    if (str[0] == '-')
+    {
+        while (str[i] == 'n' && str[i])
+            i++;
+        if (ft_strlen(str) == i)
+            return (1);
+        else
+            return (0);      
+    }
+    return (0);
 }
 
 void	n_check(int *checker, int *i, char **str)
