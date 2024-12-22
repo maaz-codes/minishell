@@ -25,7 +25,6 @@ char *new_path(char *cwd, int id)
         signal_caught = SIGINT;
         return NULL;
     }
-    printf("new path: %s\n",new_path);
     return new_path;
 }
 
@@ -101,7 +100,7 @@ char *switch_cd(t_path **paths)
         (free(res),printf("error switch: %s\n",res));
         return NULL;
     }
-    printf("new path: %s\n",res);
+    printf("%s\n",res);
     return (res);
 }
 
