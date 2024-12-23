@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:36 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:32:55 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 12:40:06 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ int	valid_export(char *str, char **res, char **sep, int check_for_plus)
 	while (str[i])
 	{
 		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
-			|| str[i] == '_')
-			len++;
-		else if ((str[i] >= '0' && str[i] <= '9'))
+			|| str[i] == '_' || str[i] >= '0' && str[i] <= '9')
 			len++;
 		i++;
 	}
