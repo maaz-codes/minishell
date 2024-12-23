@@ -273,29 +273,30 @@ void				ft_lstclear_exp(t_exp **lst);
 
 // Builtins
 void				echo_cmd(char **str, t_shl *shl);
-void				pwd_cmd(char **str);
+
+void				pwd_cmd(char **str, t_shl *shl);
 
 void				exit_cmd(t_path **paths, char **str, t_shl *shl);
 void				valid_num(char *s, char **str, t_shl *shl);
 void				error_msg(char **str, t_shl *shl);
 
-void				env_cmd(char **str, t_path **paths);
+void				env_cmd(char **str, t_path **paths, t_shl *shl);
 t_env				*int_env(char **env);
 
-void				cd_cmd(char **str, t_path **paths);
+void				cd_cmd(char **str, t_path **paths, t_shl *shl);
 char				*new_path(char *cwd, int id);
 t_path				*ft_lstlast_path(t_path *lst);
 void				ft_lstadd_back_path(t_path **lst, t_path *new);
 void				add_new_pwd(t_path **paths, t_path *new);
 void				add_old_pwd(t_path **paths, t_path *new);
 void				add_old_pwd_exp(t_path **paths, t_path *new);
-void				ft_append(t_path **paths, char *res);
+void				ft_append(t_path **paths, char *res, t_shl *shl);
 void				append_switch_struct(t_path **paths, t_path **temp);
 int					check_old_pwd(t_path **paths);
 
-void				unset_cmd(char **str, t_path **paths);
+void				unset_cmd(char **str, t_path **paths, t_shl *shl);
 
-void				export_cmd(char **str, t_path **paths);
+void				export_cmd(char **str, t_path **paths, t_shl *shl);
 t_env				*lstlast_env(t_env *lst);
 char				**separator(char *str, int check_for_plus);
 t_exp				*int_exp(char **env);
@@ -330,6 +331,7 @@ void				append_check_equals(t_path **paths, char *only_str,
 						char *joined_str, int check);
 void				exp_loop(t_exp *tmp, char *only_str, char *joined_str,
 						int check);
+void				check_sep_export(char **sep, int *i, int *exit_status);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);

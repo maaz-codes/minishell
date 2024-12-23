@@ -45,11 +45,10 @@ void	echo_cmd(char **str, t_shl *shl)
 {
 	int	i;
 	int	checker;
-	int	f;
 
 	checker = 0;
 	i = 1;
-	f = 0;
+	
 	if (!ft_strncmp(str[0], "echo", 5))
 	{
 		if (str[1] == NULL)
@@ -69,6 +68,3 @@ void	echo_cmd(char **str, t_shl *shl)
 	g_signal_caught = 0;
 	shl->exit_status = 0;
 }
-
-		// else if (!ft_strncmp(str[1], "$?", 2))
-		// 	return (printf("exit status: %d\n", shl->exit_status));

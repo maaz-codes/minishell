@@ -97,13 +97,15 @@ t_exp	*int_exp(char **env)
 	return (node_new);
 }
 
-void	export_cmd(char **str, t_path **paths)
+void	export_cmd(char **str, t_path **paths, t_shl *shl)
 {
 	t_env	*tmp;
 	char	**sep;
 	int		i;
 	int		check_for_plus;
+	int 	exit_status;
 
+	exit_status = 0;
 	i = 1;
 	if (!ft_strncmp("export", str[0], 7) && str[1] == NULL)
 		exp_print(paths, 0);
@@ -113,13 +115,12 @@ void	export_cmd(char **str, t_path **paths)
 		{
 			check_for_plus = plus_equals_check(str[i]);
 			sep = separator(str[i], check_for_plus);
-			if (!sep)
-				i++;
+			check_sep_export(sep, &i, &exit_status);
 			if (!check_for_plus && sep)
 				normal_export(paths, sep, str[i], &i);
 			else if (check_for_plus && sep)
 				plus_equals_export(paths, sep, str[i], &i);
 		}
 	}
-	return ;
+	shl->exit_status = exit_status;
 }

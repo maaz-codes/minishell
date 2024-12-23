@@ -110,7 +110,7 @@ void	unset_env_list(t_path **paths, char *str, int *i)
 	}
 }
 
-void	unset_cmd(char **str, t_path **paths)
+void	unset_cmd(char **str, t_path **paths, t_shl *shl)
 {
 	t_exp	*tmp;
 	int		i;
@@ -123,4 +123,6 @@ void	unset_cmd(char **str, t_path **paths)
 	i = 1;
 	while (str[i])
 		unset_env_list(paths, str[i], &i);
+	g_signal_caught = 0;
+	shl->exit_status = 0;
 }

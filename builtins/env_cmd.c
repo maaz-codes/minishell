@@ -56,15 +56,15 @@ t_env	*int_env(char **env)
 	return (node_new);
 }
 
-void	env_cmd(char **str, t_path **paths)
+void	env_cmd(char **str, t_path **paths, t_shl *shl)
 {
 	t_env	*new_node;
 
 	new_node = (*paths)->env_struct;
 	if (str[1] != NULL)
 	{
-		printf("env: %s: No such file or directory\n", str[1]);
-		g_signal_caught = 127;
+		printf("env: %s: No such file or directory \n", str[1]);
+		shl->exit_status = 127;
 		return ;
 	}
 	while (new_node)
@@ -72,4 +72,6 @@ void	env_cmd(char **str, t_path **paths)
 		printf("%s\n", new_node->env);
 		new_node = new_node->next;
 	}
+	g_signal_caught = 0;
+	shl->exit_status = 0;
 }

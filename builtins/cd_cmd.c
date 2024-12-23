@@ -37,7 +37,6 @@ char	*new_path(char *cwd, int id)
 		g_signal_caught = SIGINT;
 		return (NULL);
 	}
-	printf("new path: %s\n", new_path);
 	return (new_path);
 }
 
@@ -117,7 +116,7 @@ char	*switch_cd(t_path **paths)
 	return (res);
 }
 
-void	cd_cmd(char **str, t_path **paths)
+void	cd_cmd(char **str, t_path **paths, t_shl *shl)
 {
 	char	cwd[1024];
 	char	*res;
@@ -140,7 +139,7 @@ void	cd_cmd(char **str, t_path **paths)
 	else if (str[1] != NULL)
 		res = new_path(str[1], 0);
 	if (check == 0 && res)
-		ft_append(paths, res);
+		ft_append(paths, res, shl);
 	if (res)
 		free(res);
 }

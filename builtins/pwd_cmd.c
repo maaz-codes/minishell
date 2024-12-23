@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	pwd_cmd(char **str)
+void	pwd_cmd(char **str, t_shl *shl)
 {
 	char	cwd[1024];
 
@@ -22,7 +22,15 @@ void	pwd_cmd(char **str)
 		return ;
 	}
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	{	
 		printf("%s\n", cwd);
+		g_signal_caught = 0;
+		shl->exit_status = 0;
+	}
 	else
+	{
 		printf("error");
+		nuke(shl, TNT);
+		exit(EXIT_FAILURE);
+	}
 }

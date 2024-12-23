@@ -17,15 +17,15 @@ void	handle_builtin(t_tree *tree, t_path *paths, t_shl *shl)
 	if (!ft_strncmp(tree->data.cmd, "echo", 5))
 		echo_cmd(tree->left->data.args, shl);
 	else if (!ft_strncmp(tree->data.cmd, "pwd", 4))
-		pwd_cmd(tree->left->data.args);
+		pwd_cmd(tree->left->data.args, shl);
 	else if (!ft_strncmp(tree->data.cmd, "cd", 3))
-		cd_cmd(tree->left->data.args, &paths);
+		cd_cmd(tree->left->data.args, &paths, shl);
 	else if (!ft_strncmp(tree->data.cmd, "export", 7))
-		export_cmd(tree->left->data.args, &paths);
+		export_cmd(tree->left->data.args, &paths, shl);
 	else if (!ft_strncmp(tree->data.cmd, "unset", 6))
-		unset_cmd(tree->left->data.args, &paths);
+		unset_cmd(tree->left->data.args, &paths, shl);
 	else if (!ft_strncmp(tree->data.cmd, "env", 4))
-		env_cmd(tree->left->data.args, &paths);
+		env_cmd(tree->left->data.args, &paths, shl);
 	else if (!ft_strncmp(tree->data.cmd, "exit", 5))
 		exit_cmd(&paths, tree->left->data.args, shl);
 }

@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-void	ft_append(t_path **paths, char *res)
+void	ft_append(t_path **paths, char *res, t_shl *shl)
 {
 	t_path	*temp;
 	char	*old_path;
@@ -29,6 +29,8 @@ void	ft_append(t_path **paths, char *res)
 	(add_new_pwd(paths, temp), add_old_pwd(paths, temp));
 	add_old_pwd_exp(paths, temp);
 	ft_lstadd_back_path(paths, temp);
+	g_signal_caught = 0;
+	shl->exit_status = 0;
 }
 
 void	append_switch_struct(t_path **paths, t_path **temp)

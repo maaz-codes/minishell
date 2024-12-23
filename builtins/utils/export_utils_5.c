@@ -53,3 +53,12 @@ void	exp_loop(t_exp *tmp, char *only_str, char *joined_str, int check)
 		free(only_str);
 	}
 }
+
+void check_sep_export(char **sep, int *i, int *exit_status)
+{	
+	if (!sep)
+	{
+		*i += 1;
+		*exit_status = 1;
+	}
+}
