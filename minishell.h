@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:42:02 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 13:24:43 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ void				free_array(char **array);
 void				nuke(t_shl *shl, int flag);
 
 // splits.c
-int					count_args(char *str);
 int					split_operator(char *str, t_tree **node, int i);
 int					split_redirection(char *str, t_tree **node, int i);
 int					split_cmd(char *str, int i, t_tree **node);
@@ -196,6 +195,10 @@ char				**split_args(char *str, char *cmd);
 // splits_utils.c
 char				*extract_cmd_from_redir(char *first_half, char *str,
 						int start, int append);
+int					count_args(char *str);
+void				create_args_array(char *str, char ***args);
+int					break_skip_spaces(char *str, int *i);
+int					skip_qoutes(char *str, int *i);
 
 // gallows.c
 int					gallows(t_tree *tree, char **env, int pipe_flag,
@@ -207,8 +210,7 @@ char				*ft_cmd_exits(char **env, char *temp_cmd);
 char				**array_dup(char **array);
 
 // handle_nodes.c
-void				handle_builtin(t_tree *tree, t_path *paths,
-						t_shl *shl);
+void				handle_builtin(t_tree *tree, t_path *paths, t_shl *shl);
 void				handle_cmd(t_tree *tree, char **env, int pipe_flag,
 						t_shl *shl);
 void				handle_redir(t_tree *tree, char **env, int pipe_flag,
@@ -219,19 +221,16 @@ int					handle_here_doc(int read_from);
 
 // handle_utils.c
 int					handle_input_redir(char *file_name, t_shl *shl);
-int					handle_output_redir(char *file_name,
-						t_shl *shl);
-int					handle_append_redir(char *file_name,
-						t_shl *shl);
+int					handle_output_redir(char *file_name, t_shl *shl);
+int					handle_append_redir(char *file_name, t_shl *shl);
 pid_t				left_pipe(int *pipefd, t_tree *tree, t_shl *shl,
 						char **env);
-pid_t				right_pipe(int *pipefd, t_tree *tree,
-						t_shl *shl, char **env);
+pid_t				right_pipe(int *pipefd, t_tree *tree, t_shl *shl,
+						char **env);
 
 // here_doc
 int					find_docs(t_tree *tree, t_shl *shl);
-int					ft_hdoc(char *limiter, t_shl *shl,
-						pid_t *pid);
+int					ft_hdoc(char *limiter, t_shl *shl, pid_t *pid);
 
 // syntax.c
 int					check_log_op_node(t_tree *node);
@@ -255,8 +254,7 @@ char				*get_cwd(void);
 t_path				*int_cd(void);
 
 // signals.c
-char				*signal_checkpoint(t_std_fds *std_fds,
-						t_shl *shl);
+char				*signal_checkpoint(t_std_fds *std_fds, t_shl *shl);
 void				handle_sigint(int sig);
 
 // helpers - raph
@@ -277,8 +275,7 @@ void				ft_lstclear_exp(t_exp **lst);
 void				echo_cmd(char **str, t_shl *shl);
 void				pwd_cmd(char **str);
 
-void				exit_cmd(t_path **paths, char **str,
-						t_shl *shl);
+void				exit_cmd(t_path **paths, char **str, t_shl *shl);
 void				valid_num(char *s, char **str, t_shl *shl);
 void				error_msg(char **str, t_shl *shl);
 

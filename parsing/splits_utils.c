@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:17:24 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:17:40 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 13:25:13 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,78 @@ char	*extract_cmd_from_redir(char *first_half, char *str, int start,
 	if (ft_strlen(cmd_flags) == 0)
 		return (free(cmd_flags), NULL);
 	return (cmd_flags);
+}
+
+int	skip_qoutes(char *str, int *i)
+{
+	if (str[*i] == '"' || str[*i] == '\'')
+	{
+		*i = inside_qoutes(str[*i], str, *i);
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+int	break_skip_spaces(char *str, int *i)
+{
+	if (skip_spaces(str, i))
+	{
+		if (str[*i] == '\0')
+			return (TRUE);
+		*i = *i - 1;
+	}
+	return (FALSE);
+}
+
+void	create_args_array(char *str, char ***args)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = -1;
+	j = 0;
+	k = -1;
+	while (++i <= ft_strlen(str))
+	{
+		if (skip_qoutes(str, &i))
+			continue ;
+		else
+		{
+			if (str[i] == ' ' || str[i] == '\0')
+			{
+				(*args)[++k] = remove_qoutes(ft_substr(str, j, i - j));
+				if (break_skip_spaces(str, &i))
+					break ;
+				j = i + 1;
+			}
+		}
+	}
+	(*args)[++k] = NULL;
+}
+
+int	count_args(char *str)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = -1;
+	while (++i <= ft_strlen(str))
+	{
+		if (str[i] == '"' || str[i] == '\'')
+		{
+			i = inside_qoutes(str[i], str, i);
+			continue ;
+		}
+		else
+		{
+			if (str[i] == ' ' || str[i] == '\0')
+				count++;
+			if (skip_spaces(str, &i))
+				if (str[i] == '\0')
+					break ;
+		}
+	}
+	return (count);
 }
