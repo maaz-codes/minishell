@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 09:21:49 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 09:52:38 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,17 @@ char	*extract_env_var(char *str, int start, int *index)
 	char	*env_var;
 
 	end = start;
-	if (str[start] >= '0' && str[start] <= '9')
+	if (str[start] == '?')
 		start++;
 	else
 	{
-		while ((str[start] >= 'a' && str[start] <= 'z') || (str[start] >= 'A'
-				&& str[start] <= 'Z') || str[start] == '_' || (str[start] >= '0'
-				&& str[start] <= '9'))
+		if (str[start] >= '0' && str[start] <= '9')
 			start++;
+		else
+			while ((str[start] >= 'a' && str[start] <= 'z') || (str[start] >= 'A'
+					&& str[start] <= 'Z') || str[start] == '_' || (str[start] >= '0'
+					&& str[start] <= '9'))
+				start++;
 	}
 	env_var = ft_substr(str, end, start - end);
 	if (!env_var)
@@ -36,7 +39,7 @@ char	*extract_env_var(char *str, int start, int *index)
 	return (env_var);
 }
 
-char	*assign_value(char *env_var, t_env *env)
+char	*assign_env_value(char *env_var, t_env *env)
 {
 	char	*env_value;
 	char	*env_compare;
@@ -87,7 +90,19 @@ char	*expanded_str(char *str, char *env_var, int start, int end)
 	return (free(str), free(env_var), expanded);
 }
 
-char	*env_expansion(char *str, t_env *env)
+char *assign_value(char *env_var, t_env *env, t_ancient *ancient_one)
+{
+	if (ft_strncmp(env_var, "?", 1) == 0)
+	{
+		free(env_var);
+		env_var = ft_itoa(ancient_one->exit_status);
+	}
+	else
+		env_var = assign_env_value(env_var, env);
+	return (env_var);
+}
+
+char	*env_expansion(char *str, t_env *env, t_ancient *ancient_one)
 {
 	int		i;
 	int		j;
@@ -105,7 +120,7 @@ char	*env_expansion(char *str, t_env *env)
 		{
 			j = i;
 			env_var = extract_env_var(str, i + 1, &i);
-			env_var = assign_value(env_var, env);
+			env_var = assign_value(env_var, env, ancient_one);
 			str = expanded_str(str, env_var, j, i);
 		}
 		i++;

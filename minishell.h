@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 18:30:07 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 09:45:44 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ typedef struct s_ancient
 }					t_ancient;
 
 // void				rl_replace_line(const char *text, int clear_undo);
+
 // helpers
 size_t				ft_strlen(const char *str);
 char				*ft_strchr(const char *s, int c);
@@ -130,6 +131,7 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strdup(const char *s1);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				**ft_split(const char *s, char c);
+char				*ft_itoa(int n);
 
 // init_shell.c
 t_ancient			*init_ancient(t_path *paths);
@@ -239,13 +241,13 @@ int					syntax_checker(t_tree *tree);
 
 // expansions.c
 char				*extract_env_var(char *str, int start, int *index);
-char				*assign_value(char *env_var, t_env *env);
+char				*assign_env_value(char *env_var, t_env *env);
 char				*expanded_str(char *str, char *env_var, int start, int end);
-char				*env_expansion(char *str, t_env *env);
+char				*env_expansion(char *str, t_env *env, t_ancient *ancient_one);
 
 // expansions_utils.c
-void				expand_args(t_tree **arg_node, t_env *env);
-void				expansions(t_tree **tree, t_env *env);
+void				expand_args(t_tree **arg_node, t_env *env, t_ancient *ancient_one);
+void				expansions(t_tree **tree, t_env *env, t_ancient *ancient_one);
 
 // paths.c
 t_path				*init_paths(char **env);

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:50:55 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:23:21 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 09:46:00 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	execution(t_tree *tree, char **env, t_ancient *ancient_one)
 static t_tree	*parsing(char *input, t_ancient *ancient_one)
 {
 	ancient_one->head = tokenization(input, ancient_one);
-	expansions(&(ancient_one->head), ancient_one->paths->env_struct);
+	expansions(&(ancient_one->head), ancient_one->paths->env_struct, ancient_one);
 	return (ancient_one->head);
 }
 

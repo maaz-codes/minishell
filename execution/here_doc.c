@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:04:43 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 09:47:30 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	handle_heredoc_sig(int sig)
 	}
 }
 
-static void	read_write(char *limiter, int write_to, t_env *env)
+static void	read_write(char *limiter, int write_to, t_env *env, t_ancient *ancient_one)
 {
 	char	*new_line;
 	char	*line;
@@ -79,7 +79,7 @@ static void	read_write(char *limiter, int write_to, t_env *env)
 			if (!ft_strncmp(line, limiter, ft_strlen(limiter) + 1))
 				break ;
 			new_line = ft_strjoin(line, "\n");
-			write(write_to, env_expansion(new_line, env), ft_strlen(new_line));
+			write(write_to, env_expansion(new_line, env, ancient_one), ft_strlen(new_line));
 			free_str(&new_line);
 			free_str(&line);
 		}
@@ -102,7 +102,7 @@ int	ft_here_doc(char *limiter, t_ancient *ancient_one, pid_t *pid)
 	{
 		signal(SIGINT, handle_heredoc_sig);
 		signal(SIGQUIT, SIG_IGN);
-		read_write(limiter, doc_pipe[1], ancient_one->paths->env_struct);
+		read_write(limiter, doc_pipe[1], ancient_one->paths->env_struct, ancient_one);
 		close(doc_pipe[0]);
 		(mini_fuk(ancient_one, FREE_PATH), exit(g_signal_caught == SIGINT));
 	}

@@ -26,6 +26,7 @@ SRCS = 	minishell.c \
 					helpers/ft_strncmp.c \
 					helpers/ft_strjoin.c \
 					helpers/ft_split.c \
+					helpers/ft_itoa.c \
 						parsing/qoutes.c \
 						parsing/splits.c \
 						parsing/splits_utils.c \
