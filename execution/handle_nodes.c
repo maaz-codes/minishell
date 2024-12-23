@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 16:52:34 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 10:45:22 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag,
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status) != 0)
 			ancient_one->exit_status = WEXITSTATUS(status);
+		printf("exit_code: %d\n", ancient_one->exit_status);
 	}
 	else
 	{
@@ -78,8 +79,13 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag,
 		close(fd);
 		gallows(tree->left, env, pipe_flag, ancient_one);
 	}
+	else
+	{
+		ancient_one->exit_status = 1;
+		printf("exit_code: %d\n", ancient_one->exit_status);
+	}
 	if (pipe_flag)
-		exit(1);
+		exit(EXIT_SUCCESS);
 }
 
 void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
