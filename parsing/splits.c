@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:15:45 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 18:16:13 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:01:54 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	split_cmd(char *str, int i, t_tree **node)
 		args = ft_substr(str, 0, ft_strlen(str));
 		if (!args)
 			(free(str), print_exit(ERR_MALLOC));
-		add_node(node, init_args_node(&args, (*node)->data.command), LEFT);
+		add_node(node, init_args_node(&args, (*node)->data.cmd), LEFT);
 		free(str);
 		free(node_tmp);
 		return (1);

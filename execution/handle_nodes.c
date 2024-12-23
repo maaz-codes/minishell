@@ -6,38 +6,37 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 10:45:22 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:28:50 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_builtin(t_tree *tree, t_path *paths, t_ancient *ancient_one)
+void	handle_builtin(t_tree *tree, t_path *paths, t_shl *shl)
 {
-	if (!ft_strncmp(tree->data.command, "echo", 5))
-		echo_cmd(tree->left->data.argument, ancient_one);
-	else if (!ft_strncmp(tree->data.command, "pwd", 4))
-		pwd_cmd(tree->left->data.argument);
-	else if (!ft_strncmp(tree->data.command, "cd", 3))
-		cd_cmd(tree->left->data.argument, &paths);
-	else if (!ft_strncmp(tree->data.command, "export", 7))
-		export_cmd(tree->left->data.argument, &paths);
-	else if (!ft_strncmp(tree->data.command, "unset", 6))
-		unset_cmd(tree->left->data.argument, &paths);
-	else if (!ft_strncmp(tree->data.command, "env", 4))
-		env_cmd(tree->left->data.argument, &paths);
-	else if (!ft_strncmp(tree->data.command, "exit", 5))
-		exit_cmd(&paths, tree->left->data.argument, ancient_one);
+	if (!ft_strncmp(tree->data.cmd, "echo", 5))
+		echo_cmd(tree->left->data.args, shl);
+	else if (!ft_strncmp(tree->data.cmd, "pwd", 4))
+		pwd_cmd(tree->left->data.args);
+	else if (!ft_strncmp(tree->data.cmd, "cd", 3))
+		cd_cmd(tree->left->data.args, &paths);
+	else if (!ft_strncmp(tree->data.cmd, "export", 7))
+		export_cmd(tree->left->data.args, &paths);
+	else if (!ft_strncmp(tree->data.cmd, "unset", 6))
+		unset_cmd(tree->left->data.args, &paths);
+	else if (!ft_strncmp(tree->data.cmd, "env", 4))
+		env_cmd(tree->left->data.args, &paths);
+	else if (!ft_strncmp(tree->data.cmd, "exit", 5))
+		exit_cmd(&paths, tree->left->data.args, shl);
 }
 
-void	handle_cmd(t_tree *tree, char **env, int pipe_flag,
-		t_ancient *ancient_one)
+void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 {
 	pid_t	pid;
 	int		status;
 	char	**args;
 
-	args = array_dup(tree->left->data.argument);
+	args = array_dup(tree->left->data.args);
 	if (!pipe_flag)
 	{
 		pid = fork();
@@ -45,51 +44,49 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag,
 			return ;
 		if (pid == 0)
 		{
-			mini_fuk(ancient_one, FREE_PATH);
+			nuke(shl, FREE_PATH);
 			execute(args, env);
 		}
 		free_array(args);
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status) != 0)
-			ancient_one->exit_status = WEXITSTATUS(status);
-		printf("exit_code: %d\n", ancient_one->exit_status);
+			shl->exit_status = WEXITSTATUS(status);
+		printf("exit_code: %d\n", shl->exit_status);
 	}
 	else
 	{
-		mini_fuk(ancient_one, FREE_PATH);
+		nuke(shl, FREE_PATH);
 		execute(args, env);
 	}
 }
 
-void	handle_redir(t_tree *tree, char **env, int pipe_flag,
-		t_ancient *ancient_one)
+void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 {
 	int	fd;
 
-	if (ft_strncmp(tree->data.redirection, "<", 2) == 0)
-		fd = handle_input_redir(tree->right->data.file, ancient_one);
-	else if (ft_strncmp(tree->data.redirection, ">", 2) == 0)
-		fd = handle_output_redir(tree->right->data.file, ancient_one);
-	else if (ft_strncmp(tree->data.redirection, ">>", 2) == 0)
-		fd = handle_append_redir(tree->right->data.file, ancient_one);
-	else if (ft_strncmp(tree->data.redirection, "<<", 2) == 0)
+	if (ft_strncmp(tree->data.redir, "<", 2) == 0)
+		fd = handle_input_redir(tree->right->data.file, shl);
+	else if (ft_strncmp(tree->data.redir, ">", 2) == 0)
+		fd = handle_output_redir(tree->right->data.file, shl);
+	else if (ft_strncmp(tree->data.redir, ">>", 2) == 0)
+		fd = handle_append_redir(tree->right->data.file, shl);
+	else if (ft_strncmp(tree->data.redir, "<<", 2) == 0)
 		fd = handle_here_doc(tree->right->data.here_doc);
 	if (fd != -1)
 	{
 		close(fd);
-		gallows(tree->left, env, pipe_flag, ancient_one);
+		gallows(tree->left, env, pipe_flag, shl);
 	}
 	else
 	{
-		ancient_one->exit_status = 1;
-		printf("exit_code: %d\n", ancient_one->exit_status);
+		shl->exit_status = 1;
+		printf("exit_code: %d\n", shl->exit_status);
 	}
 	if (pipe_flag)
 		exit(EXIT_SUCCESS);
 }
 
-void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
-		t_ancient *ancient_one)
+void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 {
 	pid_t	pid_left;
 	pid_t	pid_right;
@@ -97,9 +94,9 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
 	int		status;
 
 	if (pipe(pipefd) == -1)
-		(mini_fuk(ancient_one, FREE_PATH), print_exit(ERR_PIPE));
-	pid_left = left_pipe(pipefd, tree, ancient_one, env);
-	pid_right = right_pipe(pipefd, tree, ancient_one, env);
+		(nuke(shl, FREE_PATH), print_exit(ERR_PIPE));
+	pid_left = left_pipe(pipefd, tree, shl, env);
+	pid_right = right_pipe(pipefd, tree, shl, env);
 	close(pipefd[0]);
 	close(pipefd[1]);
 	waitpid(pid_left, &status, 0);
@@ -111,10 +108,10 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag,
 		else if (WTERMSIG(status) == SIGSEGV)
 			write(2, "Segmentation fault: 11", 23);
 		g_signal_caught = status + 128;
-		ancient_one->exit_status = status + 128;
+		shl->exit_status = status + 128;
 	}
 	if (tree->level != 1)
-		(mini_fuk(ancient_one, FREE_PATH), exit(0));
+		(nuke(shl, FREE_PATH), exit(0));
 }
 
 int	handle_here_doc(int read_from)

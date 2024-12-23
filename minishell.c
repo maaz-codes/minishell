@@ -6,35 +6,36 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:50:55 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 09:46:00 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:26:26 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	execution(t_tree *tree, char **env, t_ancient *ancient_one)
+static int	execution(t_tree *tree, char **env, t_shl *shl)
 {
-	if (!find_docs(tree, ancient_one))
+	if (!find_docs(tree, shl))
 		return (0);
 	tree->level = 0;
-	if (tree->type == NODE_OPERATOR)
-		ancient_one->inside_pipe = TRUE;
-	gallows(tree, env, ancient_one->inside_pipe, ancient_one);
+	if (tree->type == NODE_OP)
+		shl->inside_pipe = TRUE;
+	gallows(tree, env, shl->inside_pipe, shl);
 	return (1);
 }
 
-static t_tree	*parsing(char *input, t_ancient *ancient_one)
+static t_tree	*parsing(char *input, t_shl *shl)
 {
-	ancient_one->head = tokenization(input, ancient_one);
-	expansions(&(ancient_one->head), ancient_one->paths->env_struct, ancient_one);
-	return (ancient_one->head);
+	shl->head = tokenization(input, shl);
+	expansions(&(shl->head), shl->paths->env_struct,
+		shl);
+	return (shl->head);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
 	t_tree		*tree;
-	t_ancient	*ancient_one;
+	t_shl		*shl;
 	t_path		*paths;
 
 	if (ac != 1 || av[1] != NULL)
@@ -43,16 +44,16 @@ int	main(int ac, char **av, char **env)
 	g_signal_caught = 0;
 	while (1)
 	{
-		ancient_one = init_ancient(paths);
-		input = signal_checkpoint(&ancient_one->std_fds, ancient_one);
+		shl = init_shell(paths);
+		input = signal_checkpoint(&shl->std_fds, shl);
 		if (input)
 		{
 			add_history(input);
-			tree = parsing(input, ancient_one);
+			tree = parsing(input, shl);
 			if (tree)
-				execution(tree, env, ancient_one);
-			reset_std_fds(&ancient_one->std_fds);
-			mini_fuk(ancient_one, 0);
+				execution(tree, env, shl);
+			reset_std_fds(&shl->std_fds);
+			nuke(shl, 0);
 		}
 	}
 	return (EXIT_SUCCESS);

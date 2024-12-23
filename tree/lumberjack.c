@@ -6,25 +6,25 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:42:01 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:42:02 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:26:26 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	mini_fuk(t_ancient *ancient_one, int flag)
+void	nuke(t_shl *shl, int flag)
 {
 	if (flag == FREE_PATH)
 	{
-		ft_lstclear_env(&ancient_one->paths->env_struct);
-		ft_lstclear_exp(&ancient_one->paths->exp_struct);
-		ft_lstclear_path(&ancient_one->paths);
+		ft_lstclear_env(&shl->paths->env_struct);
+		ft_lstclear_exp(&shl->paths->exp_struct);
+		ft_lstclear_path(&shl->paths);
 	}
-	lumberjack(ancient_one->head);
-	close(ancient_one->std_fds.std_in);
-	close(ancient_one->std_fds.std_out);
-	close(ancient_one->std_fds.std_err);
-	free(ancient_one);
+	lumberjack(shl->head);
+	close(shl->std_fds.std_in);
+	close(shl->std_fds.std_out);
+	close(shl->std_fds.std_err);
+	free(shl);
 }
 
 void	free_array(char **array)
@@ -46,12 +46,12 @@ void	chop_branch(t_tree *node)
 {
 	if (!node)
 		return ;
-	if (node->type == NODE_HEREDOC || node->type == NODE_OPERATOR)
+	if (node->type == NODE_HDOC || node->type == NODE_OP)
 		;
-	else if (node->type == NODE_ARGUMENT)
-		free_array(node->data.argument);
+	else if (node->type == NODE_ARG)
+		free_array(node->data.args);
 	else
-		free(node->data.expression);
+		free(node->data.exp);
 	free(node);
 }
 

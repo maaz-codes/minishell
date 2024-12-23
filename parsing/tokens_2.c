@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:11:27 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:11:38 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:09:59 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ t_tree	*init_cmd_node(char **cmd)
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
-	node->type = NODE_COMMAND;
+	node->type = NODE_CMD;
 	*cmd = remove_qoutes(*cmd);
-	node->data.command = *cmd;
-	if (!node->data.command)
+	node->data.cmd = *cmd;
+	if (!node->data.cmd)
 		print_exit(ERR_MALLOC);
 	node->left = NULL;
 	node->right = NULL;
@@ -39,13 +39,13 @@ t_tree	*init_args_node(char **args, char *cmd)
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		(free(cmd), free(*args), print_exit(ERR_MALLOC));
-	node->type = NODE_ARGUMENT;
+	node->type = NODE_ARG;
 	strip_spaces(args);
 	arguments = split_args(*args, cmd);
 	if (!arguments)
 		(free(cmd), free(*args), print_exit(ERR_MALLOC));
 	free_str(args);
-	node->data.argument = arguments;
+	node->data.args = arguments;
 	node->left = NULL;
 	node->right = NULL;
 	node->level = 1;

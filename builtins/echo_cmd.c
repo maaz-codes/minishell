@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 13:11:19 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:38:47 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:22:56 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	n_check(int *checker, int *i, char **str)
 	}
 }
 
-void	echo_cmd(char **str, t_ancient *ancient_one)
+void	echo_cmd(char **str, t_shl *shl)
 {
 	int	i;
 	int	checker;
@@ -69,4 +69,4 @@ void	echo_cmd(char **str, t_ancient *ancient_one)
 }
 
 		// else if (!ft_strncmp(str[1], "$?", 2))
-		// 	return (printf("exit status: %d\n", ancient_one->exit_status));
+		// 	return (printf("exit status: %d\n", shl->exit_status));

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:09:28 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:14:28 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:10:42 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ t_tree	*init_log_op_node(char spl_op)
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		print_exit(ERR_MALLOC);
-	node->type = NODE_LOG_OPERATOR;
+	node->type = NODE_LOG_OP;
 	if (spl_op == '&')
-		node->data.log_operator = ft_strdup("&&");
+		node->data.log_op = ft_strdup("&&");
 	else if (spl_op == '|')
-		node->data.log_operator = ft_strdup("||");
-	if (node->data.log_operator == NULL)
+		node->data.log_op = ft_strdup("||");
+	if (node->data.log_op == NULL)
 		print_exit(ERR_MALLOC);
 	return (node);
 }
@@ -36,8 +36,8 @@ t_tree	*init_op_node(char op)
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		return (print_error(ERR_MALLOC), NULL);
-	node->type = NODE_OPERATOR;
-	node->data.operator = op;
+	node->type = NODE_OP;
+	node->data.op = op;
 	node->left = NULL;
 	node->right = NULL;
 	node->level = 1;
@@ -54,8 +54,8 @@ t_tree	*init_redir_node(char *redir)
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		(free(redir), print_exit(ERR_MALLOC));
-	node->type = NODE_REDIRECTION;
-	node->data.redirection = redir;
+	node->type = NODE_REDIR;
+	node->data.redir = redir;
 	node->left = NULL;
 	node->right = NULL;
 	node->level = 1;
@@ -93,9 +93,9 @@ t_tree	*init_exp_node(char **str)
 	node = malloc(sizeof(t_tree));
 	if (!node)
 		(free(*str), print_exit(ERR_MALLOC));
-	node->type = NODE_EXPRESSION;
-	node->data.expression = *str;
-	if (!node->data.expression)
+	node->type = NODE_EXP;
+	node->data.exp = *str;
+	if (!node->data.exp)
 		(free(*str), print_exit(ERR_MALLOC));
 	node->left = NULL;
 	node->right = NULL;

@@ -6,13 +6,13 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:28 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:25:31 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:23:23 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	valid_num(char *s, char **str, t_ancient *ancient_one)
+void	valid_num(char *s, char **str, t_shl *shl)
 {
 	int	i;
 	int	len;
@@ -29,8 +29,8 @@ void	valid_num(char *s, char **str, t_ancient *ancient_one)
 			len++;
 		}
 		else
-			error_msg(str, ancient_one);
+			error_msg(str, shl);
 	}
 	if (len >= 20)
-		error_msg(str, ancient_one);
+		error_msg(str, shl);
 }

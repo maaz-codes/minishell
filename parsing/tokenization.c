@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:13:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:14:41 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:26:26 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,16 @@ t_tree	*tokenizer(char *str, t_tree **node)
 
 int	check_syntax(t_tree *node, t_tree *parent)
 {
-	if (node->type == NODE_LOG_OPERATOR)
+	if (node->type == NODE_LOG_OP)
 		return (check_log_op_node(node));
-	else if (node->type == NODE_OPERATOR)
+	else if (node->type == NODE_OP)
 		return (check_op_node(node));
-	else if (node->type == NODE_REDIRECTION)
+	else if (node->type == NODE_REDIR)
 		return (check_redir_node(node));
 	return (1);
 }
 
-t_tree	*tokenization(char *str, t_ancient *ancient_one)
+t_tree	*tokenization(char *str, t_shl *shl)
 {
 	t_tree	*tree;
 
@@ -83,7 +83,7 @@ t_tree	*tokenization(char *str, t_ancient *ancient_one)
 	{
 		tree = NULL;
 		if (!strip_spaces(&str))
-			(free(str), mini_fuk(ancient_one, FREE_PATH), exit(EXIT_FAILURE));
+			(free(str), nuke(shl, FREE_PATH), exit(EXIT_FAILURE));
 		if (ft_strlen(str) == 0)
 			return (free(str), NULL);
 		tokenizer(str, &tree);

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:41:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 18:12:08 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:29:31 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,29 +63,29 @@ void	print_data(t_tree *tree)
 	i = -1;
 	while (++i < tree->level)
 		printf("	");
-	if (tree->type == NODE_EXPRESSION)
-		printf("%c: %s type: exp\n", tree->pos, tree->data.expression);
-	else if (tree->type == NODE_LOG_OPERATOR)
-		printf("%c: %s type: log_operator\n", tree->pos,
-			tree->data.log_operator);
-	else if (tree->type == NODE_OPERATOR)
-		printf("%c: %c type: operator\n", tree->pos, tree->data.operator);
-	else if (tree->type == NODE_REDIRECTION)
-		printf("%c: %s type: redir^\n", tree->pos, tree->data.redirection);
+	if (tree->type == NODE_EXP)
+		printf("%c: %s type: exp\n", tree->pos, tree->data.exp);
+	else if (tree->type == NODE_LOG_OP)
+		printf("%c: %s type: log_op\n", tree->pos,
+			tree->data.log_op);
+	else if (tree->type == NODE_OP)
+		printf("%c: %c type: operator\n", tree->pos, tree->data.op);
+	else if (tree->type == NODE_REDIR)
+		printf("%c: %s type: redir^\n", tree->pos, tree->data.redir);
 	else if (tree->type == NODE_FILE)
 		printf("%c: %s type: file\n", tree->pos, tree->data.file);
-	else if (tree->type == NODE_HEREDOC)
+	else if (tree->type == NODE_HDOC)
 		printf("%c: %d type: here_doc\n", tree->pos, tree->data.here_doc);
-	else if (tree->type == NODE_LIMITER)
+	else if (tree->type == NODE_LMTR)
 		printf("%c: %s type: limiter\n", tree->pos, tree->data.file);
-	else if (tree->type == NODE_COMMAND)
-		printf("%c: %s type: cmd\n", tree->pos, tree->data.command);
-	else if (tree->type == NODE_ARGUMENT)
+	else if (tree->type == NODE_CMD)
+		printf("%c: %s type: cmd\n", tree->pos, tree->data.cmd);
+	else if (tree->type == NODE_ARG)
 	{
 		printf("%c: ", tree->pos);
 		i = -1;
-		while (tree->data.argument[++i])
-			printf("%s, ", tree->data.argument[i]);
+		while (tree->data.args[++i])
+			printf("%s, ", tree->data.args[i]);
 		printf("type: args\n");
 	}
 	printf("\n");

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 09:52:38 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:29:12 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ char	*extract_env_var(char *str, int start, int *index)
 		if (str[start] >= '0' && str[start] <= '9')
 			start++;
 		else
-			while ((str[start] >= 'a' && str[start] <= 'z') || (str[start] >= 'A'
-					&& str[start] <= 'Z') || str[start] == '_' || (str[start] >= '0'
-					&& str[start] <= '9'))
+			while ((str[start] >= 'a' && str[start] <= 'z')
+				|| (str[start] >= 'A' && str[start] <= 'Z') || str[start] == '_'
+				|| (str[start] >= '0' && str[start] <= '9'))
 				start++;
 	}
 	env_var = ft_substr(str, end, start - end);
@@ -74,7 +74,7 @@ char	*expanded_str(char *str, char *env_var, int start, int end)
 	int		total_len;
 	int		i;
 	int		j;
-	
+
 	total_len = ft_strlen(str) + ft_strlen(env_var) - (end - start + 1);
 	expanded = malloc(sizeof(char) * (total_len + 1));
 	if (!expanded)
@@ -90,19 +90,19 @@ char	*expanded_str(char *str, char *env_var, int start, int end)
 	return (free(str), free(env_var), expanded);
 }
 
-char *assign_value(char *env_var, t_env *env, t_ancient *ancient_one)
+char	*assign_value(char *env_var, t_env *env, t_shl *shl)
 {
 	if (ft_strncmp(env_var, "?", 1) == 0)
 	{
 		free(env_var);
-		env_var = ft_itoa(ancient_one->exit_status);
+		env_var = ft_itoa(shl->exit_status);
 	}
 	else
 		env_var = assign_env_value(env_var, env);
 	return (env_var);
 }
 
-char	*env_expansion(char *str, t_env *env, t_ancient *ancient_one)
+char	*env_expansion(char *str, t_env *env, t_shl *shl)
 {
 	int		i;
 	int		j;
@@ -120,7 +120,7 @@ char	*env_expansion(char *str, t_env *env, t_ancient *ancient_one)
 		{
 			j = i;
 			env_var = extract_env_var(str, i + 1, &i);
-			env_var = assign_value(env_var, env, ancient_one);
+			env_var = assign_value(env_var, env, shl);
 			str = expanded_str(str, env_var, j, i);
 		}
 		i++;

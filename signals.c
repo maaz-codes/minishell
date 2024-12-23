@@ -6,13 +6,13 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:23:53 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:24:01 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:26:26 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
+char	*signal_checkpoint(t_std_fds *std_fds, t_shl *shl)
 {
 	char	*input;
 
@@ -23,15 +23,15 @@ char	*signal_checkpoint(t_std_fds *std_fds, t_ancient *ancient_one)
 	{
 		write(1, "exit\n", 6);
 		reset_std_fds(std_fds);
-		mini_fuk(ancient_one, FREE_PATH);
+		nuke(shl, FREE_PATH);
 		exit(EXIT_SUCCESS);
 	}
 	if (g_signal_caught == SIGINT)
-		ancient_one->exit_status = 1;
+		shl->exit_status = 1;
 	else if (g_signal_caught == 127)
-		ancient_one->exit_status = 127;
+		shl->exit_status = 127;
 	else if (g_signal_caught == 0)
-		ancient_one->exit_status = 0;
+		shl->exit_status = 0;
 	if (*input != '\0')
 		g_signal_caught = 0;
 	return (input);

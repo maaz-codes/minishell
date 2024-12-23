@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 16:52:03 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:26:26 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,28 @@ int	is_builtin(char *str)
 	return (0);
 }
 
-int	gallows(t_tree *tree, char **env, int pipe_flag, t_ancient *ancient_one)
+int	gallows(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 {
 	if (tree == NULL)
 		return (1);
 	tree->level += 1;
-	if (tree->type == NODE_OPERATOR)
-		handle_pipe(tree, env, pipe_flag, ancient_one);
-	else if (tree->type == NODE_REDIRECTION)
-		handle_redir(tree, env, pipe_flag, ancient_one);
-	else if (tree->type == NODE_COMMAND)
+	if (tree->type == NODE_OP)
+		handle_pipe(tree, env, pipe_flag, shl);
+	else if (tree->type == NODE_REDIR)
+		handle_redir(tree, env, pipe_flag, shl);
+	else if (tree->type == NODE_CMD)
 	{
-		if (is_builtin(tree->data.command))
+		if (is_builtin(tree->data.cmd))
 		{
-			handle_builtin(tree, ancient_one->paths, ancient_one);
+			handle_builtin(tree, shl->paths, shl);
 			if (pipe_flag)
 			{
-				mini_fuk(ancient_one, FREE_PATH);
+				nuke(shl, FREE_PATH);
 				exit(EXIT_SUCCESS);
 			}
 		}
 		else
-			handle_cmd(tree, env, pipe_flag, ancient_one);
+			handle_cmd(tree, env, pipe_flag, shl);
 	}
 	return (1);
 }

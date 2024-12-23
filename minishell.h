@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 09:45:44 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:26:56 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,26 +71,26 @@ typedef struct s_pwd
 
 typedef enum s_node_types
 {
-	NODE_COMMAND = 4201,
-	NODE_OPERATOR,
-	NODE_ARGUMENT,
-	NODE_EXPRESSION,
-	NODE_LOG_OPERATOR,
-	NODE_REDIRECTION,
+	NODE_CMD = 4201,
+	NODE_OP,
+	NODE_ARG,
+	NODE_EXP,
+	NODE_LOG_OP,
+	NODE_REDIR,
 	NODE_FILE,
-	NODE_HEREDOC,
-	NODE_LIMITER
+	NODE_HDOC,
+	NODE_LMTR
 }					t_node_types;
 
 typedef union s_data
 {
-	char			*expression;
-	char			*log_operator;
-	char			operator;
-	char			*redirection;
+	char			*exp;
+	char			*log_op;
+	char			op;
+	char			*redir;
 	char			*file;
-	char			*command;
-	char			**argument;
+	char			*cmd;
+	char			**args;
 	int				here_doc;
 }					t_data;
 
@@ -111,14 +111,14 @@ typedef struct s_tree
 	struct s_tree	*right;
 }					t_tree;
 
-typedef struct s_ancient
+typedef struct s_shl
 {
 	t_tree			*head;
 	t_path			*paths;
 	t_std_fds		std_fds;
 	int				inside_pipe;
 	int				exit_status;
-}					t_ancient;
+}					t_shl;
 
 // void				rl_replace_line(const char *text, int clear_undo);
 
@@ -134,7 +134,7 @@ char				**ft_split(const char *s, char c);
 char				*ft_itoa(int n);
 
 // init_shell.c
-t_ancient			*init_ancient(t_path *paths);
+t_shl				*init_shell(t_path *paths);
 void				dup_fds(t_std_fds *std_fds);
 void				reset_std_fds(t_std_fds *std_fds);
 
@@ -145,7 +145,7 @@ void				print_tree(t_tree *tree);
 
 // tokenization
 int					strip_spaces(char **str);
-t_tree				*tokenization(char *str, t_ancient *ancient_one);
+t_tree				*tokenization(char *str, t_shl *shl);
 t_tree				*tokenizer(char *str, t_tree **node);
 
 // tokens_1.c
@@ -184,7 +184,7 @@ void				free_str(char **str);
 t_tree				*lumberjack(t_tree *tree);
 void				chop_branch(t_tree *node);
 void				free_array(char **array);
-void				mini_fuk(t_ancient *ancient_one, int flag);
+void				nuke(t_shl *shl, int flag);
 
 // splits.c
 int					count_args(char *str);
@@ -199,7 +199,7 @@ char				*extract_cmd_from_redir(char *first_half, char *str,
 
 // gallows.c
 int					gallows(t_tree *tree, char **env, int pipe_flag,
-						t_ancient *ancient_one);
+						t_shl *shl);
 void				execute(char **cmd, char *env[]);
 
 // gallows_utils.c
@@ -208,29 +208,29 @@ char				**array_dup(char **array);
 
 // handle_nodes.c
 void				handle_builtin(t_tree *tree, t_path *paths,
-						t_ancient *ancient_one);
+						t_shl *shl);
 void				handle_cmd(t_tree *tree, char **env, int pipe_flag,
-						t_ancient *ancient_one);
+						t_shl *shl);
 void				handle_redir(t_tree *tree, char **env, int pipe_flag,
-						t_ancient *ancient_one);
+						t_shl *shl);
 void				handle_pipe(t_tree *tree, char **env, int pipe_flag,
-						t_ancient *ancient_one);
+						t_shl *shl);
 int					handle_here_doc(int read_from);
 
 // handle_utils.c
-int					handle_input_redir(char *file_name, t_ancient *ancient_one);
+int					handle_input_redir(char *file_name, t_shl *shl);
 int					handle_output_redir(char *file_name,
-						t_ancient *ancient_one);
+						t_shl *shl);
 int					handle_append_redir(char *file_name,
-						t_ancient *ancient_one);
-pid_t				left_pipe(int *pipefd, t_tree *tree, t_ancient *ancient_one,
+						t_shl *shl);
+pid_t				left_pipe(int *pipefd, t_tree *tree, t_shl *shl,
 						char **env);
 pid_t				right_pipe(int *pipefd, t_tree *tree,
-						t_ancient *ancient_one, char **env);
+						t_shl *shl, char **env);
 
 // here_doc
-int					find_docs(t_tree *tree, t_ancient *ancient_one);
-int					ft_here_doc(char *limiter, t_ancient *ancient_one,
+int					find_docs(t_tree *tree, t_shl *shl);
+int					ft_hdoc(char *limiter, t_shl *shl,
 						pid_t *pid);
 
 // syntax.c
@@ -243,11 +243,11 @@ int					syntax_checker(t_tree *tree);
 char				*extract_env_var(char *str, int start, int *index);
 char				*assign_env_value(char *env_var, t_env *env);
 char				*expanded_str(char *str, char *env_var, int start, int end);
-char				*env_expansion(char *str, t_env *env, t_ancient *ancient_one);
+char				*env_expansion(char *str, t_env *env, t_shl *shl);
 
 // expansions_utils.c
-void				expand_args(t_tree **arg_node, t_env *env, t_ancient *ancient_one);
-void				expansions(t_tree **tree, t_env *env, t_ancient *ancient_one);
+void				expand_args(t_tree **arg_node, t_env *env, t_shl *shl);
+void				expansions(t_tree **tree, t_env *env, t_shl *shl);
 
 // paths.c
 t_path				*init_paths(char **env);
@@ -256,7 +256,7 @@ t_path				*int_cd(void);
 
 // signals.c
 char				*signal_checkpoint(t_std_fds *std_fds,
-						t_ancient *ancient_one);
+						t_shl *shl);
 void				handle_sigint(int sig);
 
 // helpers - raph
@@ -274,13 +274,13 @@ void				ft_lstclear_env(t_env **lst);
 void				ft_lstclear_exp(t_exp **lst);
 
 // Builtins
-void				echo_cmd(char **str, t_ancient *ancient_one);
+void				echo_cmd(char **str, t_shl *shl);
 void				pwd_cmd(char **str);
 
 void				exit_cmd(t_path **paths, char **str,
-						t_ancient *ancient_one);
-void				valid_num(char *s, char **str, t_ancient *ancient_one);
-void				error_msg(char **str, t_ancient *ancient_one);
+						t_shl *shl);
+void				valid_num(char *s, char **str, t_shl *shl);
+void				error_msg(char **str, t_shl *shl);
 
 void				env_cmd(char **str, t_path **paths);
 t_env				*int_env(char **env);
