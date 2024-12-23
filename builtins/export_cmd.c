@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:38:12 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/23 17:14:46 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	export_cmd(char **str, t_path **paths)
 
 	i = 1;
 	if (!ft_strncmp("export", str[0], 7) && str[1] == NULL)
-		exp_print(paths);
+		exp_print(paths, 0);
 	else if (!ft_strncmp("export", str[0], 7) && str[1] != NULL)
 	{
 		while (str[i])

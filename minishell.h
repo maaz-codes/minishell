@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 13:24:43 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 17:14:37 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,7 @@ void				export_cmd(char **str, t_path **paths);
 t_env				*lstlast_env(t_env *lst);
 char				**separator(char *str, int check_for_plus);
 t_exp				*int_exp(char **env);
-void				exp_print(t_path **paths);
+void				exp_print(t_path **paths, int i);
 t_exp				*lstlast_exp(t_exp *lst);
 void				ap_exp(t_exp **paths, char *res);
 void				ap_env(t_env **env, char *res);

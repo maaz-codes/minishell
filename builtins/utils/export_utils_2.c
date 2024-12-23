@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:38:38 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/23 17:14:57 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ void	sorted_exp(t_exp **head)
 	}
 }
 
-void	exp_print(t_path **paths)
+void	exp_print(t_path **paths, int i)
 {
 	t_exp	*tmp;
 	char	*check;
-	int		i;
+	int		check_with_equals;
 
 	tmp = (*paths)->exp_struct;
 	sorted_exp(&tmp);
@@ -86,9 +86,14 @@ void	exp_print(t_path **paths)
 		i = 0;
 		while (tmp->exp[i] != '=' && tmp->exp[i])
 			i++;
-		if (i != ft_strlen(tmp->exp))
-			check = ft_strchr(tmp->exp, '=');
 		if (i == ft_strlen(tmp->exp))
+			check_with_equals = 0;
+		else
+		{
+			check_with_equals = 1;
+			check = ft_strchr(tmp->exp, '=');
+		}
+		if (check_with_equals)
 			printf("declare -x %.*s=\"%s\"\n", (int)(check - tmp->exp),
 				tmp->exp, check + 1);
 		else
@@ -96,35 +101,3 @@ void	exp_print(t_path **paths)
 		tmp = tmp->next;
 	}
 }
-
-// BEFORE NORMINETTE...
-
-// void	exp_print(t_path **paths)
-// {
-// 	t_exp	*tmp;
-// 	char	*check;
-// 	int		check_with_equals;
-// 	int		i;
-
-// 	tmp = (*paths)->exp_struct;
-// 	sorted_exp(&tmp);
-// 	while (tmp)
-// 	{
-// 		i = 0;
-// 		while (tmp->exp[i] != '=' && tmp->exp[i])
-// 			i++;
-// 		if (i == ft_strlen(tmp->exp))
-// 			check_with_equals = 0;
-// 		else
-// 		{
-// 			check_with_equals = 1;
-// 			check = ft_strchr(tmp->exp, '=');
-// 		}
-// 		if (check_with_equals)
-// 			printf("declare -x %.*s=\"%s\"\n", (int)(check - tmp->exp),
-// 				tmp->exp, check + 1);
-// 		else
-// 			printf("declare -x %s\n", tmp->exp);
-// 		tmp = tmp->next;
-// 	}
-// }
