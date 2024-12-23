@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:05:15 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 09:21:49 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ char	*extract_env_var(char *str, int start, int *index)
 	if (!env_var)
 		return (NULL);
 	if (ft_strlen(env_var) == 0)
-	{
-		free(env_var);
-		return (NULL);
-	}
+		return (free(env_var), NULL);
 	(*index) = start - 1;
 	return (env_var);
 }
@@ -56,10 +53,10 @@ char	*assign_value(char *env_var, t_env *env)
 					ft_strlen(env->env));
 			if (!env_value)
 				print_exit(ERR_MALLOC);
-			free(env_var);
-			return (env_value);
+			return (free(env_var), free(env_compare), env_value);
 		}
 		env = env->next;
+		free(env_compare);
 	}
 	free(env_var);
 	env_value = ft_strdup("");
@@ -73,27 +70,21 @@ char	*expanded_str(char *str, char *env_var, int start, int end)
 	char	*expanded;
 	int		total_len;
 	int		i;
-
+	int		j;
+	
 	total_len = ft_strlen(str) + ft_strlen(env_var) - (end - start + 1);
 	expanded = malloc(sizeof(char) * (total_len + 1));
 	if (!expanded)
-	{
-		free(env_var);
-		free(str);
-		return (NULL);
-	}
+		return (free(env_var), free(str), NULL);
 	i = -1;
 	while (++i < start)
 		expanded[i] = str[i];
-	while (*env_var)
-	{
-		expanded[i++] = *env_var;
-		env_var++;
-	}
+	j = 0;
+	while (env_var[j])
+		expanded[i++] = env_var[j++];
 	while (end < ft_strlen(str))
 		expanded[i++] = str[++end];
-	free(str);
-	return (expanded);
+	return (free(str), free(env_var), expanded);
 }
 
 char	*env_expansion(char *str, t_env *env)
@@ -115,8 +106,7 @@ char	*env_expansion(char *str, t_env *env)
 			j = i;
 			env_var = extract_env_var(str, i + 1, &i);
 			env_var = assign_value(env_var, env);
-			if (str[i] != '$')
-				str = expanded_str(str, env_var, j, i);
+			str = expanded_str(str, env_var, j, i);
 		}
 		i++;
 	}
