@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 13:11:19 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:50:54 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 17:50:30 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	echo_cmd(char **str, t_shl *shl)
 	}
 	if (!checker)
 		printf("\n");
+	g_signal_caught = 0;
+	shl->exit_status = 0;
 }
 
 		// else if (!ft_strncmp(str[1], "$?", 2))

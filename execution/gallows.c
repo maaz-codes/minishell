@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:26:26 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 18:19:27 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,12 @@ void	execute(char **cmd, char *env[])
 	if (stat(path, &directory) == 0)
 	{
 		write(2, "it's a directory\n", 18);
-		free(path);
-		free_array(cmd);
-		exit(126);
+		(free(path), free_array(cmd), exit(126));
 	}
 	else if (ft_strchr(path, '/'))
 	{
 		write(2, "No such file or directory\n", 27);
-		free(path);
-		free_array(cmd);
-		exit(127);
+		(free(path), free_array(cmd), exit(127));
 	}
 	(free(path), free_array(cmd), print_exit(ERR_CMD));
 }
@@ -68,7 +64,7 @@ int	gallows(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 			handle_builtin(tree, shl->paths, shl);
 			if (pipe_flag)
 			{
-				nuke(shl, FREE_PATH);
+				nuke(shl, TNT);
 				exit(EXIT_SUCCESS);
 			}
 		}

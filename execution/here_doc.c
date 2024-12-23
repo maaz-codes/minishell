@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:26:26 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 18:19:27 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,14 @@ int	ft_hdoc(char *limiter, t_shl *shl, pid_t *pid)
 		(close(doc_pipe[1]), close(doc_pipe[0]), print_error(ERR_PIPE));
 	*pid = fork();
 	if (*pid == -1)
-		(nuke(shl, FREE_PATH), print_exit(ERR_FORK));
+		(nuke(shl, TNT), print_exit(ERR_FORK));
 	if (*pid == 0)
 	{
 		signal(SIGINT, handle_heredoc_sig);
 		signal(SIGQUIT, SIG_IGN);
 		read_write(limiter, doc_pipe[1], shl->paths->env_struct, shl);
 		close(doc_pipe[0]);
-		(nuke(shl, FREE_PATH), exit(g_signal_caught == SIGINT));
+		(nuke(shl, TNT), exit(g_signal_caught == SIGINT));
 	}
 	close(doc_pipe[1]);
 	free(limiter);

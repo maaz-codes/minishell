@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:46:36 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:24:57 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 17:43:59 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_shl	*init_shell(t_path *paths)
 	t_shl		*shl;
 	t_std_fds	std_fds;
 
+	g_signal_caught = 0;
 	shl = malloc(sizeof(t_shl));
 	if (!shl)
 	{

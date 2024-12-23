@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 17:14:37 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 18:19:57 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 #define FALSE 0
 #define LEFT 0
 #define RIGHT 1
-#define FREE_PATH 6201
+#define TNT 6201
 
 // global variable
 int					g_signal_caught;

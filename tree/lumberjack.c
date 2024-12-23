@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:42:01 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:26:26 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 18:26:09 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	nuke(t_shl *shl, int flag)
 {
-	if (flag == FREE_PATH)
+	if (flag == TNT)
 	{
 		ft_lstclear_env(&shl->paths->env_struct);
 		ft_lstclear_exp(&shl->paths->exp_struct);
@@ -24,7 +24,8 @@ void	nuke(t_shl *shl, int flag)
 	close(shl->std_fds.std_in);
 	close(shl->std_fds.std_out);
 	close(shl->std_fds.std_err);
-	free(shl);
+	if (flag == TNT)
+		free(shl);
 }
 
 void	free_array(char **array)

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:23:53 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:26:26 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 18:26:41 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,11 @@ char	*signal_checkpoint(t_std_fds *std_fds, t_shl *shl)
 	{
 		write(1, "exit\n", 6);
 		reset_std_fds(std_fds);
-		nuke(shl, FREE_PATH);
+		nuke(shl, TNT);
 		exit(EXIT_SUCCESS);
 	}
 	if (g_signal_caught == SIGINT)
 		shl->exit_status = 1;
-	else if (g_signal_caught == 127)
-		shl->exit_status = 127;
-	else if (g_signal_caught == 0)
-		shl->exit_status = 0;
-	if (*input != '\0')
-		g_signal_caught = 0;
 	return (input);
 }
 

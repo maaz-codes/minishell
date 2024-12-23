@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:06 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:51:12 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 18:19:27 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	error_msg(char **str, t_shl *shl)
 {
 	printf("exit\n");
 	printf("minishell: exit: %s: numeric argument required\n", str[1]);
-	nuke(shl, FREE_PATH);
+	nuke(shl, TNT);
 	exit(255);
 }
 
@@ -27,7 +27,7 @@ void	neg_num_exit(t_path **paths, char **str, unsigned long long exit_num,
 
 	negative_num = -exit_num;
 	negative_num = negative_num % 256;
-	(nuke(shl, FREE_PATH), printf("exit\n"), exit(negative_num));
+	(nuke(shl, TNT), printf("exit\n"), exit(negative_num));
 }
 
 unsigned long long	symbol_check(char *str, int *check)
@@ -74,9 +74,9 @@ void	exit_cmd(t_path **paths, char **str, t_shl *shl)
 			neg_num_exit(paths, str, exit_num, shl);
 		if (exit_num >= 256 && check == 1)
 			exit_num = exit_num % 256;
-		(nuke(shl, FREE_PATH), write(2, "exit\n", 6),
+		(nuke(shl, TNT), write(2, "exit\n", 6),
 			exit(exit_num));
 	}
 	else if (!ft_strncmp(str[0], "exit", 5) && str[1] == NULL)
-		(nuke(shl, FREE_PATH), write(2, "exit\n", 6), exit(0));
+		(nuke(shl, TNT), write(2, "exit\n", 6), exit(0));
 }
