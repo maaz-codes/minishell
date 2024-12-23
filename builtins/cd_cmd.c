@@ -110,6 +110,7 @@ char	*switch_cd(t_path **paths)
 	if (chdir(res) == -1)
 	{
 		(free(res), printf("error switch: %s\n", res));
+		g_signal_caught = SIGINT;
 		return (NULL);
 	}
 	printf("new path: %s\n", res);
