@@ -41,14 +41,15 @@ void	append_check_equals(t_path **paths, char *only_str, char *joined_str,
 
 void	exp_loop(t_exp *tmp, char *only_str, char *joined_str, int check)
 {
-	free(tmp->exp);
 	if (!check)
 	{
-		tmp->exp = only_str;
 		free(joined_str);
+		free(only_str);
+		return ;
 	}
 	else
 	{
+		free(tmp->exp);
 		tmp->exp = joined_str;
 		free(only_str);
 	}
