@@ -64,13 +64,17 @@ void	remove_node_env(t_path **paths, int pos)
 	free(tmp_env);
 }
 
-void	unset_exp_list(t_path **paths, char *str, int *i)
+void	unset_exp_list(t_path **paths, char *str, int *i, int *exit_stat)
 {
 	t_exp	*tmp;
 	int		pos;
-
-	if (!valid_export(str, NULL, NULL, 0))
-		i++;
+	
+	if (!valid_unset(str))
+	{	
+		printf("export: \'%s\': not a valid identifier\n", str);
+		*exit_stat = 1;
+		*i += 1;
+	}
 	else
 	{
 		tmp = (*paths)->exp_struct;
@@ -91,9 +95,10 @@ void	unset_env_list(t_path **paths, char *str, int *i)
 {
 	t_env	*tmp;
 	int		pos;
+	
 
-	if (!valid_export(str, NULL, NULL, 0))
-		i++;
+	if (!valid_unset(str))
+		*i += 1;
 	else
 	{
 		tmp = (*paths)->env_struct;
@@ -114,15 +119,16 @@ void	unset_cmd(char **str, t_path **paths, t_shl *shl)
 {
 	t_exp	*tmp;
 	int		i;
+	int 	exit_stat;
 
+	exit_stat = 0;
 	i = 1;
 	if (str[1] == NULL)
 		return ;
 	while (str[i])
-		unset_exp_list(paths, str[i], &i);
+		unset_exp_list(paths, str[i], &i, &exit_stat);
 	i = 1;
 	while (str[i])
 		unset_env_list(paths, str[i], &i);
-	g_signal_caught = 0;
-	shl->exit_status = 0;
+	shl->exit_status = exit_stat;
 }

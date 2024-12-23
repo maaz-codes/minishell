@@ -42,6 +42,7 @@ SRCS = 	minishell.c \
 		builtins/env_cmd.c \
 		builtins/unset_cmd.c \
 		builtins/export_cmd.c \
+			builtins/utils/unset_utils_1.c \
 			builtins/utils/cd_utils_1.c \
 			builtins/utils/cd_utils_2.c \
 			builtins/utils/exit_utils_1.c \

@@ -295,6 +295,7 @@ void				append_switch_struct(t_path **paths, t_path **temp);
 int					check_old_pwd(t_path **paths);
 
 void				unset_cmd(char **str, t_path **paths, t_shl *shl);
+int					valid_unset(char *str);
 
 void				export_cmd(char **str, t_path **paths, t_shl *shl);
 t_env				*lstlast_env(t_env *lst);
