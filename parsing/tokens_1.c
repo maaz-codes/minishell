@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:09:28 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:10:42 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:35:55 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ t_tree	*init_log_op_node(char spl_op)
 	return (node);
 }
 
-t_tree	*init_op_node(char op)
+t_tree	*init_op_node(char op, char *str)
 {
 	t_tree	*node;
 
 	node = malloc(sizeof(t_tree));
 	if (!node)
-		return (print_error(ERR_MALLOC), NULL);
+		return (free(str), print_exit(ERR_MALLOC), NULL);
 	node->type = NODE_OP;
 	node->data.op = op;
 	node->left = NULL;

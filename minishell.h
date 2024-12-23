@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:26:56 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:42:02 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ t_tree				*tokenizer(char *str, t_tree **node);
 // tokens_1.c
 t_tree				*init_exp_node(char **str);
 t_tree				*init_log_op_node(char spl_op);
-t_tree				*init_op_node(char op);
+t_tree				*init_op_node(char op, char *str);
 t_tree				*init_redir_node(char *redir);
 t_tree				*init_file_node(char *str, int start, int end);
 

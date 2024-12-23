@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:28:50 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:46:40 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status) != 0)
 			shl->exit_status = WEXITSTATUS(status);
-		printf("exit_code: %d\n", shl->exit_status);
 	}
 	else
 	{
@@ -120,3 +119,5 @@ int	handle_here_doc(int read_from)
 	close(read_from);
 	return (read_from);
 }
+
+// printf("exit_code: %d\n", shl->exit_status);
