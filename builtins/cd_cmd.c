@@ -99,6 +99,7 @@ char	*switch_cd(t_path **paths)
 	if (!check_old_pwd(paths))
 	{
 		printf("OLDPWD is not set\n");
+		g_signal_caught = SIGINT;
 		return (NULL);
 	}
 	if (!valid_old_pwd(paths))
