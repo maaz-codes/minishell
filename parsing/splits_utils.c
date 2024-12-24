@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:17:24 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 10:34:30 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 11:28:28 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	skip_qoutes(char *str, int *i)
 	if (str[*i] == '"' || str[*i] == '\'')
 	{
 		*i = inside_qoutes(str[*i], str, *i);
+		printf("i=>%c\n", str[*i - 1]);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -55,10 +56,10 @@ void	create_args_array(char *str, char ***args)
 	int	j;
 	int	k;
 
-	i = -1;
+	i = 0;
 	j = 0;
 	k = -1;
-	while (++i <= ft_strlen(str))
+	while (i <= ft_strlen(str))
 	{
 		if (skip_qoutes(str, &i))
 			continue ;
@@ -72,6 +73,7 @@ void	create_args_array(char *str, char ***args)
 				j = i + 1;
 			}
 		}
+		i++;
 	}
 	(*args)[++k] = NULL;
 }

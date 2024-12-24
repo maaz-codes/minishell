@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:23:53 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 10:42:03 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:15:34 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,19 @@ void	handle_sigint(int sig)
 		rl_redisplay();
 		g_signal_caught = SIGINT;
 	}
+}
+
+void	handle_signals(int status, t_shl *shl)
+{
+	if (WTERMSIG(status) == SIGQUIT)
+		write(2, "Quit: 3\n", 9);
+	else if (WTERMSIG(status) == SIGSEGV)
+		write(2, "Segmentation fault: 11\n", 24);
+	shl->exit_status = WTERMSIG(status) + 128;
+}
+
+void	signal_default(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

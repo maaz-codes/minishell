@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 18:19:57 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:16:54 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ void				handle_redir(t_tree *tree, char **env, int pipe_flag,
 						t_shl *shl);
 void				handle_pipe(t_tree *tree, char **env, int pipe_flag,
 						t_shl *shl);
-int					handle_here_doc(int read_from);
+int					handle_here_doc(int read_from, t_shl *shl);
 
 // handle_utils.c
 int					handle_input_redir(char *file_name, t_shl *shl);
@@ -256,6 +256,8 @@ t_path				*int_cd(void);
 // signals.c
 char				*signal_checkpoint(t_std_fds *std_fds, t_shl *shl);
 void				handle_sigint(int sig);
+void				handle_signals(int status, t_shl *shl);
+void				signal_default(void);
 
 // helpers - raph
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);

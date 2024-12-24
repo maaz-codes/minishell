@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:51:29 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 10:44:07 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 11:45:11 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_exit(int code)
 	else if (code == ERR_PIPE)
 		write(2, "Error: Pipe() failed\n", 22);
 	else if (code == ERR_CMD)
-		(write(2, "Error: cmd not found\n", 26), exit(127));
+		(write(2, "Error: cmd not found\n", 22), exit(127));
 	else if (code == ERR_READLINE)
 		write(2, "Readline failed!\n", 18);
 	else if (code == ERR_DUP)

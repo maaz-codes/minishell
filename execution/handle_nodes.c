@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 11:11:57 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:16:33 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,16 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 		if (pid == -1)
 			return ;
 		if (pid == 0)
-			(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL), nuke(shl, TNT), execute(args, env));
-		(free_array(args), waitpid(pid, &status, 0));
+		{
+			signal_default();
+			nuke(shl, TNT);
+			execute(args, env);
+		}
+		free_array(args);
+		waitpid(pid, &status, 0);
 		shl->exit_status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status) != 0)
-		{
-			if (WTERMSIG(status) == SIGQUIT)
-				write(2, "Quit: 3\n", 9);
-			else if (WTERMSIG(status) == SIGSEGV)
-				write(2, "Segmentation fault: 11\n", 24);
-			shl->exit_status = WTERMSIG(status) + 128;
-		}
+			handle_signals(status, shl);
 	}
 	else
 		(nuke(shl, TNT), execute(args, env));
@@ -71,17 +70,14 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 	else if (ft_strncmp(tree->data.redir, ">>", 2) == 0)
 		fd = handle_append_redir(tree->right->data.file, shl);
 	else if (ft_strncmp(tree->data.redir, "<<", 2) == 0)
-		fd = handle_here_doc(tree->right->data.here_doc);
+		fd = handle_here_doc(tree->right->data.here_doc, shl);
 	if (fd != -1)
 	{
 		close(fd);
 		gallows(tree->left, env, pipe_flag, shl);
 	}
 	else
-	{
 		shl->exit_status = 1;
-		printf("exit_code: %d\n", shl->exit_status);
-	}
 	if (pipe_flag)
 		exit(EXIT_SUCCESS);
 }
@@ -95,28 +91,33 @@ void	handle_pipe(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 
 	signal(SIGINT, SIG_IGN);
 	if (pipe(pipefd) == -1)
-		(nuke(shl, TNT), print_exit(ERR_PIPE));
+	{
+		nuke(shl, TNT);
+		print_exit(ERR_PIPE);
+	}
 	pid_left = left_pipe(pipefd, tree, shl, env);
 	pid_right = right_pipe(pipefd, tree, shl, env);
-	(close(pipefd[0]), close(pipefd[1]));
+	close(pipefd[0]);
+	close(pipefd[1]);
 	waitpid(pid_left, NULL, 0);
 	waitpid(pid_right, &status, 0);
 	shl->exit_status = WEXITSTATUS(status);
 	if (WIFSIGNALED(status) != 0)
-	{
-		if (WTERMSIG(status) == SIGQUIT)
-			write(2, "Quit: 3\n", 9);
-		else if (WTERMSIG(status) == SIGSEGV)
-			write(2, "Segmentation fault: 11\n", 24);
-		shl->exit_status = WTERMSIG(status) + 128;
-	}
+		handle_signals(status, shl);
 	if (tree->level != 1)
-		(nuke(shl, TNT), exit(0));
+	{
+		nuke(shl, TNT);
+		exit(0);
+	}
 }
 
-int	handle_here_doc(int read_from)
+int	handle_here_doc(int read_from, t_shl *shl)
 {
-	dup2(read_from, 0);
+	if (dup2(read_from, 0) == -1)
+	{
+		nuke(shl, TNT);
+		print_exit(ERR_DUP);
+	}
 	close(read_from);
 	return (read_from);
 }
