@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:29:12 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 15:04:17 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ char	*env_expansion(char *str, t_env *env, t_shl *shl)
 		if (str[i] == '\'')
 		{
 			i = inside_qoutes(str[i], str, i);
+			if (i == -1)
+				return (str);
 			continue ;
 		}
 		if (str[i] == '$')

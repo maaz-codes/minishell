@@ -6,23 +6,11 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:14:46 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:15:04 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 14:59:15 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	symbol_checker(char s)
-{
-	char	symbol;
-
-	symbol = '\0';
-	if (s == '"')
-		symbol = '"';
-	if (s == '\'')
-		symbol = '\'';
-	return (symbol);
-}
 
 int	redirection_ahead(char *str, int i)
 {
