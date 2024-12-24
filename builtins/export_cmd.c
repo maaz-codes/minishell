@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 13:02:50 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 13:36:29 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	ap_env(t_env **env, char *res)
 {
 	t_env	*temp;
-	char	*env_new;
-
-	env_new = res;
+	
 	temp = malloc(sizeof(t_env));
 	if (!temp)
 		return ;
