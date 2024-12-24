@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:57:23 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 13:39:53 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,10 @@ void	sorted_exp(t_exp **head)
 {
 	int		swap;
 	t_exp	*current;
-	t_exp	*holder;
 
 	current = NULL;
 	if (!(*head))
 		return ;
-	holder = current;
 	swap = 1;
 	while (swap)
 	{
@@ -70,7 +68,6 @@ void	sorted_exp(t_exp **head)
 			}
 			current = current->next;
 		}
-		holder = current;
 	}
 }
 
