@@ -6,16 +6,16 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:36:05 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:08:57 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:41:27 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, int start, int len)
 {
 	char	*substring;
-	size_t	i;
+	int		i;
 
 	if (!s || !len || start >= ft_strlen(s))
 		return (ft_strdup(""));

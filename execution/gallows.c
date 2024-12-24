@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:15:08 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:40:52 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	gallows(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 		return (1);
 	tree->level += 1;
 	if (tree->type == NODE_OP)
-		handle_pipe(tree, env, pipe_flag, shl);
+		handle_pipe(tree, env, shl);
 	else if (tree->type == NODE_REDIR)
 		handle_redir(tree, env, pipe_flag, shl);
 	else if (tree->type == NODE_CMD)

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:11:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 11:12:19 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:51:48 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	valid_unset(char *str)
 	while (str[i])
 	{
 		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
-			|| str[i] == '_' || str[i] >= '0' && str[i] <= '9')
+			|| str[i] == '_' || (str[i] >= '0' && str[i] <= '9'))
 			len++;
 		i++;
 	}

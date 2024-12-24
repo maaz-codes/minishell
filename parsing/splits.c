@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:15:45 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 11:30:42 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:45:25 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	split_redirection(char *str, t_tree **node, int i)
 		cmd = extract_cmd_from_redir(ft_substr(str, 0, i), str, i, append);
 		if (cmd)
 			add_node(node, init_exp_node(&cmd), LEFT);
-		file_name = extract_file_name(str, i + 1 + append, ft_strlen(str));
+		file_name = extract_file_name(str, i + 1 + append);
 		if (file_name)
-			add_node(node, init_file_node(file_name, 0, ft_strlen(str)), RIGHT);
+			add_node(node, init_file_node(file_name), RIGHT);
 		free(str);
 		free(node_tmp);
 		if ((*node)->left != NULL)
@@ -93,7 +93,7 @@ int	split_cmd(char *str, int i, t_tree **node)
 	return (0);
 }
 
-char	**split_args(char *str, char *cmd)
+char	**split_args(char *str)
 {
 	char	**args;
 

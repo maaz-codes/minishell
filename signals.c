@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:23:53 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:15:34 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:34:47 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ void	handle_sigint(int sig)
 	{
 		write(STDERR_FILENO, "\n", 1);
 		rl_on_new_line();
-		/* DO NOT DELETE NEEDED */
-		// rl_replace_line("",0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 		g_signal_caught = SIGINT;
 	}

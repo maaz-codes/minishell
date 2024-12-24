@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = gcc -g3 #-fsanitize=address,undefined
+CC = cc #-fsanitize=address,undefined
 CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
@@ -67,12 +67,11 @@ READLINEFLAGS = -L/opt/vagrant/embedded/lib/ -Iopt/vagrant/embedded/include/read
 all:$(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(READLINEFLAGS) $^ -o $@ $(LDFLAGS)
-
+	$(CC) $(CFLAGS) $(READLINEFLAGS) $^ -o $@ $(LDFLAGS)
 
 #Add CFLAGS Later
 %.o:%.c
-	$(CC) -c $< -o $@ 
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 clean: 
 	$(RM) $(OBJS)

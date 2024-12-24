@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:16:54 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 13:06:20 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,14 @@ typedef struct s_shl
 	int				exit_status;
 }					t_shl;
 
-// void				rl_replace_line(const char *text, int clear_undo);
+void				rl_replace_line(const char *text, int clear_undo);
 
 // helpers
-size_t				ft_strlen(const char *str);
+int					ft_strlen(const char *str);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strtrim(char const *s1, char const *set);
-char				*ft_substr(char const *s, unsigned int start, size_t len);
-int					ft_strncmp(const char *s1, const char *s2, size_t n);
+char				*ft_substr(char const *s, int start, int len);
+int					ft_strncmp(const char *s1, const char *s2, int n);
 char				*ft_strdup(const char *s1);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				**ft_split(const char *s, char c);
@@ -153,14 +153,14 @@ t_tree				*init_exp_node(char **str);
 t_tree				*init_log_op_node(char spl_op);
 t_tree				*init_op_node(char op, char *str);
 t_tree				*init_redir_node(char *redir);
-t_tree				*init_file_node(char *str, int start, int end);
+t_tree				*init_file_node(char *str);
 
 // tokens_2.c
 t_tree				*init_cmd_node(char **cmd);
 t_tree				*init_args_node(char **args, char *cmd);
 char				*exp_after_redir_node(char *str, char *first_half,
 						int start);
-char				*extract_file_name(char *str, int start, int end);
+char				*extract_file_name(char *str, int start);
 
 // qoutes.c
 int					inside_qoutes(char qoute, char *str, int i);
@@ -190,7 +190,7 @@ void				nuke(t_shl *shl, int flag);
 int					split_operator(char *str, t_tree **node, int i);
 int					split_redirection(char *str, t_tree **node, int i);
 int					split_cmd(char *str, int i, t_tree **node);
-char				**split_args(char *str, char *cmd);
+char				**split_args(char *str);
 
 // splits_utils.c
 char				*extract_cmd_from_redir(char *first_half, char *str,
@@ -215,8 +215,7 @@ void				handle_cmd(t_tree *tree, char **env, int pipe_flag,
 						t_shl *shl);
 void				handle_redir(t_tree *tree, char **env, int pipe_flag,
 						t_shl *shl);
-void				handle_pipe(t_tree *tree, char **env, int pipe_flag,
-						t_shl *shl);
+void				handle_pipe(t_tree *tree, char **env, t_shl *shl);
 int					handle_here_doc(int read_from, t_shl *shl);
 
 // handle_utils.c
@@ -260,11 +259,11 @@ void				handle_signals(int status, t_shl *shl);
 void				signal_default(void);
 
 // helpers - raph
-size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void				*ft_calloc(size_t nmemb, size_t size);
-void				ft_bzero(void *s, size_t n);
+int					ft_strlcpy(char *dst, const char *src, int dstsize);
+void				*ft_calloc(int nmemb, int size);
+void				ft_bzero(void *s, int n);
 int					ft_atoi(char *s);
-void				*ft_memset(void *b, int c, size_t len);
+void				*ft_memset(void *b, int c, int len);
 unsigned long long	ft_atol(char *s);
 
 // for freeing;
@@ -278,7 +277,7 @@ void				echo_cmd(char **str, t_shl *shl);
 
 void				pwd_cmd(char **str, t_shl *shl);
 
-void				exit_cmd(t_path **paths, char **str, t_shl *shl);
+void				exit_cmd(char **str, t_shl *shl);
 void				valid_num(char *s, char **str, t_shl *shl);
 void				error_msg(char **str, t_shl *shl);
 
@@ -309,17 +308,16 @@ void				ap_exp(t_exp **paths, char *res);
 void				ap_env(t_env **env, char *res);
 int					valid_export(char *str, char **res, char **sep,
 						int check_for_plus);
-void				export_t_env_plus(t_path **paths, char *tmp_char, char *sep,
-						char *str);
-void				export_t_exp_plus(t_path **paths, char *tmp_char, char *sep,
-						char *str);
+void				export_t_env_plus(t_path **paths, char *tmp_char,
+						char *sep);
+void				export_t_exp_plus(t_path **paths, char *tmp_char,
+						char *sep);
 void				export_t_env(t_path **paths, char *tmp_char, char *sep,
 						char *str);
 void				export_t_exp(t_path **paths, char *tmp_char, char *sep,
 						char *str);
 int					plus_equals_check(char *str);
-void				plus_equals_export(t_path **paths, char **sep, char *str,
-						int *i);
+void				plus_equals_export(t_path **paths, char **sep, int *i);
 void				normal_export(t_path **paths, char **sep, char *str,
 						int *i);
 char				*if_with_equals_env(t_env *tmp, char *holder,

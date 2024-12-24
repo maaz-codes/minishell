@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:06 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 18:19:27 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:50:39 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	error_msg(char **str, t_shl *shl)
 	exit(255);
 }
 
-void	neg_num_exit(t_path **paths, char **str, unsigned long long exit_num,
-		t_shl *shl)
+void	neg_num_exit(unsigned long long exit_num, t_shl *shl)
 {
 	long	negative_num;
 
@@ -53,7 +52,7 @@ void	num_valid_check(unsigned long long e, int c, char **str,
 		error_msg(str, shl);
 }
 
-void	exit_cmd(t_path **paths, char **str, t_shl *shl)
+void	exit_cmd(char **str, t_shl *shl)
 {
 	unsigned long long	exit_num;
 	int					check;
@@ -71,7 +70,7 @@ void	exit_cmd(t_path **paths, char **str, t_shl *shl)
 		exit_num = symbol_check(str[1], &check);
 		num_valid_check(exit_num, check, str, shl);
 		if (!check)
-			neg_num_exit(paths, str, exit_num, shl);
+			neg_num_exit(exit_num, shl);
 		if (exit_num >= 256 && check == 1)
 			exit_num = exit_num % 256;
 		(nuke(shl, TNT), write(2, "exit\n", 6),

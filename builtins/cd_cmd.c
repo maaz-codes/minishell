@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:46 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:37:02 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/24 12:47:12 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*new_path(char *cwd, int id)
 {
 	int		len;
-	int		i;
 	char	*new_path;
 
 	len = ft_strlen(cwd);
@@ -125,6 +124,7 @@ void	cd_cmd(char **str, t_path **paths, t_shl *shl)
 	int		check;
 
 	check = 0;
+	res = NULL;
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		printf("error");
 	if (!ft_strncmp(str[0], "cd", 3) && str[1] == NULL)

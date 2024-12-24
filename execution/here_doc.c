@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 18:19:27 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:37:51 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,13 @@ static void	read_write(char *limiter, int write_to, t_env *env, t_shl *shl)
 int	ft_hdoc(char *limiter, t_shl *shl, pid_t *pid)
 {
 	int	doc_pipe[2];
-	int	status;
 
 	if (pipe(doc_pipe) == -1)
-		(close(doc_pipe[1]), close(doc_pipe[0]), print_error(ERR_PIPE));
+	{
+		close(doc_pipe[1]);
+		close(doc_pipe[0]);
+		print_error(ERR_PIPE);
+	}
 	*pid = fork();
 	if (*pid == -1)
 		(nuke(shl, TNT), print_exit(ERR_FORK));
@@ -102,7 +105,8 @@ int	ft_hdoc(char *limiter, t_shl *shl, pid_t *pid)
 		signal(SIGQUIT, SIG_IGN);
 		read_write(limiter, doc_pipe[1], shl->paths->env_struct, shl);
 		close(doc_pipe[0]);
-		(nuke(shl, TNT), exit(g_signal_caught == SIGINT));
+		nuke(shl, TNT);
+		exit(g_signal_caught == SIGINT);
 	}
 	close(doc_pipe[1]);
 	free(limiter);

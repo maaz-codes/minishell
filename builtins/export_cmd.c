@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 11:10:34 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 13:02:50 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ t_exp	*int_exp(char **env)
 
 void	export_cmd(char **str, t_path **paths, t_shl *shl)
 {
-	t_env	*tmp;
 	char	**sep;
 	int		i;
 	int		check_for_plus;
@@ -119,7 +118,7 @@ void	export_cmd(char **str, t_path **paths, t_shl *shl)
 			if (!check_for_plus && sep)
 				normal_export(paths, sep, str[i], &i);
 			else if (check_for_plus && sep)
-				plus_equals_export(paths, sep, str[i], &i);
+				plus_equals_export(paths, sep, &i);
 		}
 	}
 	shl->exit_status = exit_status;

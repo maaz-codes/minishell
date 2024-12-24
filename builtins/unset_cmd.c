@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:28 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 11:10:49 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:51:17 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void	unset_env_list(t_path **paths, char *str, int *i)
 
 void	unset_cmd(char **str, t_path **paths, t_shl *shl)
 {
-	t_exp	*tmp;
 	int		i;
 	int		exit_stat;
 

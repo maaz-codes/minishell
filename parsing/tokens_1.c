@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:09:28 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:35:55 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:43:31 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_tree	*init_redir_node(char *redir)
 	return (node);
 }
 
-t_tree	*init_file_node(char *str, int start, int end)
+t_tree	*init_file_node(char *str)
 {
 	t_tree	*node;
 

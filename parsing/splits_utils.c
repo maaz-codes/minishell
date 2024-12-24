@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:17:24 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 11:28:28 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:26:01 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	skip_qoutes(char *str, int *i)
 	if (str[*i] == '"' || str[*i] == '\'')
 	{
 		*i = inside_qoutes(str[*i], str, *i);
-		printf("i=>%c\n", str[*i - 1]);
 		return (TRUE);
 	}
 	return (FALSE);

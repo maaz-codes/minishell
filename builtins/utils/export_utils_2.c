@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 17:14:57 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:57:23 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	sorted_exp(t_exp **head)
 	t_exp	*current;
 	t_exp	*holder;
 
+	current = NULL;
 	if (!(*head))
 		return ;
 	holder = current;

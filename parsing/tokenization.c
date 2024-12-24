@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:13:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 18:19:27 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:42:38 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_tree	*tokenizer(char *str, t_tree **node)
 	return (*node);
 }
 
-int	check_syntax(t_tree *node, t_tree *parent)
+int	check_syntax(t_tree *node)
 {
 	if (node->type == NODE_LOG_OP)
 		return (check_log_op_node(node));

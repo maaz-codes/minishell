@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:11:27 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:09:59 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:44:54 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_tree	*init_args_node(char **args, char *cmd)
 		(free(cmd), free(*args), print_exit(ERR_MALLOC));
 	node->type = NODE_ARG;
 	strip_spaces(args);
-	arguments = split_args(*args, cmd);
+	arguments = split_args(*args);
 	if (!arguments)
 		(free(cmd), free(*args), print_exit(ERR_MALLOC));
 	free_str(args);
@@ -81,7 +81,7 @@ char	*exp_after_redir_node(char *str, char *first_half, int start)
 	return (left_exp);
 }
 
-char	*extract_file_name(char *str, int start, int end)
+char	*extract_file_name(char *str, int start)
 {
 	int		store_start;
 	char	*file_name;

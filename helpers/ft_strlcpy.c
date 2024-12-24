@@ -6,15 +6,15 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 19:35:13 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 17:08:48 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 12:36:30 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+int	ft_strlcpy(char *dst, const char *src, int dstsize)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	if (!dst || !src || !dstsize)

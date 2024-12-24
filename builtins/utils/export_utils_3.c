@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:45 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:38:41 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/24 13:01:59 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	export_t_env_plus(t_path **paths, char *tmp_char, char *sep, char *str)
+void	export_t_env_plus(t_path **paths, char *tmp_char, char *sep)
 {
 	t_env	*tmp;
 	char	*holder;
@@ -38,7 +38,7 @@ void	export_t_env_plus(t_path **paths, char *tmp_char, char *sep, char *str)
 	ap_env(&(*paths)->env_struct, ft_strjoin(tmp_char, sep));
 }
 
-void	export_t_exp_plus(t_path **paths, char *tmp_char, char *sep, char *str)
+void	export_t_exp_plus(t_path **paths, char *tmp_char, char *sep)
 {
 	t_exp	*tmp;
 	char	*holder;
@@ -91,7 +91,7 @@ int	plus_equals_check(char *str)
 	return (0);
 }
 
-void	plus_equals_export(t_path **paths, char **sep, char *str, int *i)
+void	plus_equals_export(t_path **paths, char **sep, int *i)
 {
 	char	*tmp_char;
 	char	*new_str;
@@ -103,8 +103,8 @@ void	plus_equals_export(t_path **paths, char **sep, char *str, int *i)
 	else
 	{
 		tmp_char = ft_strjoin(new_str, "=");
-		export_t_exp_plus(paths, tmp_char, sep[1], str);
-		export_t_env_plus(paths, tmp_char, sep[1], str);
+		export_t_exp_plus(paths, tmp_char, sep[1]);
+		export_t_env_plus(paths, tmp_char, sep[1]);
 		(free_array(sep), free(tmp_char), free(new_str));
 		*i += 1;
 	}
