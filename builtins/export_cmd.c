@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 17:14:46 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 11:10:34 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	export_cmd(char **str, t_path **paths, t_shl *shl)
 	char	**sep;
 	int		i;
 	int		check_for_plus;
-	int 	exit_status;
+	int		exit_status;
 
 	exit_status = 0;
 	i = 1;

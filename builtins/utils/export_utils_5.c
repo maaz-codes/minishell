@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_5.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:59 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:38:47 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/24 11:11:02 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	exp_loop(t_exp *tmp, char *only_str, char *joined_str, int check)
 	}
 }
 
-void check_sep_export(char **sep, int *i, int *exit_status)
-{	
+void	check_sep_export(char **sep, int *i, int *exit_status)
+{
 	if (!sep)
 	{
 		*i += 1;

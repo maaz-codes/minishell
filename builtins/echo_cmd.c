@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 13:11:19 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 17:50:30 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 11:10:18 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	echo_cmd(char **str, t_shl *shl)
 
 	checker = 0;
 	i = 1;
-	
 	if (!ft_strncmp(str[0], "echo", 5))
 	{
 		if (str[1] == NULL)

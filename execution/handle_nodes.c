@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 18:23:12 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 11:11:57 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 				write(2, "Segmentation fault: 11\n", 24);
 			shl->exit_status = WTERMSIG(status) + 128;
 		}
-		// g_signal_caught = WTERMSIG(status);
 	}
 	else
 		(nuke(shl, TNT), execute(args, env));

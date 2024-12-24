@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:28 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:38:20 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/24 11:10:49 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ void	unset_exp_list(t_path **paths, char *str, int *i, int *exit_stat)
 {
 	t_exp	*tmp;
 	int		pos;
-	
+
 	if (!valid_unset(str))
-	{	
+	{
 		printf("export: \'%s\': not a valid identifier\n", str);
 		*exit_stat = 1;
 		*i += 1;
@@ -95,7 +95,6 @@ void	unset_env_list(t_path **paths, char *str, int *i)
 {
 	t_env	*tmp;
 	int		pos;
-	
 
 	if (!valid_unset(str))
 		*i += 1;
@@ -119,7 +118,7 @@ void	unset_cmd(char **str, t_path **paths, t_shl *shl)
 {
 	t_exp	*tmp;
 	int		i;
-	int 	exit_stat;
+	int		exit_stat;
 
 	exit_stat = 0;
 	i = 1;

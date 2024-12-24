@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:17:24 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 17:12:07 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 10:34:30 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,11 @@ int	count_args(char *str)
 			if (str[i] == ' ' || str[i] == '\0')
 				count++;
 			if (skip_spaces(str, &i))
-				if (str[i] == '\0')
+			{
+				i--;
+				if (str[i + 1] == '\0')
 					break ;
+			}
 		}
 	}
 	return (count);
