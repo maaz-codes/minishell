@@ -61,3 +61,10 @@ cmd | cmd | cmd
 echo hi > out
 echo hi > out
 {exits the second time you use redirections}
+
+
+<!-- expansions -->
+echo "'$PATH"
+output: '/Users/maakhan/....
+echo "'$PATH"'
+output: wrong format

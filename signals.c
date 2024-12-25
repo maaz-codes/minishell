@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:23:53 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 17:11:59 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/25 10:00:41 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*signal_checkpoint(t_std_fds *std_fds, t_shl *shl)
 {
 	char	*input;
 
-	dup_fds(&shl->std_fds);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	// if (isatty(0))

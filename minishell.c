@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:50:55 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 17:52:13 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/25 10:04:11 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ static t_tree	*parsing(char *input, t_shl *shl)
 	return (shl->head);
 }
 
+static void	shell_reset(t_shl **shl)
+{
+	t_std_fds	std_fds;
+
+	dup_fds(&std_fds);
+	(*shl)->std_fds = std_fds;
+	(*shl)->inside_pipe = FALSE;
+	(*shl)->head = NULL;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
@@ -46,8 +56,7 @@ int	main(int ac, char **av, char **env)
 	// 	rl_outstream = stdin;
 	while (1)
 	{
-		shl->inside_pipe = FALSE;
-		shl->head = NULL;
+		shell_reset(&shl);
 		input = signal_checkpoint(&shl->std_fds, shl);
 		if (input)
 		{

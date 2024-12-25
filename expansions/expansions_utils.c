@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:05:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 11:19:23 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/25 10:19:58 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	expand_args(t_tree **arg_node, t_env *env, t_shl *shl)
 	{
 		(*arg_node)->data.args[i] = env_expansion(
 				(*arg_node)->data.args[i], env, shl);
+		(*arg_node)->data.args[i] = remove_qoutes((*arg_node)->data.args[i]);
 		i++;
 	}
 }
