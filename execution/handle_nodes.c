@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 17:50:43 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/25 10:41:15 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	handle_pipe(t_tree *tree, char **env, t_shl *shl)
 	if (tree->level != 1)
 	{
 		nuke(shl, TNT);
-		exit(0);
+		exit(WEXITSTATUS(status));
 	}
 }
 
