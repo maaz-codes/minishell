@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:37:51 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 17:51:30 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ int	find_docs(t_tree *tree, t_shl *shl)
 {
 	pid_t	pid;
 	int		status;
+	int		result;
 
+	if (tree == NULL)
+		return (1);
+	result = 1;
 	if (tree->type == NODE_REDIR && ft_strncmp(tree->data.redir, "<<", 2) == 0)
 	{
 		tree->right->data.here_doc = ft_hdoc(tree->right->data.exp, shl, &pid);
@@ -36,20 +40,16 @@ int	find_docs(t_tree *tree, t_shl *shl)
 		if (WEXITSTATUS(status) == 1)
 		{
 			shl->exit_status = 1;
-			g_signal_caught = SIGINT;
 			return (close(tree->right->data.here_doc), FALSE);
 		}
 		if (tree->left != NULL)
 			if (here_docs_ahead(tree->left) == TRUE)
 				close(tree->right->data.here_doc);
 	}
-	if (tree->left != NULL)
-	{
-		return (find_docs(tree->left, shl));
-		if (tree->right != NULL)
-			return (find_docs(tree->right, shl));
-	}
-	return (1);
+	result = find_docs(tree->left, shl);
+	if (result)
+		result = find_docs(tree->right, shl);
+	return (result);
 }
 
 static void	handle_heredoc_sig(int sig)

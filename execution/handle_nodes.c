@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:50:52 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 17:50:43 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 	else if (ft_strncmp(tree->data.redir, ">>", 2) == 0)
 		fd = handle_append_redir(tree->right->data.file, shl);
 	else if (ft_strncmp(tree->data.redir, "<<", 2) == 0)
-		fd = handle_here_doc(tree->right->data.here_doc, shl);
+		fd = handle_here_doc(tree->right->data.here_doc);
 	if (fd != -1)
 	{
 		close(fd);
@@ -112,13 +112,9 @@ void	handle_pipe(t_tree *tree, char **env, t_shl *shl)
 	}
 }
 
-int	handle_here_doc(int read_from, t_shl *shl)
+int	handle_here_doc(int read_from)
 {
-	if (dup2(read_from, 0) == -1)
-	{
-		nuke(shl, TNT);
-		print_exit(ERR_DUP);
-	}
+	dup2(read_from, 0);
 	close(read_from);
 	return (read_from);
 }

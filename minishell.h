@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 13:06:20 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/24 17:49:44 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ char				*remove_qoutes(char *str);
 int					qoutes_checker(char *str);
 
 // tokens_utils.c
-char				symbol_checker(char s);
+// char				symbol_checker(char s);
 int					redirection_ahead(char *str, int i);
 int					spl_operator_ahead(char *str, int i);
 int					operator_ahead(char *str, int i);
@@ -216,7 +216,7 @@ void				handle_cmd(t_tree *tree, char **env, int pipe_flag,
 void				handle_redir(t_tree *tree, char **env, int pipe_flag,
 						t_shl *shl);
 void				handle_pipe(t_tree *tree, char **env, t_shl *shl);
-int					handle_here_doc(int read_from, t_shl *shl);
+int					handle_here_doc(int read_from);
 
 // handle_utils.c
 int					handle_input_redir(char *file_name, t_shl *shl);
