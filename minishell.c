@@ -6,11 +6,35 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:50:55 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 18:57:21 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:16:15 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	**convert_env_from_list(t_env *env_list)
+{
+	char	**env;
+	int		i;
+
+	i = 0;
+	while (env_list)
+	{
+		i++;
+		env_list = env_list->next;
+	}
+	env = malloc(sizeof(char *) * i);
+	i = 0;
+	while (env_list)
+	{
+		env[i] = ft_strdup(env_list->env);
+		if (!env[i])
+			print_exit(ERR_MALLOC);
+		i++;
+		env_list = env_list->next;
+	}
+	return (env);
+}
 
 static int	execution(t_tree *tree, char **env, t_shl *shl)
 {
@@ -36,6 +60,7 @@ static void	shell_reset(t_shl **shl)
 {
 	t_std_fds	std_fds;
 
+	(*shl)->env = convert_env_from_list((*shl)->paths->env_struct);
 	dup_fds(&std_fds);
 	(*shl)->std_fds = std_fds;
 	(*shl)->inside_pipe = FALSE;
@@ -64,7 +89,7 @@ int	main(int ac, char **av, char **env)
 			add_history(input);
 			tree = parsing(input, shl);
 			if (tree)
-				execution(tree, env, shl);
+				execution(tree, shl->env, shl);
 			reset_std_fds(&shl->std_fds);
 			nuke(shl, 0);
 		}

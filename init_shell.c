@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:46:36 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 19:01:39 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:06:21 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_shl	*init_shell(t_path *paths)
 	shl->exit_status = 0;
 	shl->inside_pipe = FALSE;
 	shl->head = NULL;
+	shl->env = NULL;
 	return (shl);
 }
 

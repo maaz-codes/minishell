@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 17:20:45 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:05:43 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct s_shl
 	t_std_fds		std_fds;
 	int				inside_pipe;
 	int				exit_status;
+	char			**env;
 }					t_shl;
 
 void				rl_replace_line(const char *text, int clear_undo);
