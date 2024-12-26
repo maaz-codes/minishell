@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 20:20:59 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 20:59:32 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,8 @@ t_path				*init_paths(char **env);
 char				*get_cwd(void);
 t_path				*int_cd(void);
 int					list_length_env(t_env *env_list);
+
+void				check_cwd(char *cwd, t_path **paths);
 
 // signals.c
 char				*signal_checkpoint(t_std_fds *std_fds, t_shl *shl);
