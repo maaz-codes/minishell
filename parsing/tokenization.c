@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:13:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 14:52:27 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 17:23:14 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ t_tree	*tokenization(char *str, t_shl *shl)
 			(free(str), nuke(shl, TNT), exit(EXIT_FAILURE));
 		if (ft_strlen(str) == 0)
 			return (free(str), NULL);
-		tokenizer(str, &tree);
+		shl->head = tokenizer(str, &tree);
 		if (tree == NULL)
 			return (NULL);
 		else
 		{
 			tree->level = 0;
 			if (!syntax_checker(tree))
-				return (print_error(ERR_FORMAT), NULL);
+				return (nuke(shl, 0), print_error(ERR_FORMAT), NULL);
 		}
 	}
 	return (tree);
