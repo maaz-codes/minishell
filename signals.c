@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:23:53 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/25 10:00:41 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/25 11:28:35 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ char	*signal_checkpoint(t_std_fds *std_fds, t_shl *shl)
 
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	// if (isatty(0))
+	if (isatty(0))
 		input = readline("minishell> ");
-	// else
-	// 	input = readline("");
+	else
+		input = readline("");
 	if (!input)
 	{
 		write(2, "exit\n", 5);

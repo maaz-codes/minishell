@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:50:55 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/25 10:30:15 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/25 11:28:23 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	main(int ac, char **av, char **env)
 		return (write(2, "This shell doesn't take any args\n", 34), 1);
 	paths = init_paths(env);
 	shl = init_shell(paths);
-	// if (!isatty(0))
-	// 	rl_outstream = stdin;
+	if (!isatty(0))
+		rl_outstream = stdin;
 	while (1)
 	{
 		shell_reset(&shl);

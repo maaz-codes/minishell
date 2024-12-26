@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:06 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 16:35:52 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/25 11:29:09 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	error_msg(char **str, t_shl *shl)
 	write(2, "minishell: exit: ", 18);
 	write(2, &str[1], ft_strlen(str[1]));
 	write(2, ": numeric argument required\n", 29);
-	// printf("minishell: exit: %s: numeric argument required\n", str[1]);
 	nuke(shl, TNT);
 	exit(255);
 }
