@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 17:49:44 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 15:57:06 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ void				reset_std_fds(t_std_fds *std_fds);
 
 // tree_utils.c
 void				add_node(t_tree **tree, t_tree *node, int side);
-void				print_data(t_tree *tree);
-void				print_tree(t_tree *tree);
+// void				print_data(t_tree *tree);
+// void				print_tree(t_tree *tree);
 
 // tokenization
 int					strip_spaces(char **str);
@@ -185,6 +185,7 @@ t_tree				*lumberjack(t_tree *tree);
 void				chop_branch(t_tree *node);
 void				free_array(char **array);
 void				nuke(t_shl *shl, int flag);
+void				close_last_fd(t_tree *tree);
 
 // splits.c
 int					split_operator(char *str, t_tree **node, int i);

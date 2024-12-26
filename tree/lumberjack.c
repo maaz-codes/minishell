@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:42:01 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 18:26:09 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 16:01:34 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	nuke(t_shl *shl, int flag)
 {
+	close_last_fd(shl->head);
 	if (flag == TNT)
 	{
 		ft_lstclear_env(&shl->paths->env_struct);
@@ -66,4 +67,16 @@ t_tree	*lumberjack(t_tree *tree)
 		lumberjack(tree->right);
 	chop_branch(tree);
 	return (NULL);
+}
+
+void	close_last_fd(t_tree *tree)
+{
+	if (!tree)
+		return ;
+	if (tree->type == NODE_HDOC)
+		close(tree->data.here_doc);
+	if (tree->left != NULL)
+		close_last_fd(tree->left);
+	if (tree->right != NULL)
+		close_last_fd(tree->right);
 }
