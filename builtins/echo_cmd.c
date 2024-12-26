@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 13:11:19 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 11:10:18 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:16:40 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,16 @@ int	valid_dash_n(char *str)
 
 	i = 1;
 	if (str[0] == '-')
-	{
-		while (str[i] == 'n' && str[i])
-			i++;
-		if (ft_strlen(str) == i)
-			return (1);
+	{	
+		if(str[1] == 'n')
+		{
+			while (str[i] == 'n' && str[i])
+				i++;
+			if (ft_strlen(str) == i)
+				return (1);
+			else
+				return (0);
+		}
 		else
 			return (0);
 	}
