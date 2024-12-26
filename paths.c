@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:11 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 18:21:14 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 20:20:38 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,17 @@ t_path	*init_paths(char **env)
 	if (!paths->exp_struct)
 		paths->exp_struct = NULL;
 	return (paths);
+}
+
+int	list_length_env(t_env *env_list)
+{
+	int	len;
+
+	len = 0;
+	while (env_list)
+	{
+		len++;
+		env_list = env_list->next;
+	}
+	return (len);
 }

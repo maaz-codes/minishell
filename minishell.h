@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 19:05:43 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 20:20:59 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ void				expansions(t_tree **tree, t_env *env, t_shl *shl);
 t_path				*init_paths(char **env);
 char				*get_cwd(void);
 t_path				*int_cd(void);
+int					list_length_env(t_env *env_list);
 
 // signals.c
 char				*signal_checkpoint(t_std_fds *std_fds, t_shl *shl);

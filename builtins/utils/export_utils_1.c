@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:36 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/25 11:29:19 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 20:41:25 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*holder_env(char *str, int len, int check)
 int	error_exp(char *str, char **res, char **sep)
 {
 	write(2, "export: \'", 9);
-	write(2, &str, ft_strlen(str));
+	write(2, str, ft_strlen(str));
 	write(2, "\': not a valid identifier\n", 26);
 	if (res)
 		free_array(res);

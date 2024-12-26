@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:50:55 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 19:16:15 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 20:54:41 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,7 @@ static char	**convert_env_from_list(t_env *env_list)
 	int		i;
 
 	i = 0;
-	while (env_list)
-	{
-		i++;
-		env_list = env_list->next;
-	}
-	env = malloc(sizeof(char *) * i);
+	env = malloc(sizeof(char *) * list_length_env(env_list));
 	i = 0;
 	while (env_list)
 	{
@@ -33,6 +28,7 @@ static char	**convert_env_from_list(t_env *env_list)
 		i++;
 		env_list = env_list->next;
 	}
+	env[i] = NULL;
 	return (env);
 }
 
@@ -49,10 +45,11 @@ static int	execution(t_tree *tree, char **env, t_shl *shl)
 
 static t_tree	*parsing(char *input, t_shl *shl)
 {
+	input = env_expansion(input, shl->paths->env_struct, shl);
 	shl->head = tokenization(input, shl);
-	if (shl->head)
-		expansions(&(shl->head), shl->paths->env_struct,
-			shl);
+	// if (shl->head)
+	// 	expansions(&(shl->head), shl->paths->env_struct,
+	// 		shl);
 	return (shl->head);
 }
 
