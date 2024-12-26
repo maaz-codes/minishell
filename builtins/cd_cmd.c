@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:46 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:47:12 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 14:47:40 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ char	*new_path(char *cwd, int id)
 	ft_strlcpy(new_path, cwd, len + 1);
 	if (chdir(new_path) == -1)
 	{
-		(free(new_path), printf("error new path\n"));
+		write(2, "No such file or directory\n", 27);
+		free(new_path);
 		g_signal_caught = SIGINT;
 		return (NULL);
 	}
