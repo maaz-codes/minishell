@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 17:49:44 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:28:53 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,7 @@ void				expansions(t_tree **tree, t_env *env, t_shl *shl);
 t_path				*init_paths(char **env);
 char				*get_cwd(void);
 t_path				*int_cd(void);
+void 				check_cwd(char *cwd, t_path **paths);
 
 // signals.c
 char				*signal_checkpoint(t_std_fds *std_fds, t_shl *shl);
