@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 19:28:53 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/26 19:42:06 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct s_shl
 	t_std_fds		std_fds;
 	int				inside_pipe;
 	int				exit_status;
+	char			**env;
 }					t_shl;
 
 void				rl_replace_line(const char *text, int clear_undo);
@@ -185,6 +186,7 @@ t_tree				*lumberjack(t_tree *tree);
 void				chop_branch(t_tree *node);
 void				free_array(char **array);
 void				nuke(t_shl *shl, int flag);
+void				close_last_fd(t_tree *tree);
 
 // splits.c
 int					split_operator(char *str, t_tree **node, int i);

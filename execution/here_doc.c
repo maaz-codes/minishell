@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 17:51:30 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 15:38:38 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 int	here_docs_ahead(t_tree *tree)
 {
+	int	result;
+
+	result = FALSE;
 	if (tree->type == NODE_REDIR && ft_strncmp(tree->data.redir, "<<", 2) == 0)
-		return (TRUE);
+		result = TRUE;
 	if (tree->left != NULL)
-		return (here_docs_ahead(tree->left));
-	if (tree->right != NULL)
-		return (here_docs_ahead(tree->right));
-	return (FALSE);
+		result = here_docs_ahead(tree->left);
+	if (!result)
+		if (tree->right != NULL)
+			result = here_docs_ahead(tree->right);
+	return (result);
 }
 
 int	find_docs(t_tree *tree, t_shl *shl)
@@ -76,8 +80,8 @@ static void	read_write(char *limiter, int write_to, t_env *env, t_shl *shl)
 			if (!ft_strncmp(line, limiter, ft_strlen(limiter) + 1))
 				break ;
 			new_line = ft_strjoin(line, "\n");
-			write(write_to, env_expansion(new_line, env, shl),
-				ft_strlen(new_line));
+			new_line = env_expansion(new_line, env, shl);
+			write(write_to, new_line, ft_strlen(new_line));
 			free_str(&new_line);
 			free_str(&line);
 		}

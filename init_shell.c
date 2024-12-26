@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:46:36 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/25 10:05:20 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:06:21 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 t_shl	*init_shell(t_path *paths)
 {
 	t_shl		*shl;
-	// t_std_fds	std_fds;
 
 	g_signal_caught = 0;
 	shl = malloc(sizeof(t_shl));
@@ -26,12 +25,11 @@ t_shl	*init_shell(t_path *paths)
 		ft_lstclear_path(&shl->paths);
 		print_exit(ERR_MALLOC);
 	}
-	// dup_fds(&std_fds);
-	// shl->std_fds = std_fds;
 	shl->paths = paths;
 	shl->exit_status = 0;
 	shl->inside_pipe = FALSE;
 	shl->head = NULL;
+	shl->env = NULL;
 	return (shl);
 }
 

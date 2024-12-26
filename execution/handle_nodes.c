@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/25 10:41:15 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/26 16:06:41 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 	else
 		shl->exit_status = 1;
 	if (pipe_flag)
+	{
+		nuke(shl, TNT);
 		exit(EXIT_SUCCESS);
+	}
 }
 
 void	handle_pipe(t_tree *tree, char **env, t_shl *shl)

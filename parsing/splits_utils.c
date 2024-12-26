@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:17:24 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/25 10:18:20 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/25 11:29:47 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	create_args_array(char *str, char ***args)
 		{
 			if (str[i] == ' ' || str[i] == '\0')
 			{
-				// (*args)[++k] = remove_qoutes(ft_substr(str, j, i - j));
 				(*args)[++k] = ft_substr(str, j, i - j);
 				if (break_skip_spaces(str, &i))
 					break ;
