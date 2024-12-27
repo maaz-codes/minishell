@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:50:55 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 20:54:41 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 12:20:19 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	**convert_env_from_list(t_env *env_list)
 	int		i;
 
 	i = 0;
-	env = malloc(sizeof(char *) * list_length_env(env_list));
+	env = malloc(sizeof(char *) * (list_length_env(env_list) + 1));
 	i = 0;
 	while (env_list)
 	{
@@ -35,11 +35,15 @@ static char	**convert_env_from_list(t_env *env_list)
 static int	execution(t_tree *tree, char **env, t_shl *shl)
 {
 	if (!find_docs(tree, shl))
+	{
+		free_array(env);
 		return (0);
+	}
 	tree->level = 0;
 	if (tree->type == NODE_OP)
 		shl->inside_pipe = TRUE;
 	gallows(tree, env, shl->inside_pipe, shl);
+	free_array(env);
 	return (1);
 }
 
@@ -47,9 +51,8 @@ static t_tree	*parsing(char *input, t_shl *shl)
 {
 	input = env_expansion(input, shl->paths->env_struct, shl);
 	shl->head = tokenization(input, shl);
-	// if (shl->head)
-	// 	expansions(&(shl->head), shl->paths->env_struct,
-	// 		shl);
+	if (!shl->head)
+		free_array(shl->env);
 	return (shl->head);
 }
 
@@ -92,3 +95,7 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 }
+
+	// if (shl->head)
+	// 	expansions(&(shl->head), shl->paths->env_struct,
+	// 		shl);

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:23:53 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/25 11:28:35 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 12:03:31 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*signal_checkpoint(t_std_fds *std_fds, t_shl *shl)
 	{
 		write(2, "exit\n", 5);
 		reset_std_fds(std_fds);
+		free_array(shl->env);
 		nuke(shl, TNT);
 		exit(EXIT_SUCCESS);
 	}

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:40:52 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 12:07:38 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,23 @@ void	execute(char **cmd, char *env[])
 		(free_array(cmd), print_exit(ERR_CMD));
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
-		(free_array(cmd), print_exit(ERR_CMD));
+		(free_array(cmd), free_array(env), print_exit(ERR_CMD));
 	execve(path, cmd, env);
 	if (stat(path, &directory) == 0)
 	{
 		write(2, "it's a directory\n", 18);
-		free(path);
+		(free(path), free_array(env));
 		free_array(cmd);
 		exit(126);
 	}
 	else if (ft_strchr(path, '/'))
 	{
 		write(2, "No such file or directory\n", 27);
-		free(path);
+		(free(path), free_array(env));
 		free_array(cmd);
 		exit(127);
 	}
-	(free(path), free_array(cmd));
+	(free(path), free_array(cmd), free_array(env));
 	print_exit(ERR_CMD);
 }
 

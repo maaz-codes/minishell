@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:45 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 13:01:59 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 12:18:40 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	export_t_exp_plus(t_path **paths, char *tmp_char, char *sep)
 	char	*holder;
 	char	*joined_str;
 	int		i;
-	tmp = (*paths)->exp_struct;
 
+	tmp = (*paths)->exp_struct;
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp_char, tmp->exp, ft_strlen(tmp_char)))

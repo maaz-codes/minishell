@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:13:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 19:19:43 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 12:01:27 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_tree	*tokenization(char *str, t_shl *shl)
 
 	tree = NULL;
 	if (!qoutes_checker(str))
-		return (free(str), free_array(shl->env), print_error(ERR_FORMAT), NULL);
+		return (free(str), print_error(ERR_FORMAT), NULL);
 	else
 	{
 		tree = NULL;
@@ -93,8 +93,7 @@ t_tree	*tokenization(char *str, t_shl *shl)
 		{
 			tree->level = 0;
 			if (!syntax_checker(tree))
-				return (free_array(shl->env), nuke(shl, 0),
-					print_error(ERR_FORMAT), NULL);
+				return (nuke(shl, 0), print_error(ERR_FORMAT), NULL);
 		}
 	}
 	return (tree);

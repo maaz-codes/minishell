@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 13:39:53 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/27 12:18:27 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	sorted_exp(t_exp **head)
 	}
 }
 
-char *checker_print(t_exp *tmp, int *i, int *check_with_equals)
-{	
-	char *check;
+char	*checker_print(t_exp *tmp, int *i, int *check_with_equals)
+{
+	char	*check;
 
 	check = NULL;
 	if (*i == ft_strlen(tmp->exp))
@@ -83,7 +83,7 @@ char *checker_print(t_exp *tmp, int *i, int *check_with_equals)
 		*check_with_equals = 1;
 		check = ft_strchr(tmp->exp, '=');
 	}
-	if(tmp->exp[*i + 1] == '"' || tmp->exp[*i + 1] == '\'')
+	if (tmp->exp[*i + 1] == '"' || tmp->exp[*i + 1] == '\'')
 		*i = 0;
 	return (check);
 }
