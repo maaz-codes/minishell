@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 12:07:38 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 17:04:50 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	gallows(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 			handle_builtin(tree, shl->paths, shl);
 			if (pipe_flag)
 			{
+				free_array(shl->env);
 				nuke(shl, TNT);
 				exit(EXIT_SUCCESS);
 			}

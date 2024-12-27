@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:13:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 12:01:27 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 17:08:25 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ t_tree	*tokenization(char *str, t_shl *shl)
 	{
 		tree = NULL;
 		if (!strip_spaces(&str))
-			(free(str), nuke(shl, TNT), exit(EXIT_FAILURE));
+			(free(str), free_array(shl->env),
+				nuke(shl, TNT), exit(EXIT_FAILURE));
 		if (ft_strlen(str) == 0)
 			return (free(str), NULL);
 		shl->head = tokenizer(str, &tree);

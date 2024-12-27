@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 16:06:41 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 17:05:33 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 			handle_signals(status, shl);
 	}
 	else
-		(nuke(shl, TNT), execute(args, env));
+		(free_array(shl->env), nuke(shl, TNT), execute(args, env));
 }
 
 void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
@@ -81,6 +81,7 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 		shl->exit_status = 1;
 	if (pipe_flag)
 	{
+		free_array(shl->env);
 		nuke(shl, TNT);
 		exit(EXIT_SUCCESS);
 	}
@@ -96,7 +97,7 @@ void	handle_pipe(t_tree *tree, char **env, t_shl *shl)
 	signal(SIGINT, SIG_IGN);
 	if (pipe(pipefd) == -1)
 	{
-		nuke(shl, TNT);
+		(free_array(shl->env), nuke(shl, TNT));
 		print_exit(ERR_PIPE);
 	}
 	pid_left = left_pipe(pipefd, tree, shl, env);
@@ -110,7 +111,7 @@ void	handle_pipe(t_tree *tree, char **env, t_shl *shl)
 		handle_signals(status, shl);
 	if (tree->level != 1)
 	{
-		nuke(shl, TNT);
+		(free_array(shl->env), nuke(shl, TNT));
 		exit(WEXITSTATUS(status));
 	}
 }
