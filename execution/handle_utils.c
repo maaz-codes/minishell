@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:10:35 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 14:38:35 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/27 17:06:25 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	handle_input_redir(char *file_name, t_shl *shl)
 	}
 	if (dup2(fd, 0) == -1)
 	{
+		free_array(shl->env);
 		nuke(shl, TNT);
 		print_exit(ERR_DUP);
 	}
@@ -42,6 +43,7 @@ int	handle_output_redir(char *file_name, t_shl *shl)
 	}
 	if (dup2(fd, 1) == -1)
 	{
+		free_array(shl->env);
 		nuke(shl, TNT);
 		print_exit(ERR_DUP);
 	}
@@ -60,6 +62,7 @@ int	handle_append_redir(char *file_name, t_shl *shl)
 	}
 	if (dup2(fd, 1) == -1)
 	{
+		free_array(shl->env);
 		nuke(shl, TNT);
 		print_exit(ERR_DUP);
 	}
@@ -73,6 +76,7 @@ pid_t	left_pipe(int *pipefd, t_tree *tree, t_shl *shl, char **env)
 	pid = fork();
 	if (pid == -1)
 	{
+		free_array(shl->env);
 		nuke(shl, TNT);
 		print_exit(ERR_FORK);
 	}
@@ -83,6 +87,7 @@ pid_t	left_pipe(int *pipefd, t_tree *tree, t_shl *shl, char **env)
 		close(pipefd[0]);
 		if (dup2(pipefd[1], 1) == -1)
 		{
+			free_array(shl->env);
 			nuke(shl, TNT);
 			print_exit(ERR_DUP);
 		}
@@ -100,6 +105,7 @@ pid_t	right_pipe(int *pipefd, t_tree *tree, t_shl *shl,
 	pid = fork();
 	if (pid == -1)
 	{
+		free_array(shl->env);
 		nuke(shl, TNT);
 		print_exit(ERR_FORK);
 	}
@@ -110,6 +116,7 @@ pid_t	right_pipe(int *pipefd, t_tree *tree, t_shl *shl,
 		close(pipefd[1]);
 		if (dup2(pipefd[0], 0) == -1)
 		{
+			free_array(shl->env);
 			nuke(shl, TNT);
 			print_exit(ERR_DUP);
 		}
