@@ -40,7 +40,7 @@ void	export_t_env(t_path **paths, char *tmp_char, char *sep, char *str)
 		return ;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp_char, tmp->env, ft_strlen(tmp_char) - 1))
+		if (!ft_strncmp(tmp_char, tmp->env, ft_strlen(tmp_char)))
 		{
 			free(tmp->env);
 			tmp->env = ft_strjoin(tmp_char, sep);

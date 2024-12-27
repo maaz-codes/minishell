@@ -21,7 +21,7 @@ void	export_t_env_plus(t_path **paths, char *tmp_char, char *sep)
 	tmp = (*paths)->env_struct;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp_char, tmp->env, ft_strlen(tmp_char) - 1))
+		if (!ft_strncmp(tmp_char, tmp->env, ft_strlen(tmp_char)))
 		{
 			i = 0;
 			holder = tmp->env;
@@ -44,11 +44,11 @@ void	export_t_exp_plus(t_path **paths, char *tmp_char, char *sep)
 	char	*holder;
 	char	*joined_str;
 	int		i;
-
 	tmp = (*paths)->exp_struct;
+
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp_char, tmp->exp, ft_strlen(tmp_char) - 1))
+		if (!ft_strncmp(tmp_char, tmp->exp, ft_strlen(tmp_char)))
 		{
 			i = 0;
 			holder = tmp->exp;

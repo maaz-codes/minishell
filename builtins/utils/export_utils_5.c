@@ -23,10 +23,10 @@ void	checker_which_mode(char *str, char *tmp_char, int *check, int *len_char)
 	if (i == ft_strlen(str))
 	{
 		*check = 0;
-		*len_char = ft_strlen(tmp_char);
+		*len_char = ft_strlen(tmp_char) - 1;
 	}
 	else
-		*len_char = ft_strlen(tmp_char) - 1;
+		*len_char = ft_strlen(tmp_char);
 }
 
 void	append_check_equals(t_path **paths, char *only_str, char *joined_str,

@@ -71,6 +71,23 @@ void	sorted_exp(t_exp **head)
 	}
 }
 
+char *checker_print(t_exp *tmp, int *i, int *check_with_equals)
+{	
+	char *check;
+
+	check = NULL;
+	if (*i == ft_strlen(tmp->exp))
+		*check_with_equals = 0;
+	else
+	{
+		*check_with_equals = 1;
+		check = ft_strchr(tmp->exp, '=');
+	}
+	if(tmp->exp[*i + 1] == '"' || tmp->exp[*i + 1] == '\'')
+		*i = 0;
+	return (check);
+}
+
 void	exp_print(t_path **paths, int i)
 {
 	t_exp	*tmp;
@@ -84,14 +101,8 @@ void	exp_print(t_path **paths, int i)
 		i = 0;
 		while (tmp->exp[i] != '=' && tmp->exp[i])
 			i++;
-		if (i == ft_strlen(tmp->exp))
-			check_with_equals = 0;
-		else
-		{
-			check_with_equals = 1;
-			check = ft_strchr(tmp->exp, '=');
-		}
-		if (check_with_equals)
+		check = checker_print(tmp, &i, &check_with_equals);
+		if (check_with_equals && i)
 			printf("declare -x %.*s=\"%s\"\n", (int)(check - tmp->exp),
 				tmp->exp, check + 1);
 		else
