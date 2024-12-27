@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:51:36 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/22 16:51:37 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 20:54:58 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	**array_dup(char **array)
 		return (NULL);
 	while (j < i)
 	{
-		dup_array[j] = ft_strdup(array[j]);
+		dup_array[j] = remove_qoutes(ft_strdup(array[j]));
 		j++;
 	}
 	dup_array[i] = NULL;

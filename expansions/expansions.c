@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:33:39 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 17:44:38 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,34 +100,6 @@ char	*assign_value(char *env_var, t_env *env, t_shl *shl)
 	else
 		env_var = assign_env_value(env_var, env);
 	return (env_var);
-}
-
-int	not_here_doc(char *str, int i)
-{
-	if (i == -1 || i == 0)
-		return (1);
-	while (str[i] == ' ')
-	{
-		i--;
-		if (i == 0)
-			return (1);
-	}
-	while (str[i] == '"' || str[i] == '\'')
-	{
-		i--;
-		if (i == 0)
-			return (1);
-	}
-	while (str[i] == ' ')
-	{
-		i--;
-		if (i == 0)
-			return (1);
-	}
-	if (i >= 1)
-		if (str[i] == '<' && str[i - 1] == '<')
-			return (0);
-	return (1);
 }
 
 char	*env_expansion(char *str, t_env *env, t_shl *shl)

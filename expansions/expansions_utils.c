@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:05:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 19:27:27 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 17:45:49 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	expand_args(t_tree **arg_node, t_env *env, t_shl *shl)
 	i = 0;
 	while ((*arg_node)->data.args[i])
 	{
-		(*arg_node)->data.args[i] = env_expansion(
-				(*arg_node)->data.args[i], env, shl);
+		(*arg_node)->data.args[i] = env_expansion((*arg_node)->data.args[i],
+				env, shl);
 		(*arg_node)->data.args[i] = remove_qoutes((*arg_node)->data.args[i]);
 		i++;
 	}
@@ -30,8 +30,8 @@ void	expansions(t_tree **tree, t_env *env, t_shl *shl)
 {
 	if ((*tree))
 	{
-		if ((*tree)->type == NODE_REDIR
-			&& ft_strncmp((*tree)->data.redir, "<<", 2) == 0)
+		if ((*tree)->type == NODE_REDIR && ft_strncmp((*tree)->data.redir, "<<",
+				2) == 0)
 			(*tree)->right->type = NODE_LMTR;
 		if ((*tree)->left != NULL)
 			expansions(&(*tree)->left, env, shl);
@@ -42,7 +42,34 @@ void	expansions(t_tree **tree, t_env *env, t_shl *shl)
 		else if ((*tree)->type == NODE_ARG)
 			expand_args(tree, env, shl);
 		else
-			(*tree)->data.exp = env_expansion((*tree)->data.exp,
-					env, shl);
+			(*tree)->data.exp = env_expansion((*tree)->data.exp, env, shl);
 	}
+}
+
+int	not_here_doc(char *str, int i)
+{
+	if (i == -1 || i == 0)
+		return (1);
+	while (str[i] == ' ')
+	{
+		i--;
+		if (i == 0)
+			return (1);
+	}
+	while (str[i] == '"' || str[i] == '\'')
+	{
+		i--;
+		if (i == 0)
+			return (1);
+	}
+	while (str[i] == ' ')
+	{
+		i--;
+		if (i == 0)
+			return (1);
+	}
+	if (i >= 1)
+		if (str[i] == '<' && str[i - 1] == '<')
+			return (0);
+	return (1);
 }

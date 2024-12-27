@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:26:03 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:38:44 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/27 17:44:01 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,27 @@ char	*if_with_equals_exp(t_exp *tmp, char *holder, char *tmp_char, char *sep)
 		return (res_char);
 	}
 	return (NULL);
+}
+
+void	exp_print(t_path **paths, int i)
+{
+	t_exp	*tmp;
+	char	*check;
+	int		check_with_equals;
+
+	tmp = (*paths)->exp_struct;
+	sorted_exp(&tmp);
+	while (tmp)
+	{
+		i = 0;
+		while (tmp->exp[i] != '=' && tmp->exp[i])
+			i++;
+		check = checker_print(tmp, &i, &check_with_equals);
+		if (check_with_equals && i)
+			printf("declare -x %.*s=\"%s\"\n", (int)(check - tmp->exp),
+				tmp->exp, check + 1);
+		else
+			printf("declare -x %s\n", tmp->exp);
+		tmp = tmp->next;
+	}
 }

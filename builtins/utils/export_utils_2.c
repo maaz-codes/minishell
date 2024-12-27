@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 12:18:27 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 17:43:17 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,27 +86,4 @@ char	*checker_print(t_exp *tmp, int *i, int *check_with_equals)
 	if (tmp->exp[*i + 1] == '"' || tmp->exp[*i + 1] == '\'')
 		*i = 0;
 	return (check);
-}
-
-void	exp_print(t_path **paths, int i)
-{
-	t_exp	*tmp;
-	char	*check;
-	int		check_with_equals;
-
-	tmp = (*paths)->exp_struct;
-	sorted_exp(&tmp);
-	while (tmp)
-	{
-		i = 0;
-		while (tmp->exp[i] != '=' && tmp->exp[i])
-			i++;
-		check = checker_print(tmp, &i, &check_with_equals);
-		if (check_with_equals && i)
-			printf("declare -x %.*s=\"%s\"\n", (int)(check - tmp->exp),
-				tmp->exp, check + 1);
-		else
-			printf("declare -x %s\n", tmp->exp);
-		tmp = tmp->next;
-	}
 }

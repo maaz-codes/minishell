@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:05:33 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 21:20:05 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 void	handle_builtin(t_tree *tree, t_path *paths, t_shl *shl)
 {
+	char	**args;
+
+	args = array_dup(tree->left->data.args);
 	if (!ft_strncmp(tree->data.cmd, "echo", 5))
-		echo_cmd(tree->left->data.args, shl);
+		echo_cmd(args, shl);
 	else if (!ft_strncmp(tree->data.cmd, "pwd", 4))
-		pwd_cmd(tree->left->data.args, shl);
+		pwd_cmd(args, shl);
 	else if (!ft_strncmp(tree->data.cmd, "cd", 3))
-		cd_cmd(tree->left->data.args, &paths, shl);
+		cd_cmd(args, &paths, shl);
 	else if (!ft_strncmp(tree->data.cmd, "export", 7))
 		export_cmd(tree->left->data.args, &paths, shl);
 	else if (!ft_strncmp(tree->data.cmd, "unset", 6))
-		unset_cmd(tree->left->data.args, &paths, shl);
+		unset_cmd(args, &paths, shl);
 	else if (!ft_strncmp(tree->data.cmd, "env", 4))
-		env_cmd(tree->left->data.args, &paths, shl);
+		env_cmd(args, &paths, shl);
 	else if (!ft_strncmp(tree->data.cmd, "exit", 5))
-		exit_cmd(tree->left->data.args, shl);
+		exit_cmd(args, shl);
+	free_array(args);
 }
 
 void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
@@ -37,9 +41,9 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 	char	**args;
 
 	args = array_dup(tree->left->data.args);
-	signal(SIGINT, SIG_IGN);
 	if (!pipe_flag)
 	{
+		signal(SIGINT, SIG_IGN);
 		pid = fork();
 		if (pid == -1)
 			return ;
@@ -56,7 +60,7 @@ void	handle_cmd(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 			handle_signals(status, shl);
 	}
 	else
-		(free_array(shl->env), nuke(shl, TNT), execute(args, env));
+		(nuke(shl, TNT), execute(args, env));
 }
 
 void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_shl *shl)

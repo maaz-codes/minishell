@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 16:19:26 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/27 17:51:43 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ char				*env_expansion(char *str, t_env *env, t_shl *shl);
 // expansions_utils.c
 void				expand_args(t_tree **arg_node, t_env *env, t_shl *shl);
 void				expansions(t_tree **tree, t_env *env, t_shl *shl);
+int					not_here_doc(char *str, int i);
 
 // paths.c
 t_path				*init_paths(char **env);
@@ -304,6 +305,8 @@ void				unset_cmd(char **str, t_path **paths, t_shl *shl);
 int					valid_unset(char *str);
 
 void				export_cmd(char **str, t_path **paths, t_shl *shl);
+void				sorted_exp(t_exp **head);
+char				*checker_print(t_exp *tmp, int *i, int *check_with_equals);
 t_env				*lstlast_env(t_env *lst);
 char				**separator(char *str, int check_for_plus);
 t_exp				*int_exp(char **env);
