@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 15:38:38 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 16:31:58 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,14 @@ int	ft_hdoc(char *limiter, t_shl *shl, pid_t *pid)
 	}
 	*pid = fork();
 	if (*pid == -1)
-		(nuke(shl, TNT), print_exit(ERR_FORK));
+		(free_array(shl->env), nuke(shl, TNT), print_exit(ERR_FORK));
 	if (*pid == 0)
 	{
 		signal(SIGINT, handle_heredoc_sig);
 		signal(SIGQUIT, SIG_IGN);
 		read_write(limiter, doc_pipe[1], shl->paths->env_struct, shl);
 		close(doc_pipe[0]);
+		free_array(shl->env);
 		nuke(shl, TNT);
 		exit(g_signal_caught == SIGINT);
 	}
