@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:46 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 16:20:49 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/27 17:34:21 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ void	cd_cmd(char **str, t_path **paths, t_shl *shl)
 	
 	check = 0;
 	res = NULL;
-	check_cwd(paths);
+	if(getcwd(cwd,sizeof(cwd)) == NULL)
+        perror("getcwd");
 	if (!ft_strncmp(str[0], "cd", 3) && str[1] == NULL)
 		res = get_home(paths);
 	else if (!ft_strncmp(str[0], "cd", 3) && (!ft_strncmp(str[1], "~", 2)))
