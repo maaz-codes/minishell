@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 16:39:32 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/27 17:33:39 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,21 @@ int	not_here_doc(char *str, int i)
 		if (i == 0)
 			return (1);
 	}
-	if (i >= 1)
+	while (str[i] == '"' || str[i] == '\'')
 	{
+		i--;
+		if (i == 0)
+			return (1);
+	}
+	while (str[i] == ' ')
+	{
+		i--;
+		if (i == 0)
+			return (1);
+	}
+	if (i >= 1)
 		if (str[i] == '<' && str[i - 1] == '<')
 			return (0);
-	}
 	return (1);
 }
 
