@@ -18,9 +18,9 @@ void	checker_which_mode(char *str, char *tmp_char, int *check, int *len_char)
 
 	i = 0;
 	*check = 1;
-	while (str[i] != '=' && str[i])
+	while (tmp_char[i] != '=' && tmp_char[i])
 		i++;
-	if (i == ft_strlen(str))
+	if (tmp_char[i] == '=')
 	{
 		*check = 0;
 		*len_char = ft_strlen(tmp_char) - 1;
