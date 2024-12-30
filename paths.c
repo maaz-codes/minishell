@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:11 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 20:20:38 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/30 17:30:44 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_path	*int_cd(void)
 t_path	*init_paths(char **env)
 {
 	t_path	*paths;
-	t_env 	*env_backup;
 
 	paths = int_cd();
 	if (!paths)
