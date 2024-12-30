@@ -340,13 +340,14 @@ void				holder_is_equals_env(t_env *tmp, char *sep, char *tmp_char);
 char				*if_with_equals_exp(t_exp *tmp, char *holder,
 						char *tmp_char, char *sep);
 void				holder_is_equals_exp(t_exp *tmp, char *sep, char *tmp_char);
-void				checker_which_mode(char *str, char *tmp_char, int *check,
-						int *len_char);
+void				checker_which_mode(char *str, char *tmp_char, int *check);
 void				append_check_equals(t_path **paths, char *only_str,
 						char *joined_str, int check);
 void				exp_loop(t_exp *tmp, char *only_str, char *joined_str,
 						int check);
 void				check_sep_export(char **sep, int *i, int *exit_status);
+void				plus_append(t_path **paths, char *tmp_char, char *sep);
+void 				tmp_looper(int *f, t_exp *tmp);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);

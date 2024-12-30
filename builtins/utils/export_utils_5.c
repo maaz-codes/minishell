@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-void	checker_which_mode(char *str, char *tmp_char, int *check, int *len_char)
+void	checker_which_mode(char *str, char *tmp_char, int *check)
 {
 	int	i;
 
@@ -21,17 +21,13 @@ void	checker_which_mode(char *str, char *tmp_char, int *check, int *len_char)
 	while (str[i] != '=' && str[i])
 		i++;
 	if (i == ft_strlen(str))
-	{
 		*check = 0;
-		*len_char = ft_strlen(tmp_char) - 1;
-	}
-	else
-		*len_char = ft_strlen(tmp_char);
 }
 
 void	append_check_equals(t_path **paths, char *only_str, char *joined_str,
 		int check)
-{
+{	
+	printf("joined str: %s\n",joined_str);
 	if (!check)
 		ap_exp(&(*paths)->exp_struct, only_str);
 	else
@@ -42,7 +38,7 @@ void	append_check_equals(t_path **paths, char *only_str, char *joined_str,
 void	exp_loop(t_exp *tmp, char *only_str, char *joined_str, int check)
 {
 	if (!check)
-	{
+	{	
 		free(joined_str);
 		free(only_str);
 		return ;

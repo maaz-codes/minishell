@@ -42,14 +42,15 @@ void	export_t_exp_plus(t_path **paths, char *tmp_char, char *sep)
 {
 	t_exp	*tmp;
 	char	*holder;
-	char	*joined_str;
 	int		i;
+	int 	f;
 
 	tmp = (*paths)->exp_struct;
 	while (tmp)
-	{
-		if (!ft_strncmp(tmp_char, tmp->exp, ft_strlen(tmp_char)))
-		{
+	{	
+		tmp_looper(&f, tmp);
+		if (!ft_strncmp(tmp_char, tmp->exp, f))
+		{	
 			i = 0;
 			holder = tmp->exp;
 			while (holder[i] != '=' && holder[i])
@@ -62,9 +63,7 @@ void	export_t_exp_plus(t_path **paths, char *tmp_char, char *sep)
 		}
 		tmp = tmp->next;
 	}
-	joined_str = ft_strjoin(tmp_char, sep);
-	ap_exp(&(*paths)->exp_struct, joined_str);
-	free(joined_str);
+	plus_append(paths, tmp_char, sep);
 }
 
 int	plus_equals_check(char *str)

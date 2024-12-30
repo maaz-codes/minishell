@@ -52,6 +52,7 @@ SRCS = 	minishell.c \
 			builtins/utils/export_utils_3.c \
 			builtins/utils/export_utils_4.c \
 			builtins/utils/export_utils_5.c \
+			builtins/utils/export_utils_6.c \
 				helpers/ft_atol.c \
 				helpers/ft_memset.c \
 				helpers/ft_strlcpy.c \
