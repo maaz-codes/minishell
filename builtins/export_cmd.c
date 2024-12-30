@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/30 17:31:01 by rcreer           ###   ########.fr       */
+/*   Updated: 2024/12/30 17:33:40 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,12 @@ void	export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
 
 	tmp = (*paths)->exp_struct;
 	joined_str = ft_strjoin(tmp_char, sep);
-	only_str = ft_strdup(tmp_char);
-	printf("tmp char: %s\n",tmp_char);
+	only_str = ft_strdup(str);
 	checker_which_mode(str, tmp_char, &check, &len_char);
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp_char, tmp->exp, len_char))
-		{	
-			printf("tmp char: %s\n",tmp_char);
+		{
 			exp_loop(tmp, only_str, joined_str, check);
 			return ;
 		}

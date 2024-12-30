@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_5.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:59 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 20:36:47 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/30 17:33:48 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	checker_which_mode(char *str, char *tmp_char, int *check, int *len_char)
 
 	i = 0;
 	*check = 1;
-	while (tmp_char[i] != '=' && tmp_char[i])
+	while (str[i] != '=' && str[i])
 		i++;
-	if (tmp_char[i] == '=')
+	if (i == ft_strlen(str))
 	{
 		*check = 0;
 		*len_char = ft_strlen(tmp_char) - 1;

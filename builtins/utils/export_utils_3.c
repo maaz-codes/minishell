@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:45 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 12:18:40 by maakhan          ###   ########.fr       */
+/*   Updated: 2024/12/30 17:34:26 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,18 +113,12 @@ void	plus_equals_export(t_path **paths, char **sep, int *i)
 void	normal_export(t_path **paths, char **sep, char *str, int *i)
 {
 	char	*tmp_char;
-	int 	f;
+
 	if (!sep)
 		*i += 1;
 	else
-	{	
-
-		while(str[f] != '=' && str[f])
-			f++;
-		if(str[f] == '=')
-			tmp_char = ft_strjoin(sep[0], "=");
-		else
-			tmp_char = ft_strdup(sep[0]);
+	{
+		tmp_char = ft_strjoin(sep[0], "=");
 		export_t_exp(paths, tmp_char, sep[1], str);
 		export_t_env(paths, tmp_char, sep[1], str);
 		(free_array(sep), free(tmp_char));
