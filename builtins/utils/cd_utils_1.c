@@ -84,7 +84,7 @@ void	add_old_pwd(t_path **paths, t_path *new)
 	}
 	old_pwd->env = ft_strjoin(path_name, new->pwd_old);
 	old_pwd->next = NULL;
-	lstlast_env((*paths)->env_struct)->next = old_pwd;
+	check_env_null(paths, old_pwd);
 	free(path_name);
 	return ;
 }
@@ -112,7 +112,7 @@ void	add_old_pwd_exp(t_path **paths, t_path *new)
 	}
 	old_pwd->exp = ft_strjoin(path_name, new->pwd_old);
 	old_pwd->next = NULL;
-	lstlast_exp((*paths)->exp_struct)->next = old_pwd;
+	check_exp_null(paths, old_pwd);
 	free(path_name);
 	return ;
 }

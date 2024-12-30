@@ -74,6 +74,19 @@ int	main(int ac, char **av, char **env)
 	t_shl		*shl;
 	t_path		*paths;
 
+	// if(!env || !env[0])
+	// {
+	// 	env = (char **)malloc(sizeof(char *) * 3);
+	// 	env[0] = ft_strjoin("PWD=",paths->pwd); 
+	// 	env[1] = ft_strdup("SHLVL=1");
+	// 	env[2] = NULL;
+	// }
+	// int i = 0;
+	// while(env[i])
+	// {
+	// 	printf("env: %s\n",env[i++]);
+	// }
+
 	if (ac != 1 || av[1] != NULL)
 		return (write(2, "This shell doesn't take any args\n", 34), 1);
 	paths = init_paths(env);

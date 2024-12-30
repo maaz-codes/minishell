@@ -31,7 +31,10 @@ void	remove_node_exp(t_path **paths, int pos)
 	if (tmp_exp == NULL)
 		return ;
 	if (prev_exp != NULL)
-		prev_exp->next = tmp_exp->next;
+	{
+		if(!check_prev_exp(i,paths,prev_exp,tmp_exp))
+			return ;
+	}
 	else
 		(*paths)->exp_struct = tmp_exp->next;
 	free(tmp_exp->exp);
@@ -57,7 +60,10 @@ void	remove_node_env(t_path **paths, int pos)
 	if (tmp_env == NULL)
 		return ;
 	if (prev_env != NULL)
-		prev_env->next = tmp_env->next;
+	{
+		if(!check_prev_env(i,paths,prev_env,tmp_env))
+			return ;
+	}
 	else
 		(*paths)->env_struct = tmp_env->next;
 	free(tmp_env->env);
@@ -96,6 +102,7 @@ void	unset_env_list(t_path **paths, char *str, int *i)
 	t_env	*tmp;
 	int		pos;
 
+	
 	if (!valid_unset(str))
 		*i += 1;
 	else

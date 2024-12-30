@@ -69,11 +69,11 @@ all:$(NAME)
 
 #$(CFLAGS)
 $(NAME): $(OBJS)
-	$(CC)  $(READLINEFLAGS) $^ -o $@ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(READLINEFLAGS) $^ -o $@ $(LDFLAGS)
 
 #Add CFLAGS Later
 %.o:%.c
-	$(CC) -c $< -o $@ 
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 clean: 
 	$(RM) $(OBJS)

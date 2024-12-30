@@ -16,7 +16,7 @@ char	*new_path(char *cwd, int id)
 {
 	int		len;
 	char	*new_path;
-
+	
 	len = ft_strlen(cwd);
 	if (id == 1)
 	{

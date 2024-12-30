@@ -302,9 +302,13 @@ void				add_old_pwd_exp(t_path **paths, t_path *new);
 void				ft_append(t_path **paths, char *res, t_shl *shl);
 void				append_switch_struct(t_path **paths, t_path **temp);
 int					check_old_pwd(t_path **paths);
+void 				check_exp_null(t_path **paths, t_exp *old_pwd);
+void 				check_env_null(t_path **paths, t_env *old_pwd);
 
 void				unset_cmd(char **str, t_path **paths, t_shl *shl);
 int					valid_unset(char *str);
+int 				check_prev_env(int i, t_path **paths, t_env *prev_env, t_env *tmp_env);
+int 				check_prev_exp(int i, t_path **paths, t_exp *prev_exp, t_exp *tmp_exp);
 
 void				export_cmd(char **str, t_path **paths, t_shl *shl);
 void				sorted_exp(t_exp **head);

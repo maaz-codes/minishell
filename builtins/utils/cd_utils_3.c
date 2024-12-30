@@ -25,3 +25,19 @@ void	check_cwd(t_path **paths)
 			return ;
 	}
 }
+
+void 	check_exp_null(t_path **paths, t_exp *old_pwd)
+{
+	if((*paths)->exp_struct == NULL)
+		(*paths)->exp_struct = old_pwd;
+	else
+		lstlast_exp((*paths)->exp_struct)->next = old_pwd;
+}
+
+void 	check_env_null(t_path **paths, t_env *old_pwd)
+{
+	if((*paths)->env_struct == NULL)
+		(*paths)->env_struct = old_pwd;
+	else
+		lstlast_env((*paths)->env_struct)->next = old_pwd;
+}

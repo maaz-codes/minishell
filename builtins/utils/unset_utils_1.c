@@ -39,3 +39,41 @@ int	valid_unset(char *str)
 		check = 0;
 	return (check);
 }
+
+int 	check_prev_env(int i, t_path **paths, t_env *prev_env, t_env *tmp_env)
+{
+	if(i == 0)
+	{	
+		if((*paths)->env_struct->next == NULL)
+		{
+			free(tmp_env->env);
+			free(tmp_env);
+			(*paths)->env_struct = NULL;
+			return (0);
+		}
+		else
+			(*paths)->env_struct = tmp_env->next;
+	}
+	else
+		prev_env->next = tmp_env->next;
+	return (1);	
+}
+
+int 	check_prev_exp(int i, t_path **paths, t_exp *prev_exp, t_exp *tmp_exp)
+{
+	if(i == 0)
+	{	
+		if((*paths)->exp_struct->next == NULL)
+		{
+			free(tmp_exp->exp);
+			free(tmp_exp);
+			(*paths)->exp_struct = NULL;
+			return (0);
+		}
+		else
+			(*paths)->exp_struct = tmp_exp->next;
+	}
+	else
+		prev_exp->next = tmp_exp->next;
+	return (1);	
+}
