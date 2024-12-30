@@ -43,7 +43,6 @@ t_path	*int_cd(void)
 t_path	*init_paths(char **env)
 {
 	t_path	*paths;
-	t_env 	*env_backup;
 
 	paths = int_cd();
 	if (!paths)

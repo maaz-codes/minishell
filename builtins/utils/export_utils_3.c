@@ -113,12 +113,18 @@ void	plus_equals_export(t_path **paths, char **sep, int *i)
 void	normal_export(t_path **paths, char **sep, char *str, int *i)
 {
 	char	*tmp_char;
-
+	int 	f;
 	if (!sep)
 		*i += 1;
 	else
-	{
-		tmp_char = ft_strjoin(sep[0], "=");
+	{	
+
+		while(str[f] != '=' && str[f])
+			f++;
+		if(str[f] == '=')
+			tmp_char = ft_strjoin(sep[0], "=");
+		else
+			tmp_char = ft_strdup(sep[0]);
 		export_t_exp(paths, tmp_char, sep[1], str);
 		export_t_env(paths, tmp_char, sep[1], str);
 		(free_array(sep), free(tmp_char));

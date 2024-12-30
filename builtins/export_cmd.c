@@ -61,12 +61,14 @@ void	export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
 
 	tmp = (*paths)->exp_struct;
 	joined_str = ft_strjoin(tmp_char, sep);
-	only_str = ft_strdup(str);
+	only_str = ft_strdup(tmp_char);
+	printf("tmp char: %s\n",tmp_char);
 	checker_which_mode(str, tmp_char, &check, &len_char);
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp_char, tmp->exp, len_char))
-		{
+		{	
+			printf("tmp char: %s\n",tmp_char);
 			exp_loop(tmp, only_str, joined_str, check);
 			return ;
 		}
