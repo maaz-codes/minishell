@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static t_env	*last_env(t_env *lst)
+t_env	*last_env(t_env *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -21,7 +21,7 @@ static t_env	*last_env(t_env *lst)
 	return (lst);
 }
 
-static void	appending_env(t_env **env, char *res)
+void	appending_env(t_env **env, char *res)
 {
 	t_env	*new_node;
 

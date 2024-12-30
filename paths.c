@@ -43,16 +43,25 @@ t_path	*int_cd(void)
 t_path	*init_paths(char **env)
 {
 	t_path	*paths;
+	t_env 	*env_backup;
 
 	paths = int_cd();
 	if (!paths)
 		print_exit(ERR_MALLOC);
 	paths->env_struct = int_env(env);
 	if (!paths->env_struct)
+	{	
 		paths->env_struct = NULL;
+		appending_env(&paths->env_struct, ft_strjoin("PWD=",paths->pwd));
+		appending_env(&paths->env_struct, ft_strdup("SHLVL=1"));
+	}
 	paths->exp_struct = int_exp(env);
 	if (!paths->exp_struct)
+	{
 		paths->exp_struct = NULL;
+		ap_exp(&paths->exp_struct, ft_strjoin("PWD=",paths->pwd));
+		ap_exp(&paths->exp_struct, ft_strdup("SHLVL=1"));
+	}
 	return (paths);
 }
 

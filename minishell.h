@@ -289,6 +289,8 @@ void				error_msg(char **str, t_shl *shl);
 
 void				env_cmd(char **str, t_path **paths, t_shl *shl);
 t_env				*int_env(char **env);
+void				appending_env(t_env **env, char *res);
+t_env				*last_env(t_env *lst);
 
 void				cd_cmd(char **str, t_path **paths, t_shl *shl);
 char				*new_path(char *cwd, int id);
