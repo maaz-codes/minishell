@@ -87,7 +87,7 @@ char	**append_exp(char *sep, char *holder)
 	if (!res)
 		return (NULL);
 	res[0] = sep_str;
-	res[1] = holder_str;
+	res[1] = remove_qoutes(holder_str);
 	res[2] = NULL;
 	return (res);
 }
