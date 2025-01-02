@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:06 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 21:17:06 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/02 15:25:21 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,19 @@ void	error_msg(char **str, t_shl *shl)
 	write(2, str[1], ft_strlen(str[1]));
 	write(2, ": numeric argument required\n", 28);
 	free_array(shl->env);
+	free_array(str);
 	nuke(shl, TNT);
 	exit(255);
 }
 
-void	neg_num_exit(unsigned long long exit_num, t_shl *shl)
+void	neg_num_exit(unsigned long long exit_num, t_shl *shl, char **str)
 {
 	long	negative_num;
 
 	negative_num = -exit_num;
 	negative_num = negative_num % 256;
 	free_array(shl->env);
+	free_array(str);
 	nuke(shl, TNT);
 	write(1, "exit\n", 5);
 	exit(negative_num);
@@ -76,13 +78,13 @@ void	exit_cmd(char **str, t_shl *shl)
 		exit_num = symbol_check(str[1], &check);
 		num_valid_check(exit_num, check, str, shl);
 		if (!check)
-			neg_num_exit(exit_num, shl);
+			neg_num_exit(exit_num, shl, str);
 		if (exit_num >= 256 && check == 1)
 			exit_num = exit_num % 256;
-		(free_array(shl->env), nuke(shl, TNT),
+		(free_array(str), free_array(shl->env), nuke(shl, TNT),
 			write(2, "exit\n", 6), exit(exit_num));
 	}
 	else if (!ft_strncmp(str[0], "exit", 5) && str[1] == NULL)
-		(free_array(shl->env), nuke(shl, TNT),
+		(free_array(str), free_array(shl->env), nuke(shl, TNT),
 			write(2, "exit\n", 5), exit(0));
 }

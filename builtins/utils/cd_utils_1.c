@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:38:24 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/02 15:30:31 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	add_new_pwd(t_path **paths, t_path *new)
 		}
 		tmp_exp = tmp_exp->next;
 	}
+	free(path_name);
 	return ;
 }
 

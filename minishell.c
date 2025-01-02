@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:50:55 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:41:16 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/02 15:38:14 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,10 @@ static void	shell_reset(t_shl **shl)
 
 int	main(int ac, char **av, char **env)
 {
-	char		*input;
-	t_tree		*tree;
-	t_shl		*shl;
-	t_path		*paths;
-
-	// if(!env || !env[0])
-	// {
-	// 	env = (char **)malloc(sizeof(char *) * 3);
-	// 	env[0] = ft_strjoin("PWD=",paths->pwd); 
-	// 	env[1] = ft_strdup("SHLVL=1");
-	// 	env[2] = NULL;
-	// }
-	// int i = 0;
-	// while(env[i])
-	// {
-	// 	printf("env: %s\n",env[i++]);
-	// }
+	char	*input;
+	t_tree	*tree;
+	t_shl	*shl;
+	t_path	*paths;
 
 	if (ac != 1 || av[1] != NULL)
 		return (write(2, "This shell doesn't take any args\n", 34), 1);
@@ -108,7 +95,3 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 }
-
-	// if (shl->head)
-	// 	expansions(&(shl->head), shl->paths->env_struct,
-	// 		shl);

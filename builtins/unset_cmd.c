@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:28 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:51:17 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/02 15:40:44 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	remove_node_exp(t_path **paths, int pos)
 		return ;
 	if (prev_exp != NULL)
 	{
-		if(!check_prev_exp(i,paths,prev_exp,tmp_exp))
+		if (!check_prev_exp(i, paths, prev_exp, tmp_exp))
 			return ;
 	}
 	else
@@ -61,7 +61,7 @@ void	remove_node_env(t_path **paths, int pos)
 		return ;
 	if (prev_env != NULL)
 	{
-		if(!check_prev_env(i,paths,prev_env,tmp_env))
+		if (!check_prev_env(i, paths, prev_env, tmp_env))
 			return ;
 	}
 	else
@@ -102,7 +102,6 @@ void	unset_env_list(t_path **paths, char *str, int *i)
 	t_env	*tmp;
 	int		pos;
 
-	
 	if (!valid_unset(str))
 		*i += 1;
 	else
@@ -123,8 +122,8 @@ void	unset_env_list(t_path **paths, char *str, int *i)
 
 void	unset_cmd(char **str, t_path **paths, t_shl *shl)
 {
-	int		i;
-	int		exit_stat;
+	int	i;
+	int	exit_stat;
 
 	exit_stat = 0;
 	i = 1;

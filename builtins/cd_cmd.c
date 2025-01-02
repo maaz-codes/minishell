@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:46 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:41:44 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/02 15:40:10 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*new_path(char *cwd, int id)
 {
 	int		len;
 	char	*new_path;
-	
+
 	len = ft_strlen(cwd);
 	if (id == 1)
 	{

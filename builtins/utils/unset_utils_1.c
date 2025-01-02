@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_utils_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:11:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 12:51:48 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/02 15:39:28 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	valid_unset(char *str)
 	return (check);
 }
 
-int 	check_prev_env(int i, t_path **paths, t_env *prev_env, t_env *tmp_env)
+int	check_prev_env(int i, t_path **paths, t_env *prev_env, t_env *tmp_env)
 {
-	if(i == 0)
-	{	
-		if((*paths)->env_struct->next == NULL)
+	if (i == 0)
+	{
+		if ((*paths)->env_struct->next == NULL)
 		{
 			free(tmp_env->env);
 			free(tmp_env);
@@ -56,14 +56,14 @@ int 	check_prev_env(int i, t_path **paths, t_env *prev_env, t_env *tmp_env)
 	}
 	else
 		prev_env->next = tmp_env->next;
-	return (1);	
+	return (1);
 }
 
-int 	check_prev_exp(int i, t_path **paths, t_exp *prev_exp, t_exp *tmp_exp)
+int	check_prev_exp(int i, t_path **paths, t_exp *prev_exp, t_exp *tmp_exp)
 {
-	if(i == 0)
-	{	
-		if((*paths)->exp_struct->next == NULL)
+	if (i == 0)
+	{
+		if ((*paths)->exp_struct->next == NULL)
 		{
 			free(tmp_exp->exp);
 			free(tmp_exp);
@@ -75,5 +75,5 @@ int 	check_prev_exp(int i, t_path **paths, t_exp *prev_exp, t_exp *tmp_exp)
 	}
 	else
 		prev_exp->next = tmp_exp->next;
-	return (1);	
+	return (1);
 }

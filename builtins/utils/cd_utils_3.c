@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils_3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:18:05 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:41:59 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/02 15:40:54 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ void	check_cwd(t_path **paths)
 	}
 }
 
-void 	check_exp_null(t_path **paths, t_exp *old_pwd)
+void	check_exp_null(t_path **paths, t_exp *old_pwd)
 {
-	if((*paths)->exp_struct == NULL)
+	if ((*paths)->exp_struct == NULL)
 		(*paths)->exp_struct = old_pwd;
 	else
 		lstlast_exp((*paths)->exp_struct)->next = old_pwd;
 }
 
-void 	check_env_null(t_path **paths, t_env *old_pwd)
+void	check_env_null(t_path **paths, t_env *old_pwd)
 {
-	if((*paths)->env_struct == NULL)
+	if ((*paths)->env_struct == NULL)
 		(*paths)->env_struct = old_pwd;
 	else
 		lstlast_env((*paths)->env_struct)->next = old_pwd;

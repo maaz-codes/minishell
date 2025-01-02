@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:59 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/30 17:33:48 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/02 15:44:05 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	checker_which_mode(char *str, char *tmp_char, int *check)
 {
 	int	i;
 
+	(void)tmp_char;
 	i = 0;
 	*check = 1;
 	while (str[i] != '=' && str[i])
@@ -26,8 +27,7 @@ void	checker_which_mode(char *str, char *tmp_char, int *check)
 
 void	append_check_equals(t_path **paths, char *only_str, char *joined_str,
 		int check)
-{	
-	printf("joined str: %s\n",joined_str);
+{
 	if (!check)
 		ap_exp(&(*paths)->exp_struct, only_str);
 	else
@@ -38,7 +38,7 @@ void	append_check_equals(t_path **paths, char *only_str, char *joined_str,
 void	exp_loop(t_exp *tmp, char *only_str, char *joined_str, int check)
 {
 	if (!check)
-	{	
+	{
 		free(joined_str);
 		free(only_str);
 		return ;

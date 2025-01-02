@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:51:43 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/02 15:37:54 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,13 +302,15 @@ void				add_old_pwd_exp(t_path **paths, t_path *new);
 void				ft_append(t_path **paths, char *res, t_shl *shl);
 void				append_switch_struct(t_path **paths, t_path **temp);
 int					check_old_pwd(t_path **paths);
-void 				check_exp_null(t_path **paths, t_exp *old_pwd);
-void 				check_env_null(t_path **paths, t_env *old_pwd);
+void				check_exp_null(t_path **paths, t_exp *old_pwd);
+void				check_env_null(t_path **paths, t_env *old_pwd);
 
 void				unset_cmd(char **str, t_path **paths, t_shl *shl);
 int					valid_unset(char *str);
-int 				check_prev_env(int i, t_path **paths, t_env *prev_env, t_env *tmp_env);
-int 				check_prev_exp(int i, t_path **paths, t_exp *prev_exp, t_exp *tmp_exp);
+int					check_prev_env(int i, t_path **paths, t_env *prev_env,
+						t_env *tmp_env);
+int					check_prev_exp(int i, t_path **paths, t_exp *prev_exp,
+						t_exp *tmp_exp);
 
 void				export_cmd(char **str, t_path **paths, t_shl *shl);
 void				sorted_exp(t_exp **head);
@@ -347,7 +349,7 @@ void				exp_loop(t_exp *tmp, char *only_str, char *joined_str,
 						int check);
 void				check_sep_export(char **sep, int *i, int *exit_status);
 void				plus_append(t_path **paths, char *tmp_char, char *sep);
-void 				tmp_looper(int *f, t_exp *tmp);
+void				tmp_looper(int *f, t_exp *tmp);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);

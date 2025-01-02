@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:11 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/30 17:30:44 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/02 15:38:27 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,16 @@ t_path	*init_paths(char **env)
 		print_exit(ERR_MALLOC);
 	paths->env_struct = int_env(env);
 	if (!paths->env_struct)
-	{	
+	{
 		paths->env_struct = NULL;
-		appending_env(&paths->env_struct, ft_strjoin("PWD=",paths->pwd));
+		appending_env(&paths->env_struct, ft_strjoin("PWD=", paths->pwd));
 		appending_env(&paths->env_struct, ft_strdup("SHLVL=1"));
 	}
 	paths->exp_struct = int_exp(env);
 	if (!paths->exp_struct)
 	{
 		paths->exp_struct = NULL;
-		ap_exp(&paths->exp_struct, ft_strjoin("PWD=",paths->pwd));
+		ap_exp(&paths->exp_struct, ft_strjoin("PWD=", paths->pwd));
 		ap_exp(&paths->exp_struct, ft_strdup("SHLVL=1"));
 	}
 	return (paths);
