@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:14 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:40:34 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/06 16:35:23 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
 		f = 0;
 		while (tmp->exp[f] != '=' && tmp->exp[f])
 			f++;
-		if (!ft_strncmp(tmp_char, tmp->exp, f))
+		if (!ft_strncmp(tmp->exp, tmp_char, f) && (ft_strlen(tmp->exp) == ft_strlen(tmp_char)))
 		{
 			exp_loop(tmp, only_str, joined_str, check);
 			return ;
