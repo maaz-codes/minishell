@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/30 17:34:34 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/06 15:46:43 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,5 @@ char	*checker_print(t_exp *tmp, int *i, int *check_with_equals)
 		*check_with_equals = 1;
 		check = ft_strchr(tmp->exp, '=');
 	}
-	if (tmp->exp[*i + 1] == '"' || tmp->exp[*i + 1] == '\'')
-		*i = 0;
 	return (check);
 }
