@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:45 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:42:38 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/07 16:12:44 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ void	export_t_exp_plus(t_path **paths, char *tmp_char, char *sep)
 	char	*holder;
 	int		i;
 	int		f;
+	int		tmp_char_len;
 
 	tmp = (*paths)->exp_struct;
 	while (tmp)
 	{
-		tmp_looper(&f, tmp);
-		if (!ft_strncmp(tmp_char, tmp->exp, f))
+		tmp_looper(&f, tmp, &tmp_char_len, tmp_char);
+		if (!ft_strncmp(tmp->exp, tmp_char, f) && (f == tmp_char_len))
 		{
 			i = 0;
 			holder = tmp->exp;

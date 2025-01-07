@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/06 15:46:53 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/07 16:30:49 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,7 @@ int					check_prev_env(int i, t_path **paths, t_env *prev_env,
 						t_env *tmp_env);
 int					check_prev_exp(int i, t_path **paths, t_exp *prev_exp,
 						t_exp *tmp_exp);
+void				check_tmp_exp(t_exp *tmp, int *f);
 
 void				export_cmd(char **str, t_path **paths, t_shl *shl);
 void				sorted_exp(t_exp **head);
@@ -342,14 +343,15 @@ void				holder_is_equals_env(t_env *tmp, char *sep, char *tmp_char);
 char				*if_with_equals_exp(t_exp *tmp, char *holder,
 						char *tmp_char, char *sep);
 void				holder_is_equals_exp(t_exp *tmp, char *sep, char *tmp_char);
-void				checker_which_mode(char *str, char *tmp_char, int *check);
+void				checker_which_mode(char *str, char *tmp_char, int *check,
+						int *tmp_char_len);
 void				append_check_equals(t_path **paths, char *only_str,
 						char *joined_str, int check);
-void				exp_loop(t_exp *tmp, char *only_str, char *joined_str,
-						int check);
+void				exp_loop(t_exp *tmp, char *joined_str, int check);
 void				check_sep_export(char **sep, int *i, int *exit_status);
 void				plus_append(t_path **paths, char *tmp_char, char *sep);
-void				tmp_looper(int *f, t_exp *tmp);
+void				tmp_looper(int *f, t_exp *tmp, int *tmp_char_len,
+						char *tmp_char);
 
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);

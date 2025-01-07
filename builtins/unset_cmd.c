@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:28 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/06 16:39:51 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/07 16:25:49 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	unset_exp_list(t_path **paths, char *str, int *i, int *exit_stat)
 	t_exp	*tmp;
 	int		pos;
 	int		f;
+
 	if (!valid_unset(str))
 	{
 		printf("export: \'%s\': not a valid identifier\n", str);
@@ -85,11 +86,9 @@ void	unset_exp_list(t_path **paths, char *str, int *i, int *exit_stat)
 	{
 		tmp = (*paths)->exp_struct;
 		pos = 0;
-		f = 0;
-		while (tmp->exp[f] != '=' && tmp->exp[f])
-			f++;
 		while (tmp)
 		{
+			check_tmp_exp(tmp, &f);
 			if (!ft_strncmp(tmp->exp, str, f))
 				break ;
 			pos++;

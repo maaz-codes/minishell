@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:14 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/06 16:35:23 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/07 16:31:32 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,25 @@ void	export_t_exp(t_path **paths, char *tmp_char, char *sep, char *str)
 	t_exp	*tmp;
 	int		check;
 	char	*joined_str;
-	char	*only_str;
 	int		f;
+	int		tmp_char_len;
 
 	tmp = (*paths)->exp_struct;
 	joined_str = ft_strjoin(tmp_char, sep);
-	only_str = ft_strdup(str);
-	checker_which_mode(str, tmp_char, &check);
 	while (tmp)
 	{
 		f = 0;
+		checker_which_mode(str, tmp_char, &check, &tmp_char_len);
 		while (tmp->exp[f] != '=' && tmp->exp[f])
 			f++;
-		if (!ft_strncmp(tmp->exp, tmp_char, f) && (ft_strlen(tmp->exp) == ft_strlen(tmp_char)))
+		if (!ft_strncmp(tmp->exp, tmp_char, f) && (f == tmp_char_len))
 		{
-			exp_loop(tmp, only_str, joined_str, check);
+			exp_loop(tmp, joined_str, check);
 			return ;
 		}
 		tmp = tmp->next;
 	}
-	append_check_equals(paths, only_str, joined_str, check);
+	append_check_equals(paths, str, joined_str, check);
 }
 
 t_exp	*int_exp(char **env)

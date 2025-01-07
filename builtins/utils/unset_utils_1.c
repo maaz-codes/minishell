@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:11:14 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:39:28 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/07 16:25:53 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,11 @@ int	check_prev_exp(int i, t_path **paths, t_exp *prev_exp, t_exp *tmp_exp)
 	else
 		prev_exp->next = tmp_exp->next;
 	return (1);
+}
+
+void	check_tmp_exp(t_exp *tmp, int *f)
+{
+	*f = 0;
+	while (tmp->exp[*f] != '=' && tmp->exp[*f])
+		*f += 1;
 }
