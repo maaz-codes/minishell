@@ -6,13 +6,11 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:46:36 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 14:56:53 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 15:03:24 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		g_signal_caught = 0;
 
 t_shl	*init_shell(t_path *paths)
 {
