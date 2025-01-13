@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:13:40 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:08:25 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/13 18:26:00 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ t_tree	*tokenization(char *str, t_shl *shl)
 			return (free(str), NULL);
 		shl->head = tokenizer(str, &tree);
 		if (tree == NULL)
+		{
+			printf("str\n");
 			return (NULL);
+		}
 		else
 		{
 			tree->level = 0;

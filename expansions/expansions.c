@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 17:47:43 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 18:16:39 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,10 @@ char	*env_expansion(char *str, t_env *env, t_shl *shl)
 		if (str[i] == '$' && not_here_doc(str, i - 1) == TRUE)
 		{
 			j = i;
-			// printf("str: %s\n", str);
 			env_var = extract_env_var(str, i + 1, &i);
 			env_var = assign_value(env_var, env, shl);
 			str = expanded_str(str, env_var, j, i);
+			i = -1;
 		}
 		i++;
 	}

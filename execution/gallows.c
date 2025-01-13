@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gallows.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:15:14 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 19:52:16 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/13 18:40:02 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ void	execute(char **cmd, char *env[])
 	struct stat	directory;
 
 	if (ft_strlen(cmd[0]) == 0)
-		(free_array(cmd), print_exit(ERR_CMD));
+		(free_array(env), free_array(cmd), print_exit(ERR_CMD));
 	path = ft_cmd_exits(env, cmd[0]);
 	if (!path)
 		(free_array(cmd), free_array(env), print_exit(ERR_CMD));
 	execve(path, cmd, env);
 	if (stat(path, &directory) == 0)
 	{
-		write(2, "it's a directory\n", 18);
+		write(2, "Error\n", 6);
 		(free(path), free_array(env));
 		free_array(cmd);
 		exit(126);
 	}
 	else if (ft_strchr(path, '/'))
 	{
-		write(2, "No such file or directory\n", 27);
+		write(2, "Error\n", 6);
 		(free(path), free_array(env));
 		free_array(cmd);
 		exit(127);
