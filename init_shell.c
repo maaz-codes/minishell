@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:46:36 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 19:06:21 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/13 14:56:53 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int		g_signal_caught = 0;
+
 t_shl	*init_shell(t_path *paths)
 {
 	t_shl		*shl;
 
-	g_signal_caught = 0;
 	shl = malloc(sizeof(t_shl));
 	if (!shl)
 	{
-		ft_lstclear_env(&shl->paths->env_struct);
-		ft_lstclear_exp(&shl->paths->exp_struct);
-		ft_lstclear_path(&shl->paths);
+		// ft_lstclear_env(&shl->paths->env_struct);
+		// ft_lstclear_exp(&shl->paths->exp_struct);
+		// ft_lstclear_path(&shl->paths);
 		print_exit(ERR_MALLOC);
 	}
 	shl->paths = paths;

@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/07 16:30:49 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:55:44 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 #define TNT 6201
 
 // global variable
-int					g_signal_caught;
+extern int			g_signal_caught;
 
 // error_codes
 typedef enum s_err_codes
@@ -356,4 +356,4 @@ void				tmp_looper(int *f, t_exp *tmp, int *tmp_char_len,
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 
-extern int			g_signal_caught;
+

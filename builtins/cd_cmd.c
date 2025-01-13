@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:46 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:40:10 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:53:55 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*switch_cd(t_path **paths)
 	res = ft_strdup(temp->pwd);
 	if (chdir(res) == -1)
 	{
-		(free(res), printf("error switch: %s\n", res));
+		(printf("error switch: %s\n", res), free(res));
 		g_signal_caught = SIGINT;
 		return (NULL);
 	}

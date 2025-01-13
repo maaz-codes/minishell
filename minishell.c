@@ -6,11 +6,13 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:50:55 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:38:14 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:56:14 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 static char	**convert_env_from_list(t_env *env_list)
 {
