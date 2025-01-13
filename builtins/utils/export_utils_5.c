@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:59 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/07 16:31:43 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:23:09 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void	exp_loop(t_exp *tmp, char *joined_str, int check)
 	}
 }
 
-void	check_sep_export(char **sep, int *i, int *exit_status)
+void	check_sep_export(char **sep, int *i, int *e_stat)
 {
 	if (!sep)
 	{
 		*i += 1;
-		*exit_status = 1;
+		*e_stat = 1;
 	}
 }

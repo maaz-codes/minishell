@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:45 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/23 12:37:59 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:23:09 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	env_cmd(char **str, t_path **paths, t_shl *shl)
 	if (str[1] != NULL)
 	{
 		printf("env: %s: No such file or directory \n", str[1]);
-		shl->exit_status = 127;
+		shl->e_stat = 127;
 		return ;
 	}
 	while (new_node)
@@ -73,5 +73,5 @@ void	env_cmd(char **str, t_path **paths, t_shl *shl)
 		new_node = new_node->next;
 	}
 	g_signal_caught = 0;
-	shl->exit_status = 0;
+	shl->e_stat = 0;
 }

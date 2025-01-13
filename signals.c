@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:23:53 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:38:37 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:23:09 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*signal_checkpoint(t_std_fds *std_fds, t_shl *shl)
 		exit(EXIT_SUCCESS);
 	}
 	if (g_signal_caught == SIGINT)
-		shl->exit_status = 1;
+		shl->e_stat = 1;
 	return (input);
 }
 
@@ -53,7 +53,7 @@ void	handle_signals(int status, t_shl *shl)
 		write(2, "Quit: 3\n", 9);
 	else if (WTERMSIG(status) == SIGSEGV)
 		write(2, "Segmentation fault: 11\n", 24);
-	shl->exit_status = WTERMSIG(status) + 128;
+	shl->e_stat = WTERMSIG(status) + 128;
 }
 
 void	signal_default(void)

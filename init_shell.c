@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:46:36 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 15:03:24 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:23:09 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_shl	*init_shell(t_path *paths)
 		print_exit(ERR_MALLOC);
 	}
 	shl->paths = paths;
-	shl->exit_status = 0;
+	shl->e_stat = 0;
 	shl->inside_pipe = FALSE;
 	shl->head = NULL;
 	shl->env = NULL;

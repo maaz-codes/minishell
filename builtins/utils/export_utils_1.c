@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:25:36 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/30 17:34:40 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:39:17 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	**append_exp(char *sep, char *holder)
 	if (!res)
 		return (NULL);
 	res[0] = sep_str;
-	res[1] = remove_qoutes(holder_str);
+	res[1] = holder_str;
 	res[2] = NULL;
 	return (res);
 }
@@ -115,7 +115,7 @@ char	**separator(char *str, int check_for_plus)
 	holder = holder_env(str, len, check);
 	res = append_exp(sep[0], holder);
 	free(holder);
-	if (!valid_export(sep[0], res, sep, check_for_plus))
+	if (!valid_export(res[0], res, sep, check_for_plus))
 		return (NULL);
 	free_array(sep);
 	return (res);

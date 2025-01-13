@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:14 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/07 16:31:32 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:37:28 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ void	export_cmd(char **str, t_path **paths, t_shl *shl)
 	char	**sep;
 	int		i;
 	int		check_for_plus;
-	int		exit_status;
+	int		e_stat;
 
-	exit_status = 0;
+	e_stat = 0;
 	i = 1;
 	if (!ft_strncmp("export", str[0], 7) && str[1] == NULL)
 		exp_print(paths, 0);
@@ -112,14 +112,15 @@ void	export_cmd(char **str, t_path **paths, t_shl *shl)
 	{
 		while (str[i])
 		{
+			str[i] = remove_qoutes(str[i]);
 			check_for_plus = plus_equals_check(str[i]);
 			sep = separator(str[i], check_for_plus);
-			check_sep_export(sep, &i, &exit_status);
+			check_sep_export(sep, &i, &e_stat);
 			if (!check_for_plus && sep)
 				normal_export(paths, sep, str[i], &i);
 			else if (check_for_plus && sep)
 				plus_equals_export(paths, sep, &i);
 		}
 	}
-	shl->exit_status = exit_status;
+	shl->e_stat = e_stat;
 }

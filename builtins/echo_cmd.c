@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 13:11:19 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 12:19:28 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/13 16:23:09 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ void	echo_cmd(char **str, t_shl *shl)
 	if (!checker)
 		printf("\n");
 	g_signal_caught = 0;
-	shl->exit_status = 0;
+	shl->e_stat = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:44:38 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/13 17:47:43 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*assign_env_value(char *env_var, t_env *env)
 	while (env)
 	{
 		env_compare = extract_env_var(env->env, 0, &index);
-		if (!ft_strncmp(env->env, env_var, ft_strlen(env_compare)))
+		if (!ft_strncmp(env->env, env_var, ft_strlen(env_compare)) && ft_strlen(env_compare) == ft_strlen(env_var))
 		{
 			env_value = ft_substr(env->env, ft_strlen(env_var) + 1,
 					ft_strlen(env->env));
@@ -63,8 +63,6 @@ char	*assign_env_value(char *env_var, t_env *env)
 	}
 	free(env_var);
 	env_value = ft_strdup("");
-	if (!env_value)
-		print_exit(ERR_MALLOC);
 	return (env_value);
 }
 
@@ -95,7 +93,7 @@ char	*assign_value(char *env_var, t_env *env, t_shl *shl)
 	if (ft_strncmp(env_var, "?", 1) == 0)
 	{
 		free(env_var);
-		env_var = ft_itoa(shl->exit_status);
+		env_var = ft_itoa(shl->e_stat);
 	}
 	else
 		env_var = assign_env_value(env_var, env);
@@ -121,6 +119,7 @@ char	*env_expansion(char *str, t_env *env, t_shl *shl)
 		if (str[i] == '$' && not_here_doc(str, i - 1) == TRUE)
 		{
 			j = i;
+			// printf("str: %s\n", str);
 			env_var = extract_env_var(str, i + 1, &i);
 			env_var = assign_value(env_var, env, shl);
 			str = expanded_str(str, env_var, j, i);

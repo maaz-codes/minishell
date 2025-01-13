@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 14:55:44 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:23:09 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ typedef struct s_shl
 	t_path			*paths;
 	t_std_fds		std_fds;
 	int				inside_pipe;
-	int				exit_status;
+	int				e_stat;
 	char			**env;
 }					t_shl;
 

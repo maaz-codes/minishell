@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:28 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/07 16:25:49 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 17:20:56 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	unset_exp_list(t_path **paths, char *str, int *i, int *exit_stat)
 		while (tmp)
 		{
 			check_tmp_exp(tmp, &f);
-			if (!ft_strncmp(tmp->exp, str, f))
+			if (!ft_strncmp(tmp->exp, str, f) && (ft_strlen(str) == f))
 				break ;
 			pos++;
 			tmp = tmp->next;
@@ -136,5 +136,5 @@ void	unset_cmd(char **str, t_path **paths, t_shl *shl)
 	i = 1;
 	while (str[i])
 		unset_env_list(paths, str[i], &i);
-	shl->exit_status = exit_stat;
+	shl->e_stat = exit_stat;
 }

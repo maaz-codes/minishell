@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:06 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:25:21 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:23:09 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	exit_cmd(char **str, t_shl *shl)
 	if (!ft_strncmp(str[0], "exit", 4) && str[1] != NULL && str[2] != NULL)
 	{
 		(write(2, "exit\n", 6), write(2, "exit: too many arguments\n", 26));
-		shl->exit_status = 1;
+		shl->e_stat = 1;
 		return ;
 	}
 	else if (!ft_strncmp(str[0], "exit", 5) && str[1] != NULL)

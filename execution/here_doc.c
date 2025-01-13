@@ -6,7 +6,7 @@
 /*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 12:11:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:15:39 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 16:23:28 by rcreer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	find_docs(t_tree *tree, t_shl *shl)
 	int		status;
 	int		result;
 
+	g_signal_caught = 0;
 	if (tree == NULL)
 		return (1);
 	result = 1;
@@ -42,10 +43,7 @@ int	find_docs(t_tree *tree, t_shl *shl)
 		waitpid(pid, &status, 0);
 		tree->right->type = NODE_HDOC;
 		if (WEXITSTATUS(status) == 1)
-		{
-			shl->exit_status = 1;
-			return (close(tree->right->data.here_doc), FALSE);
-		}
+			return (shl->e_stat = 1, close(tree->right->data.here_doc), FALSE);
 		if (tree->left != NULL)
 			if (here_docs_ahead(tree->left) == TRUE)
 				close(tree->right->data.here_doc);
