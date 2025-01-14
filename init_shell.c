@@ -18,12 +18,7 @@ t_shl	*init_shell(t_path *paths)
 
 	shl = malloc(sizeof(t_shl));
 	if (!shl)
-	{
-		// ft_lstclear_env(&shl->paths->env_struct);
-		// ft_lstclear_exp(&shl->paths->exp_struct);
-		// ft_lstclear_path(&shl->paths);
 		print_exit(ERR_MALLOC);
-	}
 	shl->paths = paths;
 	shl->e_stat = 0;
 	shl->inside_pipe = FALSE;

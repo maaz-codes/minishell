@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:11 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:38:27 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 19:00:57 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_cwd(void)
 	char	*res;
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		printf("error");
+		write(2, "error\n", 6);
 	res = new_path(cwd, 0);
 	return (res);
 }

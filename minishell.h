@@ -3,33 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 16:23:09 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/14 19:01:15 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <limits.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <signal.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <termios.h>
-#include <unistd.h>
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include <fcntl.h>
+# include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <stdint.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <termios.h>
+# include <unistd.h>
 
 // general
-#define TRUE 1
-#define FALSE 0
-#define LEFT 0
-#define RIGHT 1
-#define TNT 6201
+# define TRUE 1
+# define FALSE 0
+# define LEFT 0
+# define RIGHT 1
+# define TNT 6201
 
 // global variable
 extern int			g_signal_caught;
@@ -356,4 +359,4 @@ void				tmp_looper(int *f, t_exp *tmp, int *tmp_char_len,
 // main.c
 void				reset_std_fds(t_std_fds *std_fds);
 
-
+#endif

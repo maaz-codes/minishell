@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:11:27 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/26 16:52:32 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/14 19:00:10 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*exp_after_redir_node(char *str, char *first_half, int start)
 			start = inside_qoutes(str[start], str, start);
 			continue ;
 		}
-		if (str[start] == ' ')
+		if (str[start] == ' ' || str[start] == '<' || str[start] == '>')
 			break ;
 		start++;
 	}
@@ -96,13 +96,14 @@ char	*extract_file_name(char *str, int start)
 			start = inside_qoutes(str[start], str, start);
 			continue ;
 		}
-		if (str[start] == ' ')
+		if (str[start] == ' ' || str[start] == '>' || str[start] == '<')
 			break ;
 		start++;
 	}
 	file_name = ft_substr(str, store_start, start - store_start);
 	if (!file_name)
 		print_exit(ERR_MALLOC);
+	strip_spaces(&file_name);
 	if (ft_strlen(file_name) == 0)
 		return (free(file_name), NULL);
 	strip_spaces(&file_name);

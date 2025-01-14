@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:39:45 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 16:23:09 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 19:07:40 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	env_cmd(char **str, t_path **paths, t_shl *shl)
 	new_node = (*paths)->env_struct;
 	if (str[1] != NULL)
 	{
-		printf("env: %s: No such file or directory \n", str[1]);
+		write(2, "env: ", 6);
+		write(2, &str[1], ft_strlen(str[1]));
+		write(2, ":No such file or directory \n", 29);
 		shl->e_stat = 127;
 		return ;
 	}

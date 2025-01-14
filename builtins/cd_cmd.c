@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:46 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 14:53:55 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/13 19:16:18 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ char	*get_home(t_path **paths)
 			res = new_path(holder[1], 0);
 			free_array(holder);
 			if (chdir(res) == -1)
-				(free(res), printf("error home\n"));
+				(free(res), write(2, "error home\n", 12));
 			return (res);
 		}
 		tmp = tmp->next;
 	}
-	printf("minishell: cd: HOME not set\n");
+	write(2, "minishell: cd: HOME not set\n", 29);
 	g_signal_caught = SIGINT;
 	return (NULL);
 }
@@ -79,7 +79,9 @@ int	valid_old_pwd(t_path **paths)
 			old_pwd = separator(tmp->env, 0);
 			if (stat(old_pwd[1], &stat_check) != 0)
 			{
-				printf("cd: %s: No such file or directory\n", old_pwd[1]);
+				write(2, "cd: ", 5);
+				write(2, &old_pwd[1], ft_strlen(old_pwd[1]));
+				write(2, ": No such file or directory\n", 29);
 				g_signal_caught = SIGINT;
 				free_array(old_pwd);
 				return (0);
@@ -98,7 +100,7 @@ char	*switch_cd(t_path **paths)
 
 	if (!check_old_pwd(paths))
 	{
-		printf("OLDPWD is not set\n");
+		write(2, "OLDPWD is not set\n", 19);
 		g_signal_caught = SIGINT;
 		return (NULL);
 	}
@@ -110,7 +112,7 @@ char	*switch_cd(t_path **paths)
 	res = ft_strdup(temp->pwd);
 	if (chdir(res) == -1)
 	{
-		(printf("error switch: %s\n", res), free(res));
+		(write(2, "error switch:\n", 15), free(res));
 		g_signal_caught = SIGINT;
 		return (NULL);
 	}

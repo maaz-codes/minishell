@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:13:40 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 18:26:00 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/14 19:09:56 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,26 +78,24 @@ t_tree	*tokenization(char *str, t_shl *shl)
 
 	tree = NULL;
 	if (!qoutes_checker(str))
-		return (free(str), print_error(ERR_FORMAT), NULL);
+		return (free(str), print_error(ERR_FORMAT), shl->e_stat = 258, NULL);
 	else
 	{
 		tree = NULL;
 		if (!strip_spaces(&str))
-			(free(str), free_array(shl->env),
-				nuke(shl, TNT), exit(EXIT_FAILURE));
+			(free(str), free_array(shl->env), nuke(shl, TNT),
+				exit(EXIT_FAILURE));
 		if (ft_strlen(str) == 0)
 			return (free(str), NULL);
 		shl->head = tokenizer(str, &tree);
 		if (tree == NULL)
-		{
-			printf("str\n");
 			return (NULL);
-		}
 		else
 		{
 			tree->level = 0;
 			if (!syntax_checker(tree))
-				return (nuke(shl, 0), print_error(ERR_FORMAT), NULL);
+				return (nuke(shl, 0), print_error(ERR_FORMAT),
+					shl->e_stat = 258, NULL);
 		}
 	}
 	return (tree);

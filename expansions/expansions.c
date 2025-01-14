@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 18:16:39 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/14 19:28:29 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ char	*assign_env_value(char *env_var, t_env *env)
 	while (env)
 	{
 		env_compare = extract_env_var(env->env, 0, &index);
-		if (!ft_strncmp(env->env, env_var, ft_strlen(env_compare)) && ft_strlen(env_compare) == ft_strlen(env_var))
+		if (!ft_strncmp(env->env, env_var, ft_strlen(env_compare))
+			&& ft_strlen(env_compare) == ft_strlen(env_var))
 		{
 			env_value = ft_substr(env->env, ft_strlen(env_var) + 1,
 					ft_strlen(env->env));
@@ -116,7 +117,7 @@ char	*env_expansion(char *str, t_env *env, t_shl *shl)
 				return (str);
 			continue ;
 		}
-		if (str[i] == '$' && not_here_doc(str, i - 1) == TRUE)
+		if (str[i] == '$' && ((str[i + 1] >= 'A' && str[i + 1] <= 'Z') || (str[i + 1] >= 'a' && str[i + 1] <= 'z') || ((str[i + 1] >= '0' && str[i + 1] <= '9')) || (str[i + 1] == '"' || str[i + 1] == '\'')) && not_here_doc(str, i - 1) == TRUE)
 		{
 			j = i;
 			env_var = extract_env_var(str, i + 1, &i);
