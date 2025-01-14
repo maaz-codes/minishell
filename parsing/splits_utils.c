@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splits_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:17:24 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:39:06 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/14 20:03:46 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	count_args(char *str)
 		if (str[i] == '"' || str[i] == '\'')
 		{
 			i = inside_qoutes(str[i], str, i);
+			if (i == -1)
+				return (0);
 			continue ;
 		}
 		else
