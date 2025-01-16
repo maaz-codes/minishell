@@ -41,3 +41,23 @@ void	check_env_null(t_path **paths, t_env *old_pwd)
 	else
 		lstlast_env((*paths)->env_struct)->next = old_pwd;
 }
+
+void	error_msg_access(void)
+{
+	write(2, "cd: ", 5);
+	write(2, strerror(errno), ft_strlen(strerror(errno)));
+	write(2, "\n", 2);
+}
+
+char	*get_new_cwd(char *malloc_path)
+{
+	char 	*res;
+	char	curr_path[1024];
+
+	chdir(malloc_path);
+	getcwd(curr_path, sizeof(curr_path));
+	res = ft_calloc(ft_strlen(curr_path) + 1, sizeof(char *));
+	ft_strlcpy(res, curr_path, ft_strlen(curr_path) + 1);
+	free(malloc_path);
+	return (res);
+}

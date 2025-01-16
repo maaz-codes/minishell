@@ -30,14 +30,14 @@ char	*new_path(char *cwd, int id)
 	if (!new_path)
 		return (NULL);
 	ft_strlcpy(new_path, cwd, len + 1);
-	if (chdir(new_path) == -1)
-	{
-		write(2, "No such file or directory\n", 27);
+	if(access(new_path, X_OK | F_OK) == -1)
+	{	
+		error_msg_access();
 		free(new_path);
 		g_signal_caught = SIGINT;
 		return (NULL);
 	}
-	return (new_path);
+	return (get_new_cwd(new_path));
 }
 
 char	*get_home(t_path **paths)
@@ -80,8 +80,7 @@ int	valid_old_pwd(t_path **paths)
 			if (stat(old_pwd[1], &stat_check) != 0)
 			{
 				write(2, "cd: ", 5);
-				write(2, &old_pwd[1], ft_strlen(old_pwd[1]));
-				write(2, ": No such file or directory\n", 29);
+				write(2, "No such file or directory\n", 27);
 				g_signal_caught = SIGINT;
 				free_array(old_pwd);
 				return (0);
@@ -128,8 +127,7 @@ void	cd_cmd(char **str, t_path **paths, t_shl *shl)
 
 	check = 0;
 	res = NULL;
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		perror("getcwd");
+	getcwd(cwd, sizeof(cwd));
 	if (!ft_strncmp(str[0], "cd", 3) && str[1] == NULL)
 		res = get_home(paths);
 	else if (!ft_strncmp(str[0], "cd", 3) && (!ft_strncmp(str[1], "~", 2)))

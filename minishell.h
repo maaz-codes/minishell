@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+# include <errno.h>
+# include <string.h>
 
 // general
 # define TRUE 1
@@ -284,7 +286,7 @@ void				ft_lstclear_exp(t_exp **lst);
 // Builtins
 void				echo_cmd(char **str, t_shl *shl);
 
-void				pwd_cmd(char **str, t_shl *shl);
+void				pwd_cmd(char **str, t_shl *shl, t_path **paths);
 
 void				exit_cmd(char **str, t_shl *shl);
 void				valid_num(char *s, char **str, t_shl *shl);
@@ -307,6 +309,8 @@ void				append_switch_struct(t_path **paths, t_path **temp);
 int					check_old_pwd(t_path **paths);
 void				check_exp_null(t_path **paths, t_exp *old_pwd);
 void				check_env_null(t_path **paths, t_env *old_pwd);
+char				*get_new_cwd(char *malloc_path);
+void				error_msg_access(void);
 
 void				unset_cmd(char **str, t_path **paths, t_shl *shl);
 int					valid_unset(char *str);

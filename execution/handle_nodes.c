@@ -20,7 +20,7 @@ void	handle_builtin(t_tree *tree, t_path *paths, t_shl *shl)
 	if (!ft_strncmp(tree->data.cmd, "echo", 5))
 		echo_cmd(args, shl);
 	else if (!ft_strncmp(tree->data.cmd, "pwd", 4))
-		pwd_cmd(args, shl);
+		pwd_cmd(args, shl, &paths);
 	else if (!ft_strncmp(tree->data.cmd, "cd", 3))
 		cd_cmd(args, &paths, shl);
 	else if (!ft_strncmp(tree->data.cmd, "export", 7))

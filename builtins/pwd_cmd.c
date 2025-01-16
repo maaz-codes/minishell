@@ -12,7 +12,24 @@
 
 #include "../minishell.h"
 
-void	pwd_cmd(char **str, t_shl *shl)
+char 	*find_curr_pwd(t_path **paths)
+{
+	t_exp	*tmp_exp;
+	char 	*holder;
+	tmp_exp = (*paths)->exp_struct;
+
+	while (tmp_exp)
+	{
+		if (!ft_strncmp(tmp_exp->exp, "PWD=", 4))
+		{	
+			holder = ft_strchr(tmp_exp->exp, '=');
+			return (holder + 1);
+		}
+		tmp_exp = tmp_exp->next;
+	}
+	return (NULL);
+}
+void	pwd_cmd(char **str, t_shl *shl, t_path **paths)
 {
 	char	cwd[1024];
 
@@ -26,7 +43,7 @@ void	pwd_cmd(char **str, t_shl *shl)
 		}
 		else
 		{
-			printf(".\n");
+			printf("%s\n",find_curr_pwd(paths));
 			return ;
 		}
 	}
