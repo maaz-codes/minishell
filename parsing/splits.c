@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:15:45 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/14 19:49:49 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/23 11:02:55 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,52 +99,9 @@ char	**split_args(char *str)
 
 	if (ft_strlen(str) == 0)
 		return (NULL);
-	args = malloc(sizeof(char *) * (count_args(str) + 3));
+	args = malloc(sizeof(char *) * (count_args(str) + 5));
 	if (!args)
 		print_exit(ERR_MALLOC);
 	create_args_array(str, &args);
 	return (args);
 }
-
-// char **split_args(char *str, char *cmd)
-// {
-//     int i;
-// 	int j;
-// 	int k;
-//     char **args;
-
-//     i = 0;
-// 	j = 0;
-// 	k = 0;
-//     args = malloc(sizeof(char *) * (count_args(str) + 3));
-// 	if (!args)
-// 		print_exit(ERR_MALLOC);
-// 	if (*str == '\0')
-// 		return (NULL);
-//     while (i <= ft_strlen(str))
-// 	{
-// 		if (str[i] == '"' || str[i] == '\'')
-// 		{
-// 			i = inside_qoutes(str[i], str, i);
-// 			continue ;
-// 		}
-// 		else
-// 		{
-// 			if (str[i] == ' ' || str[i] == '\0')
-// 			{
-// 				args[k] = remove_qoutes(ft_substr(str, j, i - j));
-// 				k++;
-// 				if (skip_spaces(str, &i))
-// 				{
-// 					if (str[i] == '\0')
-// 						break ;
-// 					i--;
-// 				}
-// 				j = i + 1;
-// 			}
-//         }
-// 		i++;
-// 	}
-// 	args[k] = NULL;
-// 	return (args);
-// }

@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:11:21 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/14 19:36:14 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/23 11:09:55 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*expanded_str(char *str, char *env_var, int start, int end)
 	int		i;
 	int		j;
 
-	total_len = ft_strlen(str) + ft_strlen(env_var) - (end - start + 1);
+	total_len = (ft_strlen(str) + ft_strlen(env_var) - (end - start + 1)) + 1;
 	expanded = malloc(sizeof(char) * (total_len + 1));
 	if (!expanded)
 		return (free(env_var), free(str), NULL);
@@ -86,6 +86,7 @@ char	*expanded_str(char *str, char *env_var, int start, int end)
 		expanded[i++] = env_var[j++];
 	while (end < ft_strlen(str))
 		expanded[i++] = str[++end];
+	expanded[i] = '\0';
 	return (free(str), free(env_var), expanded);
 }
 
@@ -117,7 +118,7 @@ char	*env_expansion(char *str, t_env *env, t_shl *shl)
 				return (str);
 			continue ;
 		}
-		if (str[i] == '$' && ((str[i + 1] >= 'A' && str[i + 1] <= 'Z') || (str[i + 1] >= 'a' && str[i + 1] <= 'z') || ((str[i + 1] >= '0' && str[i + 1] <= '9')) || (str[i + 1] == '"' || str[i + 1] == '\'') || str[i + 1] == '?') && not_here_doc(str, i - 1) == TRUE)
+		if (valid_expansion(str, i) && not_here_doc(str, i - 1) == TRUE)
 		{
 			j = i;
 			env_var = extract_env_var(str, i + 1, &i);

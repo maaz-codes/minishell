@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:07:18 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/14 19:01:15 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/23 11:11:21 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,7 @@ char				*extract_env_var(char *str, int start, int *index);
 char				*assign_env_value(char *env_var, t_env *env);
 char				*expanded_str(char *str, char *env_var, int start, int end);
 char				*env_expansion(char *str, t_env *env, t_shl *shl);
+int					valid_expansion(char *str, int i);
 
 // expansions_utils.c
 void				expand_args(t_tree **arg_node, t_env *env, t_shl *shl);

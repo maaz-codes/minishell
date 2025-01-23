@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils_3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:18:05 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/02 15:40:54 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/23 11:04:06 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	error_msg_access(void)
 
 char	*get_new_cwd(char *malloc_path)
 {
-	char 	*res;
+	char	*res;
 	char	curr_path[1024];
 
 	chdir(malloc_path);

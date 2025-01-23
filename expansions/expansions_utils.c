@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:05:22 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:45:49 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/23 11:10:07 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,16 @@ int	not_here_doc(char *str, int i)
 		if (str[i] == '<' && str[i - 1] == '<')
 			return (0);
 	return (1);
+}
+
+int	valid_expansion(char *str, int i)
+{
+	if (str[i] == '$' && ((str[i + 1] >= 'A' && str[i + 1] <= 'Z') || (str[i
+					+ 1] >= 'a' && str[i + 1] <= 'z') || ((str[i + 1] >= '0'
+					&& str[i + 1] <= '9')) || (str[i + 1] == '"' || str[i
+					+ 1] == '\'') || str[i + 1] == '?'))
+	{
+		return (TRUE);
+	}
+	return (FALSE);
 }

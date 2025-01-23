@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:24:46 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 19:16:18 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/23 11:03:49 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char	*new_path(char *cwd, int id)
 	if (!new_path)
 		return (NULL);
 	ft_strlcpy(new_path, cwd, len + 1);
-	if(access(new_path, X_OK | F_OK) == -1)
-	{	
+	if (access(new_path, X_OK | F_OK) == -1)
+	{
 		error_msg_access();
 		free(new_path);
 		g_signal_caught = SIGINT;

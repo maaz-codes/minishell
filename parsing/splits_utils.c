@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 17:17:24 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/14 20:03:46 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/23 10:59:24 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ int	count_args(char *str)
 		if (str[i] == '"' || str[i] == '\'')
 		{
 			i = inside_qoutes(str[i], str, i);
-			if (i == -1)
-				return (0);
+			if (i-- == -1)
+				break ;
 			continue ;
 		}
 		else
@@ -98,11 +98,8 @@ int	count_args(char *str)
 			if (str[i] == ' ' || str[i] == '\0')
 				count++;
 			if (skip_spaces(str, &i))
-			{
-				i--;
-				if (str[i + 1] == '\0')
+				if (str[i--] == '\0')
 					break ;
-			}
 		}
 	}
 	return (count);
