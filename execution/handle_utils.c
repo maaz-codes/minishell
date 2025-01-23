@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:10:35 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/27 17:06:25 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/23 12:06:26 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	handle_append_redir(char *file_name, t_shl *shl)
 	fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		print_error(ERR_FILE);
+		shl->e_stat = print_error(ERR_FILE);
 		return (fd);
 	}
 	if (dup2(fd, 1) == -1)

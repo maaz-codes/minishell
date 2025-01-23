@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_nodes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcreer <rcreer@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:17:00 by maakhan           #+#    #+#             */
-/*   Updated: 2025/01/13 18:29:49 by rcreer           ###   ########.fr       */
+/*   Updated: 2025/01/23 12:18:55 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ void	handle_redir(t_tree *tree, char **env, int pipe_flag, t_shl *shl)
 		shl->e_stat = 1;
 	if (pipe_flag)
 	{
-		free_array(shl->env);
-		nuke(shl, TNT);
+		(free_array(shl->env), nuke(shl, TNT));
+		if (fd == -1)
+			exit(EXIT_FAILURE);
 		exit(EXIT_SUCCESS);
 	}
 }

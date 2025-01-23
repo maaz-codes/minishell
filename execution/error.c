@@ -6,7 +6,7 @@
 /*   By: maakhan <maakhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 16:51:29 by maakhan           #+#    #+#             */
-/*   Updated: 2024/12/24 11:45:11 by maakhan          ###   ########.fr       */
+/*   Updated: 2025/01/23 12:05:04 by maakhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	print_error(int code)
 		write(2, "Error: File or directory related\n", 34);
 	else if (code == ERR_MALLOC)
 		write(2, "Error: Malloc Failed!\n", 23);
-	return (0);
+	return (1);
 }
 
 void	print_exit(int code)

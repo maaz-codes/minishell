@@ -1,6 +1,0 @@
-
-export gggg="ds'ad"
-echo $ggg - gives wrong format
-cat > $INRNHOINR
-at least have a failure exit code for syntax error
-'$PWD' inside heredoc doesn't expand
