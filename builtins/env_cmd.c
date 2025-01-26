@@ -64,7 +64,6 @@ void	env_cmd(char **str, t_path **paths, t_shl *shl)
 	if (str[1] != NULL)
 	{
 		write(2, "env: ", 6);
-		write(2, &str[1], ft_strlen(str[1]));
 		write(2, ":No such file or directory \n", 29);
 		shl->e_stat = 127;
 		return ;
