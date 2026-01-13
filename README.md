@@ -50,4 +50,4 @@ minishell$ export VAR=test && echo $VAR
 - `Ctrl+\` (SIGQUIT) - Terminates the running process.
 
 ## Credits
-Developed by Maaz Khan & Raphael Creer as part of the 42 Abu Dhabi curriculum.
+Developed by Maaz Khan & Raphael Creer as part of the 42 Abu Dhabi core curriculum.
